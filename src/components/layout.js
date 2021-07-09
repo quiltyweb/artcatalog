@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const Container = styled.main`
   margin: auto;
   max-width: 500px;
-  background-color: pink;
   font-family: sans-serif;
   .heading {
     color: rebeccapurple;

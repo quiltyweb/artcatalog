@@ -3,5 +3,10 @@ module.exports = {
     siteUrl: "https://www.yourdomain.tld",
     title: "artcatalog",
   },
-  plugins: ["gatsby-plugin-styled-components", "gatsby-plugin-gatsby-cloud"],
+  plugins: [
+    "gatsby-plugin-styled-components",
+    "gatsby-plugin-gatsby-cloud",
+    "gatsby-plugin-image",
+    "gatsby-plugin-sharp",
+  ],
 };
