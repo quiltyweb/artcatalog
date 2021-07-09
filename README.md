@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Art Catalog
+  Art Catalog 1.0
 </h1>
 
 ## 🚀 Quick start
