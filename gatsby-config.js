@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "artcatalog",
+    siteUrl: "https://artcatalogmain.gatsbyjs.io/",
+    title: "Art Catalog 1.0",
   },
   plugins: [
     "gatsby-plugin-styled-components",
