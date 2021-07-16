@@ -4,7 +4,7 @@ import { StaticImage } from 'gatsby-plugin-image'
 
 const IndexPage = () => {
   return (
-    <Layout pageTitle="Art Catalog Project">
+    <Layout pageTitle="Welcome">
       <p>~ Work in progress ~</p>
       <StaticImage
         alt="acrylic paint texture"
