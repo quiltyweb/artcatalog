@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import NotFoundPage from '../404';
 
@@ -21,7 +21,7 @@ describe('NotFoundPage', () => {
         },
       },
     }));
-    const tree = renderer.create(<NotFoundPage />).toJSON();
-    expect(tree).toMatchSnapshot();
+    render(<NotFoundPage />);
+    screen.getByRole('heading', { name: 'Page not found' });
   });
 });
