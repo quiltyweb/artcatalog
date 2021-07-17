@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AboutPage renders correctly 1`] = `
+<main
+  className="sc-bdnxRM eevvKH"
+>
+  <title>
+    About Me
+     | 
+    My Title
+     
+  </title>
+  <p>
+    My Title
+  </p>
+  <nav>
+    <ul
+      className="nav-links"
+    >
+      <li
+        className="nav-link-item"
+      >
+        <a
+          className="nav-link-text"
+          href="/"
+        >
+          Home
+        </a>
+      </li>
+      <li
+        className="nav-link-item"
+      >
+        <a
+          className="nav-link-text"
+          href="/about"
+        >
+          About
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <h1
+    className="heading"
+  >
+    About Me
+  </h1>
+  <p>
+    Hi there! I'm the proud creator of this site, which I built with Gatsby.
+  </p>
+</main>
+`;
