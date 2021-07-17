@@ -1,7 +1,6 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
-import renderer from 'react-test-renderer';
-
 import IndexPage from '../index';
 
 beforeEach(() => {
@@ -22,7 +21,7 @@ describe('IndexPage', () => {
         },
       },
     }));
-    const tree = renderer.create(<IndexPage />).toJSON();
-    expect(tree).toMatchSnapshot();
+    render(<IndexPage />);
+    screen.getByText('~ Work in progress ~');
   });
 });

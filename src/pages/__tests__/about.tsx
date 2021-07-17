@@ -1,7 +1,6 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
-import renderer from 'react-test-renderer';
-
 import AboutPage from '../about';
 
 beforeEach(() => {
@@ -22,7 +21,7 @@ describe('AboutPage', () => {
         },
       },
     }));
-    const tree = renderer.create(<AboutPage />).toJSON();
-    expect(tree).toMatchSnapshot();
+    render(<AboutPage />);
+    screen.getByText("Hi there! I'm the proud creator of this site, which I built with Gatsby.");
   });
 });
