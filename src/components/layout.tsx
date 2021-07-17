@@ -25,6 +25,7 @@ type LayoutProps = {
   pageTitle: string;
   children: React.ReactNode;
 };
+// make LayoutPure componenet passing the data and test that, instead of the componenet that
 const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query MyQuery {
