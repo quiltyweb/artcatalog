@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link, useStaticQuery, graphql } from 'gatsby';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 const Container = styled.main`
@@ -39,9 +40,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
 
   return (
     <Container>
-      <title>
-        {pageTitle} | {data.site.siteMetadata.title}{' '}
-      </title>
+      <Helmet>
+        <html lang="en" />
+        <meta charSet="utf-8" />
+        <title>
+          {pageTitle} | {data.site.siteMetadata.title}
+        </title>
+      </Helmet>
       <p>{data.site.siteMetadata.title}</p>
       <nav>
         <ul className="nav-links">
