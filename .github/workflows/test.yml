@@ -16,3 +16,8 @@ jobs:
         run: npm run test:unit --watchAll=false
       - name: Run e2e tests
         run: npm run test:e2e:ci
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: cypress-screenshots
+          path: ./cypress/screenshots/
