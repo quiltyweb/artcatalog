@@ -14,3 +14,5 @@ jobs:
         run: npm install
       - name: Run client unit tests
         run: npm run test:unit --watchAll=false
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
