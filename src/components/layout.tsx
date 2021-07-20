@@ -52,7 +52,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
         <ul className="nav-links">
           <li className="nav-link-item">
             <Link className="nav-link-text" to="/">
-              Homeeeee
+              Home
             </Link>
           </li>
           <li className="nav-link-item">
