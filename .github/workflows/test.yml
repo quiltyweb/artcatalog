@@ -1,0 +1,23 @@
+name: Test all the things
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install npm packages
+        run: npm install
+      - name: Run client unit tests
+        run: npm run test:unit --watchAll=false
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: cypress-screenshots
+          path: ./cypress/screenshots/
