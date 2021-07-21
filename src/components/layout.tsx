@@ -20,7 +20,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
   `);
 
   return (
-    <Container>
+    <Container as="main">
       <Helmet>
         <html lang="en" />
         <meta charSet="utf-8" />
