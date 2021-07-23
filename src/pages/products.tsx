@@ -5,7 +5,7 @@ import Layout from '../components/layout';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
   <Layout pageTitle="Products">
-    <Heading>Our Catalog</Heading>
+    <Heading>Our Art Catalog</Heading>
     <ul>
       {data.allShopifyProduct.nodes.map((node) => (
         <li key={node.id}>
