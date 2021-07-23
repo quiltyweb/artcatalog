@@ -17,4 +17,12 @@ describe('Accessibility tests', () => {
     cy.injectAxe();
     cy.checkA11y();
   });
+
+  it('Navigates from home to Products page and checks for accessibility violations', () => {
+    cy.findByText('Welcome');
+    cy.findByText('Products').click();
+    cy.findByText('Our Art Catalog');
+    cy.injectAxe();
+    cy.checkA11y();
+  });
 });
