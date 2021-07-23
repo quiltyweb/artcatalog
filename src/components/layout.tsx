@@ -46,6 +46,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
           <Link to="/about">
             <Text display="block">About</Text>
           </Link>
+          <Link to="/products">
+            <Text display="block">Products</Text>
+          </Link>
         </Stack>
       </Flex>
       <h1 className="heading">{pageTitle}</h1>
