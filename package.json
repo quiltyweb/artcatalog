@@ -35,6 +35,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "babel-plugin-styled-components": "^1.13.2",
+    "dotenv": "^8.6.0",
     "framer-motion": "^4.1.17",
     "gatsby": "^3.9.0",
     "gatsby-plugin-gatsby-cloud": "^2.9.0",
@@ -43,9 +44,11 @@
     "gatsby-plugin-sharp": "^3.9.0",
     "gatsby-plugin-styled-components": "^4.9.0",
     "gatsby-source-filesystem": "^3.9.0",
+    "gatsby-source-shopify": "^5.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
+    "shopify-buy": "^2.11.0",
     "styled-components": "^5.3.0"
   },
   "devDependencies": {

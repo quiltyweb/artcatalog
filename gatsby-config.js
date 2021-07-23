@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     siteUrl: 'https://artcatalogmain.gatsbyjs.io/',
@@ -13,6 +17,13 @@ module.exports = {
       resolve: '@chakra-ui/gatsby-plugin',
       options: {
         resetCSS: true,
+      },
+    },
+    {
+      resolve: `gatsby-source-shopify`,
+      options: {
+        password: process.env.SHOPIFY_ADMIN_PASSWORD,
+        storeUrl: process.env.SHOPIFY_STORE_URL,
       },
     },
   ],
