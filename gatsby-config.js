@@ -24,6 +24,7 @@ module.exports = {
       options: {
         password: process.env.SHOPIFY_ADMIN_PASSWORD,
         storeUrl: process.env.SHOPIFY_STORE_URL,
+        shopifyConnections: ['collections'],
       },
     },
   ],
