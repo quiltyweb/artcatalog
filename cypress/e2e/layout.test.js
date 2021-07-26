@@ -21,7 +21,9 @@ describe('Accessibility tests', () => {
   it('Navigates from home to Products page and checks for accessibility violations', () => {
     cy.findByText('Welcome');
     cy.findByText('Products').click();
-    cy.findByText('Our Art Catalog');
+    cy.findByRole('heading', { name: 'Products' });
+    cy.findByRole('heading', { name: 'Brushella Collections' });
+    cy.findByRole('heading', { name: 'All Products' });
     cy.injectAxe();
     cy.checkA11y();
   });
