@@ -1,21 +1,33 @@
 import * as React from 'react';
 import { Link, graphql } from 'gatsby';
 import { Heading, Text } from '@chakra-ui/react';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from '../components/layout';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
   <Layout pageTitle="Products">
-    <Heading>Our Art Catalog</Heading>
+    <Heading as="h2">Brushella Collections</Heading>
     <ul>
-      {data.allShopifyProduct.nodes.map((node) => (
+      <li key="all-products-item">
+        <Link to="/products/">All products</Link>
+      </li>
+      {data.allShopifyCollection.edges.map(({ node }) => (
+        <li key={`${node.id}-collection-item`}>
+          <Link to={`/collection/${node.handle}`}>{node.title}</Link>
+        </li>
+      ))}
+    </ul>
+    <hr />
+    <Heading as="h2">All Products</Heading>
+    <ul>
+      {data.allShopifyProduct.edges.map(({ node }) => (
         <li key={node.id}>
           <Heading as="h3">
             <Link to={`/products/${node.handle}`}>{node.title}</Link>
-            {' - '}${node.priceRangeV2.minVariantPrice.amount}
             {' - '}${node.priceRangeV2.maxVariantPrice.amount}
           </Heading>
           <Text>{node.description}</Text>
-          <img src={node.featuredImage.transformedSrc} alt={node.featuredImage.altText} />
+          <GatsbyImage image={node.featuredImage.gatsbyImageData} alt={node.featuredImage.altText} />
         </li>
       ))}
     </ul>
@@ -26,22 +38,34 @@ export default ProductsPage;
 
 export const query = graphql`
   {
-    allShopifyProduct {
-      nodes {
-        id
-        title
-        featuredImage {
-          transformedSrc
-          altText
+    allShopifyProduct(sort: { fields: [publishedAt], order: ASC }) {
+      edges {
+        node {
+          id
+          handle
+          title
+          storefrontId
+          description
+          priceRangeV2 {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          featuredImage {
+            id
+            altText
+            gatsbyImageData(width: 910, height: 910)
+          }
         }
-        description
-        priceRangeV2 {
-          minVariantPrice {
-            amount
-          }
-          maxVariantPrice {
-            amount
-          }
+      }
+    }
+    allShopifyCollection {
+      edges {
+        node {
+          id
+          title
+          handle
         }
       }
     }
