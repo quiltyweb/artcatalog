@@ -51,7 +51,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
           </Link>
         </Stack>
       </Flex>
-      <h1 className="heading">{pageTitle}</h1>
+      <Heading as="h1">{pageTitle}</Heading>
       {children}
     </Container>
   );
