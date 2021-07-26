@@ -6,31 +6,43 @@ import Layout from '../components/layout';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
   <Layout pageTitle="Products">
-    <Heading as="h2">Brushella Collections</Heading>
-    <ul>
-      <li key="all-products-item">
-        <Link to="/products/">All products</Link>
-      </li>
-      {data.allShopifyCollection.edges.map(({ node }) => (
-        <li key={`${node.id}-collection-item`}>
-          <Link to={`/collection/${node.handle}`}>{node.title}</Link>
-        </li>
-      ))}
-    </ul>
+    {data.allShopifyCollection.edges.length !== 0 ? (
+      <>
+        <Heading as="h2">Brushella Collections</Heading>
+        <ul>
+          <li key="all-products-item">
+            <Link to="/products/">All products</Link>
+          </li>
+          {data.allShopifyCollection.edges.map(({ node }) => (
+            <li key={`${node.id}-collection-item`}>
+              <Link to={`/collection/${node.handle}`}>{node.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <Text>There are no collections available</Text>
+    )}
     <hr />
-    <Heading as="h2">All Products</Heading>
-    <ul>
-      {data.allShopifyProduct.edges.map(({ node }) => (
-        <li key={node.id}>
-          <Heading as="h3">
-            <Link to={`/products/${node.handle}`}>{node.title}</Link>
-            {' - '}${node.priceRangeV2.maxVariantPrice.amount}
-          </Heading>
-          <Text>{node.description}</Text>
-          <GatsbyImage image={node.featuredImage.gatsbyImageData} alt={node.featuredImage.altText} />
-        </li>
-      ))}
-    </ul>
+    {data.allShopifyProduct.edges.length !== 0 ? (
+      <>
+        <Heading as="h2">All Products</Heading>
+        <ul>
+          {data.allShopifyProduct.edges.map(({ node }) => (
+            <li key={node.id}>
+              <Heading as="h3">
+                <Link to={`/products/${node.handle}`}>{node.title}</Link>
+              </Heading>
+              <Text>{node.description}</Text>
+              <Text>{`${node.priceRangeV2.maxVariantPrice.amount} (${node.priceRangeV2.maxVariantPrice.currencyCode})`}</Text>
+              <GatsbyImage image={node.featuredImage.gatsbyImageData} alt={node.featuredImage.altText} />
+            </li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <Text>There are no products available</Text>
+    )}
   </Layout>
 );
 
