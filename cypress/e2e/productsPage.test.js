@@ -29,14 +29,16 @@ describe('Products Page', () => {
     cy.findByRole('heading', { name: 'All Products' });
   });
 
-  it('Renders single collection page', () => {
+  it('Renders single collection page with its products', () => {
     cy.findByText('Products').click();
     cy.findByRole('heading', { name: 'Brushella Collections' });
     cy.get('#brushella-all-collections-list li a').first().click();
     cy.get('#brushella-single-collection-container').within(() => {
-      cy.findByRole('heading');
-      cy.findByText('collection page is work in progress');
+      cy.findAllByRole('heading');
+      cy.get('#brushella-all-products-in-collection-list').first().click();
+      cy.findByRole('link', { name: 'Back to Product List' }).click();
     });
+    cy.findByRole('heading', { name: 'Brushella Collections' });
   });
 
   it('Goes back from single collection to all products page', () => {
