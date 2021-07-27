@@ -55,6 +55,11 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
             title
             handle
             description
+            products {
+              id
+              title
+              handle
+            }
           }
         }
       }

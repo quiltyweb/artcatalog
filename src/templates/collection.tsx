@@ -11,9 +11,20 @@ const CollectionTemplate = ({ pageContext }) => {
         <Link to="/products">Back to Product List</Link>
         <Heading as="h2">{collection.title}</Heading>
         <Text>{collection.description}</Text>
-        <ul>
-          <li>collection page is work in progress</li>
-        </ul>
+        <hr />
+        {collection.products.length !== 0 ? (
+          <ul id="brushella-all-products-in-collection-list">
+            {collection.products.map((item) => (
+              <li key={item.id}>
+                <Heading as="h3">
+                  <Link to={`/products/${item.handle}`}>{item.title}</Link>
+                </Heading>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <Text>There are no products available in this collection</Text>
+        )}
       </Box>
     </Layout>
   );
