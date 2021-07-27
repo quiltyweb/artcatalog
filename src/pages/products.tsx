@@ -9,15 +9,15 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
-        <ul>
-          <li key="all-products-item">
-            <Link to="/products/">All products</Link>
-          </li>
+        <ul id="brushella-all-collections-list">
           {data.allShopifyCollection.edges.map(({ node }) => (
             <li key={`${node.id}-collection-item`}>
-              <Link to={`/collection/${node.handle}`}>{node.title}</Link>
+              <Link to={`/collections/${node.handle}`}>{node.title}</Link>
             </li>
           ))}
+          <li key="brushella-all-products-item">
+            <Link to="/products/">All products</Link>
+          </li>
         </ul>
       </>
     ) : (

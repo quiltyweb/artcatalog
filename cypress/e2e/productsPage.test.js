@@ -28,4 +28,23 @@ describe('Products Page', () => {
     });
     cy.findByRole('heading', { name: 'All Products' });
   });
+
+  it('Renders single collection page', () => {
+    cy.findByText('Products').click();
+    cy.findByRole('heading', { name: 'Brushella Collections' });
+    cy.get('#brushella-all-collections-list li a').first().click();
+    cy.get('#brushella-single-collection-container').within(() => {
+      cy.findByRole('heading');
+      cy.findByText('collection page is work in progress');
+    });
+  });
+
+  it('Goes back from single collection to all products page', () => {
+    cy.findByText('Products').click();
+    cy.get('#brushella-all-collections-list li a').first().click();
+    cy.get('#brushella-single-collection-container').within(() => {
+      cy.findByRole('link', { name: 'Back to Product List' }).click();
+    });
+    cy.findByRole('heading', { name: 'Brushella Collections' });
+  });
 });

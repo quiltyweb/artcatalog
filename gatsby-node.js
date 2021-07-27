@@ -1,7 +1,8 @@
 const path = require(`path`);
-exports.createPages = async ({ graphql, actions }) => {
+
+async function turnProductsIntoPages({ graphql, actions }) {
   const { createPage } = actions;
-  // Query for all products in Shopify
+
   const result = await graphql(`
     query {
       allShopifyProduct(sort: { fields: [title] }) {
@@ -30,8 +31,7 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `);
-  // Iterate over all products and create a new page using a template
-  // The product "handle" is generated automatically by Shopify
+
   result.data.allShopifyProduct.edges.forEach(({ node }) => {
     createPage({
       path: `/products/${node.handle}`,
@@ -41,4 +41,37 @@ exports.createPages = async ({ graphql, actions }) => {
       },
     });
   });
+}
+
+async function turnCollectionsIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+
+  const result = await graphql(`
+    query {
+      allShopifyCollection {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+          }
+        }
+      }
+    }
+  `);
+
+  result.data.allShopifyCollection.edges.forEach(({ node }) => {
+    createPage({
+      path: `/collections/${node.handle}`,
+      component: path.resolve(`./src/templates/collection.tsx`),
+      context: {
+        collection: node,
+      },
+    });
+  });
+}
+
+exports.createPages = async (params) => {
+  await Promise.all([turnProductsIntoPages(params), turnCollectionsIntoPages(params)]);
 };
