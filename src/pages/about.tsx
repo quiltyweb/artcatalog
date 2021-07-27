@@ -4,7 +4,7 @@ import { Box, Text } from '@chakra-ui/react';
 import Layout from '../components/layout';
 
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
-  <Layout pageTitle="About Me">
+  <Layout helmetPageTitle="About Me">
     <Box p={8}>
       <Text fontSize="xl">Hi there! I'm the proud creator of this site, which I built with Gatsby.</Text>
     </Box>

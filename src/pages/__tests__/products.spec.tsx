@@ -32,7 +32,6 @@ describe('ProductsPage', () => {
     };
 
     render(<ProductsPage data={mockedData} />);
-    screen.getByRole('heading', { name: 'Products' });
     screen.getByText('There are no collections available');
     screen.getByText('There are no products available');
   });

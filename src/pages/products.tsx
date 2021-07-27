@@ -5,7 +5,7 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from '../components/layout';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
-  <Layout pageTitle="Products">
+  <Layout helmetPageTitle="Products">
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
