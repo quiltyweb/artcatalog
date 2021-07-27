@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Gatsby from 'gatsby';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import Layout from '../layout';
 
 beforeEach(() => {
@@ -12,24 +12,25 @@ afterEach(() => {
 });
 
 describe('Layout', () => {
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     const useStaticQuery = jest.spyOn(Gatsby, 'useStaticQuery');
     useStaticQuery.mockImplementation(() => ({
       site: {
         siteMetadata: {
-          title: 'My Title',
+          title: 'Site Title',
         },
       },
     }));
     render(
-      <Layout pageTitle="hello I'm a page title">
-        <p>some content</p>
+      <Layout helmetPageTitle="hello I'm a page title">
+        <p>some content children</p>
       </Layout>
     );
+    await waitFor(() => expect(document.title).toEqual("hello I'm a page title | Site Title"));
+    screen.getByRole('heading', { name: 'Site Title' });
     screen.getByRole('link', { name: 'Home' });
     screen.getByRole('link', { name: 'About' });
-    screen.getByRole('heading', { name: `hello I'm a page title` });
-    screen.getByText('My Title');
-    screen.getByText('some content');
+    screen.getByRole('link', { name: 'Products' });
+    screen.getByText('some content children');
   });
 });

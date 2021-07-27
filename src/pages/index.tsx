@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
+import { Text } from '@chakra-ui/react';
 import Layout from '../components/layout';
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
-  <Layout pageTitle="Welcome">
-    <p>~ Work in progress ~</p>
+  <Layout helmetPageTitle="Welcome">
+    <Text>Home Page is Work in progress</Text>
     <StaticImage alt="acrylic paint texture" src="../images/brushella-texture.jpg" />
   </Layout>
 );

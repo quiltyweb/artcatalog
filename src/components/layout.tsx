@@ -4,11 +4,11 @@ import { Helmet } from 'react-helmet';
 import { Container, Flex, Box, Heading, Spacer, Text, Stack } from '@chakra-ui/react';
 
 type LayoutProps = {
-  pageTitle: string;
+  helmetPageTitle?: string;
   children: React.ReactNode;
 };
 // make LayoutPure componenet passing the data and test that, instead of the componenet that
-const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): React.ReactElement => {
+const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, children }): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query MyQuery {
       site {
@@ -25,12 +25,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
         <html lang="en" />
         <meta charSet="utf-8" />
         <title>
-          {pageTitle} | {data.site.siteMetadata.title}
+          {helmetPageTitle} | {data.site.siteMetadata.title}
         </title>
       </Helmet>
       <Flex as="nav" align="center" justify="space-between" wrap="wrap" w="100%" mb={8} p={8}>
         <Box p="2">
-          <Heading size="md">{data.site.siteMetadata.title}</Heading>
+          <Heading as="h1" size="md">
+            {data.site.siteMetadata.title}
+          </Heading>
         </Box>
         <Spacer />
         <Stack
@@ -51,7 +53,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ pageTitle, children }): 
           </Link>
         </Stack>
       </Flex>
-      <Heading as="h1">{pageTitle}</Heading>
       {children}
     </Container>
   );

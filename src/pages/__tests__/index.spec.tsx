@@ -22,6 +22,6 @@ describe('IndexPage', () => {
       },
     }));
     render(<IndexPage />);
-    screen.getByText('~ Work in progress ~');
+    screen.getByText('Home Page is Work in progress');
   });
 });
