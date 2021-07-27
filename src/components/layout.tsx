@@ -30,7 +30,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, childre
       </Helmet>
       <Flex as="nav" align="center" justify="space-between" wrap="wrap" w="100%" mb={8} p={8}>
         <Box p="2">
-          <Heading size="md">{data.site.siteMetadata.title}</Heading>
+          <Heading as="h1" size="md">
+            {data.site.siteMetadata.title}
+          </Heading>
         </Box>
         <Spacer />
         <Stack

@@ -22,6 +22,6 @@ describe('AboutPage', () => {
       },
     }));
     render(<AboutPage />);
-    screen.getByText("Hi there! I'm the proud creator of this site, which I built with Gatsby.");
+    screen.getByText('About me page is Work in progress');
   });
 });
