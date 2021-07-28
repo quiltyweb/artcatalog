@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Gatsby from 'gatsby';
 import { render, screen, waitFor } from '@testing-library/react';
-import Layout from '../layout';
+import Layout from '../Layout';
 
 beforeEach(() => {
   jest.clearAllMocks();

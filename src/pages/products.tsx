@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Link, graphql } from 'gatsby';
 import { Heading, Text } from '@chakra-ui/react';
-import { GatsbyImage } from 'gatsby-plugin-image';
-import Layout from '../components/layout';
+// import { GatsbyImage } from 'gatsby-plugin-image';
+import Layout from '../components/Layout';
+import ProductCard from '../components/ProductCard';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
   <Layout helmetPageTitle="Products">
@@ -30,12 +31,7 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
         <ul id="brushella-all-products-list">
           {data.allShopifyProduct.edges.map(({ node }) => (
             <li key={node.id}>
-              <Heading as="h3">
-                <Link to={`/products/${node.handle}`}>{node.title}</Link>
-              </Heading>
-              <Text>{node.description}</Text>
-              <Text>{`${node.priceRangeV2.maxVariantPrice.amount} (${node.priceRangeV2.maxVariantPrice.currencyCode})`}</Text>
-              <GatsbyImage image={node.featuredImage.gatsbyImageData} alt={node.featuredImage.altText} />
+              <ProductCard product={node} />
             </li>
           ))}
         </ul>

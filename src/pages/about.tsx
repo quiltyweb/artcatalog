@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 import { Box, Text } from '@chakra-ui/react';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
   <Layout helmetPageTitle="About Me">
