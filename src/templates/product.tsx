@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Box, Heading, Text } from '@chakra-ui/react';
-import { GatsbyImage } from 'gatsby-plugin-image';
-import Layout from '../components/layout';
+import { Box } from '@chakra-ui/react';
+import Layout from '../components/Layout';
+import ProductCard from '../components/ProductCard';
 
 const ProductTemplate = ({ pageContext }) => {
   const { product } = pageContext;
@@ -10,10 +10,7 @@ const ProductTemplate = ({ pageContext }) => {
     <Layout helmetPageTitle={product.title}>
       <Box id="brushella-single-product-container">
         <Link to="/products">Back to Product List</Link>
-        <Heading as="h2">{product.title}</Heading>
-        <Text>{product.description}</Text>
-        <Text>{`$ ${product.priceRangeV2.maxVariantPrice.amount} (${product.priceRangeV2.maxVariantPrice.currencyCode})`}</Text>
-        <GatsbyImage image={product.featuredImage.gatsbyImageData} alt={product.featuredImage.altText} />
+        <ProductCard product={product} />
       </Box>
     </Layout>
   );

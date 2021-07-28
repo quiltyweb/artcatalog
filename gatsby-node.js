@@ -35,7 +35,7 @@ async function turnProductsIntoPages({ graphql, actions }) {
   result.data.allShopifyProduct.edges.forEach(({ node }) => {
     createPage({
       path: `/products/${node.handle}`,
-      component: path.resolve(`./src/templates/product.tsx`),
+      component: path.resolve(`./src/templates/Product.tsx`),
       context: {
         product: node,
       },
@@ -59,6 +59,18 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
               id
               title
               handle
+              description
+              priceRangeV2 {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              featuredImage {
+                id
+                altText
+                gatsbyImageData(width: 282, height: 230)
+              }
             }
           }
         }
@@ -69,7 +81,7 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
   result.data.allShopifyCollection.edges.forEach(({ node }) => {
     createPage({
       path: `/collections/${node.handle}`,
-      component: path.resolve(`./src/templates/collection.tsx`),
+      component: path.resolve(`./src/templates/Collection.tsx`),
       context: {
         collection: node,
       },

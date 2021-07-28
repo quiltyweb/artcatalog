@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import { Box, Heading, Text } from '@chakra-ui/react';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
+import ProductCard from '../components/ProductCard';
 
 const CollectionTemplate = ({ pageContext }) => {
   const { collection } = pageContext;
@@ -14,11 +15,9 @@ const CollectionTemplate = ({ pageContext }) => {
         <hr />
         {collection.products.length !== 0 ? (
           <ul id="brushella-all-products-in-collection-list">
-            {collection.products.map((item) => (
-              <li key={item.id}>
-                <Heading as="h3">
-                  <Link to={`/products/${item.handle}`}>{item.title}</Link>
-                </Heading>
+            {collection.products.map((product) => (
+              <li key={product.id}>
+                <ProductCard product={product} />
               </li>
             ))}
           </ul>

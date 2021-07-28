@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
-import ProductTemplate from '../product';
+import ProductTemplate from '../Product';
 
 beforeEach(() => {
   jest.clearAllMocks();
