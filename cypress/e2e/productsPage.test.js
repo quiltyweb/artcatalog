@@ -11,16 +11,18 @@ describe('Products Page', () => {
     cy.checkA11y();
   });
 
-  it('Renders single product page', () => {
+  it('Renders single product page when click on a product item', () => {
     cy.findByText('Products').click();
     cy.findByRole('heading', { name: 'All Products' });
     cy.get('#brushella-all-products-list li a').first().click();
     cy.get('#brushella-single-product-container').within(() => {
       cy.findByRole('heading');
+      cy.findByRole('button', { name: 'Add to cart' });
+      cy.findByLabelText('Quantity');
     });
   });
 
-  it('Goes back from single product to all products page', () => {
+  it('Goes back from single product to all products page when click on back button', () => {
     cy.findByText('Products').click();
     cy.get('#brushella-all-products-list li a').first().click();
     cy.get('#brushella-single-product-container').within(() => {

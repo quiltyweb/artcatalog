@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <Layout helmetPageTitle="Welcome">
     <Text>Home Page is Work in progress</Text>
-    <StaticImage alt="acrylic paint texture" src="../images/brushella-texture.jpg" />
+    <StaticImage style={{ filter: 'grayscale(1)' }} alt="acrylic paint texture" src="../images/brushella-texture.jpg" />
   </Layout>
 );
 

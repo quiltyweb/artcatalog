@@ -12,7 +12,7 @@ afterEach(() => {
 });
 
 describe('ProductsPage', () => {
-  it('renders prodcut page with empty collections and products ', () => {
+  it('renders product page with empty collections and products ', () => {
     const useStaticQuery = jest.spyOn(Gatsby, 'useStaticQuery');
     useStaticQuery.mockImplementation(() => ({
       site: {
@@ -81,7 +81,7 @@ describe('ProductsPage', () => {
         },
       },
     }));
-    const mockedallShopifyProductData = {
+    const mockedAllShopifyProductData = {
       allShopifyProduct: {
         edges: [
           {
@@ -147,7 +147,7 @@ describe('ProductsPage', () => {
       },
     };
 
-    render(<ProductsPage data={mockedallShopifyProductData} />);
+    render(<ProductsPage data={mockedAllShopifyProductData} />);
     screen.getByRole('heading', { name: 'All Products' });
 
     screen.getByRole('link', { name: 'Bamboo coaster' });

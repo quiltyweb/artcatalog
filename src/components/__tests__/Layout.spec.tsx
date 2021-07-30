@@ -31,6 +31,7 @@ describe('Layout', () => {
     screen.getByRole('link', { name: 'Home' });
     screen.getByRole('link', { name: 'About' });
     screen.getByRole('link', { name: 'Products' });
+    screen.getByRole('link', { name: 'My Cart' });
     screen.getByText('some content children');
   });
 });

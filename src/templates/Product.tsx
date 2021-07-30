@@ -10,7 +10,7 @@ const ProductTemplate = ({ pageContext }) => {
     <Layout helmetPageTitle={product.title}>
       <Box id="brushella-single-product-container">
         <Link to="/products">Back to Product List</Link>
-        <ProductCard product={product} />
+        <ProductCard product={product} isFullWidth />
       </Box>
     </Layout>
   );

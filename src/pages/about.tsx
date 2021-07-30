@@ -8,7 +8,11 @@ const AboutPage: React.FunctionComponent = (): React.ReactElement => (
     <Box p={8}>
       <Text fontSize="sm">About me page is Work in progress</Text>
     </Box>
-    <StaticImage alt="paint brushes" src="https://brushella.files.wordpress.com/2014/10/dsc04429.jpg" />
+    <StaticImage
+      style={{ filter: 'grayscale(1)' }}
+      alt="Painter Gabriela painting on a canvas"
+      src="../images/brushella-author.jpg"
+    />
   </Layout>
 );
 
