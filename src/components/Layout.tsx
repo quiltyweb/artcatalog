@@ -54,7 +54,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, childre
           </Link>
           <Link to="/#">
             <Text display="block">
-              <Icon as={FaShoppingBag} />
+              <Icon as={FaShoppingBag} aria-label="My Cart" />
             </Text>
           </Link>
         </Stack>

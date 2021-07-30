@@ -17,6 +17,7 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
+// TODO: add types to component
 const ProductCard: React.FunctionComponent<any> = ({ product, isFullWidth = false }): React.ReactElement => {
   const IMAGE = product.featuredImage.gatsbyImageData;
   return (

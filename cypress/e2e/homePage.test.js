@@ -9,4 +9,12 @@ describe('Home page', () => {
     cy.injectAxe();
     cy.checkA11y();
   });
+
+  it('renders top menu', () => {
+    cy.get('main');
+    cy.findByRole('link', { name: 'Home' });
+    cy.findByRole('link', { name: 'About' });
+    cy.findByRole('link', { name: 'Products' });
+    cy.findByRole('link', { name: 'My Cart' });
+  });
 });
