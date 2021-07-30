@@ -1,27 +1,41 @@
 import * as React from 'react';
 import { Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
-import { Box, useColorModeValue, Heading, Text, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  useColorModeValue,
+  Heading,
+  Text,
+  Stack,
+  Button,
+  FormControl,
+  FormLabel,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
 
-const ProductCard: React.FunctionComponent<any> = ({ product }): React.ReactElement => {
+const ProductCard: React.FunctionComponent<any> = ({ product, isFullWidth = false }): React.ReactElement => {
   const IMAGE = product.featuredImage.gatsbyImageData;
   return (
     <Box
       p={6}
       my={12}
-      maxW="330px"
       w="full"
       bg={useColorModeValue('white', 'gray.800')}
       boxShadow="2xl"
       rounded="lg"
       pos="relative"
       zIndex={1}
+      maxW={isFullWidth ? '100%' : '330px'}
+      display={isFullWidth ? 'flex' : 'block'}
     >
       <Box
         rounded="lg"
-        mt={-12}
         pos="relative"
-        height="230px"
+        height={isFullWidth ? '460px' : '230px'}
         _after={{
           transition: 'all .3s ease',
           content: '""',
@@ -40,9 +54,9 @@ const ProductCard: React.FunctionComponent<any> = ({ product }): React.ReactElem
           },
         }}
       >
-        <GatsbyImage image={IMAGE} alt={product.featuredImage.altText} />
+        <GatsbyImage image={IMAGE} alt={product.featuredImage.altText} loading="eager" />
       </Box>
-      <Stack pt={20} align="center">
+      <Stack pl={isFullWidth ? '10' : '0'} pt={isFullWidth ? '0' : '20'} align={isFullWidth ? 'left' : 'center'}>
         <Text color="gray.600" fontSize="sm" textTransform="uppercase">
           Collection Placeholder
         </Text>
@@ -55,6 +69,22 @@ const ProductCard: React.FunctionComponent<any> = ({ product }): React.ReactElem
           </Text>
         </Stack>
         <Text color="gray.700">{product.description}</Text>
+
+        {isFullWidth && (
+          <Stack direction="row" align="flex-end">
+            <FormControl id="amount">
+              <FormLabel>Quantity</FormLabel>
+              <NumberInput max={50} min={0}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+            <Button colorScheme="purple">Add to cart</Button>
+          </Stack>
+        )}
       </Stack>
     </Box>
   );

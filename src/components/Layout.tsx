@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Link, useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import { Container, Flex, Box, Heading, Spacer, Text, Stack } from '@chakra-ui/react';
+import { Icon, Container, Flex, Box, Heading, Spacer, Text, Stack } from '@chakra-ui/react';
+import { FaShoppingBag } from 'react-icons/fa';
 
 type LayoutProps = {
   helmetPageTitle?: string;
@@ -20,7 +21,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, childre
   `);
 
   return (
-    <Container as="main">
+    <Container as="main" maxW="container.lg">
       <Helmet>
         <html lang="en" />
         <meta charSet="utf-8" />
@@ -50,6 +51,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, childre
           </Link>
           <Link to="/products">
             <Text display="block">Products</Text>
+          </Link>
+          <Link to="/#">
+            <Text display="block">
+              <Icon as={FaShoppingBag} />
+            </Text>
           </Link>
         </Stack>
       </Flex>

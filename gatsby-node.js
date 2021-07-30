@@ -24,7 +24,7 @@ async function turnProductsIntoPages({ graphql, actions }) {
             featuredImage {
               id
               altText
-              gatsbyImageData(width: 910, height: 910)
+              gatsbyImageData(height: 460, width: 564, placeholder: "BLURRED", layout: CONSTRAINED)
             }
           }
         }
@@ -69,7 +69,7 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
               featuredImage {
                 id
                 altText
-                gatsbyImageData(width: 282, height: 230)
+                gatsbyImageData(height: 460, width: 564)
               }
             }
           }
