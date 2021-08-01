@@ -5,7 +5,7 @@
   ],
   "rules": {
     "no-console": 2,
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts", ".js"] }],
     "react/prop-types": [0],
     "prettier/prettier": [
       "error",
