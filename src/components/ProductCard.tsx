@@ -16,9 +16,18 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
+import { useCartContext } from '../context/CartContext';
 
-// TODO: add types to component
-const ProductCard: React.FunctionComponent<any> = ({ product, isFullWidth = false }): React.ReactElement => {
+type ProductCardProps = {
+  product: any;
+  isFullWidth: boolean;
+};
+
+const ProductCard: React.FunctionComponent<ProductCardProps> = ({
+  product,
+  isFullWidth = false,
+}): React.ReactElement => {
+  const { cartCount, incrementCart } = useCartContext();
   const IMAGE = product.featuredImage.gatsbyImageData;
   return (
     <Box
@@ -83,7 +92,14 @@ const ProductCard: React.FunctionComponent<any> = ({ product, isFullWidth = fals
                 </NumberInputStepper>
               </NumberInput>
             </FormControl>
-            <Button colorScheme="purple">Add to cart</Button>
+            <Button
+              onClick={() => {
+                incrementCart({ quantity: 1 });
+              }}
+              colorScheme="purple"
+            >
+              Add to cart
+            </Button>
           </Stack>
         )}
       </Stack>

@@ -15,6 +15,6 @@ describe('Home page', () => {
     cy.findByRole('link', { name: 'Home' });
     cy.findByRole('link', { name: 'About' });
     cy.findByRole('link', { name: 'Products' });
-    cy.findByRole('link', { name: 'My Cart' });
+    cy.findByRole('link', { name: 'My Cart (0)' });
   });
 });
