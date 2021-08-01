@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Link, useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import { Icon, Container, Flex, Box, Heading, Spacer, Text, Stack } from '@chakra-ui/react';
-import { FaShoppingBag } from 'react-icons/fa';
+import { Container, Flex, Box, Heading, Spacer } from '@chakra-ui/react';
+import { CartProvider } from '../context/CartContext';
+import Nav from './Nav';
 
 type LayoutProps = {
   helmetPageTitle?: string;
@@ -21,46 +22,27 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ helmetPageTitle, childre
   `);
 
   return (
-    <Container as="main" maxW="container.lg">
-      <Helmet>
-        <html lang="en" />
-        <meta charSet="utf-8" />
-        <title>
-          {helmetPageTitle} | {data.site.siteMetadata.title}
-        </title>
-      </Helmet>
-      <Flex as="nav" align="center" justify="space-between" wrap="wrap" w="100%" mb={8} p={8}>
-        <Box p="2">
-          <Heading as="h1" size="md">
-            {data.site.siteMetadata.title}
-          </Heading>
-        </Box>
-        <Spacer />
-        <Stack
-          spacing={8}
-          align="center"
-          justify={['center', 'space-between', 'flex-end', 'flex-end']}
-          direction={['column', 'row', 'row', 'row']}
-          pt={[4, 4, 0, 0]}
-        >
-          <Link to="/">
-            <Text display="block">Home</Text>
-          </Link>
-          <Link to="/about">
-            <Text display="block">About</Text>
-          </Link>
-          <Link to="/products">
-            <Text display="block">Products</Text>
-          </Link>
-          <Link to="/#">
-            <Text display="block">
-              <Icon as={FaShoppingBag} aria-label="My Cart" />
-            </Text>
-          </Link>
-        </Stack>
-      </Flex>
-      {children}
-    </Container>
+    <CartProvider>
+      <Container as="main" maxW="container.lg">
+        <Helmet>
+          <html lang="en" />
+          <meta charSet="utf-8" />
+          <title>
+            {helmetPageTitle} | {data.site.siteMetadata.title}
+          </title>
+        </Helmet>
+        <Flex as="nav" align="center" justify="space-between" wrap="wrap" w="100%" mb={8} p={8}>
+          <Box p="2">
+            <Heading as="h1" size="md">
+              {data.site.siteMetadata.title}
+            </Heading>
+          </Box>
+          <Spacer />
+          <Nav />
+        </Flex>
+        {children}
+      </Container>
+    </CartProvider>
   );
 };
 
