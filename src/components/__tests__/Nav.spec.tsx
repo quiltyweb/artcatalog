@@ -21,6 +21,7 @@ describe('Nav', () => {
     screen.getByRole('link', { name: 'Home' });
     screen.getByRole('link', { name: 'About' });
     screen.getByRole('link', { name: 'Products' });
-    screen.getByRole('link', { name: 'My Cart (0)' });
+    screen.getByRole('link', { name: /My Cart/ });
+    screen.getByText('My Cart (0 item)');
   });
 });

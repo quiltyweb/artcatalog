@@ -23,10 +23,10 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
       <Link to="/products">
         <Text display="block">Products</Text>
       </Link>
-      <Link to="/#">
+      <Link to="/cart">
         <Text display="block">
           <Icon as={FaShoppingBag} aria-label="My Cart" />
-          {`(${cartCount})`}
+          {`My Cart (${cartCount} ${cartCount > 1 ? 'items' : 'item'})`}
         </Text>
       </Link>
     </Stack>

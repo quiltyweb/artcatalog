@@ -8,6 +8,7 @@ async function turnProductsIntoPages({ graphql, actions }) {
       allShopifyProduct(sort: { fields: [title] }) {
         edges {
           node {
+            id
             title
             images {
               originalSrc

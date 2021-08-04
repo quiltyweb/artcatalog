@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ProductCard from '../ProductCard';
+import { CartProvider } from '../../context/CartContext';
 
 beforeEach(() => {
   jest.clearAllMocks();

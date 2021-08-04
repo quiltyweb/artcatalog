@@ -19,15 +19,12 @@ import {
 import { useCartContext } from '../context/CartContext';
 
 type ProductCardProps = {
-  product: any;
-  isFullWidth: boolean;
+  product: any; // add proper product type
+  isFullWidth?: boolean;
 };
 
-const ProductCard: React.FunctionComponent<ProductCardProps> = ({
-  product,
-  isFullWidth = false,
-}): React.ReactElement => {
-  const { cartCount, incrementCart } = useCartContext();
+const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, isFullWidth }): React.ReactElement => {
+  const { addItemToCart } = useCartContext();
   const IMAGE = product.featuredImage.gatsbyImageData;
   return (
     <Box
@@ -94,7 +91,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             </FormControl>
             <Button
               onClick={() => {
-                incrementCart({ quantity: 1 });
+                addItemToCart({ id: product.id, title: product.title, quantity: 1 });
               }}
               colorScheme="purple"
             >
