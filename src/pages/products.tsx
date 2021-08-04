@@ -31,7 +31,7 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
         <ul id="brushella-all-products-list">
           {data.allShopifyProduct.edges.map(({ node }) => (
             <li key={node.id}>
-              <ProductCard product={node} />
+              <ProductCard product={node} isFullWidth={false} />
             </li>
           ))}
         </ul>

@@ -4,17 +4,27 @@ type IncrementCartProps = {
   quantity: number;
 };
 
-interface CartContextProps {
-  cartCount?: number;
-  incrementCart?: (item: IncrementCartProps) => void;
-}
-
-const defaultState = {
-  cartCount: 0,
-  incrementCart: () => {},
+type CartItemProps = {
+  quantity: number;
+  id: number;
+  title: string;
 };
 
-const CartContext = React.createContext<CartContextProps>(defaultState);
+interface CartContextProps {
+  cartCount?: number;
+  cart: Array<CartItemProps>;
+  incrementCart?: (item: IncrementCartProps) => void;
+  addItemToCart?: (item: CartItemProps) => void;
+}
+
+const defaultContextState = {
+  cartCount: 0,
+  cart: [],
+  incrementCart: () => {},
+  addItemToCart: () => {},
+};
+
+const CartContext = React.createContext<CartContextProps>(defaultContextState);
 
 interface Props {
   children: React.ReactNode;
@@ -22,27 +32,41 @@ interface Props {
 
 interface State {
   cartCount: number;
+  cart: Array<CartItemProps>;
 }
 
 class CartProvider extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { cartCount: 0 };
+    this.state = { cartCount: 0, cart: [] };
   }
 
-  incrementCart = ({ quantity }: { quantity: number }) => {
+  incrementCart = ({ quantity }: IncrementCartProps) => {
     const { cartCount } = this.state;
     this.setState({ cartCount: cartCount + quantity });
   };
 
+  addItemToCart = ({ id, title, quantity }: CartItemProps) => {
+    const newItem = { id, title, quantity };
+    this.setState((state) => {
+      const updatedCart = [...state.cart, newItem];
+      return {
+        cartCount: updatedCart.length,
+        cart: updatedCart,
+      };
+    });
+  };
+
   render() {
     const { children } = this.props;
-    const { cartCount } = this.state;
+    const { cartCount, cart } = this.state;
     return (
       <CartContext.Provider
         value={{
           cartCount,
+          cart,
           incrementCart: this.incrementCart,
+          addItemToCart: this.addItemToCart,
         }}
       >
         {children}
