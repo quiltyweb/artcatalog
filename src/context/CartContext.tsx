@@ -4,10 +4,15 @@ type IncrementCartProps = {
   quantity: number;
 };
 
-type CartItemProps = {
-  quantity: number;
+type DeleteItemFromCartProps = {
   id: number;
+  position: number;
+};
+
+type CartItemProps = {
+  id: string;
   title: string;
+  quantity: number;
 };
 
 interface CartContextProps {
@@ -15,6 +20,7 @@ interface CartContextProps {
   cart: Array<CartItemProps>;
   incrementCart?: (item: IncrementCartProps) => void;
   addItemToCart?: (item: CartItemProps) => void;
+  deleteItemFromCart?: (item: DeleteItemFromCartProps) => void;
 }
 
 const defaultContextState = {
@@ -22,6 +28,7 @@ const defaultContextState = {
   cart: [],
   incrementCart: () => {},
   addItemToCart: () => {},
+  deleteItemFromCart: () => {},
 };
 
 const CartContext = React.createContext<CartContextProps>(defaultContextState);
@@ -57,6 +64,16 @@ class CartProvider extends React.Component<Props, State> {
     });
   };
 
+  deleteItemFromCart = ({ id, position }: DeleteItemFromCartProps) => {
+    this.setState((state) => {
+      const filteredCart = state.cart.filter((item, i) => position !== i);
+      return {
+        cartCount: filteredCart.length,
+        cart: filteredCart,
+      };
+    });
+  };
+
   render() {
     const { children } = this.props;
     const { cartCount, cart } = this.state;
@@ -67,6 +84,7 @@ class CartProvider extends React.Component<Props, State> {
           cart,
           incrementCart: this.incrementCart,
           addItemToCart: this.addItemToCart,
+          deleteItemFromCart: this.deleteItemFromCart,
         }}
       >
         {children}
@@ -78,3 +96,4 @@ class CartProvider extends React.Component<Props, State> {
 export const useCartContext = (): CartContextProps => React.useContext(CartContext);
 
 export { CartProvider };
+export default CartContext;
