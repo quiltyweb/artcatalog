@@ -5,7 +5,7 @@ type IncrementCartProps = {
 };
 
 type DeleteItemFromCartProps = {
-  id: number;
+  id: string;
   position: number;
 };
 

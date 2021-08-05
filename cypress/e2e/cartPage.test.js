@@ -17,9 +17,25 @@ describe('Cart Page', () => {
     cy.get('#brushella-single-product-container').within(() => {
       cy.findByRole('button', { name: 'Add to cart' }).click();
     });
-    cy.findByText('My Cart (1 item)').click();
-    cy.get('main ul li').should('have.length', 1);
+    cy.findByText(/My Cart/).click();
     cy.findByText('Your items:');
+    cy.get('main ul li').should('have.length', 1);
     cy.findByText(/Quantity: 1 - Product:/);
+    cy.findByRole('button', { name: 'delete' });
+  });
+
+  it('when a product is removed from cart, list and cart counter of products gets updated', () => {
+    cy.findByText('Products').click();
+    cy.findByRole('heading', { name: 'All Products' });
+    cy.get('#brushella-all-products-list li a').first().click();
+    cy.get('#brushella-single-product-container').within(() => {
+      cy.findByRole('button', { name: 'Add to cart' }).click();
+    });
+    cy.findByText(/My Cart/).click();
+    cy.findByText('Your items:');
+    cy.get('main ul li').should('have.length', 1);
+    cy.findByRole('button', { name: 'delete' }).click();
+    cy.findByText('Your cart is empty');
+    cy.findByText('My Cart (0 item)');
   });
 });
