@@ -100,7 +100,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, isFul
           <form onSubmit={formik.handleSubmit}>
             <Stack direction="row" align="flex-end">
               <FormControl id="quantity">
-                <FormLabel>Quantity</FormLabel>
+                <FormLabel htmlFor="quantity">Quantity</FormLabel>
                 <NumberInput
                   min={0}
                   id="quantity"
@@ -113,7 +113,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, isFul
                 >
                   <NumberInputField />
                   <NumberInputStepper>
-                    <NumberIncrementStepper />
+                    <NumberIncrementStepper id="quantity-increment" />
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>

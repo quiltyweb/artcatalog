@@ -15,6 +15,7 @@ describe('Cart Page', () => {
     cy.findByRole('heading', { name: 'All Products' });
     cy.get('#brushella-all-products-list li a').first().click();
     cy.get('#brushella-single-product-container').within(() => {
+      cy.get('#quantity-increment').click();
       cy.findByRole('button', { name: 'Add to cart' }).click();
     });
     cy.findByText(/My Cart/).click();
@@ -29,6 +30,7 @@ describe('Cart Page', () => {
     cy.findByRole('heading', { name: 'All Products' });
     cy.get('#brushella-all-products-list li a').first().click();
     cy.get('#brushella-single-product-container').within(() => {
+      cy.get('#quantity-increment').click();
       cy.findByRole('button', { name: 'Add to cart' }).click();
     });
     cy.findByText(/My Cart/).click();
