@@ -45,7 +45,7 @@ class CartProvider extends React.Component<Props, State> {
       const isItemInCart = currentCart.some((item) => item.id === id);
       if (isItemInCart) {
         const cartWithUpdatedItem = currentCart.map((cartItem) =>
-          cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+          cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
         );
         return { cart: cartWithUpdatedItem };
       }

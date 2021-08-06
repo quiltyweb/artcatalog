@@ -16,15 +16,34 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
+import { useFormik } from 'formik';
 import { useCartContext } from '../context/CartContext';
 
 type ProductCardProps = {
-  product: any; // add proper product type
+  product: any; // TODO: add proper product type
   isFullWidth?: boolean;
 };
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, isFullWidth }): React.ReactElement => {
   const { addItemToCart } = useCartContext();
+  const formik = useFormik({
+    initialValues: {
+      productId: product.id,
+      productTitle: product.title,
+      quantity: 0,
+    },
+    onSubmit: (values) => {
+      if (values.quantity === 0) {
+        return;
+      }
+
+      addItemToCart({
+        id: values.productId,
+        title: values.productTitle,
+        quantity: values.quantity,
+      });
+    },
+  });
   const IMAGE = product.featuredImage.gatsbyImageData;
   return (
     <Box
@@ -78,26 +97,32 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, isFul
         <Text color="gray.700">{product.description}</Text>
 
         {isFullWidth && (
-          <Stack direction="row" align="flex-end">
-            <FormControl id="amount">
-              <FormLabel>Quantity</FormLabel>
-              <NumberInput max={50} min={0}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
-            <Button
-              onClick={() => {
-                addItemToCart({ id: product.id, title: product.title, quantity: 1 });
-              }}
-              colorScheme="purple"
-            >
-              Add to cart
-            </Button>
-          </Stack>
+          <form onSubmit={formik.handleSubmit}>
+            <Stack direction="row" align="flex-end">
+              <FormControl id="quantity">
+                <FormLabel>Quantity</FormLabel>
+                <NumberInput
+                  min={0}
+                  id="quantity"
+                  name="quantity"
+                  value={formik.values.quantity}
+                  onChange={(val) => {
+                    const quantity = parseInt(val);
+                    formik.setFieldValue('quantity', quantity);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <Button type="submit" colorScheme="purple">
+                Add to cart
+              </Button>
+            </Stack>
+          </form>
         )}
       </Stack>
     </Box>
