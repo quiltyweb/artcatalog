@@ -5,7 +5,8 @@ import { Link } from 'gatsby';
 import { useCartContext } from '../context/CartContext';
 
 const Nav: React.FunctionComponent = (): React.ReactElement => {
-  const { cartCount } = useCartContext();
+  const { cart } = useCartContext();
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   return (
     <Stack
       spacing={8}

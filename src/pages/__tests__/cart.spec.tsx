@@ -45,13 +45,11 @@ describe('CartPage', () => {
     render(
       <CartContext.Provider
         value={{
-          cartCount: 3,
           cart: [
             { id: '345e1ae7-3662-5fbd-a6d2-a3931a5fb862', title: 'product a', quantity: 1 },
             { id: '345e1ae7-3662-5fbd-a6d2-a3931a5fb862', title: 'product b', quantity: 1 },
             { id: '345e1ae7-3662-5fbd-a6d2-a3931a5fb862', title: 'product c', quantity: 1 },
           ],
-          incrementCart: () => null,
           addItemToCart: () => null,
           deleteItemFromCart: () => null,
         }}

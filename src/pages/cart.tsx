@@ -17,7 +17,7 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
                 {`Quantity: ${item.quantity} - Product: ${item.title}`}{' '}
                 <Button
                   onClick={() => {
-                    deleteItemFromCart({ id: item.id, position: index });
+                    deleteItemFromCart({ id: item.id });
                   }}
                 >
                   delete
