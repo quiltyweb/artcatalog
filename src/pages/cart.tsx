@@ -29,6 +29,8 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
       ) : (
         'Your cart is empty'
       )}
+
+      <Button>Go to Checkout</Button>
     </Layout>
   );
 };
