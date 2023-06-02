@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link, graphql } from 'gatsby';
 import { Heading, Text } from '@chakra-ui/react';
-// import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
 
