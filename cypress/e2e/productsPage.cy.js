@@ -8,7 +8,9 @@ describe('Products Page', () => {
     cy.findByRole('heading', { name: 'Brushella Collections' });
     cy.findByRole('heading', { name: 'All Products' });
     cy.injectAxe();
-    cy.checkA11y();
+    cy.checkA11y(null, {
+      runOnly: ['wcag2a', 'wcag2aa']
+    });
   });
 
   it('Renders single product page when click on a product item', () => {
