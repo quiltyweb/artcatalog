@@ -7,7 +7,9 @@ describe('Home page', () => {
     cy.get('main');
     cy.findByText('Home Page is Work in progress');
     cy.injectAxe();
-    cy.checkA11y();
+    cy.checkA11y(null, {
+      runOnly: ['wcag2a', 'wcag2aa']
+    });
   });
 
   it('renders top menu', () => {

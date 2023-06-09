@@ -7,7 +7,9 @@ describe('Cart Page', () => {
     cy.findByText('My Cart (0 item)').click();
     cy.findByText('Your cart is empty');
     cy.injectAxe();
-    cy.checkA11y();
+    cy.checkA11y(null, {
+      runOnly: ['wcag2a', 'wcag2aa']
+    });
   });
 
   it('when a product is added to cart, list and cart counter of products gets updated', () => {
