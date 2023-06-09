@@ -4,7 +4,7 @@ import { Box, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
-  <Layout helmetPageTitle="About Me">
+  <Layout>
     <Box p={8}>
       <Text fontSize="sm">About me page is Work in progress</Text>
     </Box>
@@ -17,3 +17,12 @@ const AboutPage: React.FunctionComponent = (): React.ReactElement => (
 );
 
 export default AboutPage;
+
+export const Head = () => (
+  <>
+  <html lang="en" />
+  <meta charSet="utf-8" />
+  <title>
+    About me - Brushella
+  </title>
+  </>)

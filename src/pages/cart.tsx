@@ -7,7 +7,7 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
   const { cart, deleteItemFromCart } = useCartContext();
 
   return (
-    <Layout helmetPageTitle="Cart">
+    <Layout>
       {cart.length !== 0 ? (
         <>
           <Text>Your items:</Text>
@@ -34,5 +34,14 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
     </Layout>
   );
 };
+
+export const Head = () => (
+  <>
+  <html lang="en" />
+  <meta charSet="utf-8" />
+  <title>
+    My Cart - Brushella Store
+  </title>
+  </>)
 
 export default CartPage;

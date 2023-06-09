@@ -50,3 +50,12 @@ const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
 );
 
 export default NotFoundPage;
+
+export const Head = () => (
+  <>
+  <html lang="en" />
+  <meta charSet="utf-8" />
+  <title>
+    Page Not Found - Brushella
+  </title>
+  </>)

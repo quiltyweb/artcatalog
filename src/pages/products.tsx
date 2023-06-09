@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
-  <Layout helmetPageTitle="Products">
+  <Layout>
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
@@ -42,6 +42,16 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
 );
 
 export default ProductsPage;
+
+export const Head = () => (
+  <>
+  <html lang="en" />
+  <meta charSet="utf-8" />
+  <title>
+    Products - Brushella
+  </title>
+  </>)
+  
 
 export const query = graphql`
   {
