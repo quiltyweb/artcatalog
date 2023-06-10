@@ -35,4 +35,4 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ children }): React.React
   );
 };
 
-export default Layout;
+export default Layout;  

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'gatsby';
+import SEO from '../components/SEO';
 
 // styles
 const pageStyles = {
@@ -51,11 +52,9 @@ const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default NotFoundPage;
 
-export const Head = () => (
-  <>
-  <html lang="en" />
-  <meta charSet="utf-8" />
-  <title>
-    Page Not Found - Brushella
-  </title>
-  </>)
+export const Head = ({ location }) => (
+  <SEO>
+    <title id="title">Page not found - Brushella - 404</title>
+    <meta id="description" name="description" content="Page not found at brushella.com.au" />
+  </SEO>
+);

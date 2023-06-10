@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 import { Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
+import SEO from '../components/SEO';
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <Layout>
@@ -12,11 +13,10 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default IndexPage;
 
-export const Head = () => (
-<>
-<html lang="en" />
-<meta charSet="utf-8" />
-<title>
-  Welcome to Brushella - All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting
-</title>
-</>)
+export const Head = ({ location }) => (
+  <SEO>
+    <title id="title">Welcome to Brushella - Homepage</title>
+    <meta id="description" name="description" content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting" />
+    <meta id="twitter-og" name="twitter:url" content={`https://www.brushella.com.au/${location.pathname}`}/>
+  </SEO>
+);

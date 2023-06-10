@@ -22,11 +22,10 @@ describe('Layout', () => {
       },
     }));
     render(
-      <Layout helmetPageTitle="hello I'm a page title">
+      <Layout>
         <p>some content children</p>
       </Layout>
     );
-    await waitFor(() => expect(document.title).toEqual("hello I'm a page title | Site Title"));
     screen.getByRole('heading', { name: 'Site Title' });
     screen.getByRole('link', { name: 'Home' });
     screen.getByRole('link', { name: 'About' });

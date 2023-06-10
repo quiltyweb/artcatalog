@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, Button } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { useCartContext } from '../context/CartContext';
+import SEO from '../components/SEO';
 
 const CartPage: React.FunctionComponent = (): React.ReactElement => {
   const { cart, deleteItemFromCart } = useCartContext();
@@ -35,13 +36,11 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
   );
 };
 
-export const Head = () => (
-  <>
-  <html lang="en" />
-  <meta charSet="utf-8" />
-  <title>
-    My Cart - Brushella Store
-  </title>
-  </>)
-
 export default CartPage;
+
+export const Head = () => (
+  <SEO>
+    <title id="title">My Cart - Brushella</title>
+    <meta id="description" name="description" content="Brushella shopping cart" />
+  </SEO>
+);

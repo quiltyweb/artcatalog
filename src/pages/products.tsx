@@ -3,6 +3,7 @@ import { Link, graphql } from 'gatsby';
 import { Heading, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
   <Layout>
@@ -43,14 +44,13 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
 
 export default ProductsPage;
 
-export const Head = () => (
-  <>
-  <html lang="en" />
-  <meta charSet="utf-8" />
-  <title>
-    Products - Brushella
-  </title>
-  </>)
+export const Head = ({ location }) => (
+  <SEO>
+    <title id="title">Gallery - Brushella</title>
+    <meta id="description" name="description" content="Gallery of Art" />
+    <meta id="twitter-og" name="twitter:url" content={`https://www.brushella.com.au/${location.pathname}`}/>
+  </SEO>
+);
   
 
 export const query = graphql`
