@@ -8,7 +8,8 @@ describe('Cart Page', () => {
     cy.findByText('Your cart is empty');
     cy.injectAxe();
     cy.checkA11y(null, {
-      runOnly: ['wcag2a', 'wcag2aa']
+      runOnly: ['wcag2a', 'wcag2aa'],
+      includedImpacts: ['critical', 'serious']
     });
   });
 

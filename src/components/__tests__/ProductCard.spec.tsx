@@ -1,8 +1,6 @@
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import ProductCard from '../ProductCard';
-import { CartProvider } from '../../context/CartContext';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -47,6 +45,7 @@ describe('ProductCard', () => {
     screen.getByAltText('Bamboo coaster with sequin center and resine and square rounded borders');
     expect(screen.queryByLabelText('Quantity')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Add to cart' })).not.toBeInTheDocument();
+
   });
 
   it('renders correctly when isFullWidth is true', async () => {

@@ -5,25 +5,21 @@ async function turnProductsIntoPages({ graphql, actions }) {
 
   const result = await graphql(`
     query {
-      allShopifyProduct(sort: { fields: [title] }) {
+      allShopifyProduct(sort: {title: ASC}) {
         edges {
           node {
             id
-            title
-            images {
-              originalSrc
-            }
-            shopifyId
             handle
+            title
+            shopifyId
             description
             priceRangeV2 {
               maxVariantPrice {
                 amount
                 currencyCode
               }
-            }
+            }            
             featuredImage {
-              id
               altText
               gatsbyImageData(height: 460, width: 564, placeholder: BLURRED, layout: CONSTRAINED)
             }
@@ -68,7 +64,6 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
                 }
               }
               featuredImage {
-                id
                 altText
                 gatsbyImageData(height: 460, width: 564)
               }

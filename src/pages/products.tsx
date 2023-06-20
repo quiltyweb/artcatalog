@@ -3,9 +3,10 @@ import { Link, graphql } from 'gatsby';
 import { Heading, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 
 const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
-  <Layout helmetPageTitle="Products">
+  <Layout>
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
@@ -43,6 +44,15 @@ const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElemen
 
 export default ProductsPage;
 
+export const Head = ({ location }) => (
+  <SEO>
+    <title id="title">Gallery - Brushella</title>
+    <meta id="description" name="description" content="Gallery of Art" />
+    <meta id="twitter-og" name="twitter:url" content={`https://www.brushella.com.au/${location.pathname}`}/>
+  </SEO>
+);
+  
+
 export const query = graphql`
   {
     allShopifyProduct(sort: { fields: [publishedAt], order: ASC }) {
@@ -60,7 +70,6 @@ export const query = graphql`
             }
           }
           featuredImage {
-            id
             altText
             gatsbyImageData(width: 910, height: 910)
           }
