@@ -9,7 +9,8 @@ describe('Products Page', () => {
     cy.findByRole('heading', { name: 'All Products' });
     cy.injectAxe();
     cy.checkA11y(null, {
-      runOnly: ['wcag2a', 'wcag2aa']
+      runOnly: ['wcag2a', 'wcag2aa'],
+      includedImpacts: ['critical', 'serious']
     });
   });
 

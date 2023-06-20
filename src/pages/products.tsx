@@ -70,7 +70,6 @@ export const query = graphql`
             }
           }
           featuredImage {
-            id
             altText
             gatsbyImageData(width: 910, height: 910)
           }
