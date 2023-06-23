@@ -1,5 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { CartProvider } from './src/context/CartContext';
+import { CartProvider } from "./src/context/CartContext";
 
-export const wrapPageElement = ({ element }) => <CartProvider>{element}</CartProvider>;
+export const wrapPageElement = ({ element }) => (
+  <CartProvider>{element}</CartProvider>
+);

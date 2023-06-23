@@ -1,11 +1,13 @@
-import * as React from 'react';
-import { Link, graphql } from 'gatsby';
-import { Heading, Text } from '@chakra-ui/react';
-import Layout from '../components/Layout';
-import ProductCard from '../components/ProductCard';
-import SEO from '../components/SEO';
+import * as React from "react";
+import { Link, graphql } from "gatsby";
+import { Heading, Text } from "@chakra-ui/react";
+import Layout from "../components/Layout";
+import ProductCard from "../components/ProductCard";
+import SEO from "../components/SEO";
 
-const ProductsPage: React.FunctionComponent<any> = ({ data }): React.ReactElement => (
+const ProductsPage: React.FunctionComponent<any> = ({
+  data,
+}): React.ReactElement => (
   <Layout>
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
@@ -48,10 +50,13 @@ export const Head = ({ location }) => (
   <SEO>
     <title id="title">Gallery - Brushella</title>
     <meta id="description" name="description" content="Gallery of Art" />
-    <meta id="twitter-og" name="twitter:url" content={`https://www.brushella.com.au/${location.pathname}`}/>
+    <meta
+      id="twitter-og"
+      name="twitter:url"
+      content={`https://www.brushella.com.au/${location.pathname}`}
+    />
   </SEO>
 );
-  
 
 export const query = graphql`
   {

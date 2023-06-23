@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 type DeleteItemFromCartProps = {
   id: string;
@@ -45,7 +45,9 @@ class CartProvider extends React.Component<Props, State> {
       const isItemInCart = currentCart.some((item) => item.id === id);
       if (isItemInCart) {
         const cartWithUpdatedItem = currentCart.map((cartItem) =>
-          cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
+          cartItem.id === id
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem
         );
         return { cart: cartWithUpdatedItem };
       }

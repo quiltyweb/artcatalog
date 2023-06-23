@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'gatsby';
-import { Box } from '@chakra-ui/react';
-import Layout from '../components/Layout';
-import ProductCard from '../components/ProductCard';
+import React from "react";
+import { Link } from "gatsby";
+import { Box } from "@chakra-ui/react";
+import Layout from "../components/Layout";
+import ProductCard from "../components/ProductCard";
 
 const ProductTemplate = ({ pageContext }) => {
   const { product } = pageContext;

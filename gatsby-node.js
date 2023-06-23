@@ -5,7 +5,7 @@ async function turnProductsIntoPages({ graphql, actions }) {
 
   const result = await graphql(`
     query {
-      allShopifyProduct(sort: {title: ASC}) {
+      allShopifyProduct(sort: { title: ASC }) {
         edges {
           node {
             id
@@ -18,10 +18,15 @@ async function turnProductsIntoPages({ graphql, actions }) {
                 amount
                 currencyCode
               }
-            }            
+            }
             featuredImage {
               altText
-              gatsbyImageData(height: 460, width: 564, placeholder: BLURRED, layout: CONSTRAINED)
+              gatsbyImageData(
+                height: 460
+                width: 564
+                placeholder: BLURRED
+                layout: CONSTRAINED
+              )
             }
           }
         }
@@ -86,5 +91,8 @@ async function turnCollectionsIntoPages({ graphql, actions }) {
 }
 
 exports.createPages = async (params) => {
-  await Promise.all([turnProductsIntoPages(params), turnCollectionsIntoPages(params)]);
+  await Promise.all([
+    turnProductsIntoPages(params),
+    turnCollectionsIntoPages(params),
+  ]);
 };
