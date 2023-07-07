@@ -1,14 +1,6 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import {
-  Container,
-  Flex,
-  Box,
-  Heading,
-  Spacer,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Heading, Spacer, Grid, GridItem } from "@chakra-ui/react";
 import Nav from "./Nav";
 
 type LayoutProps = {
@@ -42,15 +34,23 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       fontWeight="normal"
     >
       <GridItem color="black" pl="2" bg="#F4F4F4" area={"header"}>
+        <Heading as="h1" size="md">
+          {data.site.siteMetadata.title}
+        </Heading>
+        <Spacer />
         <Nav />
       </GridItem>
 
-      <GridItem color="black" pl="2" bg="white" area={"main"}>
+      <GridItem as="main" color="black" pl="2" bg="white" area={"main"}>
         {children}
       </GridItem>
 
-      <GridItem color="black" pl="2" bg="white" area={"footer"}>
-        Footer Footer Footer Footer
+      <GridItem as="footer" color="black" pl="2" bg="white" area={"footer"}>
+        Refunds & Returns | Privacy Policy | Terms Of Service | FAQs
+        <Spacer />
+        © 2023, Brushella Art & decor Powered by Shopify
+        <Spacer />
+        Facebook | Instagram | WhatsApp
       </GridItem>
     </Grid>
   );

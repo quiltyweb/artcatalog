@@ -15,9 +15,15 @@ describe("Home page", () => {
 
   it("renders top menu", () => {
     cy.get("main");
+    cy.findByRole("heading", { name: "Art Catalog 1.0" });
     cy.findByRole("link", { name: "Home" });
     cy.findByRole("link", { name: "About" });
     cy.findByRole("link", { name: "Products" });
     cy.findByRole("link", { name: /My Cart/ });
+  });
+
+  it("renders footer", () => {
+    cy.get("footer");
+    cy.findByText(/© 2023, Brushella Art & decor Powered by Shopify/);
   });
 });

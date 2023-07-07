@@ -32,5 +32,6 @@ describe("Layout", () => {
     screen.getByRole("link", { name: "Products" });
     screen.getByRole("link", { name: /My Cart/ });
     screen.getByText("some content children");
+    screen.getByText(/© 2023, Brushella Art & decor Powered by Shopify/);
   });
 });
