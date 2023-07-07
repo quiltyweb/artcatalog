@@ -1,14 +1,13 @@
 import * as React from "react";
 import { Link, graphql } from "gatsby";
 import { Heading, Text } from "@chakra-ui/react";
-import Layout from "../components/Layout";
 import ProductCard from "../components/ProductCard";
 import SEO from "../components/SEO";
 
 const ProductsPage: React.FunctionComponent<any> = ({
   data,
 }): React.ReactElement => (
-  <Layout>
+  <>
     {data.allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
@@ -41,7 +40,7 @@ const ProductsPage: React.FunctionComponent<any> = ({
     ) : (
       <Text>There are no products available</Text>
     )}
-  </Layout>
+  </>
 );
 
 export default ProductsPage;

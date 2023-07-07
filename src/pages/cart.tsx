@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Text, Button } from "@chakra-ui/react";
-import Layout from "../components/Layout";
 import { useCartContext } from "../context/CartContext";
 import SEO from "../components/SEO";
 
@@ -8,7 +7,7 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
   const { cart, deleteItemFromCart } = useCartContext();
 
   return (
-    <Layout>
+    <>
       {cart.length !== 0 ? (
         <>
           <Text>Your items:</Text>
@@ -32,7 +31,7 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
       )}
 
       <Button>Go to Checkout</Button>
-    </Layout>
+    </>
   );
 };
 

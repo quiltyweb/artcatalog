@@ -16,19 +16,8 @@
   "plugins": ["@typescript-eslint", "cypress"],
   "rules": {
     "no-console": 2,
-    "react/jsx-filename-extension": [
-      1,
-      { "extensions": [".tsx", ".ts", ".js"] }
-    ],
+    "react/jsx-filename-extension": "off",
     "react/prop-types": [0],
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "es5",
-        "singleQuote": true,
-        "printWidth": 120
-      }
-    ],
     "jest/expect-expect": "off"
   },
   "settings": {

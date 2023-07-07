@@ -1,6 +1,14 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import { Container, Flex, Box, Heading, Spacer } from "@chakra-ui/react";
+import {
+  Container,
+  Flex,
+  Box,
+  Heading,
+  Spacer,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import Nav from "./Nav";
 
 type LayoutProps = {
@@ -22,26 +30,29 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   `);
 
   return (
-    <Container as="main" maxW="container.lg">
-      <Flex
-        as="nav"
-        align="center"
-        justify="space-between"
-        wrap="wrap"
-        w="100%"
-        mb={8}
-        p={8}
-      >
-        <Box p="2">
-          <Heading as="h1" size="md">
-            {data.site.siteMetadata.title}
-          </Heading>
-        </Box>
-        <Spacer />
+    <Grid
+      gridTemplateRows={"auto"}
+      gridTemplateColumns={"1fr 1fr 1fr 1fr"}
+      templateAreas={`"header header header header"
+                      "main main main main"
+                      "footer footer footer footer"`}
+      gap="1"
+      backgroundColor={"white"}
+      color="black"
+      fontWeight="normal"
+    >
+      <GridItem color="black" pl="2" bg="#F4F4F4" area={"header"}>
         <Nav />
-      </Flex>
-      {children}
-    </Container>
+      </GridItem>
+
+      <GridItem color="black" pl="2" bg="white" area={"main"}>
+        {children}
+      </GridItem>
+
+      <GridItem color="black" pl="2" bg="white" area={"footer"}>
+        Footer Footer Footer Footer
+      </GridItem>
+    </Grid>
   );
 };
 
