@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Icon, Text, Stack } from '@chakra-ui/react';
-import { FaShoppingBag } from 'react-icons/fa';
-import { Link } from 'gatsby';
-import { useCartContext } from '../context/CartContext';
+import * as React from "react";
+import { Icon, Text, Stack } from "@chakra-ui/react";
+import { FaShoppingBag } from "react-icons/fa";
+import { Link } from "gatsby";
+import { useCartContext } from "../context/CartContext";
 
 const Nav: React.FunctionComponent = (): React.ReactElement => {
   const { cart } = useCartContext();
@@ -11,8 +11,8 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
     <Stack
       spacing={8}
       align="center"
-      justify={['center', 'space-between', 'flex-end', 'flex-end']}
-      direction={['column', 'row', 'row', 'row']}
+      justify={["center", "space-between", "flex-end", "flex-end"]}
+      direction={["column", "row", "row", "row"]}
       pt={[4, 4, 0, 0]}
     >
       <Link to="/">
@@ -27,7 +27,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
       <Link to="/cart">
         <Text display="block">
           <Icon as={FaShoppingBag} />
-          {`My Cart (${cartCount} ${cartCount > 1 ? 'items' : 'item'})`}
+          {`My Cart (${cartCount} ${cartCount > 1 ? "items" : "item"})`}
         </Text>
       </Link>
     </Stack>
