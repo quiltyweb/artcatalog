@@ -7,9 +7,8 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <>
     <Text>Home Page is Work in progress</Text>
     <StaticImage
-      style={{ filter: "grayscale(1)" }}
-      alt="acrylic paint texture"
-      src="../images/brushella-texture.jpg"
+      alt="brushella collection heart"
+      src="../images/slider/slider-item-1.png"
     />
     <Heading as="h1" size="md">
       Featured Works
