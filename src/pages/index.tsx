@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Text } from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
@@ -11,6 +11,12 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       alt="acrylic paint texture"
       src="../images/brushella-texture.jpg"
     />
+    <Heading as="h1" size="md">
+      Featured Works
+    </Heading>
+    <Text>image 1</Text>
+    <Text>image 2</Text>
+    <Text>image 3</Text>
   </>
 );
 
