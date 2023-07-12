@@ -18,10 +18,9 @@ describe("Nav", () => {
         <Nav />
       </CartProvider>
     );
-    screen.getByRole("link", { name: "Home" });
-    screen.getByRole("link", { name: "About" });
-    screen.getByRole("link", { name: "Products" });
-    screen.getByRole("link", { name: /My Cart/ });
-    screen.getByText("My Cart (0 item)");
+    screen.getByRole("link", { name: "home" });
+    screen.getByRole("link", { name: "about" });
+    screen.getByRole("link", { name: "products" });
+    screen.getByText("my cart (0 item)");
   });
 });

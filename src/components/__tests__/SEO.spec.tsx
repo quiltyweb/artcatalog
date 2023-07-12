@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import SEO from "../SEO";
 
 beforeEach(() => {
@@ -11,12 +12,12 @@ afterEach(() => {
 });
 
 describe("SEO", () => {
-  it("render childrens correctly", async () => {
-    render(
+  it("render children correctly", async () => {
+    const { asFragment } = render(
       <SEO>
         <div>Text for SEO</div>
       </SEO>
     );
-    screen.getByText("Text for SEO");
+    expect(asFragment()).toMatchSnapshot();
   });
 });
