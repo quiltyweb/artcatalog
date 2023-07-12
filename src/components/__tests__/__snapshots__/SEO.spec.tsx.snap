@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SEO render children correctly 1`] = `
+<DocumentFragment>
+  <title
+    id="title"
+  >
+    Brushella.com.au - Welcome
+  </title>
+  <meta
+    content="Brushella store offers original paintings, art decor, crafts, clothing and more"
+    id="description"
+    name="description"
+  />
+  <div>
+    Text for SEO
+  </div>
+</DocumentFragment>
+`;

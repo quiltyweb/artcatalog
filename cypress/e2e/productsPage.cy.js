@@ -3,19 +3,27 @@ describe("Products Page", () => {
     cy.visit("/");
   });
 
-  it("Navigates from home to Products page and checks for accessibility violations", () => {
-    cy.findByText("Products").click();
-    cy.findByRole("heading", { name: "Brushella Collections" });
-    cy.findByRole("heading", { name: "All Products" });
+  it("checks for accessibility violations", () => {
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
   });
+  it("Navigates from home to Products page ", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
+    cy.findByRole("heading", { name: "Brushella Collections" });
+    cy.findByRole("heading", { name: "All Products" });
+  });
 
   it("Renders single product page when click on a product item", () => {
-    cy.findByText("Products").click();
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
     cy.get("#brushella-single-product-container").within(() => {
@@ -26,7 +34,10 @@ describe("Products Page", () => {
   });
 
   it("Goes back from single product to all products page when click on back button", () => {
-    cy.findByText("Products").click();
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.get("#brushella-all-products-list li a").first().click();
     cy.get("#brushella-single-product-container").within(() => {
       cy.findByRole("link", { name: "Back to Product List" }).click();
@@ -35,7 +46,10 @@ describe("Products Page", () => {
   });
 
   it("Renders single collection page with its products", () => {
-    cy.findByText("Products").click();
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByRole("heading", { name: "Brushella Collections" });
     cy.get("#brushella-all-collections-list li a").first().click();
     cy.get("#brushella-single-collection-container").within(() => {
@@ -47,7 +61,10 @@ describe("Products Page", () => {
   });
 
   it("Goes back from single collection to all products page", () => {
-    cy.findByText("Products").click();
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.get("#brushella-all-collections-list li a").first().click();
     cy.get("#brushella-single-collection-container").within(() => {
       cy.findByRole("link", { name: "Back to Product List" }).click();

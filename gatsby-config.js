@@ -27,5 +27,13 @@ module.exports = {
         shopifyConnections: ["collections"],
       },
     },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /svg/,
+        },
+      },
+    },
   ],
 };

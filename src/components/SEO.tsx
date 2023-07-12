@@ -10,11 +10,12 @@ const SEO: React.FunctionComponent<SEOProps> = ({
   return (
     <>
       <html lang="en" />
-      <title id="title">Brushella.com.au - welcome</title>
+      <body className="brushella" />
+      <title id="title">Brushella.com.au - Welcome</title>
       <meta
         id="description"
         name="description"
-        content="Brushella store offers art decor, crafts, clothing"
+        content="Brushella store offers original paintings, art decor, crafts, clothing and more"
       />
       {children}
     </>

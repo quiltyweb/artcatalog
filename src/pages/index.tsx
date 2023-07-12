@@ -1,16 +1,21 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Text } from "@chakra-ui/react";
+import { Heading, Text, Button } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <>
-    <Text>Home Page is Work in progress</Text>
     <StaticImage
-      style={{ filter: "grayscale(1)" }}
-      alt="acrylic paint texture"
-      src="../images/brushella-texture.jpg"
+      alt="brushella collection heart"
+      src="../images/slider/slider-item-1.png"
     />
+    <Button>explore my collections</Button>
+    <Heading as="h1" size="md">
+      Featured Works
+    </Heading>
+    <Text>placeholder text for featured image 1</Text>
+    <Text>placeholder text for featured image 2</Text>
+    <Text>placeholder text for featured image 3</Text>
   </>
 );
 
