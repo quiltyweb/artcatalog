@@ -22,6 +22,11 @@ describe("IndexPage", () => {
       },
     }));
     render(<IndexPage />);
-    screen.getByText("Home Page is Work in progress");
+    screen.getByRole("button", { name: "explore my collections" });
+    screen.getByAltText("brushella collection heart");
+    screen.getByRole("heading", { name: "Featured Works" });
+    screen.getByText("placeholder text for featured image 1");
+    screen.getByText("placeholder text for featured image 2");
+    screen.getByText("placeholder text for featured image 3");
   });
 });

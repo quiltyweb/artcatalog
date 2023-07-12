@@ -59,6 +59,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       fontWeight="normal"
     >
       <GridItem
+        as="nav"
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
@@ -80,7 +81,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             <DrawerHeader>
               <LogoImage
                 alt={data.site.siteMetadata.title + " logo"}
-                title={data.site.siteMetadata.title}
+                title={data.site.siteMetadata.title + " logo"}
               />
             </DrawerHeader>
             <DrawerBody>
@@ -92,11 +93,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         <Link to="/">
           <LogoImage
             alt={data.site.siteMetadata.title + " logo"}
-            title={data.site.siteMetadata.title}
+            title={data.site.siteMetadata.title + " logo"}
           />
         </Link>
 
-        <Link to="/cart">
+        <Link to="/cart" aria-label="cart">
           <Text display="block">
             <Icon
               viewBox="0 0 25 29"
@@ -104,7 +105,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               width="25"
               height="29"
               fill="none"
-              aria-label="cart"
             >
               <path
                 fill="#000"

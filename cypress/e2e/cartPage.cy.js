@@ -3,9 +3,7 @@ describe("Cart Page", () => {
     cy.visit("/");
   });
 
-  it("Navigates from home to Cart page and checks for accessibility violations", () => {
-    cy.findByText("My Cart (0 item)").click();
-    cy.findByText("Your cart is empty");
+  it("checks for accessibility violations", () => {
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -13,47 +11,108 @@ describe("Cart Page", () => {
     });
   });
 
-  it("when a product is added to cart, list and cart counter of products gets updated", () => {
-    cy.findByText("Products").click();
+  it("Navigates from home to Cart page", () => {
+    cy.findByRole("link", { name: "cart" }).click();
+    cy.findByText("Your cart is empty");
+  });
+
+  it("when a product is added to cart, cart list gets updated", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
     cy.get("#brushella-single-product-container").within(() => {
       cy.get("#quantity-increment").click();
       cy.findByRole("button", { name: "Add to cart" }).click();
     });
-    cy.findByText(/My Cart/).click();
+    cy.findByRole("link", { name: "cart" }).click();
     cy.findByText("Your items:");
     cy.get("main ul li").should("have.length", 1);
     cy.findByText(/Quantity: 1 - Product:/);
     cy.findByRole("button", { name: "delete" });
   });
 
-  it("when a product is removed from cart, list and cart counter of products gets updated", () => {
-    cy.findByText("Products").click();
+  it("when a product is added to cart, cart counter of products gets updated", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
     cy.get("#brushella-single-product-container").within(() => {
       cy.get("#quantity-increment").click();
       cy.findByRole("button", { name: "Add to cart" }).click();
     });
-    cy.findByText(/My Cart/).click(); // TODO: or TYPE as well.
+
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("my cart (1 item)").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
+    cy.findByText("(1)");
+  });
+
+  it("when a product is removed from cart, cart list gets updated", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
+    cy.findByRole("heading", { name: "All Products" });
+    cy.get("#brushella-all-products-list li a").first().click();
+    cy.get("#brushella-single-product-container").within(() => {
+      cy.get("#quantity-increment").click();
+      cy.findByRole("button", { name: "Add to cart" }).click();
+    });
+
+    cy.findByRole("link", { name: "cart" }).click();
+
+    cy.findByText("Your items:");
+    cy.get("main ul li").should("have.length", 1);
+
+    cy.findByRole("button", { name: "delete" }).click();
+    cy.findByText("Your cart is empty");
+  });
+
+  it("when a product is removed from cart, cart counter of products gets updated", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
+    cy.findByRole("heading", { name: "All Products" });
+    cy.get("#brushella-all-products-list li a").first().click();
+    cy.get("#brushella-single-product-container").within(() => {
+      cy.get("#quantity-increment").click();
+      cy.findByRole("button", { name: "Add to cart" }).click();
+    });
+
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("my cart (1 item)").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByText("Your items:");
     cy.get("main ul li").should("have.length", 1);
     cy.findByRole("button", { name: "delete" }).click();
     cy.findByText("Your cart is empty");
-    cy.findByText("My Cart (0 item)");
+    cy.findByText("(0)");
+
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("my cart (0 item)");
   });
 
-  // TODO: complete this test
-  it("navigates from Cart to Checkout page", () => {
-    cy.findByText("Products").click();
+  it("When there are products in the cart it enables Checkout button", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByText("products").click();
+    cy.findByRole("button", { name: "Close" }).click();
+
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
     cy.get("#brushella-single-product-container").within(() => {
       cy.get("#quantity-increment").click();
       cy.findByRole("button", { name: "Add to cart" }).click();
     });
-    cy.findByText(/My Cart/).click();
+
+    cy.findByRole("link", { name: "cart" }).click();
     cy.findByText(/Quantity: 1 - Product:/);
     cy.findByRole("button", { name: "Go to Checkout" });
   });

@@ -3,14 +3,18 @@ describe("About page", () => {
     cy.visit("/");
   });
 
-  it("Navigates from home to About page and checks for accessibility violations", () => {
-    cy.findByText("Home Page is Work in progress");
-    cy.findByText("About").click();
-    cy.findByText("About me page is Work in progress");
+  it("checks for accessibility violations", () => {
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
+  });
+
+  it("Navigates from home to About page correctly", () => {
+    cy.findByRole("button", { name: "explore my collections" });
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByRole("link", { name: "about" }).click();
+    cy.findByText("About me page is Work in progress");
   });
 });

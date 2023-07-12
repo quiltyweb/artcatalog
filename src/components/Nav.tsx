@@ -18,7 +18,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
       <Link to="/">home</Link>
       <Link to="/about">about</Link>
       <Link to="/products">products</Link>
-      <Link to="/cart">
+      <Link to="/cart" aria-label="cart">
         <Icon as={FaShoppingBag} />
         {`my cart (${cartCount} ${cartCount > 1 ? "items" : "item"})`}
       </Link>
