@@ -31,12 +31,12 @@ describe("Home page", () => {
 
   it("renders main area", () => {
     cy.get("main");
-    cy.findByRole("button", { name: "explore my collections" });
+    cy.findByRole("button", { name: "explore all collections" });
     cy.findByAltText("brushella collection heart");
     cy.findByRole("heading", { name: "featured collections" });
-    cy.findByText("placeholder text for featured image 1");
-    cy.findByText("placeholder text for featured image 2");
-    cy.findByText("placeholder text for featured image 3");
+    cy.findByAltText("original paintings");
+    cy.findByAltText("prints");
+    cy.findByAltText("home decor");
   });
 
   it("renders footer", () => {

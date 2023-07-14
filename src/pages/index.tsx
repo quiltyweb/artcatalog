@@ -49,9 +49,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
         lineHeight="normal"
         noOfLines={1}
         color="white"
-        backgroundColor="#698F9B"
+        backgroundColor="#86548A"
       >
-        original art
+        original paintings
       </Box>
     </Box>
 
@@ -76,7 +76,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
         lineHeight="normal"
         noOfLines={1}
         color="white"
-        backgroundColor="#698F9B"
+        backgroundColor="#86548A"
       >
         prints
       </Box>
@@ -103,7 +103,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
         lineHeight="normal"
         noOfLines={1}
         color="white"
-        backgroundColor="#698F9B"
+        backgroundColor="#86548A"
       >
         home decor
       </Box>
