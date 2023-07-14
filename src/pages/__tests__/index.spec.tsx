@@ -25,8 +25,11 @@ describe("IndexPage", () => {
     screen.getByRole("button", { name: "explore all collections" });
     screen.getByAltText("brushella collection heart");
     screen.getByRole("heading", { name: "featured collections" });
+    screen.getByAltText("home decor");
+    screen.getByAltText("prints");
+    screen.getByAltText("original paintings");
     screen.getByText("home decor");
     screen.getByText("prints");
-    screen.getByText("original art");
+    screen.getByText("original paintings");
   });
 });
