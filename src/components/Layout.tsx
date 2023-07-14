@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import {
-  Spacer,
   Grid,
   GridItem,
   Text,
@@ -16,9 +15,10 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import Nav from "./Nav";
-import LogoImage from "../images/svg/logo-black-brushella.svg";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useCartContext } from "../context/CartContext";
+import Footer from "./Footer";
+import LogoImage from "../images/svg/logo-black-brushella.svg";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -126,35 +126,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         {children}
       </GridItem>
 
-      <GridItem
-        as="footer"
-        color="black"
-        bg="white"
-        area={"footer"}
-        justifySelf="center"
-      >
-        <Link to="/about">Refunds & Returns</Link>|
-        <Link to="/about">Privacy Policy</Link>|
-        <Link to="/about">Terms Of Service</Link>|<Link to="/about">FAQs</Link>
-        |
-        <Spacer />
-        <Link to="https://www.facebook.com/Brushella" target="_blank">
-          Facebook
-        </Link>
-        |
-        <Link
-          to="https://www.instagram.com/brushella_brushmaster/"
-          target="_blank"
-        >
-          Instagram
-        </Link>
-        <Link
-          to="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
-          target="_blank"
-        >
-          WhatsApp
-        </Link>
-        <Spacer />© 2023, Brushella Art & decor Powered by Shopify
+      <GridItem as="footer" area={"footer"} justifySelf="center">
+        <Footer />
       </GridItem>
     </Grid>
   );
