@@ -22,11 +22,11 @@ describe("IndexPage", () => {
       },
     }));
     render(<IndexPage />);
-    screen.getByRole("button", { name: "explore my collections" });
+    screen.getByRole("button", { name: "explore all collections" });
     screen.getByAltText("brushella collection heart");
-    screen.getByRole("heading", { name: "Featured Works" });
-    screen.getByText("placeholder text for featured image 1");
-    screen.getByText("placeholder text for featured image 2");
-    screen.getByText("placeholder text for featured image 3");
+    screen.getByRole("heading", { name: "featured collections" });
+    screen.getByText("home decor");
+    screen.getByText("prints");
+    screen.getByText("original art");
   });
 });

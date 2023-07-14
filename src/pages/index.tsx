@@ -1,21 +1,113 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Heading, Text, Button } from "@chakra-ui/react";
+import { Heading, Button, Box } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <>
-    <StaticImage
-      alt="brushella collection heart"
-      src="../images/slider/slider-item-1.png"
-    />
-    <Button>explore my collections</Button>
+    <Box
+      maxW="xs"
+      borderWidth="1px"
+      borderRadius="md"
+      overflow="hidden"
+      marginBottom={5}
+      display={"flex"}
+      flexFlow={"column"}
+      alignContent={"center"}
+    >
+      <StaticImage
+        alt="brushella collection heart"
+        src="../images/slider/slider1.png"
+      />
+      <Button m="6" backgroundColor={"#2A5F71"} color="white">
+        explore all collections
+      </Button>
+    </Box>
+
     <Heading as="h1" size="md">
-      Featured Works
+      featured collections
     </Heading>
-    <Text>placeholder text for featured image 1</Text>
-    <Text>placeholder text for featured image 2</Text>
-    <Text>placeholder text for featured image 3</Text>
+
+    <Box
+      maxW="xs"
+      borderWidth="1px"
+      borderRadius="md"
+      overflow="hidden"
+      marginBottom={5}
+    >
+      <StaticImage
+        alt="original paintings"
+        src="../images/collections-thumbnail/originals.png"
+        objectFit="fill"
+        imgStyle={{ filter: "grayscale(1)" }}
+      />
+      <Box
+        as="h4"
+        p="7"
+        fontSize={"1.2rem"}
+        fontWeight="medium"
+        lineHeight="normal"
+        noOfLines={1}
+        color="white"
+        backgroundColor="#698F9B"
+      >
+        original art
+      </Box>
+    </Box>
+
+    <Box
+      maxW="xs"
+      borderWidth="1px"
+      borderRadius="md"
+      overflow="hidden"
+      marginBottom={5}
+    >
+      <StaticImage
+        alt="prints"
+        src="../images/collections-thumbnail/prints.png"
+        objectFit="fill"
+        imgStyle={{ filter: "grayscale(1)" }}
+      />
+      <Box
+        as="h4"
+        p="7"
+        fontSize={"1.2rem"}
+        fontWeight="medium"
+        lineHeight="normal"
+        noOfLines={1}
+        color="white"
+        backgroundColor="#698F9B"
+      >
+        prints
+      </Box>
+    </Box>
+
+    <Box
+      maxW="xs"
+      borderWidth="1px"
+      borderRadius="md"
+      overflow="hidden"
+      marginBottom={5}
+    >
+      <StaticImage
+        alt="home decor"
+        src="../images/collections-thumbnail/homedecor.png"
+        objectFit="fill"
+        imgStyle={{ filter: "grayscale(1)" }}
+      />
+      <Box
+        as="h4"
+        p="7"
+        fontSize={"1.2rem"}
+        fontWeight="medium"
+        lineHeight="normal"
+        noOfLines={1}
+        color="white"
+        backgroundColor="#698F9B"
+      >
+        home decor
+      </Box>
+    </Box>
   </>
 );
 

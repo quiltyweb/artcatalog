@@ -33,7 +33,7 @@ describe("Home page", () => {
     cy.get("main");
     cy.findByRole("button", { name: "explore my collections" });
     cy.findByAltText("brushella collection heart");
-    cy.findByRole("heading", { name: "Featured Works" });
+    cy.findByRole("heading", { name: "featured collections" });
     cy.findByText("placeholder text for featured image 1");
     cy.findByText("placeholder text for featured image 2");
     cy.findByText("placeholder text for featured image 3");

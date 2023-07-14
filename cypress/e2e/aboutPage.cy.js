@@ -12,7 +12,7 @@ describe("About page", () => {
   });
 
   it("Navigates from home to About page correctly", () => {
-    cy.findByRole("button", { name: "explore my collections" });
+    cy.findByRole("button", { name: "explore all collections" });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: "about" }).click();
     cy.findByText("About me page is Work in progress");
