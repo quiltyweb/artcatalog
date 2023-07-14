@@ -13,6 +13,7 @@ afterEach(() => {
 describe("Footer", () => {
   it("renders correctly", async () => {
     render(<Footer />);
+    screen.getByRole("heading", { name: "quick links" });
     screen.getByRole("link", { name: "Refunds & Returns" });
     screen.getByRole("link", { name: "Privacy Policy" });
     screen.getByRole("link", { name: "Terms Of Service" });

@@ -37,7 +37,7 @@ describe("Layout", () => {
     const logos = screen.getAllByAltText("Site Title logo");
     expect(logos.length).toBe(1);
     screen.getByText("some content children");
-    screen.getByRole("footer");
+    screen.getByRole("heading", { name: "quick links" });
   });
 
   it("trigger mobile menu when clicking the menu button", async () => {

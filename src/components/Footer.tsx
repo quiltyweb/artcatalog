@@ -48,7 +48,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
             to="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
             target="_blank"
           >
-            <Icon boxSize="1.5rem" aria-label="whatsapp" as={FaWhatsapp} />
+            <Icon boxSize="1.5rem" aria-label="whatsApp" as={FaWhatsapp} />
           </Link>
         </Box>
       </HStack>
