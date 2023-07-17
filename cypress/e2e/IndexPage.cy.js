@@ -41,13 +41,14 @@ describe("Home page", () => {
 
   it("renders footer", () => {
     cy.get("footer");
+    cy.findByRole("heading", { name: "quick links" });
     cy.findByRole("link", { name: "Refunds & Returns" });
     cy.findByRole("link", { name: "Privacy Policy" });
     cy.findByRole("link", { name: "Terms Of Service" });
     cy.findByRole("link", { name: "FAQs" });
-    cy.findByRole("link", { name: "Facebook" });
-    cy.findByRole("link", { name: "Instagram" });
-    cy.findByRole("link", { name: "WhatsApp" });
+    cy.findByLabelText("facebook");
+    cy.findByLabelText("instagram");
+    cy.findByLabelText("whatsApp");
     cy.findByText(/© 2023, Brushella Art & decor Powered by Shopify/);
   });
 });

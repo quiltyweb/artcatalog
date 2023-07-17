@@ -86,11 +86,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           },
         }}
       >
-        <GatsbyImage
-          image={IMAGE}
-          alt={product.featuredImage.altText}
-          loading="eager"
-        />
+        <Link to={`/products/${product.handle}`}>
+          <GatsbyImage
+            image={IMAGE}
+            alt={product.featuredImage.altText}
+            loading="eager"
+          />
+        </Link>
       </Box>
       <Stack
         pl={isFullWidth ? "10" : "0"}
@@ -131,7 +133,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
-              <Button type="submit" colorScheme="purple">
+              <Button id="add" type="submit" colorScheme="purple">
                 Add to cart
               </Button>
             </Stack>
