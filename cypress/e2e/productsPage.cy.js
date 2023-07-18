@@ -10,7 +10,11 @@ describe("Products Page", () => {
       includedImpacts: ["critical", "serious"],
     });
   });
+
   it("Navigates from home to Products page ", () => {
+    cy.intercept("GET", "/page-data/products/page-data.json", {
+      fixture: "products.json",
+    });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByText("products").click();
     cy.findByRole("button", { name: "Close" }).click();
