@@ -1,0 +1,523 @@
+{
+  "componentChunkName": "component---src-pages-products-tsx",
+  "path": "/products/",
+  "result": {
+      "data": {
+          "allShopifyProduct": {
+              "edges": [
+                  {
+                      "node": {
+                          "id": "345e1ae7-3662-5fbd-a6d2-a3931a5fb862",
+                          "handle": "bamboo-coaster",
+                          "title": "FIXTURE Bamboo coaster",
+                          "storefrontId": "gid://shopify/Product/6699871797456",
+                          "description": "Nice bamboo coaster with sequin applications with a varnishing finish for home decor.",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 30,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": "Bamboo coaster with sequin center and resine and square rounded borders",
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_146x146_crop_center.png.webp?v=1627042696 146w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_291x291_crop_center.png.webp?v=1627042696 291w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png.webp?v=1627042696 582w",
+                                              "sizes": "(min-width: 582px) 582px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_146x146_crop_center.png?v=1627042696 146w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_291x291_crop_center.png?v=1627042696 291w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696 582w",
+                                          "sizes": "(min-width: 582px) 582px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "793025dc-ae76-5230-b72d-9e8a6776cb7b",
+                          "handle": "galactic-kitten",
+                          "title": "FIXTURE Galactic kitten",
+                          "storefrontId": "gid://shopify/Product/6699865931984",
+                          "description": "Super cute decorative Galactic kittens with magnet. Colors can be customizable!",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 10,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": "blue resine head of cat shape, with shiny finish and texture",
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_228x228_crop_center.png.webp?v=1627042746 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_455x455_crop_center.png.webp?v=1627042746 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_910x910_crop_center.png.webp?v=1627042746 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_910x910_crop_center.png?v=1627042746",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_228x228_crop_center.png?v=1627042746 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_455x455_crop_center.png?v=1627042746 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_910x910_crop_center.png?v=1627042746 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "833c75c3-f454-511c-8bb0-503cd2ba4bab",
+                          "handle": "pillow-case",
+                          "title": "FIXTURE pillow case",
+                          "storefrontId": "gid://shopify/Product/7913775464656",
+                          "description": "beautiful animal print pillow case",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_189x189_crop_center.jpg.webp?v=1689331582 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_379x379_crop_center.jpg.webp?v=1689331582 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_757x757_crop_center.jpg.webp?v=1689331582 757w",
+                                              "sizes": "(min-width: 757px) 757px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_757x757_crop_center.jpg?v=1689331582",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_189x189_crop_center.jpg?v=1689331582 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_379x379_crop_center.jpg?v=1689331582 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.19.47PM_757x757_crop_center.jpg?v=1689331582 757w",
+                                          "sizes": "(min-width: 757px) 757px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "e493b892-fe46-58e5-9f77-6ce96a7b9eaa",
+                          "handle": "beach-towel",
+                          "title": "FIXTURE beach towel",
+                          "storefrontId": "gid://shopify/Product/7913776316624",
+                          "description": "large beach towel",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_189x189_crop_center.jpg.webp?v=1689331719 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_379x379_crop_center.jpg.webp?v=1689331719 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_757x757_crop_center.jpg.webp?v=1689331719 757w",
+                                              "sizes": "(min-width: 757px) 757px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_757x757_crop_center.jpg?v=1689331719",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_189x189_crop_center.jpg?v=1689331719 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_379x379_crop_center.jpg?v=1689331719 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.17.45PM_757x757_crop_center.jpg?v=1689331719 757w",
+                                          "sizes": "(min-width: 757px) 757px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "c278ee6f-e8c0-5ed7-bbb3-e1c856b161a9",
+                          "handle": "heart",
+                          "title": "FIXTURE heart",
+                          "storefrontId": "gid://shopify/Product/7913777332432",
+                          "description": "original acrylic painting",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_191x191_crop_center.jpg.webp?v=1689331849 191w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_382x382_crop_center.jpg.webp?v=1689331849 382w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_764x764_crop_center.jpg.webp?v=1689331849 764w",
+                                              "sizes": "(min-width: 764px) 764px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_764x764_crop_center.jpg?v=1689331849",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_191x191_crop_center.jpg?v=1689331849 191w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_382x382_crop_center.jpg?v=1689331849 382w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_764x764_crop_center.jpg?v=1689331849 764w",
+                                          "sizes": "(min-width: 764px) 764px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "1301b5fb-952a-5498-aba3-c5c173782843",
+                          "handle": "galactic-kitten-magneto",
+                          "title": "FIXTURE galactic kitten magneto",
+                          "storefrontId": "gid://shopify/Product/7913777692880",
+                          "description": "the perfect gift",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_189x189_crop_center.jpg.webp?v=1689331895 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_379x379_crop_center.jpg.webp?v=1689331895 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_757x757_crop_center.jpg.webp?v=1689331895 757w",
+                                              "sizes": "(min-width: 757px) 757px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_757x757_crop_center.jpg?v=1689331895",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_189x189_crop_center.jpg?v=1689331895 189w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_379x379_crop_center.jpg?v=1689331895 379w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-07at9.18.46PM_1_757x757_crop_center.jpg?v=1689331895 757w",
+                                          "sizes": "(min-width: 757px) 757px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "7c4e17ea-16a7-561d-a131-d1e5e69e2847",
+                          "handle": "kitchen-cloths",
+                          "title": "FIXTURE kitchen cloths",
+                          "storefrontId": "gid://shopify/Product/7913778741456",
+                          "description": "for your kitchen",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_228x228_crop_center.jpg.webp?v=1689332069 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_455x455_crop_center.jpg.webp?v=1689332069 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_910x910_crop_center.jpg.webp?v=1689332069 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_910x910_crop_center.jpg?v=1689332069",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_228x228_crop_center.jpg?v=1689332069 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_455x455_crop_center.jpg?v=1689332069 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-19at2.08.04PM_910x910_crop_center.jpg?v=1689332069 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "d4d2ee09-22c5-5216-a502-9439385f91f2",
+                          "handle": "jungle",
+                          "title": "FIXTURE jungle",
+                          "storefrontId": "gid://shopify/Product/7913779364048",
+                          "description": "original painting",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_228x228_crop_center.jpg.webp?v=1689332177 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_455x455_crop_center.jpg.webp?v=1689332177 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_910x910_crop_center.jpg.webp?v=1689332177 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_910x910_crop_center.jpg?v=1689332177",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_228x228_crop_center.jpg?v=1689332177 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_455x455_crop_center.jpg?v=1689332177 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_910x910_crop_center.jpg?v=1689332177 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "a3e66693-ef10-5a49-963b-f0de8a72b5c3",
+                          "handle": "tucan",
+                          "title": "FIXTURE tucan",
+                          "storefrontId": "gid://shopify/Product/7913779986640",
+                          "description": "print",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_228x228_crop_center.jpg.webp?v=1689332279 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_455x455_crop_center.jpg.webp?v=1689332279 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_910x910_crop_center.jpg.webp?v=1689332279 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_910x910_crop_center.jpg?v=1689332279",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_228x228_crop_center.jpg?v=1689332279 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_455x455_crop_center.jpg?v=1689332279 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.56PM_1_910x910_crop_center.jpg?v=1689332279 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "c4487dd3-7e67-5e08-81e5-55e587087466",
+                          "handle": "tiger",
+                          "title": "FIXTURE tiger",
+                          "storefrontId": "gid://shopify/Product/7913780216016",
+                          "description": "print",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_228x228_crop_center.jpg.webp?v=1689332311 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_455x455_crop_center.jpg.webp?v=1689332311 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_910x910_crop_center.jpg.webp?v=1689332311 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_910x910_crop_center.jpg?v=1689332311",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_228x228_crop_center.jpg?v=1689332311 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_455x455_crop_center.jpg?v=1689332311 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.57PM_2_910x910_crop_center.jpg?v=1689332311 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "b84595c2-783d-5d96-a887-485f70cace45",
+                          "handle": "macumba",
+                          "title": "FIXTURE macumba",
+                          "storefrontId": "gid://shopify/Product/7913780314320",
+                          "description": "print",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_228x228_crop_center.jpg.webp?v=1689332329 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_455x455_crop_center.jpg.webp?v=1689332329 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_910x910_crop_center.jpg.webp?v=1689332329 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_910x910_crop_center.jpg?v=1689332329",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_228x228_crop_center.jpg?v=1689332329 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_455x455_crop_center.jpg?v=1689332329 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-15at10.05.54PM_910x910_crop_center.jpg?v=1689332329 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
+                          "handle": "posavasos",
+                          "title": "FIXTURE posavasos",
+                          "storefrontId": "gid://shopify/Product/7913780543696",
+                          "description": "decor",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_180x180_crop_center.jpg.webp?v=1689332359 180w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_360x360_crop_center.jpg.webp?v=1689332359 360w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_720x720_crop_center.jpg.webp?v=1689332359 720w",
+                                              "sizes": "(min-width: 720px) 720px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_720x720_crop_center.jpg?v=1689332359",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_180x180_crop_center.jpg?v=1689332359 180w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_360x360_crop_center.jpg?v=1689332359 360w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_720x720_crop_center.jpg?v=1689332359 720w",
+                                          "sizes": "(min-width: 720px) 720px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "08ae3833-681a-5d28-a545-145949a9937e",
+                          "handle": "frog",
+                          "title": "FIXTURE frog",
+                          "storefrontId": "gid://shopify/Product/7913780707536",
+                          "description": "original",
+                          "priceRangeV2": {
+                              "maxVariantPrice": {
+                                  "amount": 0,
+                                  "currencyCode": "AUD"
+                              }
+                          },
+                          "featuredImage": {
+                              "altText": null,
+                              "gatsbyImageData": {
+                                  "images": {
+                                      "sources": [
+                                          {
+                                              "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_228x228_crop_center.jpg.webp?v=1689332385 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_455x455_crop_center.jpg.webp?v=1689332385 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_910x910_crop_center.jpg.webp?v=1689332385 910w",
+                                              "sizes": "(min-width: 910px) 910px, 100vw",
+                                              "type": "image/webp"
+                                          }
+                                      ],
+                                      "fallback": {
+                                          "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_910x910_crop_center.jpg?v=1689332385",
+                                          "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_228x228_crop_center.jpg?v=1689332385 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_455x455_crop_center.jpg?v=1689332385 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_910x910_crop_center.jpg?v=1689332385 910w",
+                                          "sizes": "(min-width: 910px) 910px, 100vw"
+                                      }
+                                  },
+                                  "layout": "constrained",
+                                  "width": 910,
+                                  "height": 910
+                              }
+                          }
+                      }
+                  }
+              ]
+          },
+          "allShopifyCollection": {
+              "edges": [
+                  {
+                      "node": {
+                          "id": "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
+                          "title": "FIXTURE Prints",
+                          "handle": "kids-collection"
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
+                          "title": "FIXTURE Original paintings",
+                          "handle": "kitchen-collection"
+                      }
+                  },
+                  {
+                      "node": {
+                          "id": "384d31c2-36b3-5bc7-a4eb-1dc34dea1ab1",
+                          "title": "FIXTURE Home Decor",
+                          "handle": "frontpage"
+                      }
+                  }
+              ]
+          }
+      },
+      "pageContext": {}
+  },
+  "staticQueryHashes": [
+      "3080673216"
+  ],
+  "slicesMap": {}
+}
