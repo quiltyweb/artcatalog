@@ -15,8 +15,12 @@ const CollectionCard: React.FunctionComponent<CollectionCardProps> = ({
         <>
           <GatsbyImage
             image={collection.image.gatsbyImageData}
-            alt={collection.image.altText}
-            loading="eager"
+            alt={
+              collection.image.altText !== null
+                ? collection.image.altText
+                : collection.title
+            }
+            loading="lazy"
           />
           {collection.title}
         </>
@@ -24,10 +28,9 @@ const CollectionCard: React.FunctionComponent<CollectionCardProps> = ({
         <>
           <StaticImage
             src="../images/placeholders/noimg.jpg"
-            placeholder="blurred"
-            formats={["auto", "webp", "avif"]}
+            placeholder="dominantColor"
             alt={collection.title}
-            transformOptions={{ fit: "cover", cropFocus: "attention" }}
+            loading="lazy"
           />
 
           {collection.title}

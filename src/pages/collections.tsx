@@ -56,8 +56,8 @@ export const query = graphql`
           description
           image {
             altText
-            gatsbyImageData
             src
+            gatsbyImageData(placeholder: DOMINANT_COLOR)
           }
         }
       }
