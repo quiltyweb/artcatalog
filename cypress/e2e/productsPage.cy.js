@@ -4,6 +4,7 @@ describe("Products Page", () => {
   });
 
   it("checks for accessibility violations", () => {
+    cy.clickDrawerMenuOption("products");
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],

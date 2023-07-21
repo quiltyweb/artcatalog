@@ -2,6 +2,7 @@ import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Button, Box } from "@chakra-ui/react";
 import SEO from "../components/SEO";
+import { Link } from "gatsby";
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <>
@@ -19,8 +20,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
         alt="brushella collection heart"
         src="../images/slider/slider1.png"
       />
-      <Button m="6" backgroundColor={"#2A5F71"} color="white">
-        explore all collections
+
+      <Button as="div" m="6" backgroundColor={"#2A5F71"} color="white">
+        <Link to="/collections/">explore all collections</Link>
       </Button>
     </Box>
 
@@ -65,8 +67,8 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       <StaticImage
         alt="prints"
         src="../images/collections-thumbnail/prints.png"
-        objectFit="fill"
-        imgStyle={{ filter: "grayscale(1)" }}
+        // objectFit="fill"
+        // imgStyle={{ filter: "grayscale(1)" }}
       />
       <Box
         as="h4"
@@ -92,8 +94,8 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       <StaticImage
         alt="home decor"
         src="../images/collections-thumbnail/homedecor.png"
-        objectFit="fill"
-        imgStyle={{ filter: "grayscale(1)" }}
+        // objectFit="fill"
+        // imgStyle={{ filter: "grayscale(1)" }}
       />
       <Box
         as="h4"
