@@ -89,7 +89,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         <Link to={`/products/${product.handle}`}>
           <GatsbyImage
             image={IMAGE}
-            alt={product.featuredImage.altText}
+            alt={product.featuredImage.altText || product.title}
             loading="eager"
           />
         </Link>

@@ -22,7 +22,7 @@ describe("IndexPage", () => {
       },
     }));
     render(<IndexPage />);
-    screen.getByRole("button", { name: "explore all collections" });
+    screen.getByRole("link", { name: "explore all collections" });
     screen.getByAltText("brushella collection heart");
     screen.getByRole("heading", { name: "featured collections" });
     screen.getByAltText("home decor");

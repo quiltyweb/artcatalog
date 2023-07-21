@@ -24,6 +24,7 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "home" });
     cy.findByRole("link", { name: "about" });
     cy.findByRole("link", { name: "products" });
+    cy.findByRole("link", { name: "collections" });
     cy.findByText("my cart (0 item)");
     cy.findByRole("link", { name: "cart" }).click();
     cy.findByText("Your cart is empty");
@@ -31,12 +32,21 @@ describe("Home page", () => {
 
   it("renders main area", () => {
     cy.get("main");
-    cy.findByRole("button", { name: "explore all collections" });
+    cy.findByRole("link", { name: "explore all collections" });
     cy.findByAltText("brushella collection heart");
     cy.findByRole("heading", { name: "featured collections" });
     cy.findByAltText("original paintings");
     cy.findByAltText("prints");
     cy.findByAltText("home decor");
+    cy.findByRole("link", { name: /prints/ }).click();
+    cy.findByRole("heading", { name: /Prints/ });
+  });
+
+  it("navigates to a collection page", () => {
+    cy.findByRole("link", { name: /original paintings/ });
+    cy.findByRole("link", { name: /home decor/ });
+    cy.findByRole("link", { name: /prints/ }).click();
+    cy.findByRole("heading", { name: /Prints/ });
   });
 
   it("renders footer", () => {

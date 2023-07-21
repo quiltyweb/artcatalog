@@ -2,6 +2,7 @@ import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Button, Box } from "@chakra-ui/react";
 import SEO from "../components/SEO";
+import { Link } from "gatsby";
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => (
   <>
@@ -19,8 +20,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
         alt="brushella collection heart"
         src="../images/slider/slider1.png"
       />
-      <Button m="6" backgroundColor={"#2A5F71"} color="white">
-        explore all collections
+
+      <Button as="div" m="6" backgroundColor={"#2A5F71"} color="white">
+        <Link to="/collections/">explore all collections</Link>
       </Button>
     </Box>
 
@@ -35,24 +37,26 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       overflow="hidden"
       marginBottom={5}
     >
-      <StaticImage
-        alt="original paintings"
-        src="../images/collections-thumbnail/originals.png"
-        objectFit="fill"
-        imgStyle={{ filter: "grayscale(1)" }}
-      />
-      <Box
-        as="h4"
-        p="7"
-        fontSize={"1.2rem"}
-        fontWeight="medium"
-        lineHeight="normal"
-        noOfLines={1}
-        color="white"
-        backgroundColor="#86548A"
-      >
-        original paintings
-      </Box>
+      <Link to="/collections/original-paintings">
+        <StaticImage
+          alt="original paintings"
+          src="../images/collections-thumbnail/originals.png"
+          objectFit="fill"
+          imgStyle={{ filter: "grayscale(1)" }}
+        />
+        <Box
+          as="h4"
+          p="7"
+          fontSize={"1.2rem"}
+          fontWeight="medium"
+          lineHeight="normal"
+          noOfLines={1}
+          color="white"
+          backgroundColor="#86548A"
+        >
+          original paintings
+        </Box>
+      </Link>
     </Box>
 
     <Box
@@ -62,24 +66,26 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       overflow="hidden"
       marginBottom={5}
     >
-      <StaticImage
-        alt="prints"
-        src="../images/collections-thumbnail/prints.png"
-        objectFit="fill"
-        imgStyle={{ filter: "grayscale(1)" }}
-      />
-      <Box
-        as="h4"
-        p="7"
-        fontSize={"1.2rem"}
-        fontWeight="medium"
-        lineHeight="normal"
-        noOfLines={1}
-        color="white"
-        backgroundColor="#86548A"
-      >
-        prints
-      </Box>
+      <Link to="/collections/prints">
+        <StaticImage
+          alt="prints"
+          src="../images/collections-thumbnail/prints.png"
+          objectFit="fill"
+          imgStyle={{ filter: "grayscale(1)" }}
+        />
+        <Box
+          as="h4"
+          p="7"
+          fontSize={"1.2rem"}
+          fontWeight="medium"
+          lineHeight="normal"
+          noOfLines={1}
+          color="white"
+          backgroundColor="#86548A"
+        >
+          prints
+        </Box>
+      </Link>
     </Box>
 
     <Box
@@ -89,24 +95,26 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       overflow="hidden"
       marginBottom={5}
     >
-      <StaticImage
-        alt="home decor"
-        src="../images/collections-thumbnail/homedecor.png"
-        objectFit="fill"
-        imgStyle={{ filter: "grayscale(1)" }}
-      />
-      <Box
-        as="h4"
-        p="7"
-        fontSize={"1.2rem"}
-        fontWeight="medium"
-        lineHeight="normal"
-        noOfLines={1}
-        color="white"
-        backgroundColor="#86548A"
-      >
-        home decor
-      </Box>
+      <Link to="/collections/home-decor">
+        <StaticImage
+          alt="home decor"
+          src="../images/collections-thumbnail/homedecor.png"
+          objectFit="fill"
+          imgStyle={{ filter: "grayscale(1)" }}
+        />
+        <Box
+          as="h4"
+          p="7"
+          fontSize={"1.2rem"}
+          fontWeight="medium"
+          lineHeight="normal"
+          noOfLines={1}
+          color="white"
+          backgroundColor="#86548A"
+        >
+          home decor
+        </Box>
+      </Link>
     </Box>
   </>
 );

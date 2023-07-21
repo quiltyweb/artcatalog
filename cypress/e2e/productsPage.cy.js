@@ -4,6 +4,7 @@ describe("Products Page", () => {
   });
 
   it("checks for accessibility violations", () => {
+    cy.clickDrawerMenuOption("products");
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -42,10 +43,9 @@ describe("Products Page", () => {
 
   it("Goes back from single collection to all products page", () => {
     cy.clickDrawerMenuOption("products");
-    cy.scrollTo("top");
     cy.get("#brushella-all-collections-list li a").first().click();
     cy.get("#brushella-single-collection-container").within(() => {
-      cy.findByRole("link", { name: "Back to Product List" }).click();
+      cy.findByRole("link", { name: "Back to Collections List" }).click();
     });
     cy.findByRole("heading", { name: "Brushella Collections" });
   });

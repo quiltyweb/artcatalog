@@ -12,11 +12,12 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
       spacing={8}
       align="center"
       justify={["center", "space-between", "flex-end", "flex-end"]}
-      direction={["column", "row", "row", "row"]}
+      direction={["column", "column", "column", "column"]}
       pt={[4, 4, 0, 0]}
     >
       <Link to="/">home</Link>
       <Link to="/about">about</Link>
+      <Link to="/collections">collections</Link>
       <Link to="/products">products</Link>
       <Link to="/cart" aria-label="cart">
         <Icon as={FaShoppingBag} />
