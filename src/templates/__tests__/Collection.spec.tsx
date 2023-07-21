@@ -91,6 +91,7 @@ describe("Collection page Template", () => {
     };
 
     render(<CollectionTemplate pageContext={mockedPageContext} />);
+    screen.getByRole("link", { name: "Back to Collections List" });
     screen.getByRole("heading", { name: "Kitchen Collection" });
     screen.getByText("nice things to decorate your kitchen!");
     screen.getByRole("heading", { name: "Bamboo coaster" });

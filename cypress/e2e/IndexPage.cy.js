@@ -38,6 +38,15 @@ describe("Home page", () => {
     cy.findByAltText("original paintings");
     cy.findByAltText("prints");
     cy.findByAltText("home decor");
+    cy.findByRole("link", { name: /prints/ }).click();
+    cy.findByRole("heading", { name: /Prints/ });
+  });
+
+  it("navigates to a collection page", () => {
+    cy.findByRole("link", { name: /original paintings/ });
+    cy.findByRole("link", { name: /home decor/ });
+    cy.findByRole("link", { name: /prints/ }).click();
+    cy.findByRole("heading", { name: /Prints/ });
   });
 
   it("renders footer", () => {

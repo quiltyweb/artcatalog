@@ -8,7 +8,7 @@ const CollectionTemplate = ({ pageContext }) => {
   return (
     <>
       <Box id="brushella-single-collection-container">
-        <Link to="/products">Back to Product List</Link>
+        <Link to="/collections">Back to Collections List</Link>
         <Heading as="h2">{collection.title}</Heading>
         <Text>{collection.description}</Text>
         <hr />
