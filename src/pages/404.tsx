@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link } from "gatsby";
 import SEO from "../components/SEO";
 
-// styles
 const pageStyles = {
   color: "#232129",
   padding: "96px",
@@ -25,7 +24,6 @@ const codeStyles = {
   borderRadius: 4,
 };
 
-// markup
 const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
   <main style={pageStyles}>
     <title>Not found</title>
@@ -52,13 +50,13 @@ const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default NotFoundPage;
 
-export const Head = ({ location }) => (
+export const Head = () => (
   <SEO>
-    <title id="title">Page not found - Brushella - 404</title>
+    <title id="title">Page not found - www.brushella.art - 404</title>
     <meta
-      id="description"
-      name="description"
-      content="Page not found at brushella.com.au"
+      id="404"
+      name="NotFoundPage"
+      content="404 Page not found at www.brushella.art"
     />
   </SEO>
 );

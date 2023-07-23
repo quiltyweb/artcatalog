@@ -2,6 +2,7 @@ import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Box, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
+import { PageProps } from "gatsby";
 
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
   <>
@@ -18,18 +19,18 @@ const AboutPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default AboutPage;
 
-export const Head = ({ location }) => (
+export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
     <title id="title">About Me - Brushella</title>
     <meta
-      id="description"
-      name="description"
+      id="about-page"
+      name="AboutPage"
       content="About me Page, The author of Brushella art"
     />
     <meta
       id="twitter-og"
       name="twitter:url"
-      content={`https://www.brushella.com.au/${location.pathname}`}
+      content={`https://www.brushella.art/${location.pathname}`}
     />
   </SEO>
 );

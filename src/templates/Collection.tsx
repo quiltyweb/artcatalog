@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 
-const CollectionTemplate = ({ pageContext }) => {
+const CollectionTemplate = ({ pageContext }): React.ReactElement => {
   const { collection } = pageContext;
   return (
     <>

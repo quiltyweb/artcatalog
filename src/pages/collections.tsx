@@ -1,18 +1,18 @@
 import * as React from "react";
-import { Link, graphql } from "gatsby";
+import { Link, graphql, PageProps } from "gatsby";
 import { Heading, Text, List, ListItem } from "@chakra-ui/react";
 import CollectionCard from "../components/CollectionCard";
 import SEO from "../components/SEO";
 
-const CollectionsPage: React.FunctionComponent<any> = ({
-  data,
-}): React.ReactElement => (
+const CollectionsPage: React.FunctionComponent<
+  PageProps<Queries.CollectionsPageQuery>
+> = ({ data: { allShopifyCollection } }): React.ReactElement => (
   <>
-    {data.allShopifyCollection.edges.length !== 0 ? (
+    {allShopifyCollection.edges.length !== 0 ? (
       <>
         <Heading as="h2">Brushella Collections</Heading>
         <List id="brushella-all-collections-list" listStyleType={"none"}>
-          {data.allShopifyCollection.edges.map(({ node }) => (
+          {allShopifyCollection.edges.map(({ node }) => (
             <ListItem key={`${node.id}-collection-item`} padding={2}>
               <Link to={`/collections/${node.handle}`}>
                 <CollectionCard collection={node} />
@@ -29,7 +29,7 @@ const CollectionsPage: React.FunctionComponent<any> = ({
 
 export default CollectionsPage;
 
-export const Head = ({ location }) => (
+export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
     <title id="title">Collections - Brushella</title>
     <meta
@@ -40,13 +40,13 @@ export const Head = ({ location }) => (
     <meta
       id="twitter-og"
       name="twitter:url"
-      content={`https://www.brushella.com.au/${location.pathname}`}
+      content={`https://www.www.brushella.art/${location.pathname}`}
     />
   </SEO>
 );
 
 export const query = graphql`
-  {
+  query CollectionsPage {
     allShopifyCollection {
       edges {
         node {

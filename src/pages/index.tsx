@@ -2,9 +2,11 @@ import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Button, Box } from "@chakra-ui/react";
 import SEO from "../components/SEO";
-import { Link } from "gatsby";
+import { graphql, Link, PageProps } from "gatsby";
 
-const IndexPage: React.FunctionComponent = (): React.ReactElement => (
+const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
+  data,
+}): React.ReactElement => (
   <>
     <Box
       maxW="xs"
@@ -17,10 +19,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
       alignContent={"center"}
     >
       <StaticImage
-        alt="brushella collection heart"
+        alt={`${data.site?.siteMetadata?.title} collection heart`}
         src="../images/slider/slider1.png"
       />
-
       <Button as="div" m="6" backgroundColor={"#2A5F71"} color="white">
         <Link to="/collections/">explore all collections</Link>
       </Button>
@@ -121,18 +122,28 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default IndexPage;
 
-export const Head = ({ location }) => (
+export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
     <title id="title">Welcome to Brushella - Homepage</title>
     <meta
-      id="description"
-      name="description"
+      id="index-page"
+      name="home page"
       content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
     />
     <meta
       id="twitter-og"
       name="twitter:url"
-      content={`https://www.brushella.com.au/${location.pathname}`}
+      content={`https://www.brushella.art/${location.pathname}`}
     />
   </SEO>
 );
+
+export const query = graphql`
+  query IndexPage {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`;

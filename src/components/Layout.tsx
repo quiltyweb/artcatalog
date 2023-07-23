@@ -115,7 +115,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           </Text>
         </Link>
       </GridItem>
-
       <GridItem
         as="main"
         color="black"
@@ -125,7 +124,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       >
         {children}
       </GridItem>
-
       <GridItem as="footer" area={"footer"} justifySelf="center">
         <Footer />
       </GridItem>
