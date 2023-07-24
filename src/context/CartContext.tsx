@@ -18,8 +18,8 @@ interface CartContextProps {
 
 const defaultContextState = {
   cart: [],
-  addItemToCart: () => {},
-  deleteItemFromCart: () => {},
+  addItemToCart: () => null,
+  deleteItemFromCart: () => null,
 };
 
 const CartContext = React.createContext<CartContextProps>(defaultContextState);
@@ -59,13 +59,15 @@ class CartProvider extends React.Component<Props, State> {
     });
   };
 
-  deleteItemFromCart = ({ id }: DeleteItemFromCartProps) => {
-    this.setState((state) => {
-      const filteredCart = state.cart.filter((item) => id !== item.id);
-      return {
-        cart: filteredCart,
-      };
-    });
+  deleteItemFromCart = ({ id }: DeleteItemFromCartProps): void => {
+    if (id) {
+      this.setState((state) => {
+        const filteredCart = state.cart.filter((item) => id !== item.id);
+        return {
+          cart: filteredCart,
+        };
+      });
+    }
   };
 
   render() {

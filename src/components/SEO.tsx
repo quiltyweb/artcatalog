@@ -11,7 +11,7 @@ const SEO: React.FunctionComponent<SEOProps> = ({
     <>
       <html lang="en" />
       <body className="brushella" />
-      <title id="title">Brushella.com.au - Welcome</title>
+      <title id="title">www.brushella.art - Welcome</title>
       <meta
         id="description"
         name="description"

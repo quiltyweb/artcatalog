@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import * as Gatsby from "gatsby";
@@ -21,9 +23,12 @@ describe("IndexPage", () => {
         },
       },
     }));
-    render(<IndexPage />);
+
+    const mockDataProp = { site: { siteMetadata: { title: "ArtCatalog1.0" } } };
+    render(<IndexPage data={mockDataProp} />);
     screen.getByRole("link", { name: "explore all collections" });
-    screen.getByAltText("brushella collection heart");
+    screen.getByAltText("ArtCatalog1.0 collection heart");
+    screen.getByAltText("ArtCatalog1.0 collection heart");
     screen.getByRole("heading", { name: "featured collections" });
     screen.getByAltText("home decor");
     screen.getByAltText("prints");

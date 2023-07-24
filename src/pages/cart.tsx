@@ -17,7 +17,7 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
                 {`Quantity: ${item.quantity} - Product: ${item.title}`}{" "}
                 <Button
                   onClick={() => {
-                    deleteItemFromCart({ id: item.id });
+                    deleteItemFromCart?.({ id: item.id });
                   }}
                 >
                   delete
@@ -37,13 +37,9 @@ const CartPage: React.FunctionComponent = (): React.ReactElement => {
 
 export default CartPage;
 
-export const Head = () => (
+export const Head = (): React.ReactElement => (
   <SEO>
-    <title id="title">My Cart - Brushella</title>
-    <meta
-      id="description"
-      name="description"
-      content="Brushella shopping cart"
-    />
+    <title id="title">My Cart - www.brushella.art</title>
+    <meta id="cart-page" name="CartPage" content="Brushella shopping cart" />
   </SEO>
 );
