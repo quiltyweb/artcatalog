@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Button, Box } from "@chakra-ui/react";
@@ -26,11 +27,9 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
         <Link to="/collections/">explore all collections</Link>
       </Button>
     </Box>
-
     <Heading as="h1" size="md">
       featured collections
     </Heading>
-
     <Box
       maxW="xs"
       borderWidth="1px"
@@ -59,7 +58,6 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
         </Box>
       </Link>
     </Box>
-
     <Box
       maxW="xs"
       borderWidth="1px"
@@ -88,7 +86,6 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
         </Box>
       </Link>
     </Box>
-
     <Box
       maxW="xs"
       borderWidth="1px"
