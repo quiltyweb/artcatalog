@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Button, Box } from "@chakra-ui/react";

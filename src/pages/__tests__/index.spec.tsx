@@ -23,10 +23,11 @@ describe("IndexPage", () => {
         },
       },
     }));
-    // .site?.siteMetadata?.title
+
     const mockDataProp = { data: { site: { siteMetadata: "ArtCatalog1.0" } } };
     render(<IndexPage data={mockDataProp} />);
-    screen.getByRole("link", { name: "explore all collections" });
+    screen.debug();
+    screen.getByRole("button", { name: "explore all collections" });
     screen.getByAltText("ArtCatalog1.0 collection heart");
     screen.getByAltText("ArtCatalog1.0 collection heart");
     screen.getByRole("heading", { name: "featured collections" });
