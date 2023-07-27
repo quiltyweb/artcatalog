@@ -23,10 +23,10 @@ describe("Cart Page", () => {
 
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
-    cy.get("#brushella-single-product-container").within(() => {
-      cy.get("#quantity-increment").click();
-      cy.findByRole("button", { name: "Add to cart" }).click();
-    });
+
+    cy.get("#quantity-increment").click();
+    cy.findByRole("button", { name: "Add to cart" }).click();
+
     cy.findByRole("link", { name: "cart" }).click();
     cy.findByText("Your items:");
     cy.get("main ul li").should("have.length", 1);
@@ -41,10 +41,9 @@ describe("Cart Page", () => {
 
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
-    cy.get("#brushella-single-product-container").within(() => {
-      cy.get("#quantity-increment").click();
-      cy.findByRole("button", { name: "Add to cart" }).click();
-    });
+
+    cy.get("#quantity-increment").click();
+    cy.findByRole("button", { name: "Add to cart" }).click();
 
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByText("my cart (1 item)").click();
@@ -60,10 +59,9 @@ describe("Cart Page", () => {
 
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
-    cy.get("#brushella-single-product-container").within(() => {
-      cy.get("#quantity-increment").click();
-      cy.findByRole("button", { name: "Add to cart" }).click();
-    });
+
+    cy.get("#quantity-increment").click();
+    cy.findByRole("button", { name: "Add to cart" }).click();
 
     cy.findByRole("link", { name: "cart" }).click();
 
@@ -81,10 +79,9 @@ describe("Cart Page", () => {
 
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
-    cy.get("#brushella-single-product-container").within(() => {
-      cy.get("#quantity-increment").click();
-      cy.findByRole("button", { name: "Add to cart" }).click();
-    });
+
+    cy.get("#quantity-increment").click();
+    cy.findByRole("button", { name: "Add to cart" }).click();
 
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByText("my cart (1 item)").click();
@@ -107,10 +104,9 @@ describe("Cart Page", () => {
 
     cy.findByRole("heading", { name: "All Products" });
     cy.get("#brushella-all-products-list li a").first().click();
-    cy.get("#brushella-single-product-container").within(() => {
-      cy.get("#quantity-increment").click();
-      cy.findByRole("button", { name: "Add to cart" }).click();
-    });
+
+    cy.get("#quantity-increment").click();
+    cy.findByRole("button", { name: "Add to cart" }).click();
 
     cy.findByRole("link", { name: "cart" }).click();
     cy.findByText(/Quantity: 1 - Product:/);

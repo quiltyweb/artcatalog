@@ -51,8 +51,9 @@
     "gatsby-plugin-react-svg": "^3.3.0",
     "gatsby-plugin-sharp": "^5.9.0",
     "gatsby-plugin-styled-components": "^6.10.0",
-    "gatsby-source-filesystem": "^5.10.0",
+    "gatsby-source-filesystem": "^5.11.0",
     "gatsby-source-shopify": "^8.10.0",
+    "gatsby-transformer-sharp": "^5.11.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-helmet": "^6.1.0",
@@ -64,6 +65,7 @@
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@testing-library/cypress": "^8.0.0",
     "@types/jest": "^29.5.0",
+    "@types/node": "^20.4.4",
     "@types/react": "^18.2.9",
     "@types/react-dom": "^18.2.4",
     "@types/react-helmet": "^6.1.2",
@@ -92,7 +94,8 @@
     "jest-environment-jsdom": "^29.5.0",
     "prettier": "^2.8.8",
     "react-test-renderer": "^18.0.0",
-    "start-server-and-test": "^1.12.6"
+    "start-server-and-test": "^1.12.6",
+    "typescript": "^5.1.6"
   },
   "repository": {
     "type": "git",
