@@ -1,43 +1,56 @@
 import * as React from "react";
-import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
+import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
 import { Box } from "@chakra-ui/react";
+import { graphql } from "gatsby";
 
-type CollectionCardProps = {
-  collection: any; // TODO: add proper product type
-};
+const CollectionCard = ({
+  shopifyCollectionNode,
+}: {
+  shopifyCollectionNode: Queries.ShopifyCollectionNodeFragment["node"];
+}) => {
+  const image = getImage(shopifyCollectionNode.image);
 
-const CollectionCard: React.FunctionComponent<CollectionCardProps> = ({
-  collection,
-}): React.ReactElement => {
+  if (shopifyCollectionNode.image === null)
+    return (
+      <Box maxWidth={200}>
+        <StaticImage
+          src="../images/placeholders/noimg.jpg"
+          placeholder="dominantColor"
+          alt={shopifyCollectionNode?.title || "collection with no image"}
+          loading="lazy"
+        />
+        {shopifyCollectionNode?.title}
+      </Box>
+    );
+
   return (
     <Box maxWidth={200}>
-      {collection.image !== null ? (
-        <>
-          <GatsbyImage
-            image={collection.image.gatsbyImageData}
-            alt={
-              collection.image.altText !== null
-                ? collection.image.altText
-                : collection.title
-            }
-            loading="lazy"
-          />
-          {collection.title}
-        </>
-      ) : (
-        <>
-          <StaticImage
-            src="../images/placeholders/noimg.jpg"
-            placeholder="dominantColor"
-            alt={collection.title}
-            loading="lazy"
-          />
-
-          {collection.title}
-        </>
+      {image && image !== null && (
+        <GatsbyImage
+          image={image}
+          alt={
+            shopifyCollectionNode.image.altText || shopifyCollectionNode?.title
+          }
+        />
       )}
+      {shopifyCollectionNode.title}
     </Box>
   );
 };
 
 export default CollectionCard;
+
+export const query = graphql`
+  fragment ShopifyCollectionNode on ShopifyCollectionEdge {
+    node {
+      id
+      title
+      handle
+      description
+      image {
+        gatsbyImageData(width: 200, placeholder: BLURRED, layout: FULL_WIDTH)
+        altText
+      }
+    }
+  }
+`;

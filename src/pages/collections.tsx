@@ -15,7 +15,7 @@ const CollectionsPage: React.FunctionComponent<
           {allShopifyCollection.edges.map(({ node }) => (
             <ListItem key={`${node.id}-collection-item`} padding={2}>
               <Link to={`/collections/${node.handle}`}>
-                <CollectionCard collection={node} />
+                <CollectionCard shopifyCollectionNode={node} />
               </Link>
             </ListItem>
           ))}
@@ -49,17 +49,7 @@ export const query = graphql`
   query CollectionsPage {
     allShopifyCollection {
       edges {
-        node {
-          id
-          title
-          handle
-          description
-          image {
-            altText
-            src
-            gatsbyImageData(placeholder: DOMINANT_COLOR)
-          }
-        }
+        ...ShopifyCollectionNode
       }
     }
   }

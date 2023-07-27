@@ -15,6 +15,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-gatsby-cloud",
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
     {
       resolve: "@chakra-ui/gatsby-plugin",
       options: {
