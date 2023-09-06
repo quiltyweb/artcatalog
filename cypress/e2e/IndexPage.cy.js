@@ -13,10 +13,10 @@ describe.skip("Home page", () => {
 
   it("renders top menu", () => {
     cy.get("nav").find("svg");
-    cy.get('svg[alt="Art Catalog 1.0 logo"]').should(
+    cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
-      "Art Catalog 1.0 logo"
+      "Brushella logo"
     );
     cy.findByLabelText("cart");
     cy.findByText("(0)");
@@ -78,10 +78,10 @@ describe("Home page", () => {
 
   it("renders top menu", () => {
     cy.get("nav").find("svg");
-    cy.get('svg[alt="Art Catalog 1.0 logo"]').should(
+    cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
-      "Art Catalog 1.0 logo"
+      "Brushella logo"
     );
   });
 
