@@ -43,8 +43,8 @@ describe("IndexPage", () => {
     render(<IndexPage data={mockDataProp} />);
     screen.getByText("Featuring: Human Nature at");
     screen.getByRole("link", "Bad News Gallery");
-    screen.getByAltText("Heart from Human Nature collection");
-    screen.getByText("Heart from Human Nature collection");
+    screen.getByAltText(/"After Grief" from Human Nature Collection/);
+    screen.getByText(/"After Grief" from Human Nature Collection/);
     screen.getByText("test title");
   });
 });

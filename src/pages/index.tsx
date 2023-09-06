@@ -37,7 +37,7 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
     </Box>
     <Box p={4}>
       <StaticImage
-        alt={`Heart from Human Nature collection`}
+        alt={`"After Grief" from Human Nature Collection`}
         src="../images/presentation-card/welcome-brushella.jpg"
         layout="constrained"
         width={800}
@@ -45,8 +45,8 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
           transform: "scaleX(-1)",
         }}
       />
-      <Text fontSize="sm" align="center" fontStyle="bold">
-        Heart from Human Nature collection
+      <Text p={4} fontSize="sm" align="center" fontStyle="bold">
+        "After Grief" from Human Nature Collection
       </Text>
       <Text fontSize="sm" align="center" fontStyle="bold">
         {data.site?.siteMetadata?.title}
@@ -59,16 +59,11 @@ export default IndexPage;
 
 export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
-    <title id="title">Welcome to Brushella - Homepage</title>
+    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
     <meta
       id="index-page"
       name="home page"
       content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
-    />
-    <meta
-      id="twitter-og"
-      name="twitter:url"
-      content={`https://www.brushella.art/${location.pathname}`}
     />
   </SEO>
 );
