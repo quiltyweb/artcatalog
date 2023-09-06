@@ -89,8 +89,8 @@ describe("Home page", () => {
     cy.get("main");
     cy.findByText("Featuring: Human Nature at");
     cy.findByRole("link", { name: /Bad News Gallery/ });
-    cy.findByAltText("Heart from Human Nature collection");
-    cy.findByText("Heart from Human Nature collection");
+    cy.findByAltText(/"After Grief" from Human Nature Collection/);
+    cy.findByText(/"After Grief" from Human Nature Collection/);
   });
 
   it("renders footer", () => {

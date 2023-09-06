@@ -44,7 +44,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           </Link>
         </Box>
       </HStack>
-      <Text>© 2023, Brushella Art & Decor</Text>
+      <Text p={4}>© 2023, Brushella Art & Decor</Text>
     </Box>
   );
 };
