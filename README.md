@@ -1,4 +1,4 @@
-# Art Catalog 1.0
+# Brushella
 
 ## Setup
 

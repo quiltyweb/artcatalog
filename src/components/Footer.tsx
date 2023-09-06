@@ -1,21 +1,13 @@
 import * as React from "react";
-import {
-  Box,
-  HStack,
-  Heading,
-  Icon,
-  ListItem,
-  UnorderedList,
-  Text,
-} from "@chakra-ui/react";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Link } from "gatsby";
 
 const Footer: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Box as="footer" color="black" bg="white" justifySelf="center">
-      <Heading as="h5">quick links</Heading>
-      <UnorderedList styleType="none" marginBottom="3rem" marginLeft={0}>
+      {/* <Heading as="h5">quick links</Heading> */}
+      {/* <UnorderedList styleType="none" marginBottom="3rem" marginLeft={0}>
         <ListItem>
           <Link to="/about">Refunds & Returns</Link>
         </ListItem>
@@ -28,8 +20,8 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
         <ListItem>
           <Link to="/about">FAQs</Link>
         </ListItem>
-      </UnorderedList>
-      <HStack spacing="1rem" marginBottom="3rem">
+      </UnorderedList> */}
+      <HStack spacing="1rem" marginBottom="3rem" justifyContent="center">
         <Box>
           <Link to="https://www.facebook.com/Brushella" target="_blank">
             <Icon boxSize="1.5rem" aria-label="facebook" as={FaFacebookF} />
@@ -52,7 +44,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           </Link>
         </Box>
       </HStack>
-      <Text>© 2023, Brushella Art & decor Powered by Shopify</Text>
+      <Text>© 2023, Brushella Art & Decor</Text>
     </Box>
   );
 };

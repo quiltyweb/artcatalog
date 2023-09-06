@@ -1,4 +1,4 @@
-describe("Home page", () => {
+describe.skip("Home page", () => {
   beforeEach(() => {
     cy.visit("/");
   });
@@ -13,10 +13,10 @@ describe("Home page", () => {
 
   it("renders top menu", () => {
     cy.get("nav").find("svg");
-    cy.get('svg[alt="Art Catalog 1.0 logo"]').should(
+    cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
-      "Art Catalog 1.0 logo"
+      "Brushella logo"
     );
     cy.findByLabelText("cart");
     cy.findByText("(0)");
@@ -60,5 +60,44 @@ describe("Home page", () => {
     cy.findByLabelText("instagram");
     cy.findByLabelText("whatsApp");
     cy.findByText(/© 2023, Brushella Art & decor Powered by Shopify/);
+  });
+});
+
+describe("Home page", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
+
+  it("Has no detectable accessibility violations on load", () => {
+    cy.injectAxe();
+    cy.checkA11y(null, {
+      runOnly: ["wcag2a", "wcag2aa"],
+      includedImpacts: ["critical", "serious"],
+    });
+  });
+
+  it("renders top menu", () => {
+    cy.get("nav").find("svg");
+    cy.get('svg[alt="Brushella logo"]').should(
+      "have.attr",
+      "alt",
+      "Brushella logo"
+    );
+  });
+
+  it("renders main area", () => {
+    cy.get("main");
+    cy.findByText("Featuring: Human Nature at");
+    cy.findByRole("link", { name: /Bad News Gallery/ });
+    cy.findByAltText("Heart from Human Nature collection");
+    cy.findByText("Heart from Human Nature collection");
+  });
+
+  it("renders footer", () => {
+    cy.get("footer");
+    cy.findByRole("link", { name: "facebook" });
+    cy.findByRole("link", { name: "instagram" });
+    cy.findByRole("link", { name: "whatsApp" });
+    cy.findByText(/© 2023, Brushella Art & Decor/);
   });
 });

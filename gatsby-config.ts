@@ -8,7 +8,7 @@ dotenv.config({
 const config: GatsbyConfig = {
   siteMetadata: {
     siteUrl: "https://artcatalogmain.gatsbyjs.io/",
-    title: "Art Catalog 1.0",
+    title: "Brushella",
   },
   plugins: [
     "gatsby-plugin-styled-components",

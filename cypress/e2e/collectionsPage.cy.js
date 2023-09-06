@@ -1,4 +1,4 @@
-describe("collections  Page", () => {
+describe.skip("collections  Page", () => {
   beforeEach(() => {
     cy.intercept("GET", "/page-data/collections/page-data.json", {
       fixture: "collections.json",

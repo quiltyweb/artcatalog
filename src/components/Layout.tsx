@@ -1,24 +1,24 @@
 import * as React from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
+import Footer from "./Footer";
+import LogoImage from "../images/svg/brushella-white.svg";
 import {
   Grid,
   GridItem,
-  Text,
-  useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  IconButton,
-  Icon,
+  // useDisclosure,
+  // Text,
+  // Drawer,
+  // DrawerOverlay,
+  // DrawerContent,
+  // DrawerCloseButton,
+  // DrawerHeader,
+  // DrawerBody,
+  // IconButton,
+  // Icon,
 } from "@chakra-ui/react";
-import Nav from "./Nav";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { useCartContext } from "../context/CartContext";
-import Footer from "./Footer";
-import LogoImage from "../images/svg/logo-black-brushella.svg";
+// import { useCartContext } from "../context/CartContext";
+// import Nav from "./Nav";
+// import { HamburgerIcon } from "@chakra-ui/icons";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
   const data = useStaticQuery(graphql`
-    query MyQuery {
+    query LayoutPage {
       site {
         siteMetadata {
           title
@@ -37,13 +37,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       }
     }
   `);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleClick = () => {
-    onOpen();
-  };
-  const { cart } = useCartContext();
-  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  // const handleClick = () => {
+  //   onOpen();
+  // };
+  // const { cart } = useCartContext();
+  // const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <Grid
@@ -61,13 +61,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       <GridItem
         as="nav"
         display={"flex"}
-        justifyContent={"space-between"}
+        justifyContent={"center"}
         alignItems={"center"}
-        color="black"
-        bg="#F4F4F4"
+        color="#FFFFFF"
+        bg="#000000"
         area={"header"}
+        padding={4}
       >
-        <IconButton
+        {/* <IconButton
           onClick={() => handleClick()}
           key={"xs"}
           m={4}
@@ -88,16 +89,20 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               <Nav />
             </DrawerBody>
           </DrawerContent>
-        </Drawer>
+        </Drawer> */}
 
         <Link to="/">
           <LogoImage
             alt={data.site.siteMetadata.title + " logo"}
             title={data.site.siteMetadata.title + " logo"}
+            layout="constrained"
+            width={80}
+            height={80}
+            style={{ filter: "invert(1)" }}
           />
         </Link>
 
-        <Link to="/cart" aria-label="cart">
+        {/* <Link to="/cart" aria-label="cart">
           <Text display="block">
             <Icon
               viewBox="0 0 25 29"
@@ -113,7 +118,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             </Icon>
             {`(${cartCount})`}
           </Text>
-        </Link>
+        </Link> */}
       </GridItem>
       <GridItem
         as="main"

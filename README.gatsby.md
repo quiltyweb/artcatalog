@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Art Catalog 1.0
+  Brushella
 </h1>
 
 ## 🚀 Quick start
