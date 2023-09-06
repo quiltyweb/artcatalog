@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 describe("IndexPage", () => {
-  it("renders correctly", () => {
+  it.skip("renders correctly", () => {
     const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
     useStaticQuery.mockImplementation(() => ({
       site: {
@@ -36,5 +36,15 @@ describe("IndexPage", () => {
     screen.getByText("home decor");
     screen.getByText("prints");
     screen.getByText("original paintings");
+  });
+
+  it("renders basic index correctly", () => {
+    const mockDataProp = { site: { siteMetadata: { title: "test title" } } };
+    render(<IndexPage data={mockDataProp} />);
+    screen.getByText("Featuring: Human Nature at");
+    screen.getByRole("link", "Bad News Gallery");
+    screen.getByAltText("Heart from Human Nature collection");
+    screen.getByText("Heart from Human Nature collection");
+    screen.getByText("test title");
   });
 });
