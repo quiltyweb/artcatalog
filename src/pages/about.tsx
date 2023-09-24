@@ -7,13 +7,32 @@ import { PageProps } from "gatsby";
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
   <>
     <Box p={8}>
-      <Text fontSize="sm">About me page is Work in progress</Text>
+      <Text fontSize="md" margin="4">
+        Hello! Thanks for visiting mi website. I am Gabriela Ugalde, Chilean
+        painter and makeup artist actually living in Sydney, Australia. You can
+        learn more about my work on my facebook page, visit:
+        facebook.com/brushella For business inquiries, please email:
+        brushellamaster@gmail.com Visit my shop: www.brushella.art
+      </Text>
+      <Text fontSize="md" margin="4">
+        Hola! Gracias por visitar mi sitio web. Soy Gabriela Ugalde, pintora y
+        maquilladora profesional Chilena actualmente viviendo en Sydney,
+        Australia. Mi Facebook page, visita: facebook.com/brushella Para
+        consultas envíame un email a: brushellamaster@gmail.com Visita mi tienda
+        online: www.brushella.art
+      </Text>
     </Box>
-    <StaticImage
-      style={{ filter: "grayscale(1)" }}
-      alt="Painter Gabriela painting on a canvas"
-      src="../images/brushella-author.jpg"
-    />
+    <Box display={"flex"} justifyContent={"center"}>
+      <StaticImage
+        style={{
+          filter: "grayscale(1)",
+          transform: "scaleX(-1)",
+          maxWidth: "800px",
+        }}
+        alt="Painter Gabriela painting on a canvas"
+        src="../images/about/author.jpg"
+      />
+    </Box>
   </>
 );
 
