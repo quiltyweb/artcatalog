@@ -31,16 +31,12 @@ describe("Layout", () => {
       </CartProvider>
     );
 
-    // screen.getByRole("button", { name: "menu" });
-    // screen.getByLabelText("cart");
-    // screen.getByText("(0)");
     const logos = screen.getAllByAltText("Site Title logo");
     expect(logos.length).toBe(1);
     screen.getByText("some content children");
-    // screen.getByRole("heading", { name: "quick links" });
   });
 
-  it.skip("trigger mobile menu when clicking the menu button", async () => {
+  it("trigger mobile menu when clicking the menu button", async () => {
     const user = userEvent.setup();
     render(
       <CartProvider>
@@ -51,12 +47,11 @@ describe("Layout", () => {
     );
     await user.click(screen.getByRole("button", { name: "menu" }));
 
-    const logos = screen.getAllByAltText("Site Title logo");
-    expect(logos.length).toBe(2);
-
     screen.getByRole("link", { name: "home" });
     screen.getByRole("link", { name: "about" });
-    screen.getByRole("link", { name: "products" });
-    screen.getByText("my cart (0 item)");
+
+    screen.getByTitle("facebook");
+    screen.getByTitle("instagram");
+    screen.getByTitle("whatsApp");
   });
 });

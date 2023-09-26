@@ -15,7 +15,6 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { Link } from "gatsby";
-// import { useCartContext } from "../context/CartContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import LogoImage from "../images/svg/brushella-white.svg";
 import {
@@ -35,18 +34,11 @@ const ListMenu = (): React.ReactElement => {
     >
       <Link to="/">home</Link>
       <Link to="/about">about</Link>
-      {/* <Link to="/collections">collections</Link>
-      <Link to="/products">products</Link>
-      <Link to="/cart" aria-label="cart">
-        {`my cart (${cartCount} ${cartCount > 1 ? "items" : "item"})`}
-      </Link> */}
     </Stack>
   );
 };
 
 const Nav = ({ title }: { title: string }): React.ReactElement => {
-  // const { cart } = useCartContext();
-  // const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
 
@@ -79,12 +71,12 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
         key={"sm"}
         m={1}
         aria-label="menu"
+        title="menu"
         icon={<HamburgerIcon />}
         backgroundColor="#000000"
         color="#FFFFFF"
         fontSize="35px"
       />
-
       <Drawer onClose={onClose} isOpen={isOpen} size={"xs"}>
         <DrawerOverlay />
         <DrawerContent backgroundColor="#377482" color="#FFFFFF">
@@ -99,6 +91,7 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
                     boxSize="1.5rem"
                     aria-label="facebook"
                     as={FaFacebookF}
+                    title="facebook"
                   />
                 </Link>
               </Box>
@@ -111,6 +104,7 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
                     boxSize="1.5rem"
                     aria-label="instagram"
                     as={FaInstagram}
+                    title="instagram"
                   />
                 </Link>
               </Box>
@@ -123,6 +117,7 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
                     boxSize="1.5rem"
                     aria-label="whatsApp"
                     as={FaWhatsapp}
+                    title="whatsApp"
                   />
                 </Link>
               </Box>
@@ -140,19 +135,13 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
         </Link>
       </Box>
       <a href="mailto:meligatt@gmail.com">
-        <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
+        <Icon
+          boxSize="2rem"
+          title="send a message"
+          aria-label="send a message"
+          as={FaRegEnvelope}
+        />
       </a>
-      {/* <Link to="/cart" aria-label="cart">
-        <Box display={"flex"} alignItems={"center"}>
-          <Icon viewBox="0 0 25 29" width="25" height="29" fill="none">
-            <path
-              fill="#fff"
-              d="M24 7.143h-4.857V6.57A6.572 6.572 0 0 0 6 6.571v.572H1.143C.51 7.143 0 7.653 0 8.286v19.143c0 .632.51 1.142 1.143 1.142H24c.632 0 1.143-.51 1.143-1.142V8.286c0-.632-.51-1.143-1.143-1.143ZM8.571 6.57c0-2.21 1.79-4 4-4 2.211 0 4 1.79 4 4v.572h-8V6.57Zm14 19.429h-20V9.714H6v3.143c0 .157.129.286.286.286h2a.287.287 0 0 0 .285-.286V9.714h8v3.143c0 .157.129.286.286.286h2a.287.287 0 0 0 .286-.286V9.714h3.428V26Z"
-            />
-          </Icon>
-          <Text padding={2}>{`(${cartCount})`}</Text>
-        </Box>
-      </Link> */}
     </>
   );
 };

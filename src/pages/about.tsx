@@ -1,25 +1,29 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 import { PageProps } from "gatsby";
 
 const AboutPage: React.FunctionComponent = (): React.ReactElement => (
   <>
     <Box p={8}>
+      <Heading>
+        Hi! <br /> I'm Gabriela
+      </Heading>
       <Text fontSize="md" margin="4">
-        Hello! Thanks for visiting mi website. I am Gabriela Ugalde, Chilean
-        painter and makeup artist actually living in Sydney, Australia. You can
-        learn more about my work on my facebook page, visit:
+        Iam a Chilean painter and makeup artist actually living in Sydney,
+        Australia. You can learn more about my work on my facebook page, visit:
         facebook.com/brushella For business inquiries, please email:
-        brushellamaster@gmail.com Visit my shop: www.brushella.art
+        brushellamaster@gmail.com.
       </Text>
+      <Heading>
+        Hola! <br /> Soy Gabriela
+      </Heading>
       <Text fontSize="md" margin="4">
-        Hola! Gracias por visitar mi sitio web. Soy Gabriela Ugalde, pintora y
-        maquilladora profesional Chilena actualmente viviendo en Sydney,
-        Australia. Mi Facebook page, visita: facebook.com/brushella Para
-        consultas envíame un email a: brushellamaster@gmail.com Visita mi tienda
-        online: www.brushella.art
+        Pintora y maquilladora profesional Chilena actualmente viviendo en
+        Sydney, Australia. Puedes conocer mas de mi trabajo visitando mi pagina
+        de Facebook facebook.com/brushella. Para consultas envíame un email a
+        brushellamaster@gmail.com.
       </Text>
     </Box>
     <Box display={"flex"} justifyContent={"center"}>
@@ -40,7 +44,7 @@ export default AboutPage;
 
 export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
-    <title id="title">About Me - Brushella</title>
+    <title id="title">About Me: Brushella</title>
     <meta
       id="about-page"
       name="AboutPage"

@@ -22,6 +22,8 @@ describe("AboutPage", () => {
       },
     }));
     render(<AboutPage />);
-    screen.getByText("About me page is Work in progress");
+    screen.getByText(/Hi! I'm Gabriela/);
+    screen.getByText(/Hola! Soy Gabriela/);
+    screen.getByAltText("Painter Gabriela painting on a canvas");
   });
 });

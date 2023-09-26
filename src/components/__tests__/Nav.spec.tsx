@@ -15,12 +15,11 @@ describe("Nav", () => {
   it("renders correctly", async () => {
     render(
       <CartProvider>
-        <Nav />
+        <Nav title="test title" />
       </CartProvider>
     );
-    screen.getByRole("link", { name: "home" });
-    screen.getByRole("link", { name: "about" });
-    screen.getByRole("link", { name: "products" });
-    screen.getByText("my cart (0 item)");
+    screen.getByRole("button", { name: "menu" });
+    screen.getByAltText(/test title/);
+    screen.getByTitle("send a message");
   });
 });

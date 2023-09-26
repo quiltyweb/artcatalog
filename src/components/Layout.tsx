@@ -9,7 +9,7 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-// make LayoutPure componenet passing the data and test that, instead of the componenet that
+// TODO: make LayoutPure componenet passing the data and test that, instead of the componenet that
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
