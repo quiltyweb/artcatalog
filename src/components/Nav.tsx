@@ -134,7 +134,7 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
           />
         </Link>
       </Box>
-      <a href="mailto:meligatt@gmail.com">
+      <a href="mailto:brushellamaster@gmail.com">
         <Icon
           boxSize="2rem"
           title="send a message"
