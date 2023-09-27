@@ -77,12 +77,19 @@ describe("Home page", () => {
   });
 
   it("renders top menu", () => {
-    cy.get("nav").find("svg");
     cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
       "Brushella logo"
     );
+
+    cy.findByTitle("send a message");
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByRole("link", { name: "home" });
+    cy.findByRole("link", { name: "about" });
+    cy.findByTitle("facebook");
+    cy.findByTitle("instagram");
+    cy.findByTitle("whatsApp");
   });
 
   it("renders main area", () => {

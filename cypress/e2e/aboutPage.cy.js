@@ -1,4 +1,4 @@
-describe.skip("About page", () => {
+describe("About page", () => {
   beforeEach(() => {
     cy.visit("/");
   });
@@ -11,10 +11,11 @@ describe.skip("About page", () => {
     });
   });
 
-  it("Navigates from home to About page correctly", () => {
-    cy.findByRole("link", { name: "explore all collections" });
+  it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: "about" }).click();
-    cy.findByText("About me page is Work in progress");
+    cy.findByText(/Hi! I'm Gabriela/);
+    cy.findByText(/Hola! Soy Gabriela/);
+    cy.findByAltText("Painter Gabriela painting on a canvas");
   });
 });

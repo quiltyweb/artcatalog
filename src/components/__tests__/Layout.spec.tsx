@@ -7,6 +7,14 @@ import { CartProvider } from "../../context/CartContext";
 
 beforeEach(() => {
   jest.clearAllMocks();
+  const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
+  useStaticQuery.mockImplementation(() => ({
+    site: {
+      siteMetadata: {
+        title: "Site Title",
+      },
+    },
+  }));
 });
 
 afterEach(() => {
@@ -15,14 +23,28 @@ afterEach(() => {
 
 describe("Layout", () => {
   it("renders correctly", async () => {
-    const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
-    useStaticQuery.mockImplementation(() => ({
-      site: {
-        siteMetadata: {
-          title: "Site Title",
-        },
-      },
-    }));
+    render(
+      <CartProvider>
+        <Layout>
+          <p>some content children</p>
+        </Layout>
+      </CartProvider>
+    );
+    screen.getByRole("button", { name: "menu" });
+    screen.getByAltText("Site Title logo");
+    screen.getByTitle("send a message");
+    screen.getByText("some content children");
+  });
+
+  it("loads desktop menu", async () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: true,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
+
     render(
       <CartProvider>
         <Layout>
@@ -31,12 +53,23 @@ describe("Layout", () => {
       </CartProvider>
     );
 
-    const logos = screen.getAllByAltText("Site Title logo");
-    expect(logos.length).toBe(1);
-    screen.getByText("some content children");
+    expect(
+      screen.queryByRole("button", { name: "menu" })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTitle("send a message")).not.toBeInTheDocument();
+    screen.getByAltText("Site Title logo");
+    screen.getByRole("link", { name: "home" });
+    screen.getByRole("link", { name: "about" });
   });
 
   it("trigger mobile menu when clicking the menu button", async () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: false,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
     const user = userEvent.setup();
     render(
       <CartProvider>
