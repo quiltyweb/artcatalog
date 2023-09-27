@@ -76,7 +76,7 @@ describe("Home page", () => {
     });
   });
 
-  it("renders top menu", () => {
+  it("renders top menu mobile layout", () => {
     cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
@@ -90,6 +90,16 @@ describe("Home page", () => {
     cy.findByTitle("facebook");
     cy.findByTitle("instagram");
     cy.findByTitle("whatsApp");
+  });
+
+  it("renders top menu desktop layout", () => {
+    cy.viewport("macbook-13");
+    cy.get('svg[alt="Brushella logo"]').should("exist");
+    cy.findByRole("link", { name: "home" });
+    cy.findByRole("link", { name: "about" });
+
+    cy.get('svg[title="menu"]').should("not.exist");
+    cy.get('svg[title="send a message"]').should("not.exist");
   });
 
   it("renders main area", () => {
