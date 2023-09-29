@@ -54,6 +54,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         bg="white"
         area={"main"}
         justifySelf="center"
+        maxWidth={"60rem"}
       >
         {children}
       </GridItem>
