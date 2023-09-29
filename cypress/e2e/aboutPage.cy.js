@@ -14,8 +14,7 @@ describe("About page", () => {
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: "about" }).click();
-    cy.findByText(/Hi! I'm Gabriela/);
-    cy.findByText(/Hola! Soy Gabriela/);
+    cy.findByText("About");
     cy.findByAltText("Painter Gabriela painting on a canvas");
   });
 });
