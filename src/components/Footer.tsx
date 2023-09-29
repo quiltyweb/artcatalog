@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 
 const Footer: React.FunctionComponent = (): React.ReactElement => {
   return (
-    <Box as="footer" color="black" bg="white" justifySelf="center">
+    <Box color="black" bg="white" justifySelf="center" p="4">
       {/* <Heading as="h5">quick links</Heading> */}
       {/* <UnorderedList styleType="none" marginBottom="3rem" marginLeft={0}>
         <ListItem>
