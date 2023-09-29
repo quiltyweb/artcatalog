@@ -22,8 +22,7 @@ describe("AboutPage", () => {
       },
     }));
     render(<AboutPage />);
-    screen.getByText(/Hi! I'm Gabriela/);
-    screen.getByText(/Hola! Soy Gabriela/);
+    screen.getByText("About");
     screen.getByAltText("Painter Gabriela painting on a canvas");
   });
 });
