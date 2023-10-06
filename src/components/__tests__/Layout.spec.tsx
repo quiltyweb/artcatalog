@@ -22,7 +22,14 @@ afterEach(() => {
 });
 
 describe("Layout", () => {
-  it("renders correctly", async () => {
+  it("renders correctly mobile layout", async () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: false,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
     render(
       <CartProvider>
         <Layout>
@@ -34,35 +41,12 @@ describe("Layout", () => {
     screen.getByAltText("Site Title logo");
     screen.getByTitle("send a message");
     screen.getByText("some content children");
-  });
-
-  it("loads desktop menu", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: true,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-
-    render(
-      <CartProvider>
-        <Layout>
-          <p>some content children</p>
-        </Layout>
-      </CartProvider>
-    );
-
     expect(
-      screen.queryByRole("button", { name: "menu" })
+      screen.queryByRole("link", { name: "Home" })
     ).not.toBeInTheDocument();
-    expect(screen.queryByTitle("send a message")).not.toBeInTheDocument();
-    screen.getByAltText("Site Title logo");
-    screen.getByRole("link", { name: "home" });
-    screen.getByRole("link", { name: "about" });
   });
 
-  it("trigger mobile menu when clicking the menu button", async () => {
+  it("trigger mobile slide menu when clicking the menu button", async () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
         matches: false,
@@ -80,11 +64,39 @@ describe("Layout", () => {
     );
     await user.click(screen.getByRole("button", { name: "menu" }));
 
-    screen.getByRole("link", { name: "home" });
-    screen.getByRole("link", { name: "about" });
+    screen.getByRole("link", { name: "Home" });
+    screen.getByRole("link", { name: "About" });
+    screen.getByRole("link", { name: "Prints" });
 
     screen.getByTitle("facebook");
     screen.getByTitle("instagram");
     screen.getByTitle("whatsApp");
   });
+});
+
+it("loads desktop menu", async () => {
+  Object.defineProperty(window, "matchMedia", {
+    value: jest.fn(() => ({
+      matches: true,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    })),
+  });
+
+  render(
+    <CartProvider>
+      <Layout>
+        <p>some content children</p>
+      </Layout>
+    </CartProvider>
+  );
+
+  expect(
+    screen.queryByRole("button", { name: "menu" })
+  ).not.toBeInTheDocument();
+  expect(screen.queryByTitle("send a message")).not.toBeInTheDocument();
+  screen.getByAltText("Site Title logo");
+  screen.getByRole("link", { name: "Home" });
+  screen.getByRole("link", { name: "About" });
+  screen.getByRole("link", { name: "Prints" });
 });
