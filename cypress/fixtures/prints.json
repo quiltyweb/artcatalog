@@ -1,0 +1,48 @@
+{
+    "componentChunkName": "component---src-pages-prints-tsx",
+    "path": "/prints/",
+    "result": {
+        "data": {
+            "shopifyCollection": {
+              "title": "Prints test",
+              "products": [ 
+                {
+                    "id": "b84595c2-783d-5d96-a887-485f70cace45",
+                    "handle": "macumba",
+                    "title": "Macumba",
+                    "description": "print description goes here",
+                    "featuredImage": {
+                      "altText": null,
+                      "gatsbyImageData": {
+                        "images": {
+                          "sources": [
+                            {
+                              "srcSet":
+                                "",
+                              "sizes": "(min-width: 1278px) 1278px, 100vw",
+                              "type": "image/webp"
+                            }
+                          ],
+                          "fallback": {
+                            "src": "",
+                            "srcSet":"",
+                            "sizes": "(min-width: 1278px) 1278px, 100vw"
+                          }
+                        },
+                        "layout": "constrained",
+                        "width": 1278,
+                        "height": 1704
+                      }
+                    }
+                  }              
+              ]
+            }
+          },
+        "pageContext": {},
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3080673216"
+    ],
+    "slicesMap": {}
+}
