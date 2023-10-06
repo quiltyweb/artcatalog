@@ -25,6 +25,9 @@ const PrintsPage: React.FunctionComponent<
                     <GatsbyImage
                       image={image}
                       alt={featuredImage?.altText || title}
+                      imgStyle={{
+                        transform: "scaleX(-1)",
+                      }}
                     />
                   )}
                   <Text>{title}</Text>
