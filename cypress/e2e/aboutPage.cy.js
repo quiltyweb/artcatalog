@@ -13,7 +13,7 @@ describe("About page", () => {
 
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
-    cy.findByRole("link", { name: "about" }).click();
+    cy.findByRole("link", { name: "About" }).click();
     cy.findByText("About");
     cy.findByAltText("Painter Gabriela painting on a canvas");
   });

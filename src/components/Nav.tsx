@@ -32,8 +32,9 @@ const ListMenu = (): React.ReactElement => {
       direction={["column", "column", "column", "column", "row"]}
       pt={[4, 4, 4, 4]}
     >
-      <Link to="/">home</Link>
-      <Link to="/about">about</Link>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/prints">Prints</Link>
     </Stack>
   );
 };
