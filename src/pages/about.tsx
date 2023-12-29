@@ -1,31 +1,24 @@
 import * as React from "react";
+import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
-import { PageProps } from "gatsby";
 
-const AboutPage: React.FunctionComponent = (): React.ReactElement => (
+const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
+  data,
+}): React.ReactElement => (
   <>
     <Stack direction={["column", "column", "row", "row", "row"]} p={4}>
       <Box>
-        <Heading as="h1" size="xl" marginBottom={4}>
-          About
-        </Heading>
         <Heading as="h2" size="lg" marginBottom={4}>
-          The hands behind <i>Brushella</i>
+          {data.storefrontshopify.page?.title}
         </Heading>
         <Text fontSize="md">
-          Gabriella is a Chilean artist living and creating on Dharawal land,
-          Wollongong NSW, Australia. Her artwork combines realistic nature
-          elements in a fantasy context, exploring the infinity of colours and
-          imagination. Also, she is an all-rounder craftswomen and mixed media
-          artist, using many different materials and mediums as hollow bones
-          through where she expresses her soul. From hand knitting to resin art,
-          from wood work to sewing and everything in between, Brushella's world
-          of creations is full of shapes, animals and bright saturated colours.
-          She is also a writer an muralist. Inspired by nature, fueled by
-          motherhood and self awareness, her art invites you to immerse yourself
-          into your own fantasy world, your mind and your heart.
+          <div
+            dangerouslySetInnerHTML={{
+              __html: data.storefrontshopify.page?.body,
+            }}
+          />
         </Text>
       </Box>
       <StaticImage
@@ -37,6 +30,22 @@ const AboutPage: React.FunctionComponent = (): React.ReactElement => (
         alt="Painter Gabriela painting on a canvas"
         src="../images/about/author.jpg"
       />
+    </Stack>
+
+    <Stack
+      spacing={8}
+      align="center"
+      direction={["column", "column", "column", "column", "row"]}
+      pt={[4, 4, 4, 4]}
+    >
+      {data.adminshopify?.metaobjects.nodes[0].fields.map((item) => (
+        <Link
+          style={{ textDecoration: "underline" }}
+          to={`/product-categories/${item.key}`}
+        >
+          {item.definition.name}
+        </Link>
+      ))}
     </Stack>
   </>
 );
@@ -58,3 +67,28 @@ export const Head = ({ location }: PageProps): React.ReactElement => (
     />
   </SEO>
 );
+
+export const query = graphql`
+  query AboutPage {
+    adminshopify {
+      metaobjects(first: 10, type: "product_categories") {
+        nodes {
+          fields {
+            definition {
+              name
+            }
+            key
+            value
+          }
+        }
+      }
+    }
+    storefrontshopify {
+      page(handle: "meet-the-artist") {
+        title
+        handle
+        body
+      }
+    }
+  }
+`;

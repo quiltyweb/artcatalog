@@ -1,26 +1,24 @@
 import * as React from "react";
-import { Box, HStack, Icon, Text } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Icon,
+  ListItem,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Link } from "gatsby";
 
-const Footer: React.FunctionComponent = (): React.ReactElement => {
+type FooterProps = {
+  legalContentItems: Queries.LayoutPageQuery["adminshopify"]["legalContent"]["nodes"][0]["fields"];
+};
+
+const Footer: React.FunctionComponent<FooterProps> = ({
+  legalContentItems,
+}): React.ReactElement => {
   return (
     <Box color="black" bg="white" justifySelf="center" p="4">
-      {/* <Heading as="h5">quick links</Heading> */}
-      {/* <UnorderedList styleType="none" marginBottom="3rem" marginLeft={0}>
-        <ListItem>
-          <Link to="/about">Refunds & Returns</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/about">Privacy Policy</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/about">Terms Of Service</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/about">FAQs</Link>
-        </ListItem>
-      </UnorderedList> */}
       <HStack spacing="1rem" marginBottom="3rem" justifyContent="center">
         <Box>
           <Link to="https://www.facebook.com/Brushella" target="_blank">
@@ -44,6 +42,25 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           </Link>
         </Box>
       </HStack>
+
+      <UnorderedList
+        display="flex"
+        justifyContent="space-around"
+        styleType="none"
+        marginBottom="3rem"
+      >
+        {legalContentItems.map((item) => (
+          <ListItem key={item.key} padding="1rem">
+            <Link
+              style={{ textDecoration: "underline" }}
+              to={`/legal-content/${item.key}`}
+            >
+              {item.definition.name}
+            </Link>
+          </ListItem>
+        ))}
+      </UnorderedList>
+
       <Text p={4}>© 2023, Brushella Art & Decor</Text>
     </Box>
   );
