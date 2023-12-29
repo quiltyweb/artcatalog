@@ -12,6 +12,56 @@ afterEach(() => {
 });
 
 describe("Nav", () => {
+  const productCategoriesItemsMockedData = [
+    {
+      key: "commissions",
+      definition: {
+        name: "commissions",
+      },
+    },
+    {
+      key: "original_artworks",
+      definition: {
+        name: "original artworks",
+      },
+    },
+    {
+      key: "archival_fine_art_prints",
+      definition: {
+        name: "archival fine art prints",
+      },
+    },
+    {
+      key: "resin_and_pigment_art",
+      definition: {
+        name: "resin and pigment art",
+      },
+    },
+    {
+      key: "home_and_decor",
+      definition: {
+        name: "home and decor",
+      },
+    },
+    {
+      key: "wearable_art",
+      definition: {
+        name: "wearable art",
+      },
+    },
+    {
+      key: "stickers",
+      definition: {
+        name: "stickers",
+      },
+    },
+    {
+      key: "murals",
+      definition: {
+        name: "Murals",
+      },
+    },
+  ];
   it("renders mobile version correctly ", async () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
@@ -22,7 +72,10 @@ describe("Nav", () => {
     });
     render(
       <CartProvider>
-        <Nav title="test title" />
+        <Nav
+          title="test title"
+          productCategoriesItems={productCategoriesItemsMockedData}
+        />
       </CartProvider>
     );
     screen.getByRole("button", { name: "menu" });
@@ -43,7 +96,10 @@ describe("Nav", () => {
     });
     render(
       <CartProvider>
-        <Nav title="test title" />
+        <Nav
+          title="test title"
+          productCategoriesItems={productCategoriesItemsMockedData}
+        />
       </CartProvider>
     );
     expect(

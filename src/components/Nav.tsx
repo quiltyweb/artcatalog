@@ -50,7 +50,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
 }): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
-
   const handleClick = () => {
     onOpen();
   };
@@ -102,6 +101,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
             >
               {productCategoriesItems.map((item) => (
                 <Link
+                  key={item.key}
                   style={{ textDecoration: "underline" }}
                   to={`/product-categories/${item.key}`}
                 >
