@@ -38,6 +38,31 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "whatsApp" });
   });
 
+  it("Navigates to product categories pages", () => {
+    cy.clickDrawerMenuOption("commissions");
+    cy.findByRole("heading", { name: "commissions" });
+    cy.clickDrawerMenuOption("original artworks");
+    cy.findByRole("heading", { name: "original artworks" });
+
+    cy.clickDrawerMenuOption("archival fine art prints");
+    cy.findByRole("heading", { name: "archival fine art prints" });
+
+    cy.clickDrawerMenuOption("resin and pigment art");
+    cy.findByRole("heading", { name: "resin and pigment art" });
+
+    cy.clickDrawerMenuOption("home and decor");
+    cy.findByRole("heading", { name: "home and decor" });
+
+    cy.clickDrawerMenuOption("wearable art");
+    cy.findByRole("heading", { name: "wearable art" });
+
+    cy.clickDrawerMenuOption("stickers");
+    cy.findByRole("heading", { name: "stickers" });
+
+    cy.clickDrawerMenuOption("Murals");
+    cy.findByRole("heading", { name: "Murals" });
+  });
+
   it("renders top menu desktop layout", () => {
     cy.viewport("macbook-13");
     cy.get('svg[alt="Brushella logo"]').should("exist");
@@ -70,5 +95,30 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "Shipping Policy" });
     cy.findByRole("link", { name: "Privacy Policy" });
     cy.findByRole("link", { name: "Terms of Service" });
+  });
+
+  it("Navigates from home page to Return and Refund Policy page", () => {
+    cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.findByRole("heading", { name: "Return and Refund Policy" });
+  });
+
+  it("Navigates from home page to Hand Made Policy page", () => {
+    cy.findByRole("link", { name: "Hand Made Policy" }).click();
+    cy.findByRole("heading", { name: "Hand Made Policy" });
+  });
+
+  it("Navigates from home page to Shipping Policy page", () => {
+    cy.findByRole("link", { name: "Shipping Policy" }).click();
+    cy.findByRole("heading", { name: "Shipping Policy" });
+  });
+
+  it("Navigates from home page to Privacy Policy page", () => {
+    cy.findByRole("link", { name: "Privacy Policy" }).click();
+    cy.findByRole("heading", { name: "Privacy Policy" });
+  });
+
+  it("Navigates from home page to Terms of Service page", () => {
+    cy.findByRole("link", { name: "Terms of Service" }).click();
+    cy.findByRole("heading", { name: "Terms of Service" });
   });
 });
