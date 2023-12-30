@@ -10,7 +10,7 @@ describe("Prints page", () => {
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical"],
+      includedImpacts: ["critical", "serious"],
     });
   });
 
