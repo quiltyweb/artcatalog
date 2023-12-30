@@ -21,9 +21,9 @@ const Footer: React.FunctionComponent<FooterProps> = ({
     <Box color="black" bg="white" justifySelf="center" p="4">
       <HStack spacing="1rem" marginBottom="3rem" justifyContent="center">
         <Box>
-          <Link
+          <a
             data-testid="facebook"
-            to="https://www.facebook.com/Brushella"
+            href="https://www.facebook.com/Brushella"
             target="_blank"
           >
             <Icon
@@ -32,12 +32,12 @@ const Footer: React.FunctionComponent<FooterProps> = ({
               title="facebook"
               as={FaFacebookF}
             />
-          </Link>
+          </a>
         </Box>
         <Box>
-          <Link
+          <a
             aria-label="instagram"
-            to="https://www.instagram.com/brushella_brushmaster/"
+            href="https://www.instagram.com/brushella_brushmaster/"
             target="_blank"
           >
             <Icon
@@ -46,12 +46,12 @@ const Footer: React.FunctionComponent<FooterProps> = ({
               title="instagram"
               as={FaInstagram}
             />
-          </Link>
+          </a>
         </Box>
         <Box>
-          <Link
+          <a
             data-testid="whatsApp"
-            to="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
+            href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
             target="_blank"
           >
             <Icon
@@ -60,7 +60,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
               title="whatsApp"
               as={FaWhatsapp}
             />
-          </Link>
+          </a>
         </Box>
       </HStack>
 
