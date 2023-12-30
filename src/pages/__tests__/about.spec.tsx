@@ -13,16 +13,85 @@ afterEach(() => {
 
 describe("AboutPage", () => {
   it("renders correctly", () => {
-    const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
-    useStaticQuery.mockImplementation(() => ({
-      site: {
-        siteMetadata: {
-          title: "My Title",
+    const aboutPageMockedData = {
+      adminshopify: {
+        metaobjects: {
+          nodes: [
+            {
+              fields: [
+                {
+                  definition: {
+                    name: "commissions",
+                  },
+                  key: "commissions",
+                },
+                {
+                  definition: {
+                    name: "original artworks",
+                  },
+                  key: "original_artworks",
+                },
+                {
+                  definition: {
+                    name: "archival fine art prints",
+                  },
+                  key: "archival_fine_art_prints",
+                },
+                {
+                  definition: {
+                    name: "resin and pigment art",
+                  },
+                  key: "resin_and_pigment_art",
+                },
+                {
+                  definition: {
+                    name: "home and decor",
+                  },
+                  key: "home_and_decor",
+                },
+                {
+                  definition: {
+                    name: "wearable art",
+                  },
+                  key: "wearable_art",
+                },
+                {
+                  definition: {
+                    name: "stickers",
+                  },
+                  key: "stickers",
+                },
+                {
+                  definition: {
+                    name: "Murals",
+                  },
+                  key: "murals",
+                },
+              ],
+            },
+          ],
         },
       },
-    }));
-    render(<AboutPage />);
-    screen.getByText("About");
+      storefrontshopify: {
+        page: {
+          title: "Meet the Artist",
+          body: "<p>Gabriela Ugalde (Brushella) was born in Santiago, Chile in February 1987.</p>",
+        },
+      },
+    };
+    render(<AboutPage data={aboutPageMockedData} />);
     screen.getByAltText("Painter Gabriela painting on a canvas");
+    screen.getByText(
+      "Gabriela Ugalde (Brushella) was born in Santiago, Chile in February 1987."
+    );
+    screen.getByRole("heading", { name: "Meet the Artist" });
+    screen.getByRole("link", { name: "commissions" });
+    screen.getByRole("link", { name: "original artworks" });
+    screen.getByRole("link", { name: "archival fine art prints" });
+    screen.getByRole("link", { name: "resin and pigment art" });
+    screen.getByRole("link", { name: "home and decor" });
+    screen.getByRole("link", { name: "wearable art" });
+    screen.getByRole("link", { name: "stickers" });
+    screen.getByRole("link", { name: "Murals" });
   });
 });

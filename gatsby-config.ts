@@ -28,7 +28,30 @@ const config: GatsbyConfig = {
       options: {
         password: process.env.SHOPIFY_ADMIN_PASSWORD,
         storeUrl: process.env.SHOPIFY_STORE_URL,
-        shopifyConnections: ["collections"],
+        shopifyConnections: ["orders", "collections", "locations"],
+      },
+    },
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        typeName: "AdminShopify",
+        fieldName: "adminshopify",
+        url: `https://${process.env.SHOPIFY_STORE_NAME}.myshopify.com/admin/api/2023-10/graphql.json`,
+        headers: {
+          "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_PASSWORD,
+        },
+      },
+    },
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        typeName: "StoreFrontShopify",
+        fieldName: "storefrontshopify",
+        url: `https://${process.env.SHOPIFY_STORE_NAME}.myshopify.com/api/2023-10/graphql.json`,
+        headers: {
+          "X-Shopify-Storefront-Access-Token":
+            process.env.SHOPIFY_STOREFRONT_PASSWORD,
+        },
       },
     },
     {

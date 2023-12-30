@@ -8,6 +8,8 @@ jobs:
     env:
       SHOPIFY_ADMIN_PASSWORD: ${{ secrets.SHOPIFY_ADMIN_PASSWORD }}
       SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
+      SHOPIFY_STOREFRONT_PASSWORD: ${{ secrets.SHOPIFY_STOREFRONT_PASSWORD }}
+      SHOPIFY_STORE_NAME: ${{ secrets.SHOPIFY_STORE_NAME }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

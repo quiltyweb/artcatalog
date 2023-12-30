@@ -9,7 +9,6 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-// TODO: make LayoutPure componenet passing the data and test that, instead of the componenet that
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
@@ -18,6 +17,28 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       site {
         siteMetadata {
           title
+        }
+      }
+      adminshopify {
+        legalContent: metaobjects(first: 10, type: "legal_content") {
+          nodes {
+            fields {
+              key
+              definition {
+                name
+              }
+            }
+          }
+        }
+        productCategories: metaobjects(first: 10, type: "product_categories") {
+          nodes {
+            fields {
+              key
+              definition {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -46,7 +67,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         area={"header"}
         padding={4}
       >
-        <Nav title={data.site.siteMetadata.title} />
+        <Nav
+          title={data.site.siteMetadata.title}
+          productCategoriesItems={
+            data.adminshopify?.productCategories.nodes[0].fields
+          }
+        />
       </GridItem>
       <GridItem
         as="main"
@@ -59,7 +85,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         {children}
       </GridItem>
       <GridItem as="footer" area={"footer"} justifySelf="center">
-        <Footer />
+        <Footer
+          legalContentItems={data.adminshopify?.legalContent.nodes[0].fields}
+        />
       </GridItem>
     </Grid>
   );

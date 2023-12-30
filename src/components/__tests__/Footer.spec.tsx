@@ -11,16 +11,51 @@ afterEach(() => {
 });
 
 describe("Footer", () => {
+  const legalContentMockedData = [
+    {
+      key: "return_and_refund_policy",
+      definition: {
+        name: "Return and Refund Policy",
+      },
+    },
+    {
+      key: "hand_made_policy",
+      definition: {
+        name: "Hand Made Policy",
+      },
+    },
+    {
+      key: "shipping_policy",
+      definition: {
+        name: "Shipping Policy",
+      },
+    },
+    {
+      key: "privacy_policy",
+      definition: {
+        name: "Privacy Policy",
+      },
+    },
+    {
+      key: "terms_of_service",
+      definition: {
+        name: "Terms of Service",
+      },
+    },
+  ];
+
   it("renders correctly", async () => {
-    render(<Footer />);
-    // screen.getByRole("heading", { name: "quick links" });
-    // screen.getByRole("link", { name: "Refunds & Returns" });
-    // screen.getByRole("link", { name: "Privacy Policy" });
-    // screen.getByRole("link", { name: "Terms Of Service" });
-    // screen.getByRole("link", { name: "FAQs" });
-    screen.getByLabelText("facebook");
-    screen.getByLabelText("instagram");
-    screen.getByLabelText("whatsApp");
+    render(<Footer legalContentItems={legalContentMockedData} />);
+    // legal content policies links:
+    screen.getByRole("link", { name: "Return and Refund Policy" });
+    screen.getByRole("link", { name: "Hand Made Policy" });
+    screen.getByRole("link", { name: "Shipping Policy" });
+    screen.getByRole("link", { name: "Privacy Policy" });
+    screen.getByRole("link", { name: "Terms of Service" });
+
+    screen.getByTestId("facebook");
+    screen.getByTestId("instagram");
+    screen.getByTestId("whatsApp");
     screen.getByText(/© 2023, Brushella Art & Decor/);
   });
 });

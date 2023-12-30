@@ -24,6 +24,11 @@ import {
   FaRegEnvelope,
 } from "react-icons/fa";
 
+type NavProps = {
+  title: string;
+  productCategoriesItems: Queries.LayoutPageQuery["adminshopify"]["productCategories"]["nodes"][0]["fields"];
+};
+
 const ListMenu = (): React.ReactElement => {
   return (
     <Stack
@@ -39,10 +44,12 @@ const ListMenu = (): React.ReactElement => {
   );
 };
 
-const Nav = ({ title }: { title: string }): React.ReactElement => {
+const Nav: React.FunctionComponent<NavProps> = ({
+  title,
+  productCategoriesItems,
+}): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
-
   const handleClick = () => {
     onOpen();
   };
@@ -85,20 +92,38 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
             <ListMenu />
+
+            <Stack
+              spacing={8}
+              align="center"
+              direction={["column", "column", "column", "column", "row"]}
+              pt={[4, 4, 4, 4]}
+            >
+              {productCategoriesItems.map((item) => (
+                <Link
+                  key={item.key}
+                  style={{ textDecoration: "underline" }}
+                  to={`/product-categories/${item.key}`}
+                >
+                  {item.definition.name}
+                </Link>
+              ))}
+            </Stack>
+
             <HStack spacing="1rem" padding="3rem" justifyContent="center">
               <Box>
-                <Link to="https://www.facebook.com/Brushella" target="_blank">
+                <a href="https://www.facebook.com/Brushella" target="_blank">
                   <Icon
                     boxSize="1.5rem"
                     aria-label="facebook"
                     as={FaFacebookF}
                     title="facebook"
                   />
-                </Link>
+                </a>
               </Box>
               <Box>
-                <Link
-                  to="https://www.instagram.com/brushella_brushmaster/"
+                <a
+                  href="https://www.instagram.com/brushella_brushmaster/"
                   target="_blank"
                 >
                   <Icon
@@ -107,11 +132,11 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
                     as={FaInstagram}
                     title="instagram"
                   />
-                </Link>
+                </a>
               </Box>
               <Box>
-                <Link
-                  to="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
+                <a
+                  href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
                   target="_blank"
                 >
                   <Icon
@@ -120,7 +145,7 @@ const Nav = ({ title }: { title: string }): React.ReactElement => {
                     as={FaWhatsapp}
                     title="whatsApp"
                   />
-                </Link>
+                </a>
               </Box>
             </HStack>
           </DrawerBody>

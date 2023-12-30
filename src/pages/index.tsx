@@ -1,6 +1,6 @@
 import * as React from "react";
 import SEO from "../components/SEO";
-import { graphql, Link, PageProps } from "gatsby";
+import { graphql, PageProps } from "gatsby";
 import { Box, Text } from "@chakra-ui/react";
 import { StaticImage } from "gatsby-plugin-image";
 
@@ -26,13 +26,13 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
     <Box p={4}>
       <Text fontSize="xl" align="center" fontStyle="bold">
         Featuring: Human Nature at{" "}
-        <Link
-          style={{ textDecoration: "underline" }}
-          to="https://www.instagram.com/p/CwyZ2QIsaOR/?utm_source=ig_web_button_share_sheet&igshid=MzRlODBiNWFlZA=="
+        <a
+          href="https://www.instagram.com/p/CwyZ2QIsaOR/?utm_source=ig_web_button_share_sheet&igshid=MzRlODBiNWFlZA=="
           target="_blank"
+          style={{ textDecoration: "underline" }}
         >
           Bad News Gallery
-        </Link>
+        </a>
       </Text>
     </Box>
     <Box p={4}>
