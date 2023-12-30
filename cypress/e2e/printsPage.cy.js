@@ -17,6 +17,7 @@ describe("Prints page", () => {
   it("loads prints page correctly with data", () => {
     cy.findByRole("heading", { name: "Prints test" });
     cy.findByText("Macumba");
+    cy.findByAltText("Macumba");
     cy.findByText("print description goes here");
   });
 });
