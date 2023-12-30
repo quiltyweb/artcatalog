@@ -11,7 +11,7 @@ describe("Home page", () => {
     });
   });
 
-  it("renders top menu mobile layout", () => {
+  it("renders top menu mobile first layout", () => {
     cy.get('svg[alt="Brushella logo"]').should(
       "have.attr",
       "alt",
@@ -23,9 +23,19 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "Home" });
     cy.findByRole("link", { name: "About" });
     cy.findByRole("link", { name: "Prints" });
-    cy.findByTitle("facebook");
-    cy.findByTitle("instagram");
-    cy.findByTitle("whatsApp");
+    // product_categories metaobjects
+    cy.findByRole("link", { name: "commissions" });
+    cy.findByRole("link", { name: "original artworks" });
+    cy.findByRole("link", { name: "archival fine art prints" });
+    cy.findByRole("link", { name: "resin and pigment art" });
+    cy.findByRole("link", { name: "home and decor" });
+    cy.findByRole("link", { name: "wearable art" });
+    cy.findByRole("link", { name: "stickers" });
+    cy.findByRole("link", { name: "Murals" });
+
+    cy.findByRole("link", { name: "facebook" });
+    cy.findByRole("link", { name: "instagram" });
+    cy.findByRole("link", { name: "whatsApp" });
   });
 
   it("renders top menu desktop layout", () => {
@@ -53,5 +63,12 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "instagram" });
     cy.findByRole("link", { name: "whatsApp" });
     cy.findByText(/© 2023, Brushella Art & Decor/);
+
+    // legal content policies metaobjects:
+    cy.findByRole("link", { name: "Return and Refund Policy" });
+    cy.findByRole("link", { name: "Hand Made Policy" });
+    cy.findByRole("link", { name: "Shipping Policy" });
+    cy.findByRole("link", { name: "Privacy Policy" });
+    cy.findByRole("link", { name: "Terms of Service" });
   });
 });
