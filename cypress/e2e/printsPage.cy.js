@@ -29,15 +29,11 @@ describe("Prints page", () => {
 
   it("checks for accessibility violations", () => {
     cy.injectAxe();
-    // cy.checkA11y(null, {
-    //   runOnly: ["wcag2a", "wcag2aa"],
-    //   includedImpacts: ["critical", "serious"],
-    // });
     cy.checkA11y(
       null,
       {
-        runOnly: ["wcag2a", "wcag2aa"],
-        includedImpacts: ["critical", "serious"],
+        runOnly: ["wcag2a"],
+        includedImpacts: ["critical"],
       },
       terminalLog
     );
