@@ -51,7 +51,7 @@ const ListMenu: React.FunctionComponent<ListMenuProps> = ({
 }): React.ReactElement => {
   return (
     <Stack
-      spacing={[10, 10, 10, 10, 4]}
+      spacing={[10, 10, 10, 10, 7]}
       align="left"
       marginTop={5}
       direction={["column", "column", "column", "column", "row"]}
