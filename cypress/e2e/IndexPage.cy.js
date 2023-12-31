@@ -20,18 +20,16 @@ describe("Home page", () => {
 
     cy.findByTitle("send a message");
     cy.findByRole("button", { name: "menu" }).click();
-    cy.findByRole("link", { name: "Home" });
-    cy.findByRole("link", { name: "About" });
-    cy.findByRole("link", { name: "Prints" });
     // product_categories metaobjects
     cy.findByRole("link", { name: "commissions" });
-    cy.findByRole("link", { name: "original artworks" });
-    cy.findByRole("link", { name: "archival fine art prints" });
+    cy.findByRole("link", { name: "originals" });
+    cy.findByRole("link", { name: "prints" });
     cy.findByRole("link", { name: "resin and pigment art" });
-    cy.findByRole("link", { name: "home and decor" });
+    cy.findByRole("link", { name: "decor" });
     cy.findByRole("link", { name: "wearable art" });
     cy.findByRole("link", { name: "stickers" });
-    cy.findByRole("link", { name: "Murals" });
+    cy.findByRole("link", { name: "murals" });
+    cy.findByRole("link", { name: "about" });
 
     cy.findByRole("link", { name: "facebook" });
     cy.findByRole("link", { name: "instagram" });
@@ -41,17 +39,17 @@ describe("Home page", () => {
   it("Navigates to product categories pages", () => {
     cy.clickDrawerMenuOption("commissions");
     cy.findByRole("heading", { name: "commissions" });
-    cy.clickDrawerMenuOption("original artworks");
-    cy.findByRole("heading", { name: "original artworks" });
+    cy.clickDrawerMenuOption("originals");
+    cy.findByRole("heading", { name: "originals" });
 
-    cy.clickDrawerMenuOption("archival fine art prints");
-    cy.findByRole("heading", { name: "archival fine art prints" });
+    cy.clickDrawerMenuOption("prints");
+    cy.findByRole("heading", { name: "prints" });
 
     cy.clickDrawerMenuOption("resin and pigment art");
     cy.findByRole("heading", { name: "resin and pigment art" });
 
-    cy.clickDrawerMenuOption("home and decor");
-    cy.findByRole("heading", { name: "home and decor" });
+    cy.clickDrawerMenuOption("decor");
+    cy.findByRole("heading", { name: "decor" });
 
     cy.clickDrawerMenuOption("wearable art");
     cy.findByRole("heading", { name: "wearable art" });
@@ -59,16 +57,22 @@ describe("Home page", () => {
     cy.clickDrawerMenuOption("stickers");
     cy.findByRole("heading", { name: "stickers" });
 
-    cy.clickDrawerMenuOption("Murals");
-    cy.findByRole("heading", { name: "Murals" });
+    cy.clickDrawerMenuOption("murals");
+    cy.findByRole("heading", { name: "murals" });
   });
 
   it("renders top menu desktop layout", () => {
     cy.viewport("macbook-13");
     cy.get('svg[alt="Brushella logo"]').should("exist");
-    cy.findByRole("link", { name: "Home" });
-    cy.findByRole("link", { name: "About" });
-    cy.findByRole("link", { name: "Prints" });
+    cy.findByRole("link", { name: "commissions" });
+    cy.findByRole("link", { name: "originals" });
+    cy.findByRole("link", { name: "prints" });
+    cy.findByRole("link", { name: "resin and pigment art" });
+    cy.findByRole("link", { name: "decor" });
+    cy.findByRole("link", { name: "wearable art" });
+    cy.findByRole("link", { name: "stickers" });
+    cy.findByRole("link", { name: "murals" });
+    cy.findByRole("link", { name: "about" });
 
     cy.get('svg[title="menu"]').should("not.exist");
     cy.get('svg[title="send a message"]').should("not.exist");

@@ -23,23 +23,46 @@ import {
   FaWhatsapp,
   FaRegEnvelope,
 } from "react-icons/fa";
+import styled from "styled-components";
 
+const NavLink = styled(Link)`
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5rem;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  &:hover {
+    color: #6591a2;
+  }
+`;
 type NavProps = {
   title: string;
   productCategoriesItems: Queries.LayoutPageQuery["adminshopify"]["productCategories"]["nodes"][0]["fields"];
 };
 
-const ListMenu = (): React.ReactElement => {
+type ListMenuProps = {
+  productCategoriesItems: Queries.LayoutPageQuery["adminshopify"]["productCategories"]["nodes"][0]["fields"];
+};
+
+const ListMenu: React.FunctionComponent<ListMenuProps> = ({
+  productCategoriesItems,
+}): React.ReactElement => {
   return (
     <Stack
-      spacing={8}
-      align="center"
+      spacing={[10, 10, 10, 10, 7]}
+      align="left"
+      marginTop={5}
       direction={["column", "column", "column", "column", "row"]}
-      pt={[4, 4, 4, 4]}
+      fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "0.9rem"]}
     >
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="/prints">Prints</Link>
+      {productCategoriesItems.map((item) => (
+        <NavLink key={item.key} to={`/product-categories/${item.key}`}>
+          {item.definition.name}
+        </NavLink>
+      ))}
+      <NavLink to="/about">about</NavLink>
     </Stack>
   );
 };
@@ -57,17 +80,23 @@ const Nav: React.FunctionComponent<NavProps> = ({
   // desktop menu
   if (isLargerThan1280)
     return (
-      <Box display="flex" flexDir="column" alignItems="center">
-        <Box maxWidth={80}>
+      <Box
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Box>
           <Link to="/">
             <LogoImage
               alt={title + " logo"}
               title={title + " logo"}
-              style={{ maxWidth: "80", maxHeight: "80", filter: "invert(1)" }}
+              style={{ maxWidth: "70", maxHeight: "70", filter: "invert(1)" }}
             />
           </Link>
         </Box>
-        <ListMenu />
+
+        <ListMenu productCategoriesItems={productCategoriesItems} />
       </Box>
     );
 
@@ -91,25 +120,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <DrawerCloseButton />
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
-            <ListMenu />
-
-            <Stack
-              spacing={8}
-              align="center"
-              direction={["column", "column", "column", "column", "row"]}
-              pt={[4, 4, 4, 4]}
-            >
-              {productCategoriesItems.map((item) => (
-                <Link
-                  key={item.key}
-                  style={{ textDecoration: "underline" }}
-                  to={`/product-categories/${item.key}`}
-                >
-                  {item.definition.name}
-                </Link>
-              ))}
-            </Stack>
-
+            <ListMenu productCategoriesItems={productCategoriesItems} />
             <HStack spacing="1rem" padding="3rem" justifyContent="center">
               <Box>
                 <a href="https://www.facebook.com/Brushella" target="_blank">
@@ -156,7 +167,12 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <LogoImage
             alt={title + " logo"}
             title={title + " logo"}
-            style={{ maxWidth: "64", maxHeight: "64", filter: "invert(1)" }}
+            style={{
+              width: "56",
+              maxWidth: "64",
+              maxHeight: "64",
+              filter: "invert(1)",
+            }}
           />
         </Link>
       </Box>

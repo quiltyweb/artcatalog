@@ -56,6 +56,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       backgroundColor="white"
       color="black"
       fontWeight="normal"
+      fontFamily={"Montserrat"}
     >
       <GridItem
         as="nav"
@@ -84,7 +85,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       >
         {children}
       </GridItem>
-      <GridItem as="footer" area={"footer"} justifySelf="center">
+      <GridItem
+        as="footer"
+        area={"footer"}
+        justifySelf="center"
+        width={"100%"}
+        maxWidth="1024px"
+      >
         <Footer
           legalContentItems={data.adminshopify?.legalContent.nodes[0].fields}
         />

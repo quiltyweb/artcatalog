@@ -27,15 +27,15 @@ describe("AboutPage", () => {
                 },
                 {
                   definition: {
-                    name: "original artworks",
+                    name: "originals",
                   },
-                  key: "original_artworks",
+                  key: "originals",
                 },
                 {
                   definition: {
-                    name: "archival fine art prints",
+                    name: "prints",
                   },
-                  key: "archival_fine_art_prints",
+                  key: "prints",
                 },
                 {
                   definition: {
@@ -45,9 +45,9 @@ describe("AboutPage", () => {
                 },
                 {
                   definition: {
-                    name: "home and decor",
+                    name: "decor",
                   },
-                  key: "home_and_decor",
+                  key: "decor",
                 },
                 {
                   definition: {
@@ -63,7 +63,7 @@ describe("AboutPage", () => {
                 },
                 {
                   definition: {
-                    name: "Murals",
+                    name: "murals",
                   },
                   key: "murals",
                 },
@@ -86,12 +86,12 @@ describe("AboutPage", () => {
     );
     screen.getByRole("heading", { name: "Meet the Artist" });
     screen.getByRole("link", { name: "commissions" });
-    screen.getByRole("link", { name: "original artworks" });
-    screen.getByRole("link", { name: "archival fine art prints" });
+    screen.getByRole("link", { name: "originals" });
+    screen.getByRole("link", { name: "prints" });
     screen.getByRole("link", { name: "resin and pigment art" });
-    screen.getByRole("link", { name: "home and decor" });
+    screen.getByRole("link", { name: "decor" });
     screen.getByRole("link", { name: "wearable art" });
     screen.getByRole("link", { name: "stickers" });
-    screen.getByRole("link", { name: "Murals" });
+    screen.getByRole("link", { name: "murals" });
   });
 });

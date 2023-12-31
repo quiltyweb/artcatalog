@@ -10,6 +10,18 @@ type LegalContentTemplateProps = {
   };
 };
 
+/* Skip the Line. Purchase Tickets. */
+
+// font-family: 'Montserrat';
+// font-style: normal;
+// font-weight: 600;
+// font-size: 24px;
+// line-height: 29px;
+// display: flex;
+// align-items: center;
+
+// color: #4B828F;
+
 const LegalContentTemplate: React.FunctionComponent<
   LegalContentTemplateProps
 > = ({ pageContext: { title, content } }): React.ReactElement => {
