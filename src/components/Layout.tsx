@@ -56,6 +56,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       backgroundColor="white"
       color="black"
       fontWeight="normal"
+      fontFamily={"Montserrat"}
     >
       <GridItem
         as="nav"
