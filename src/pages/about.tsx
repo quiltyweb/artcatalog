@@ -10,7 +10,7 @@ const Title = styled(Heading)`
   font-size: 1.5rem;
   line-height: 29px;
   color: #4b828f;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   text-transform: capitalize;
 `;
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
@@ -18,26 +18,25 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
 }): React.ReactElement => {
   return (
     <>
-      <Stack direction={["column", "column", "row", "row", "row"]} p={4}>
-        <Box>
-          <Title as="h2">{storefrontshopify.page?.title}</Title>
-          <Text fontSize="md" as={"div"}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: storefrontshopify.page?.body,
-              }}
-            />
-          </Text>
-        </Box>
+      <Stack direction={"column"} alignItems="flex-start" p={4}>
+        <Title as="h2">{storefrontshopify.page?.title}</Title>
         <StaticImage
           style={{
             filter: "grayscale(1)",
             transform: "scaleX(-1)",
             borderRadius: "6px",
+            marginBottom: "2rem",
           }}
           alt="Painter Gabriela painting on a canvas"
           src="../images/about/author.jpg"
         />
+        <Text fontSize="md" as={"div"}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: storefrontshopify.page?.body,
+            }}
+          />
+        </Text>
       </Stack>
 
       <Title as="h3">About my products</Title>
