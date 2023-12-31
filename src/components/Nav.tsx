@@ -62,7 +62,7 @@ const ListMenu: React.FunctionComponent<ListMenuProps> = ({
           {item.definition.name}
         </NavLink>
       ))}
-      <NavLink to="/about">About</NavLink>
+      <NavLink to="/about">about</NavLink>
     </Stack>
   );
 };

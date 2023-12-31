@@ -58,52 +58,52 @@ beforeEach(() => {
           {
             fields: [
               {
-                key: "commissions",
                 definition: {
                   name: "commissions",
                 },
+                key: "commissions",
               },
               {
-                key: "original_artworks",
                 definition: {
-                  name: "original artworks",
+                  name: "originals",
                 },
+                key: "originals",
               },
               {
-                key: "archival_fine_art_prints",
                 definition: {
-                  name: "archival fine art prints",
+                  name: "prints",
                 },
+                key: "prints",
               },
               {
-                key: "resin_and_pigment_art",
                 definition: {
                   name: "resin and pigment art",
                 },
+                key: "resin_and_pigment_art",
               },
               {
-                key: "home_and_decor",
                 definition: {
-                  name: "home and decor",
+                  name: "decor",
                 },
+                key: "decor",
               },
               {
-                key: "wearable_art",
                 definition: {
                   name: "wearable art",
                 },
+                key: "wearable_art",
               },
               {
-                key: "stickers",
                 definition: {
                   name: "stickers",
                 },
+                key: "stickers",
               },
               {
-                key: "murals",
                 definition: {
-                  name: "Murals",
+                  name: "murals",
                 },
+                key: "murals",
               },
             ],
           },
@@ -171,18 +171,15 @@ describe("Layout", () => {
     );
     await user.click(screen.getByRole("button", { name: "menu" }));
 
-    screen.getByRole("link", { name: "Home" });
-    screen.getByRole("link", { name: "About" });
-    screen.getByRole("link", { name: "Prints" });
-
     screen.getByRole("link", { name: "commissions" });
-    screen.getByRole("link", { name: "original artworks" });
-    screen.getByRole("link", { name: "archival fine art prints" });
+    screen.getByRole("link", { name: "originals" });
+    screen.getByRole("link", { name: "prints" });
     screen.getByRole("link", { name: "resin and pigment art" });
-    screen.getByRole("link", { name: "home and decor" });
+    screen.getByRole("link", { name: "decor" });
     screen.getByRole("link", { name: "wearable art" });
     screen.getByRole("link", { name: "stickers" });
-    screen.getByRole("link", { name: "Murals" });
+    screen.getByRole("link", { name: "murals" });
+    screen.getByRole("link", { name: "about" });
 
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
@@ -212,7 +209,13 @@ it("loads desktop menu", async () => {
   ).not.toBeInTheDocument();
   expect(screen.queryByTitle("send a message")).not.toBeInTheDocument();
   screen.getByAltText("Site Title logo");
-  screen.getByRole("link", { name: "Home" });
-  screen.getByRole("link", { name: "About" });
-  screen.getByRole("link", { name: "Prints" });
+  screen.getByRole("link", { name: "commissions" });
+  screen.getByRole("link", { name: "originals" });
+  screen.getByRole("link", { name: "prints" });
+  screen.getByRole("link", { name: "resin and pigment art" });
+  screen.getByRole("link", { name: "decor" });
+  screen.getByRole("link", { name: "wearable art" });
+  screen.getByRole("link", { name: "stickers" });
+  screen.getByRole("link", { name: "murals" });
+  screen.getByRole("link", { name: "about" });
 });

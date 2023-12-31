@@ -20,15 +20,15 @@ describe("Nav", () => {
       },
     },
     {
-      key: "original_artworks",
+      key: "originals",
       definition: {
-        name: "original artworks",
+        name: "originals",
       },
     },
     {
-      key: "archival_fine_art_prints",
+      key: "prints",
       definition: {
-        name: "archival fine art prints",
+        name: "prints",
       },
     },
     {
@@ -38,9 +38,9 @@ describe("Nav", () => {
       },
     },
     {
-      key: "home_and_decor",
+      key: "decor",
       definition: {
-        name: "home and decor",
+        name: "decor",
       },
     },
     {
@@ -58,7 +58,7 @@ describe("Nav", () => {
     {
       key: "murals",
       definition: {
-        name: "Murals",
+        name: "murals",
       },
     },
   ];
@@ -82,7 +82,7 @@ describe("Nav", () => {
     screen.getByAltText(/test title/);
     screen.getByTitle("send a message");
     expect(
-      screen.queryByRole("link", { name: "Home" })
+      screen.queryByRole("link", { name: "commissions" })
     ).not.toBeInTheDocument();
   });
 
@@ -108,8 +108,14 @@ describe("Nav", () => {
     expect(screen.queryByTitle("send a message")).not.toBeInTheDocument();
 
     screen.getByAltText(/test title/);
-    screen.getByRole("link", { name: "Home" });
-    screen.getByRole("link", { name: "About" });
-    screen.getByRole("link", { name: "Prints" });
+    screen.getByRole("link", { name: "commissions" });
+    screen.getByRole("link", { name: "originals" });
+    screen.getByRole("link", { name: "prints" });
+    screen.getByRole("link", { name: "resin and pigment art" });
+    screen.getByRole("link", { name: "decor" });
+    screen.getByRole("link", { name: "wearable art" });
+    screen.getByRole("link", { name: "stickers" });
+    screen.getByRole("link", { name: "murals" });
+    screen.getByRole("link", { name: "about" });
   });
 });
