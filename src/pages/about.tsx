@@ -2,7 +2,17 @@ import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import styled from "styled-components";
 
+const Title = styled(Heading)`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 29px;
+  color: #4b828f;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+`;
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   data: { storefrontshopify, adminshopify },
 }): React.ReactElement => {
@@ -10,9 +20,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
     <>
       <Stack direction={["column", "column", "row", "row", "row"]} p={4}>
         <Box>
-          <Heading as="h2" size="lg" marginBottom={4}>
-            {storefrontshopify.page?.title}
-          </Heading>
+          <Title as="h2">{storefrontshopify.page?.title}</Title>
           <Text fontSize="md" as={"div"}>
             <div
               dangerouslySetInnerHTML={{
@@ -32,18 +40,18 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
         />
       </Stack>
 
+      <Title as="h3">About my products</Title>
       <Stack
-        spacing={8}
+        spacing={4}
         align="center"
+        fontSize={["1rem", "1rem", "1rem", "1rem", "0.9rem"]}
         direction={["column", "column", "column", "column", "row"]}
-        pt={[4, 4, 4, 4]}
+        pt={[4, 4, 4, 4, 4]}
+        mt={[4, 4, 4, 4, 4]}
+        textTransform="capitalize"
       >
         {adminshopify?.metaobjects.nodes[0].fields.map((item) => (
-          <Link
-            key={item.key}
-            style={{ textDecoration: "underline" }}
-            to={`/product-categories/${item.key}`}
-          >
+          <Link key={item.key} to={`/product-categories/${item.key}`}>
             {item.definition.name}
           </Link>
         ))}
