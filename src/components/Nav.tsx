@@ -54,7 +54,7 @@ const ListMenu: React.FunctionComponent<ListMenuProps> = ({
       spacing={[10, 10, 10, 10, 7]}
       align="left"
       marginTop={5}
-      marginBottom={5}
+      marginBottom={[5, 5, 5, 5, 0]}
       direction={["column", "column", "column", "column", "row"]}
       fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "0.9rem"]}
     >

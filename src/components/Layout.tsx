@@ -66,7 +66,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         color="#FFFFFF"
         bg="#000000"
         area={"header"}
-        paddingTop={4}
+        padding={4}
         marginBottom={8}
       >
         <Nav
@@ -83,6 +83,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         area={"main"}
         justifySelf="center"
         maxWidth={"47rem"}
+        margin="1rem"
       >
         {children}
       </GridItem>
