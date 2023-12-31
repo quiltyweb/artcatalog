@@ -156,7 +156,12 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <LogoImage
             alt={title + " logo"}
             title={title + " logo"}
-            style={{ maxWidth: "64", maxHeight: "64", filter: "invert(1)" }}
+            style={{
+              width: "56",
+              maxWidth: "64",
+              maxHeight: "64",
+              filter: "invert(1)",
+            }}
           />
         </Link>
       </Box>
