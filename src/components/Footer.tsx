@@ -110,7 +110,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
       </HStack>
       <hr />
       <Text display="flex" justifyContent="center" p={4}>
-        © 2023, Brushella Art & Decor
+        © 2024, Brushella Art & Decor
       </Text>
     </Box>
   );
