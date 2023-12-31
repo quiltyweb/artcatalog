@@ -56,6 +56,6 @@ describe("Footer", () => {
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
     screen.getByTestId("whatsApp");
-    screen.getByText(/© 2023, Brushella Art & Decor/);
+    screen.getByText(/© 2024, Brushella Art & Decor/);
   });
 });

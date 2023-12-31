@@ -91,7 +91,7 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "facebook" });
     cy.findByRole("link", { name: "instagram" });
     cy.findByRole("link", { name: "whatsApp" });
-    cy.findByText(/© 2023, Brushella Art & Decor/);
+    cy.findByText(/© 2024, Brushella Art & Decor/);
 
     // legal content policies metaobjects:
     cy.findByRole("link", { name: "Return and Refund Policy" });

@@ -67,6 +67,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         bg="#000000"
         area={"header"}
         padding={4}
+        marginBottom={8}
       >
         <Nav
           title={data.site.siteMetadata.title}
@@ -81,7 +82,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         bg="white"
         area={"main"}
         justifySelf="center"
-        maxWidth={"60rem"}
+        maxWidth={"47rem"}
+        margin="1rem"
       >
         {children}
       </GridItem>
@@ -91,6 +93,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         justifySelf="center"
         width={"100%"}
         maxWidth="1024px"
+        marginTop="2rem"
       >
         <Footer
           legalContentItems={data.adminshopify?.legalContent.nodes[0].fields}
