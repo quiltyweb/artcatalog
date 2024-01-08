@@ -1,30 +1,87 @@
 import React from "react";
-import { Link } from "gatsby";
-import { Box, Heading, Text } from "@chakra-ui/react";
-import ProductCard from "../components/ProductCard";
+import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import styled from "styled-components";
+import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
+import { Link, PageProps } from "gatsby";
+import SEO from "../components/SEO";
 
-const CollectionTemplate = ({ pageContext }): React.ReactElement => {
-  const { collection } = pageContext;
+const Title = styled(Heading)`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 29px;
+  color: #4b828f;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+`;
+
+type CollectionProps = {
+  pageContext: {
+    title: string;
+    collectionHandle: string;
+    products: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"];
+  };
+};
+
+const Collection: React.FunctionComponent<CollectionProps> = ({
+  pageContext: { title, products, collectionHandle },
+}): React.ReactElement => {
   return (
     <>
-      <Box id="brushella-single-collection-container">
-        <Link to="/collections">Back to Collections List</Link>
-        <Heading as="h2">{collection.title}</Heading>
-        <Text>{collection.description}</Text>
-        <hr />
-        {collection.products.length !== 0 ? (
-          <ul id="brushella-all-products-in-collection-list">
-            {collection.products.map((product) => (
-              <li key={product.id}>
-                <ProductCard product={product} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Text>There are no products available in this collection</Text>
-        )}
-      </Box>
+      <Title as="h2">{title}</Title>
+
+      {products.length !== 0 ? (
+        <SimpleGrid columns={[1, 2, 3]} spacing="40px">
+          {products.map(({ id, featuredImage, title, description, handle }) => {
+            const image = getImage(featuredImage);
+            return (
+              <Link
+                key={handle}
+                to={`/collections/${collectionHandle}/${handle}`}
+              >
+                <Box key={`${id}-product-item`} padding={2} maxWidth={200}>
+                  {image ? (
+                    <GatsbyImage
+                      image={image}
+                      alt={featuredImage?.altText || title}
+                      style={{
+                        transform: "scaleX(-1)",
+                      }}
+                    />
+                  ) : (
+                    <StaticImage
+                      style={{
+                        filter: "grayscale(1)",
+                        transform: "scaleX(-1)",
+                        borderRadius: "6px",
+                        marginBottom: "2rem",
+                      }}
+                      alt="no product image available"
+                      src="../images/noimg.jpg"
+                    />
+                  )}
+                  <Heading as="h3">{title}</Heading>
+                  <Text>{description}</Text>
+                </Box>
+              </Link>
+            );
+          })}
+        </SimpleGrid>
+      ) : (
+        <Text>There are no products available.</Text>
+      )}
     </>
   );
 };
-export default CollectionTemplate;
+export default Collection;
+
+export const Head = ({ location }: PageProps): React.ReactElement => (
+  <SEO>
+    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
+    <meta
+      id="collection-page"
+      name="collection"
+      content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
+    />
+  </SEO>
+);

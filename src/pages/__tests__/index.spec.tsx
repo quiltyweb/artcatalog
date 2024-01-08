@@ -17,21 +17,19 @@ describe("IndexPage", () => {
     const mockDataProp = { site: { siteMetadata: { title: "test title" } } };
     render(<IndexPage data={mockDataProp} />);
     screen.getByText("Featuring: Human Nature at");
-    screen.getByRole("link", "Bad News Gallery");
-    screen.getByAltText(/"After Grief" from Human Nature Collection/);
+    screen.getByRole("link", { name: "Bad News Gallery" });
+    screen.getByAltText(
+      /original artwork called After Grief from Human Nature Collection by Brushella/
+    );
     screen.getByText(/"After Grief" from Human Nature Collection/);
     screen.getByText("test title");
 
-    // future sections:
-    // screen.getByRole("link", { name: "explore all collections" });
-    // screen.getByAltText("ArtCatalog1.0 collection heart");
-    // screen.getByAltText("ArtCatalog1.0 collection heart");
-    // screen.getByRole("heading", { name: "featured collections" });
-    // screen.getByAltText("home decor");
-    // screen.getByAltText("prints");
-    // screen.getByAltText("original paintings");
-    // screen.getByText("home decor");
-    // screen.getByText("prints");
-    // screen.getByText("original paintings");
+    screen.getByRole("heading", { name: "Featured Categories" });
+    screen.getByRole("link", { name: /Home Decor/ });
+    screen.getByAltText("home decor");
+    screen.getByRole("link", { name: /Original Paintings/ });
+    screen.getByAltText("original paintings");
+    screen.getByRole("link", { name: /Prints/ });
+    screen.getByAltText("prints");
   });
 });

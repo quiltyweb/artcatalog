@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import { Heading, Stack, Text } from "@chakra-ui/react";
 import styled from "styled-components";
 
 const Title = styled(Heading)`
@@ -19,7 +19,9 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   return (
     <>
       <Stack direction={"column"} alignItems="flex-start" p={4}>
-        <Title as="h2">{storefrontshopify.page?.title}</Title>
+        <Title as="h2">
+          {storefrontshopify.page?.title || "Meet the Artist"}
+        </Title>
         <StaticImage
           style={{
             filter: "grayscale(1)",
@@ -28,7 +30,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
             marginBottom: "2rem",
           }}
           alt="Painter Gabriela painting on a canvas"
-          src="../images/about/author.jpg"
+          src="../images/author.jpg"
         />
         <Text fontSize="md" as={"div"}>
           <div

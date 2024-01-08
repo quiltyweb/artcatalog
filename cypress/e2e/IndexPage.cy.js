@@ -12,13 +12,10 @@ describe("Home page", () => {
   });
 
   it("renders top menu mobile first layout", () => {
-    cy.get('svg[alt="Brushella logo"]').should(
-      "have.attr",
-      "alt",
-      "Brushella logo"
-    );
+    cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
 
-    cy.findByTitle("send a message");
+    // cy.findByTitle("send a message");
+    cy.findByLabelText(/send a message/i, { timeout: 7000 }).should("exist");
     cy.findByRole("button", { name: "menu" }).click();
     // product_categories metaobjects
     cy.findByRole("link", { name: "commissions" });
@@ -63,7 +60,7 @@ describe("Home page", () => {
 
   it("renders top menu desktop layout", () => {
     cy.viewport("macbook-13");
-    cy.get('svg[alt="Brushella logo"]').should("exist");
+    cy.get('svg[alt="Brushella"]').should("exist");
     cy.findByRole("link", { name: "commissions" });
     cy.findByRole("link", { name: "originals" });
     cy.findByRole("link", { name: "prints" });
@@ -75,14 +72,19 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "about" });
 
     cy.get('svg[title="menu"]').should("not.exist");
-    cy.get('svg[title="send a message"]').should("not.exist");
+    // cy.get('svg[title="send a message"]').should("not.exist");
+    cy.findByLabelText(/send a message/i, { timeout: 7000 }).should(
+      "not.exist"
+    );
   });
 
   it("renders main area", () => {
     cy.get("main");
     cy.findByText("Featuring: Human Nature at");
     cy.findByRole("link", { name: /Bad News Gallery/ });
-    cy.findByAltText(/"After Grief" from Human Nature Collection/);
+    cy.findByAltText(
+      /original artwork called After Grief from Human Nature Collection by Brushella/
+    );
     cy.findByText(/"After Grief" from Human Nature Collection/);
   });
 

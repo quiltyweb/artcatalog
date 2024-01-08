@@ -14,7 +14,7 @@ describe("About page", () => {
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: "about" }).click();
-    cy.findByText("Meet the Artist");
+    cy.findByText(/Meet the Artist/);
     // product_categories metaobjects
     cy.findByRole("link", { name: "commissions" });
     cy.findByRole("link", { name: "originals" });

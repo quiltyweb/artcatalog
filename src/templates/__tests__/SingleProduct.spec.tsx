@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import * as Gatsby from "gatsby";
-import ProductTemplate from "../Product";
+import SingleProduct from "../SingleProduct";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -54,7 +54,7 @@ describe("Product page Template", () => {
       },
     };
 
-    render(<ProductTemplate pageContext={mockedPageContext} />);
+    render(<SingleProduct pageContext={mockedPageContext} />);
     screen.getByRole("heading", { name: "Bamboo coaster" });
   });
 });

@@ -1,54 +1,17 @@
 import * as React from "react";
-import { Link } from "gatsby";
-import { GatsbyImage } from "gatsby-plugin-image";
-import {
-  Box,
-  useColorModeValue,
-  Heading,
-  Text,
-  Stack,
-  Button,
-  FormControl,
-  FormLabel,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-} from "@chakra-ui/react";
-import { useFormik } from "formik";
-import { useCartContext } from "../context/CartContext";
+import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
+import { Box, useColorModeValue, Heading, Text, Stack } from "@chakra-ui/react";
 
 type ProductCardProps = {
-  product: any; // TODO: add proper product type
-  isFullWidth?: boolean;
+  product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
+  collectionHandle: string;
 };
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
-  isFullWidth,
+  collectionHandle,
 }): React.ReactElement => {
-  const { addItemToCart } = useCartContext();
-  const formik = useFormik({
-    initialValues: {
-      productId: product.id,
-      productTitle: product.title,
-      quantity: 0,
-    },
-    onSubmit: (values) => {
-      if (values.quantity === 0) {
-        return;
-      }
-
-      addItemToCart({
-        id: values.productId,
-        title: values.productTitle,
-        quantity: values.quantity,
-      });
-    },
-  });
-
-  const IMAGE = product.featuredImage.gatsbyImageData;
+  const IMAGE = getImage(product.featuredImage);
 
   return (
     <Box
@@ -60,14 +23,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
       rounded="lg"
       pos="relative"
       zIndex={1}
-      maxW={isFullWidth ? "100%" : "330px"}
-      display={isFullWidth ? "flex" : "block"}
+      maxW={"100%"}
+      display={"flex"}
     >
-      testing
       <Box
         rounded="lg"
         pos="relative"
-        height={isFullWidth ? "460px" : "230px"}
+        height={"460px"}
         _after={{
           transition: "all .3s ease",
           content: '""',
@@ -86,59 +48,36 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           },
         }}
       >
-        <Link to={`/products/${product.handle}`}>
+        {IMAGE ? (
           <GatsbyImage
             image={IMAGE}
-            alt={product.featuredImage.altText || product.title}
+            alt={product.featuredImage?.altText || product.title}
+            style={{
+              transform: "scaleX(-1)",
+            }}
             loading="eager"
           />
-        </Link>
-      </Box>
-      <Stack
-        pl={isFullWidth ? "10" : "0"}
-        pt={isFullWidth ? "0" : "20"}
-        align={isFullWidth ? "left" : "center"}
-      >
-        <Text color="gray.600" fontSize="sm" textTransform="uppercase">
-          Collection Placeholder
-        </Text>
-        <Heading fontSize="2xl" fontFamily="body" fontWeight={500}>
-          <Link to={`/products/${product.handle}`}>{product.title}</Link>
-        </Heading>
-        <Stack direction="row" align="center">
-          <Text fontWeight={800} fontSize="xl">
-            {`${product.priceRangeV2.maxVariantPrice.amount} (${product.priceRangeV2.maxVariantPrice.currencyCode})`}
-          </Text>
-        </Stack>
-        <Text color="gray.700">{product.description}</Text>
-        {isFullWidth && (
-          <form onSubmit={formik.handleSubmit}>
-            <Stack direction="row" align="flex-end">
-              <FormControl id="quantity">
-                <FormLabel htmlFor="quantity">Quantity</FormLabel>
-                <NumberInput
-                  min={0}
-                  id="quantity"
-                  name="quantity"
-                  value={formik.values.quantity}
-                  onChange={(val) => {
-                    const quantity = parseInt(val);
-                    formik.setFieldValue("quantity", quantity);
-                  }}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper id="quantity-increment" />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-              <Button id="add" type="submit" colorScheme="purple">
-                Add to cart
-              </Button>
-            </Stack>
-          </form>
+        ) : (
+          <StaticImage
+            style={{
+              filter: "grayscale(1)",
+              transform: "scaleX(-1)",
+              borderRadius: "6px",
+              marginBottom: "2rem",
+            }}
+            alt="no product image available"
+            src="../images/noimg.jpg"
+          />
         )}
+      </Box>
+      <Stack pl={"0"} pt={"20"} align={"center"}>
+        <Heading fontSize="2xl" fontFamily="body" fontWeight={500}>
+          {product.title}
+        </Heading>
+        <Text color="gray.600" fontSize="sm" textTransform="uppercase">
+          collection: {collectionHandle}
+        </Text>
+        <Text color="gray.700">{product.description}</Text>
       </Stack>
     </Box>
   );

@@ -13,12 +13,12 @@ afterEach(() => {
 describe("TileList", () => {
   it("renders correctly", async () => {
     render(<TileList />);
-    screen.getByRole("heading", { name: "featured collections" });
-    screen.getByAltText("home decor");
-    screen.getByAltText("prints");
+    screen.getByRole("heading", { name: "Featured Categories" });
     screen.getByAltText("original paintings");
-    screen.getByText("home decor");
-    screen.getByText("prints");
-    screen.getByText("original paintings");
+    screen.getByText("Original Paintings");
+    screen.getByAltText("prints");
+    screen.getByText("Prints");
+    screen.getByAltText("home decor");
+    screen.getByText("Home Decor");
   });
 });

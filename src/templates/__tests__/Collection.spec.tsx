@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import * as Gatsby from "gatsby";
-import CollectionTemplate from "../Collection";
+import Collection from "../Collection";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -13,88 +12,167 @@ afterEach(() => {
 
 describe("Collection page Template", () => {
   it("renders correctly", () => {
-    const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
-    useStaticQuery.mockImplementation(() => ({
-      site: {
-        siteMetadata: {
-          title: "Site Title",
-        },
-      },
-    }));
     const mockedPageContext = {
-      collection: {
-        id: "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
-        title: "Kitchen Collection",
-        handle: "kitchen-collection",
-        description: "nice things to decorate your kitchen!",
-        products: [
-          {
-            id: "345e1ae7-3662-5fbd-a6d2-a3931a5fb862",
-            title: "Bamboo coaster",
-            handle: "bamboo-coaster",
-            description:
-              "Nice bamboo coaster with sequin applications with a varnishing finish for home decor.",
-            priceRangeV2: {
-              maxVariantPrice: { amount: "30.0", currencyCode: "AUD" },
-            },
-            featuredImage: {
-              id: "gid://shopify/ProductImage/28691898466512",
-              altText:
-                "Bamboo coaster with sequin center and resine and square rounded borders",
-              gatsbyImageData: {
-                images: {
-                  sources: [],
-                  fallback: {
-                    src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696",
-                    srcSet:
-                      "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_146x146_crop_center.png?v=1627042696 146w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_291x291_crop_center.png?v=1627042696 291w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696 582w",
-                    sizes: "(min-width: 582px) 582px, 100vw",
-                  },
-                },
-                layout: "constrained",
-                width: 910,
-                height: 910,
-              },
+      title: "originals",
+      products: [
+        {
+          id: "08ae3833-681a-5d28-a545-145949a9937e",
+          title: "frog",
+          handle: "frog",
+          description: "original",
+          priceRangeV2: {
+            maxVariantPrice: {
+              amount: 0,
+              currencyCode: "AUD",
             },
           },
-          {
-            id: "793025dc-ae76-5230-b72d-9e8a6776cb7b",
-            title: "Galactic kitten",
-            handle: "galactic-kitten",
-            description:
-              "Super cute decorative Galactic kittens with magnet. Colors can be customizable!",
-            priceRangeV2: {
-              maxVariantPrice: { amount: "10.0", currencyCode: "AUD" },
-            },
-            featuredImage: {
-              id: "gid://shopify/ProductImage/28691870023888",
-              altText:
-                "blue resine head of cat shape, with shiny finish and texture",
-              gatsbyImageData: {
-                images: {
-                  sources: [],
-                  fallback: {
-                    src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_910x910_crop_center.png?v=1627042746",
+          featuredImage: {
+            altText: null,
+            gatsbyImageData: {
+              images: {
+                sources: [
+                  {
                     srcSet:
-                      "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_228x228_crop_center.png?v=1627042746 228w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_455x455_crop_center.png?v=1627042746 455w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.03.14pm_910x910_crop_center.png?v=1627042746 910w",
-                    sizes: "(min-width: 910px) 910px, 100vw",
+                      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_141x115_crop_center.jpg.webp?v=1689332385 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_282x230_crop_center.jpg.webp?v=1689332385 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_564x460_crop_center.jpg.webp?v=1689332385 564w",
+                    sizes: "(min-width: 564px) 564px, 100vw",
+                    type: "image/webp",
                   },
+                ],
+                fallback: {
+                  src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_564x460_crop_center.jpg?v=1689332385",
+                  srcSet:
+                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_141x115_crop_center.jpg?v=1689332385 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_282x230_crop_center.jpg?v=1689332385 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-05-17at9.34.23PM_564x460_crop_center.jpg?v=1689332385 564w",
+                  sizes: "(min-width: 564px) 564px, 100vw",
                 },
-                layout: "constrained",
-                width: 910,
-                height: 910,
               },
+              layout: "constrained",
+              width: 564,
+              height: 460,
             },
           },
-        ],
-      },
+        },
+        {
+          id: "d4d2ee09-22c5-5216-a502-9439385f91f2",
+          title: "jungle",
+          handle: "jungle",
+          description: "original painting",
+          priceRangeV2: {
+            maxVariantPrice: {
+              amount: 0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: {
+            altText: null,
+            gatsbyImageData: {
+              images: {
+                sources: [
+                  {
+                    srcSet:
+                      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_141x115_crop_center.jpg.webp?v=1689332177 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_282x230_crop_center.jpg.webp?v=1689332177 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_564x460_crop_center.jpg.webp?v=1689332177 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_1128x920_crop_center.jpg.webp?v=1689332177 1128w",
+                    sizes: "(min-width: 564px) 564px, 100vw",
+                    type: "image/webp",
+                  },
+                ],
+                fallback: {
+                  src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_564x460_crop_center.jpg?v=1689332177",
+                  srcSet:
+                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_141x115_crop_center.jpg?v=1689332177 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_282x230_crop_center.jpg?v=1689332177 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_564x460_crop_center.jpg?v=1689332177 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-06-28at9.24.31PM_1128x920_crop_center.jpg?v=1689332177 1128w",
+                  sizes: "(min-width: 564px) 564px, 100vw",
+                },
+              },
+              layout: "constrained",
+              width: 564,
+              height: 460,
+            },
+          },
+        },
+        {
+          id: "c278ee6f-e8c0-5ed7-bbb3-e1c856b161a9",
+          title: "heart",
+          handle: "heart",
+          description: "original acrylic painting",
+          priceRangeV2: {
+            maxVariantPrice: {
+              amount: 0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: {
+            altText: null,
+            gatsbyImageData: {
+              images: {
+                sources: [
+                  {
+                    srcSet:
+                      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_141x115_crop_center.jpg.webp?v=1689331849 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_282x230_crop_center.jpg.webp?v=1689331849 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_564x460_crop_center.jpg.webp?v=1689331849 564w",
+                    sizes: "(min-width: 564px) 564px, 100vw",
+                    type: "image/webp",
+                  },
+                ],
+                fallback: {
+                  src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_564x460_crop_center.jpg?v=1689331849",
+                  srcSet:
+                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_141x115_crop_center.jpg?v=1689331849 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_282x230_crop_center.jpg?v=1689331849 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/heart-WhatsAppImage2023-06-07at9.08.42PMcopy_564x460_crop_center.jpg?v=1689331849 564w",
+                  sizes: "(min-width: 564px) 564px, 100vw",
+                },
+              },
+              layout: "constrained",
+              width: 564,
+              height: 460,
+            },
+          },
+        },
+      ],
+      collectionHandle: "originals",
     };
 
-    render(<CollectionTemplate pageContext={mockedPageContext} />);
-    screen.getByRole("link", { name: "Back to Collections List" });
-    screen.getByRole("heading", { name: "Kitchen Collection" });
-    screen.getByText("nice things to decorate your kitchen!");
-    screen.getByRole("heading", { name: "Bamboo coaster" });
-    screen.getByRole("heading", { name: "Galactic kitten" });
+    render(<Collection pageContext={mockedPageContext} />);
+    screen.getByRole("heading", { name: "originals" });
+
+    screen.getByRole("heading", { name: "frog" });
+    screen.getByText("original");
+
+    screen.getByRole("heading", { name: "jungle" });
+    screen.getByText("original painting");
+
+    screen.getByRole("heading", { name: "heart" });
+    screen.getByText("original acrylic painting");
+  });
+
+  it("renders correctly when there are no products", () => {
+    const mockedPageContext = {
+      title: "originals",
+      products: [],
+      collectionHandle: "originals",
+    };
+
+    render(<Collection pageContext={mockedPageContext} />);
+    screen.getByText("There are no products available.");
+  });
+
+  it("renders placeholder image", () => {
+    const mockedPageContext = {
+      title: "originals",
+      products: [
+        {
+          id: "08ae3833-681a-5d28-a545-145949a9937e",
+          title: "frog",
+          handle: "frog",
+          description: "original",
+          priceRangeV2: {
+            maxVariantPrice: {
+              amount: 0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: null,
+        },
+      ],
+      collectionHandle: "originals",
+    };
+
+    render(<Collection pageContext={mockedPageContext} />);
+    screen.getByAltText("no product image available");
   });
 });

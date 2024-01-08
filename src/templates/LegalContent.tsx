@@ -1,7 +1,7 @@
 import React from "react";
 import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer";
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
-import { Heading, Text } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import styled from "styled-components";
 
 const Title = styled(Heading)`
@@ -13,7 +13,7 @@ const Title = styled(Heading)`
   margin-bottom: 1rem;
   text-transform: capitalize;
 `;
-const Content = styled(Text)`
+const Content = styled(Box)`
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -21,16 +21,16 @@ const Content = styled(Text)`
   color: #000000;
 `;
 
-type LegalContentTemplateProps = {
+type LegalContentProps = {
   pageContext: {
     title: string;
     content: string | RichTextNode;
   };
 };
 
-const LegalContentTemplate: React.FunctionComponent<
-  LegalContentTemplateProps
-> = ({ pageContext: { title, content } }): React.ReactElement => {
+const LegalContent: React.FunctionComponent<LegalContentProps> = ({
+  pageContext: { title, content },
+}): React.ReactElement => {
   return (
     <>
       <Title as="h2">{title}</Title>
@@ -40,4 +40,4 @@ const LegalContentTemplate: React.FunctionComponent<
     </>
   );
 };
-export default LegalContentTemplate;
+export default LegalContent;

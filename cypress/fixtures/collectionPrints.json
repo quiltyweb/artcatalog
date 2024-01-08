@@ -1,0 +1,323 @@
+{
+    "componentChunkName": "component---src-templates-collection-tsx",
+    "path": "/collections/prints/",
+    "result": {
+        "pageContext": {
+            "title": "prints",
+            "products": [
+                {
+                    "id": "20646d4e-5b74-58c0-9e66-1a897d05a7ff",
+                    "title": "Jungle Panther testing",
+                    "handle": "jungle-panther-testing",
+                    "description": "Print from original painting testing.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_141x115_crop_center.jpg.webp?v=1696585281 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_282x230_crop_center.jpg.webp?v=1696585281 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg.webp?v=1696585281 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_1128x920_crop_center.jpg.webp?v=1696585281 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg?v=1696585281",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_141x115_crop_center.jpg?v=1696585281 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_282x230_crop_center.jpg?v=1696585281 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg?v=1696585281 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_1128x920_crop_center.jpg?v=1696585281 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "73a9bb0b-e1c5-5260-bc78-9320184b56ab",
+                    "title": "Jungle Tiger 2",
+                    "handle": "jungle-tiger-2",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_141x115_crop_center.jpg.webp?v=1696585251 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_282x230_crop_center.jpg.webp?v=1696585251 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg.webp?v=1696585251 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_1128x920_crop_center.jpg.webp?v=1696585251 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg?v=1696585251",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_141x115_crop_center.jpg?v=1696585251 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_282x230_crop_center.jpg?v=1696585251 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg?v=1696585251 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_1128x920_crop_center.jpg?v=1696585251 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "9ca28480-7991-53f5-a7a2-1151c949bff1",
+                    "title": "Jungle Parrot",
+                    "handle": "jungle-parrot",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_141x115_crop_center.jpg.webp?v=1696585185 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_282x230_crop_center.jpg.webp?v=1696585185 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_564x460_crop_center.jpg.webp?v=1696585185 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_1128x920_crop_center.jpg.webp?v=1696585185 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_564x460_crop_center.jpg?v=1696585185",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_141x115_crop_center.jpg?v=1696585185 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_282x230_crop_center.jpg?v=1696585185 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_564x460_crop_center.jpg?v=1696585185 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7_1128x920_crop_center.jpg?v=1696585185 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "23238c13-d854-505c-9f35-a220e78d2dc4",
+                    "title": "Jungle Tiger",
+                    "handle": "jungle-tiger",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_141x115_crop_center.jpg.webp?v=1696585148 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_282x230_crop_center.jpg.webp?v=1696585148 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_564x460_crop_center.jpg.webp?v=1696585148 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_1128x920_crop_center.jpg.webp?v=1696585148 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_564x460_crop_center.jpg?v=1696585148",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_141x115_crop_center.jpg?v=1696585148 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_282x230_crop_center.jpg?v=1696585148 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_564x460_crop_center.jpg?v=1696585148 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print6_1128x920_crop_center.jpg?v=1696585148 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "1e49b4e4-b825-563e-955c-a49558adb852",
+                    "title": "Jungle Tucan",
+                    "handle": "jungle-tucan",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_141x115_crop_center.jpg.webp?v=1696585112 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_282x230_crop_center.jpg.webp?v=1696585112 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_564x460_crop_center.jpg.webp?v=1696585112 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_1128x920_crop_center.jpg.webp?v=1696585112 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_564x460_crop_center.jpg?v=1696585112",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_141x115_crop_center.jpg?v=1696585112 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_282x230_crop_center.jpg?v=1696585112 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_564x460_crop_center.jpg?v=1696585112 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print5_1128x920_crop_center.jpg?v=1696585112 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "772b692e-2365-532a-9d19-5a0cfcf9774d",
+                    "title": "Jungle Monkeys",
+                    "handle": "jungle-1",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_141x115_crop_center.jpg.webp?v=1696585075 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_282x230_crop_center.jpg.webp?v=1696585075 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_564x460_crop_center.jpg.webp?v=1696585075 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_1128x920_crop_center.jpg.webp?v=1696585075 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_564x460_crop_center.jpg?v=1696585075",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_141x115_crop_center.jpg?v=1696585075 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_282x230_crop_center.jpg?v=1696585075 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_564x460_crop_center.jpg?v=1696585075 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print4_1128x920_crop_center.jpg?v=1696585075 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "93b28574-9274-5164-9a65-a75d3f7f7238",
+                    "title": "Macumba",
+                    "handle": "macumba",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_141x115_crop_center.jpg.webp?v=1696585036 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_282x230_crop_center.jpg.webp?v=1696585036 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_564x460_crop_center.jpg.webp?v=1696585036 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_1128x920_crop_center.jpg.webp?v=1696585036 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_564x460_crop_center.jpg?v=1696585036",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_141x115_crop_center.jpg?v=1696585036 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_282x230_crop_center.jpg?v=1696585036 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_564x460_crop_center.jpg?v=1696585036 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print3_1128x920_crop_center.jpg?v=1696585036 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "967c97e5-4dd0-50da-a803-a54398552417",
+                    "title": "See Inside",
+                    "handle": "see-inside",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_141x115_crop_center.jpg.webp?v=1696584964 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_282x230_crop_center.jpg.webp?v=1696584964 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_564x460_crop_center.jpg.webp?v=1696584964 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_1128x920_crop_center.jpg.webp?v=1696584964 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_564x460_crop_center.jpg?v=1696584964",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_141x115_crop_center.jpg?v=1696584964 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_282x230_crop_center.jpg?v=1696584964 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_564x460_crop_center.jpg?v=1696584964 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print2_1128x920_crop_center.jpg?v=1696584964 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                },
+                {
+                    "id": "614bea96-6626-5193-8361-4b1d4c28e761",
+                    "title": "Heart",
+                    "handle": "heart-1",
+                    "description": "Print from original painting.",
+                    "priceRangeV2": {
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": null,
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_141x115_crop_center.jpg.webp?v=1696584769 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_282x230_crop_center.jpg.webp?v=1696584769 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_564x460_crop_center.jpg.webp?v=1696584769 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_1128x920_crop_center.jpg.webp?v=1696584769 1128w",
+                                        "sizes": "(min-width: 564px) 564px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_564x460_crop_center.jpg?v=1696584769",
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_141x115_crop_center.jpg?v=1696584769 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_282x230_crop_center.jpg?v=1696584769 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_564x460_crop_center.jpg?v=1696584769 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print1_1128x920_crop_center.jpg?v=1696584769 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 564,
+                            "height": 460
+                        }
+                    }
+                }
+            ],
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3466113349"
+    ],
+    "slicesMap": {}
+}

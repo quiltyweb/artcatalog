@@ -1,7 +1,7 @@
 import React from "react";
 import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer";
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
-import { Heading, Text } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import styled from "styled-components";
 
 const Title = styled(Heading)`
@@ -13,23 +13,23 @@ const Title = styled(Heading)`
   margin-bottom: 1rem;
   text-transform: capitalize;
 `;
-const Content = styled(Text)`
+const Content = styled(Box)`
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
   line-height: 20px;
   color: #000000;
 `;
-type ProductCategoriesTemplateProps = {
+type ProductCategoriesProps = {
   pageContext: {
     title: string;
     content: string | RichTextNode;
   };
 };
 
-const ProductCategoriesTemplate: React.FunctionComponent<
-  ProductCategoriesTemplateProps
-> = ({ pageContext: { title, content } }): React.ReactElement => {
+const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
+  pageContext: { title, content },
+}): React.ReactElement => {
   return (
     <>
       <Title as="h2">{title}</Title>
@@ -39,4 +39,4 @@ const ProductCategoriesTemplate: React.FunctionComponent<
     </>
   );
 };
-export default ProductCategoriesTemplate;
+export default ProductCategories;
