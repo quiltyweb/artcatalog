@@ -16,7 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "gatsby";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import LogoImage from "../images/svg/brushella-white.svg";
+import Logo from "../images/svg/brushella-white.svg";
+
 import {
   FaFacebookF,
   FaInstagram,
@@ -38,16 +39,16 @@ const NavLink = styled(Link)`
   }
 `;
 type NavProps = {
-  title: string;
-  productCategoriesItems: Queries.LayoutPageQuery["adminshopify"]["productCategories"]["nodes"][0]["fields"];
+  title?: string;
+  allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
 };
 
-type ListMenuProps = {
-  productCategoriesItems: Queries.LayoutPageQuery["adminshopify"]["productCategories"]["nodes"][0]["fields"];
+type CategoriesListMenuProps = {
+  allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
 };
 
-const ListMenu: React.FunctionComponent<ListMenuProps> = ({
-  productCategoriesItems,
+const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
+  allShopifyCollectionItems,
 }): React.ReactElement => {
   return (
     <Stack
@@ -58,11 +59,12 @@ const ListMenu: React.FunctionComponent<ListMenuProps> = ({
       direction={["column", "column", "column", "column", "row"]}
       fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "0.9rem"]}
     >
-      {productCategoriesItems.map((item) => (
-        <NavLink key={item.key} to={`/product-categories/${item.key}`}>
-          {item.definition.name}
-        </NavLink>
-      ))}
+      {allShopifyCollectionItems &&
+        allShopifyCollectionItems.map((item) => (
+          <NavLink key={item.id} to={`/collections/${item.handle}`}>
+            {item.title}
+          </NavLink>
+        ))}
       <NavLink to="/about">about</NavLink>
     </Stack>
   );
@@ -70,7 +72,7 @@ const ListMenu: React.FunctionComponent<ListMenuProps> = ({
 
 const Nav: React.FunctionComponent<NavProps> = ({
   title,
-  productCategoriesItems,
+  allShopifyCollectionItems,
 }): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
@@ -89,14 +91,17 @@ const Nav: React.FunctionComponent<NavProps> = ({
       >
         <Box>
           <Link to="/">
-            <LogoImage
-              alt={title + " logo"}
-              title={title + " logo"}
+            <Logo
+              aria-label={title || "Brushella"}
+              alt={title || "Brushella"}
               style={{ maxWidth: "70", maxHeight: "70", filter: "invert(1)" }}
             />
           </Link>
         </Box>
-        <ListMenu productCategoriesItems={productCategoriesItems} />
+
+        <CategoriesListMenu
+          allShopifyCollectionItems={allShopifyCollectionItems}
+        />
       </Box>
     );
 
@@ -114,13 +119,24 @@ const Nav: React.FunctionComponent<NavProps> = ({
         color="#FFFFFF"
         fontSize="35px"
       />
-      <Drawer onClose={onClose} isOpen={isOpen} size={"xs"}>
+      <Drawer
+        id="brushella-mobile-menu"
+        onClose={onClose}
+        isOpen={isOpen}
+        size={"xs"}
+      >
         <DrawerOverlay />
-        <DrawerContent backgroundColor="#377482" color="#FFFFFF">
+        <DrawerContent
+          data-testid="mobile-menu"
+          backgroundColor="#377482"
+          color="#FFFFFF"
+        >
           <DrawerCloseButton />
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
-            <ListMenu productCategoriesItems={productCategoriesItems} />
+            <CategoriesListMenu
+              allShopifyCollectionItems={allShopifyCollectionItems}
+            />
             <HStack spacing="1rem" padding="3rem" justifyContent="center">
               <Box>
                 <a href="https://www.facebook.com/Brushella" target="_blank">
@@ -128,7 +144,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
                     boxSize="1.5rem"
                     aria-label="facebook"
                     as={FaFacebookF}
-                    title="facebook"
                   />
                 </a>
               </Box>
@@ -141,7 +156,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
                     boxSize="1.5rem"
                     aria-label="instagram"
                     as={FaInstagram}
-                    title="instagram"
                   />
                 </a>
               </Box>
@@ -154,7 +168,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
                     boxSize="1.5rem"
                     aria-label="whatsApp"
                     as={FaWhatsapp}
-                    title="whatsApp"
                   />
                 </a>
               </Box>
@@ -164,9 +177,9 @@ const Nav: React.FunctionComponent<NavProps> = ({
       </Drawer>
       <Box maxWidth={64} margin="0 auto">
         <Link to="/">
-          <LogoImage
-            alt={title + " logo"}
-            title={title + " logo"}
+          <Logo
+            aria-label={title || "Brushella"}
+            alt={title || "Brushella"}
             style={{
               width: "56",
               maxWidth: "64",
@@ -177,12 +190,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         </Link>
       </Box>
       <a href="mailto:brushellamaster@gmail.com">
-        <Icon
-          boxSize="2rem"
-          title="send a message"
-          aria-label="send a message"
-          as={FaRegEnvelope}
-        />
+        <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
       </a>
     </>
   );

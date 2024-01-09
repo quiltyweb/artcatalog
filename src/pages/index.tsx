@@ -3,22 +3,8 @@ import SEO from "../components/SEO";
 import { graphql, PageProps } from "gatsby";
 import { Box, Text } from "@chakra-ui/react";
 import { StaticImage } from "gatsby-plugin-image";
+import TileList from "../components/TileList";
 
-// WIP Imports
-// import Carousel from "../components/Carousel";
-// import TileList from "../components/TileList";
-
-// WIP index
-// const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
-//   data,
-// }): React.ReactElement => (
-//   <>
-//     <Carousel title={`${data.site?.siteMetadata?.title} collection heart`} />
-//     <TileList />
-//   </>
-// );
-
-// production index
 const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
   data,
 }): React.ReactElement => (
@@ -35,23 +21,24 @@ const IndexPage: React.FunctionComponent<PageProps<Queries.IndexPageQuery>> = ({
         </a>
       </Text>
     </Box>
-    <Box p={4}>
+    <Box>
       <StaticImage
-        alt={`"After Grief" from Human Nature Collection`}
-        src="../images/presentation-card/welcome-brushella.jpg"
+        alt={`original artwork called After Grief from Human Nature Collection by Brushella`}
+        src="../images/welcome-brushella.jpg"
         layout="constrained"
         width={800}
-        imgStyle={{
+        style={{
           transform: "scaleX(-1)",
         }}
       />
       <Text p={4} fontSize="sm" align="center" fontStyle="bold">
         "After Grief" from Human Nature Collection
       </Text>
-      <Text fontSize="sm" align="center" fontStyle="bold">
+      <Text fontSize="sm" align="center" fontWeight="600">
         {data.site?.siteMetadata?.title}
       </Text>
     </Box>
+    <TileList />
   </>
 );
 

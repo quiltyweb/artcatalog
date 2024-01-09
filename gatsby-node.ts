@@ -8,61 +8,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
   reporter,
 }): Promise<void> => {
   const { createPage } = actions;
-
-  const productsResult = await graphql<Queries.ProductsIntoPagesQuery>(`
-    query ProductsIntoPages {
-      allShopifyProduct(sort: { title: ASC }) {
-        edges {
-          node {
-            id
-            handle
-            title
-            shopifyId
-            description
-            priceRangeV2 {
-              maxVariantPrice {
-                amount
-                currencyCode
-              }
-            }
-            featuredImage {
-              altText
-              gatsbyImageData(
-                height: 460
-                width: 564
-                placeholder: BLURRED
-                layout: CONSTRAINED
-              )
-            }
-          }
-        }
-      }
-    }
-  `);
-
-  if (productsResult.errors || !productsResult.data) {
-    reporter.panicOnBuild(
-      `There was an error loading the createPages query results ProductsIntoPages`,
-      productsResult.errors
-    );
-    return;
-  }
-
-  productsResult.data?.allShopifyProduct.edges.forEach(({ node }) => {
-    createPage({
-      path: `/products/${node.handle}`,
-      component: path.resolve(`./src/templates/Product.tsx`),
-      context: {
-        product: node,
-      },
-    });
-  });
-
-  const collectionsResult = await graphql<Queries.CollectionsIntoPagesQuery>(`
-    query CollectionsIntoPages {
-      allShopifyCollection {
-        edges {
-          node {
+  const collectionsAndProductsResult =
+    await graphql<Queries.CollectionsAndProductsIntoPagesQuery>(`
+      query CollectionsAndProductsIntoPages {
+        allShopifyCollection {
+          nodes {
             id
             title
             handle
@@ -86,23 +36,37 @@ export const createPages: GatsbyNode["createPages"] = async ({
           }
         }
       }
-    }
-  `);
+    `);
 
-  if (collectionsResult.errors || !collectionsResult.data) {
+  if (
+    collectionsAndProductsResult.errors ||
+    !collectionsAndProductsResult.data
+  ) {
     reporter.panicOnBuild(
-      `There was an error loading the createPages query results for CollectionsIntoPages`,
-      collectionsResult.errors
+      `There was an error loading the createPages query results for CollectionsAndProductsIntoPages`,
+      collectionsAndProductsResult.errors
     );
     return;
   }
-  collectionsResult.data?.allShopifyCollection.edges.forEach(({ node }) => {
+  collectionsAndProductsResult.data?.allShopifyCollection.nodes.map((node) => {
     createPage({
       path: `/collections/${node.handle}`,
       component: path.resolve(`./src/templates/Collection.tsx`),
       context: {
-        collection: node,
+        title: node.title,
+        products: node.products,
+        collectionHandle: node.handle,
       },
+    });
+    node.products.map((product) => {
+      createPage({
+        path: `/collections/${node.handle}/${product.handle}`,
+        component: path.resolve(`./src/templates/SingleProduct.tsx`),
+        context: {
+          product: product,
+          collectionHandle: node.handle,
+        },
+      });
     });
   });
 
@@ -133,7 +97,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   if (adminContentResult.errors || !adminContentResult.data) {
     reporter.panicOnBuild(
       `There was an error loading the createPages query results for AdminContentIntoPages`,
-      collectionsResult.errors
+      adminContentResult.errors
     );
     return;
   }

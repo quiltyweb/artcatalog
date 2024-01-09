@@ -11,93 +11,133 @@ afterEach(() => {
 });
 
 describe("ProductCard", () => {
-  it("renders correctly when isFullWidth prop is false", async () => {
+  it("renders correctly", async () => {
     const mockedShopifyProductData = {
-      id: "345e1ae7-3662-5fbd-a6d2-a3931a5fb862",
-      handle: "bamboo-coaster",
-      title: "Bamboo coaster",
-      storefrontId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzY2OTk4NzE3OTc0NTY=",
-      description:
-        "Nice bamboo coaster with sequin applications with a varnishing finish for home decor.",
-      priceRangeV2: {
-        maxVariantPrice: { amount: "30.0", currencyCode: "AUD" },
-      },
-      featuredImage: {
-        id: "gid://shopify/ProductImage/28691898466512",
-        altText:
-          "Bamboo coaster with sequin center and resine and square rounded borders",
-        gatsbyImageData: {
-          images: {
-            sources: [],
-            fallback: {
-              src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696",
-              srcSet:
-                "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_146x146_crop_center.png?v=1627042696 146w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_291x291_crop_center.png?v=1627042696 291w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696 582w",
-              sizes: "(min-width: 582px) 582px, 100vw",
-            },
+      product: {
+        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
+        title: "posavasos title",
+        handle: "posavasos",
+        description: "decor description",
+        priceRangeV2: {
+          maxVariantPrice: {
+            amount: 0,
+            currencyCode: "AUD",
           },
-          layout: "constrained",
-          width: 910,
-          height: 910,
+        },
+        featuredImage: {
+          altText: "This is alt text for testing",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet:
+                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
+                  sizes: "(min-width: 564px) 564px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
+                srcSet:
+                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
+                sizes: "(min-width: 564px) 564px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 564,
+            height: 460,
+          },
         },
       },
+      collectionHandle: "this is the collectionHandle",
     };
-    render(<ProductCard product={mockedShopifyProductData} />);
-    screen.getByRole("link", { name: "Bamboo coaster" });
-    screen.getByText(
-      "Nice bamboo coaster with sequin applications with a varnishing finish for home decor."
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
     );
-    screen.getByText("30.0 (AUD)");
-    screen.getByAltText(
-      "Bamboo coaster with sequin center and resine and square rounded borders"
-    );
-    expect(screen.queryByLabelText("Quantity")).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "Add to cart" })
-    ).not.toBeInTheDocument();
+
+    screen.getByText("posavasos title");
+    screen.getByText("decor description");
+    screen.getByText(/this is the collectionHandle/);
+    screen.getByAltText("This is alt text for testing");
   });
 
-  it("renders correctly when isFullWidth is true", async () => {
+  it("renders product title as alt text when it was not provided", async () => {
     const mockedShopifyProductData = {
-      id: "345e1ae7-3662-5fbd-a6d2-a3931a5fb862",
-      handle: "bamboo-coaster",
-      title: "Bamboo coaster",
-      storefrontId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzY2OTk4NzE3OTc0NTY=",
-      description:
-        "Nice bamboo coaster with sequin applications with a varnishing finish for home decor.",
-      priceRangeV2: {
-        maxVariantPrice: { amount: "30.0", currencyCode: "AUD" },
-      },
-      featuredImage: {
-        id: "gid://shopify/ProductImage/28691898466512",
-        altText:
-          "Bamboo coaster with sequin center and resine and square rounded borders",
-        gatsbyImageData: {
-          images: {
-            sources: [],
-            fallback: {
-              src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696",
-              srcSet:
-                "https://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_146x146_crop_center.png?v=1627042696 146w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_291x291_crop_center.png?v=1627042696 291w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/products/ScreenShot2021-07-23at3.07.21pm_582x582_crop_center.png?v=1627042696 582w",
-              sizes: "(min-width: 582px) 582px, 100vw",
-            },
+      product: {
+        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
+        title: "posavasos title",
+        handle: "posavasos",
+        description: "decor description",
+        priceRangeV2: {
+          maxVariantPrice: {
+            amount: 0,
+            currencyCode: "AUD",
           },
-          layout: "constrained",
-          width: 910,
-          height: 910,
+        },
+        featuredImage: {
+          altText: null,
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet:
+                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
+                  sizes: "(min-width: 564px) 564px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
+                srcSet:
+                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
+                sizes: "(min-width: 564px) 564px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 564,
+            height: 460,
+          },
         },
       },
+      collectionHandle: "decor",
     };
-    render(<ProductCard product={mockedShopifyProductData} isFullWidth />);
-    screen.getByRole("link", { name: "Bamboo coaster" });
-    screen.getByText(
-      "Nice bamboo coaster with sequin applications with a varnishing finish for home decor."
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
     );
-    screen.getByText("30.0 (AUD)");
-    screen.getByAltText(
-      "Bamboo coaster with sequin center and resine and square rounded borders"
+
+    screen.getByText("posavasos title");
+  });
+
+  it("renders fallback image", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
+        title: "posavasos title",
+        handle: "posavasos",
+        description: "decor description",
+        priceRangeV2: {
+          maxVariantPrice: {
+            amount: 0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: null,
+      },
+      collectionHandle: "decor",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
     );
-    screen.getByLabelText("Quantity");
-    screen.getByRole("button", { name: "Add to cart" });
+
+    screen.getByAltText("no product image available");
   });
 });

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Footer from "./Footer";
-
 import { Grid, GridItem } from "@chakra-ui/react";
 import Nav from "./Nav";
 
@@ -12,25 +11,22 @@ type LayoutProps = {
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
-  const data = useStaticQuery(graphql`
+  const data = useStaticQuery<Queries.LayoutPageQuery>(graphql`
     query LayoutPage {
       site {
         siteMetadata {
           title
         }
       }
+      allShopifyCollection {
+        nodes {
+          id
+          title
+          handle
+        }
+      }
       adminshopify {
         legalContent: metaobjects(first: 10, type: "legal_content") {
-          nodes {
-            fields {
-              key
-              definition {
-                name
-              }
-            }
-          }
-        }
-        productCategories: metaobjects(first: 10, type: "product_categories") {
           nodes {
             fields {
               key
@@ -70,10 +66,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         marginBottom={8}
       >
         <Nav
-          title={data.site.siteMetadata.title}
-          productCategoriesItems={
-            data.adminshopify?.productCategories.nodes[0].fields
-          }
+          title={data.site?.siteMetadata?.title ?? "Brushella"}
+          allShopifyCollectionItems={data.allShopifyCollection?.nodes}
         />
       </GridItem>
       <GridItem

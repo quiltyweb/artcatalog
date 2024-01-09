@@ -1,0 +1,48 @@
+{
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/prints/jungle-panther/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "20646d4e-5b74-58c0-9e66-1a897d05a7ff",
+                "title": "Jungle Panther",
+                "handle": "jungle-panther",
+                "description": "Print from original painting.",
+                "priceRangeV2": {
+                    "maxVariantPrice": {
+                        "amount": 0,
+                        "currencyCode": "AUD"
+                    }
+                },
+                "featuredImage": {
+                    "altText": "testing altText",
+                    "gatsbyImageData": {
+                        "images": {
+                            "sources": [
+                                {
+                                    "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_141x115_crop_center.jpg.webp?v=1696585281 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_282x230_crop_center.jpg.webp?v=1696585281 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg.webp?v=1696585281 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_1128x920_crop_center.jpg.webp?v=1696585281 1128w",
+                                    "sizes": "(min-width: 564px) 564px, 100vw",
+                                    "type": "image/webp"
+                                }
+                            ],
+                            "fallback": {
+                                "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg?v=1696585281",
+                                "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_141x115_crop_center.jpg?v=1696585281 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_282x230_crop_center.jpg?v=1696585281 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_564x460_crop_center.jpg?v=1696585281 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9_1128x920_crop_center.jpg?v=1696585281 1128w",
+                                "sizes": "(min-width: 564px) 564px, 100vw"
+                            }
+                        },
+                        "layout": "constrained",
+                        "width": 564,
+                        "height": 460
+                    }
+                }
+            },
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3466113349"
+    ],
+    "slicesMap": {}
+}

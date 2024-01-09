@@ -1,0 +1,15 @@
+{
+    "componentChunkName": "component---src-templates-legal-content-tsx",
+    "path": "/legal-content/return_and_refund_policy/",
+    "result": {
+        "pageContext": {
+            "title": "Return and Refund Policy",
+            "content": "test content"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3466113349"
+    ],
+    "slicesMap": {}
+}
