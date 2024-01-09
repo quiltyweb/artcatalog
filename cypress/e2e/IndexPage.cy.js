@@ -11,31 +11,31 @@ describe("Home page", () => {
     });
   });
 
-  it("renders top menu mobile first layout", () => {
+  it("renders mobile first layout", () => {
     cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
-
-    // cy.findByTitle("send a message");
-    cy.findByLabelText(/send a message/i, { timeout: 7000 }).should("exist");
+    cy.findByLabelText("Brushella").parent().should("have.attr", "href", "/");
+    cy.findByLabelText(/send a message/i).should("exist");
     cy.findByRole("button", { name: "menu" }).click();
-    // product_categories metaobjects
-    cy.findByRole("link", { name: "commissions" });
-    cy.findByRole("link", { name: "originals" });
-    cy.findByRole("link", { name: "prints" });
-    cy.findByRole("link", { name: "resin and pigment art" });
-    cy.findByRole("link", { name: "decor" });
-    cy.findByRole("link", { name: "wearable art" });
-    cy.findByRole("link", { name: "stickers" });
-    cy.findByRole("link", { name: "murals" });
-    cy.findByRole("link", { name: "about" });
-
-    cy.findByRole("link", { name: "facebook" });
-    cy.findByRole("link", { name: "instagram" });
-    cy.findByRole("link", { name: "whatsApp" });
+    cy.findByTestId("mobile-menu").within(() => {
+      cy.findByRole("link", { name: "commissions" });
+      cy.findByRole("link", { name: "originals" });
+      cy.findByRole("link", { name: "prints" });
+      cy.findByRole("link", { name: "resin and pigment art" });
+      cy.findByRole("link", { name: "decor" });
+      cy.findByRole("link", { name: "wearable art" });
+      cy.findByRole("link", { name: "stickers" });
+      cy.findByRole("link", { name: "murals" });
+      cy.findByRole("link", { name: "about" });
+      cy.findByRole("link", { name: "facebook" });
+      cy.findByRole("link", { name: "instagram" });
+      cy.findByRole("link", { name: "whatsApp" });
+    });
   });
 
-  it("Navigates to product categories pages", () => {
+  it("Navigates from mobile menu to each product category page", () => {
     cy.clickDrawerMenuOption("commissions");
     cy.findByRole("heading", { name: "commissions" });
+
     cy.clickDrawerMenuOption("originals");
     cy.findByRole("heading", { name: "originals" });
 
@@ -61,21 +61,21 @@ describe("Home page", () => {
   it("renders top menu desktop layout", () => {
     cy.viewport("macbook-13");
     cy.get('svg[alt="Brushella"]').should("exist");
-    cy.findByRole("link", { name: "commissions" });
-    cy.findByRole("link", { name: "originals" });
-    cy.findByRole("link", { name: "prints" });
-    cy.findByRole("link", { name: "resin and pigment art" });
-    cy.findByRole("link", { name: "decor" });
-    cy.findByRole("link", { name: "wearable art" });
-    cy.findByRole("link", { name: "stickers" });
-    cy.findByRole("link", { name: "murals" });
-    cy.findByRole("link", { name: "about" });
-
-    cy.get('svg[title="menu"]').should("not.exist");
-    // cy.get('svg[title="send a message"]').should("not.exist");
-    cy.findByLabelText(/send a message/i, { timeout: 7000 }).should(
-      "not.exist"
-    );
+    cy.findByRole("navigation").within(() => {
+      cy.get('svg[title="menu"]').should("not.exist");
+      cy.findByLabelText(/send a message/i, { timeout: 7000 }).should(
+        "not.exist"
+      );
+      cy.findByRole("link", { name: "commissions" });
+      cy.findByRole("link", { name: "originals" });
+      cy.findByRole("link", { name: "prints" });
+      cy.findByRole("link", { name: "resin and pigment art" });
+      cy.findByRole("link", { name: "decor" });
+      cy.findByRole("link", { name: "wearable art" });
+      cy.findByRole("link", { name: "stickers" });
+      cy.findByRole("link", { name: "murals" });
+      cy.findByRole("link", { name: "about" });
+    });
   });
 
   it("renders main area", () => {
@@ -86,21 +86,30 @@ describe("Home page", () => {
       /original artwork called After Grief from Human Nature Collection by Brushella/
     );
     cy.findByText(/"After Grief" from Human Nature Collection/);
+
+    cy.findByRole("heading", { name: "Featured Categories" });
+
+    cy.findByRole("link", { name: /Original Paintings/ });
+    cy.findByRole("link", { name: /Prints/ });
+    cy.findByRole("link", { name: /Home Decor/ });
+
+    cy.findByAltText("original paintings");
+    cy.findByAltText("prints");
+    cy.findByAltText("home decor");
   });
 
   it("renders footer", () => {
     cy.get("footer");
-    cy.findByRole("link", { name: "facebook" });
-    cy.findByRole("link", { name: "instagram" });
-    cy.findByRole("link", { name: "whatsApp" });
-    cy.findByText(/© 2024, Brushella Art & Decor/);
-
-    // legal content policies metaobjects:
+    cy.findByRole("heading", { name: "Quick Links" });
     cy.findByRole("link", { name: "Return and Refund Policy" });
     cy.findByRole("link", { name: "Hand Made Policy" });
     cy.findByRole("link", { name: "Shipping Policy" });
     cy.findByRole("link", { name: "Privacy Policy" });
     cy.findByRole("link", { name: "Terms of Service" });
+    cy.findByRole("link", { name: "facebook" });
+    cy.findByRole("link", { name: "instagram" });
+    cy.findByRole("link", { name: "whatsApp" });
+    cy.findByText(/© 2024, Brushella Art & Decor/);
   });
 
   it("Navigates from home page to Return and Refund Policy page", () => {

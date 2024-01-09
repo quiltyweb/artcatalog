@@ -3,6 +3,8 @@ import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer"
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
 import { Box, Heading } from "@chakra-ui/react";
 import styled from "styled-components";
+import { PageProps } from "gatsby";
+import SEO from "../components/SEO";
 
 const Title = styled(Heading)`
   font-style: normal;
@@ -41,3 +43,14 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
   );
 };
 export default LegalContent;
+
+export const Head = ({ location }: PageProps): React.ReactElement => (
+  <SEO>
+    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
+    <meta
+      id="Legal-content-page"
+      name="legal content"
+      content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
+    />
+  </SEO>
+);

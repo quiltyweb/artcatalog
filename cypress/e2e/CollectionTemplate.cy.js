@@ -1,9 +1,9 @@
 describe("Collection Template", () => {
   beforeEach(() => {
-    cy.visit("/");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",
     });
+    cy.visit("/");
   });
 
   it("checks for accessibility violations", () => {
@@ -18,11 +18,14 @@ describe("Collection Template", () => {
   it("Navigates from home to Print Collection template ", () => {
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "prints" });
-    cy.findByRole("heading", { name: "Jungle Panther testing" });
+    cy.findByRole("heading", { name: "Jungle Panther" });
     cy.findByText("Print from original painting testing.");
+    cy.findByAltText(/testing alt text for jungle panther print/);
   });
 
-  it.skip("Renders single product page when click on an item", () => {
-    // cy.clickDrawerMenuOption("prints");
+  it("Navigates to single product view ", () => {
+    cy.clickDrawerMenuOption("prints");
+    cy.findByRole("heading", { name: "Jungle Panther" }).click();
+    cy.findByText(/collection: prints/);
   });
 });
