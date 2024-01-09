@@ -60,7 +60,10 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                       src="../images/noimg.jpg"
                     />
                   )}
-                  <Heading as="h3">{title}</Heading>
+
+                  <Heading fontSize="lg" fontWeight={600} as="h3" mt="2" mb="2">
+                    {title}
+                  </Heading>
                   <Text>{description}</Text>
                 </Box>
               </Link>

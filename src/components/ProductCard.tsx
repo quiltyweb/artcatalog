@@ -70,8 +70,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           />
         )}
       </Box>
-      <Stack pl={"0"} pt={"20"} align={"center"}>
-        <Heading fontSize="2xl" fontFamily="body" fontWeight={500}>
+      <Stack padding={4}>
+        <Heading fontSize="xl" fontWeight={600}>
           {product.title}
         </Heading>
         <Text color="gray.600" fontSize="sm" textTransform="uppercase">
