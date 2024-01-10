@@ -23,5 +23,16 @@ describe("Collection Template", () => {
     cy.findByText(/collection: prints/);
     cy.findByText(/Print from original painting./);
     cy.findByAltText("testing altText");
+
+    cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
+      cy.findByRole("link", { name: /all prints/i });
+    });
+  });
+
+  it("renders breadcrumb to go back to category page", () => {
+    cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
+      cy.findByRole("link", { name: /all prints/i }).click();
+    });
+    cy.findByRole("heading", { name: /prints/i });
   });
 });

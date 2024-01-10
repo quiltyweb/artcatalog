@@ -3,6 +3,7 @@ import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer"
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
 import { Box, Heading } from "@chakra-ui/react";
 import styled from "styled-components";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
 const Title = styled(Heading)`
   font-style: normal;
@@ -10,7 +11,7 @@ const Title = styled(Heading)`
   font-size: 1.5rem;
   line-height: 29px;
   color: #4b828f;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   text-transform: capitalize;
 `;
 const Content = styled(Box)`
@@ -32,6 +33,19 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
 }): React.ReactElement => {
   return (
     <>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/about">About</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">{title}</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <Title as="h2">{title}</Title>
       <Content>
         <RichTextRenderer data={content} />

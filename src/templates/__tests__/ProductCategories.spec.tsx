@@ -20,5 +20,12 @@ describe("ProductCategories Template", () => {
     render(<ProductCategories pageContext={mockedPageContext} />);
     screen.getByRole("heading", { name: "test title" });
     screen.getByText("testing content");
+    screen.getByRole("link", { name: /home/i });
+    screen.getByRole("link", { name: /about/i });
+    expect(screen.getAllByText("test title")).toHaveLength(2);
+    expect(screen.getByRole("link", { name: /about/i })).toHaveAttribute(
+      "href",
+      "/about"
+    );
   });
 });

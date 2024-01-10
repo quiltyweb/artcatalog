@@ -26,6 +26,12 @@ describe("About page", () => {
       cy.findByRole("link", { name: "wearable art" });
       cy.findByRole("link", { name: "stickers" });
       cy.findByRole("link", { name: "murals" });
+      cy.findByRole("link", { name: "prints" }).click();
     });
+    cy.findByRole("heading", { name: "prints" });
+    cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
+      cy.findByRole("link", { name: /about/i }).click();
+    });
+    cy.findByText("Meet the Artist");
   });
 });
