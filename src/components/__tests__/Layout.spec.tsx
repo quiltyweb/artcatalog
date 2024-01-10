@@ -158,6 +158,7 @@ describe("Layout", () => {
     const mobileButton = screen.getByRole("button", { name: "menu" });
     user.click(mobileButton);
     const mobileMenu = await screen.findByTestId("mobile-menu");
+    expect(mobileMenu).toBeVisible();
 
     within(mobileMenu).getByText("about");
     within(mobileMenu).getByRole("link", { name: "commissions" });

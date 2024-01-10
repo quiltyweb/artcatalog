@@ -13,6 +13,7 @@ import {
   useMediaQuery,
   Box,
   HStack,
+  UseDisclosureProps,
 } from "@chakra-ui/react";
 import { Link } from "gatsby";
 import { HamburgerIcon } from "@chakra-ui/icons";
@@ -45,27 +46,35 @@ type NavProps = {
 
 type CategoriesListMenuProps = {
   allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
+  handleClickOnClose?: UseDisclosureProps["onClose"];
 };
 
 const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   allShopifyCollectionItems,
+  handleClickOnClose,
 }): React.ReactElement => {
   return (
     <Stack
-      spacing={[10, 10, 10, 10, 7]}
+      spacing={[10, 10, 10, 5, 7, 7]}
       align="left"
       marginTop={5}
-      marginBottom={[5, 5, 5, 5, 0]}
-      direction={["column", "column", "column", "column", "row"]}
-      fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "0.9rem"]}
+      marginBottom={[5, 5, 5, 0, 0, 0]}
+      direction={["column", "column", "column", "row", "row", "row"]}
+      fontSize={["1.2rem", "1.2rem", "1.2rem", "0.9rem", "0.9rem", "0.9rem"]}
     >
       {allShopifyCollectionItems &&
         allShopifyCollectionItems.map((item) => (
-          <NavLink key={item.id} to={`/collections/${item.handle}`}>
+          <NavLink
+            key={item.id}
+            to={`/collections/${item.handle}`}
+            onClick={handleClickOnClose}
+          >
             {item.title}
           </NavLink>
         ))}
-      <NavLink to="/about">about</NavLink>
+      <NavLink key="about-item" to="/about" onClick={handleClickOnClose}>
+        about
+      </NavLink>
     </Stack>
   );
 };
@@ -75,13 +84,16 @@ const Nav: React.FunctionComponent<NavProps> = ({
   allShopifyCollectionItems,
 }): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
-  const handleClick = () => {
+  const [isLargerThan992] = useMediaQuery("(min-width: 992px)");
+  const handleClickOnOpen = () => {
     onOpen();
+  };
+  const handleClickOnClose = () => {
+    onClose();
   };
 
   // desktop menu
-  if (isLargerThan1280)
+  if (isLargerThan992)
     return (
       <Box
         display="flex"
@@ -108,17 +120,9 @@ const Nav: React.FunctionComponent<NavProps> = ({
   // mobile first menu
   return (
     <>
-      <IconButton
-        onClick={() => handleClick()}
-        key={"sm"}
-        m={1}
-        aria-label="menu"
-        title="menu"
-        icon={<HamburgerIcon />}
-        backgroundColor="#000000"
-        color="#FFFFFF"
-        fontSize="35px"
-      />
+      <a href="mailto:brushellamaster@gmail.com">
+        <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
+      </a>
       <Drawer
         id="brushella-mobile-menu"
         onClose={onClose}
@@ -136,6 +140,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <DrawerBody>
             <CategoriesListMenu
               allShopifyCollectionItems={allShopifyCollectionItems}
+              handleClickOnClose={handleClickOnClose}
             />
             <HStack spacing="1rem" padding="3rem" justifyContent="center">
               <Box>
@@ -189,9 +194,17 @@ const Nav: React.FunctionComponent<NavProps> = ({
           />
         </Link>
       </Box>
-      <a href="mailto:brushellamaster@gmail.com">
-        <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
-      </a>
+      <IconButton
+        onClick={() => handleClickOnOpen()}
+        key={"sm"}
+        m={1}
+        aria-label="menu"
+        title="menu"
+        icon={<HamburgerIcon />}
+        backgroundColor="#000000"
+        color="#FFFFFF"
+        fontSize="35px"
+      />
     </>
   );
 };

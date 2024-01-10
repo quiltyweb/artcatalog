@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
-import userEvent from "@testing-library/user-event";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -65,7 +64,7 @@ describe("Nav", () => {
         removeListener: jest.fn(),
       })),
     });
-    const user = userEvent.setup();
+
     render(
       <Nav
         title={mockedData.title}
@@ -83,8 +82,6 @@ describe("Nav", () => {
     expect(
       screen.queryByRole("link", { name: "commissions" })
     ).not.toBeInTheDocument();
-
-    user.click(screen.getByRole("button", { name: "menu" }));
   });
 
   it("renders desktop version correctly", async () => {

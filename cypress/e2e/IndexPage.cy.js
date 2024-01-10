@@ -12,6 +12,7 @@ describe("Home page", () => {
   });
 
   it("renders mobile first layout", () => {
+    cy.viewport("iphone-4");
     cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
     cy.findByLabelText("Brushella").parent().should("have.attr", "href", "/");
     cy.findByLabelText(/send a message/i).should("exist");
@@ -33,6 +34,7 @@ describe("Home page", () => {
   });
 
   it("Navigates from mobile menu to each product category page", () => {
+    cy.viewport("iphone-4");
     cy.clickDrawerMenuOption("commissions");
     cy.findByRole("heading", { name: "commissions" });
 

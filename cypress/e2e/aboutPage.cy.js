@@ -12,6 +12,7 @@ describe("About page", () => {
   });
 
   it("loads About page correctly", () => {
+    cy.viewport("iphone-4");
     cy.clickDrawerMenuOption("about");
     cy.findByText("Meet the Artist");
     cy.findByAltText("Painter Gabriela painting on a canvas");

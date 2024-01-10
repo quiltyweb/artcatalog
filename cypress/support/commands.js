@@ -26,5 +26,4 @@
 Cypress.Commands.add("clickDrawerMenuOption", (option) => {
   cy.findByRole("button", { name: "menu" }).click();
   cy.findByText(option).click();
-  cy.findByRole("button", { name: "Close" }).click();
 });
