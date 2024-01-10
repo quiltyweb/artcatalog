@@ -3,8 +3,10 @@ import { Box } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 import SEO from "../components/SEO";
 import { PageProps } from "gatsby";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
 type SingleProductProps = {
+  location: PageProps["location"];
   pageContext: {
     collectionHandle: string;
     product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -12,10 +14,30 @@ type SingleProductProps = {
 };
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
+  location,
   pageContext: { product, collectionHandle },
 }): React.ReactElement => {
+  const pathnameArray = location.pathname.split("/");
+  const categoryName = pathnameArray[2];
+
   return (
     <Box>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <BreadcrumbLink href={`/collections/${categoryName}`}>
+            All {categoryName}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">{product.title}</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+
       <ProductCard product={product} collectionHandle={collectionHandle} />
     </Box>
   );

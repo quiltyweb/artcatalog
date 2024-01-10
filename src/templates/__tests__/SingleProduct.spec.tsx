@@ -54,7 +54,20 @@ describe("Product page Template", () => {
       },
     };
 
-    render(<SingleProduct pageContext={mockedPageContext} />);
+    render(
+      <SingleProduct
+        location={{ pathname: "/test1/test2/test3/" }}
+        pageContext={mockedPageContext}
+      />
+    );
+
     screen.getByRole("heading", { name: "Bamboo coaster" });
+    screen.getByRole("link", { name: /home/i });
+    screen.getByRole("link", { name: "All test2" });
+    expect(screen.getAllByText("Bamboo coaster")).toHaveLength(2);
+    expect(screen.getByRole("link", { name: "All test2" })).toHaveAttribute(
+      "href",
+      "/collections/test2"
+    );
   });
 });
