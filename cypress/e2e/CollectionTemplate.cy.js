@@ -1,5 +1,6 @@
 describe("Collection Template", () => {
   beforeEach(() => {
+    cy.viewport("iphone-4");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",
     });
