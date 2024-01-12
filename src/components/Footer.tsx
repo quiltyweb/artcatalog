@@ -62,6 +62,9 @@ const Footer: React.FunctionComponent<FooterProps> = ({
             </FooterLink>
           </ListItem>
         ))}
+        <ListItem key={"contact-page"} padding="0 1rem 1rem 0">
+          <FooterLink to="/contact">contact me</FooterLink>
+        </ListItem>
       </UnorderedList>
 
       <HStack spacing="1rem" padding="2rem" justifyContent="center">
