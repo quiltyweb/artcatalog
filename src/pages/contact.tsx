@@ -1,33 +1,45 @@
 import * as React from "react";
-import { Heading, Text } from "@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Input,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Button,
+} from "@chakra-ui/react";
 import SEO from "../components/SEO";
-import { PageProps } from "gatsby";
 
-const ContactPage: React.FunctionComponent<
-  PageProps
-> = (): React.ReactElement => (
-  <main>
-    <Heading>Send Me Your Questions.</Heading>
-    <Text>
+const ContactPage: React.FunctionComponent = (): React.ReactElement => (
+  <>
+    <Heading as="h2" color="#4b828f" mb="1rem">
+      Send me your questions
+    </Heading>
+    <Text mb="1rem">
       If you have questions that you cannot find answers to in the FAQ section,
       do not hesitate to contact me.
     </Text>
     <form method="post" action={process.env.REACT_APP_getform_endpoint}>
-      <label>
-        Email
-        <input type="email" name="email" />
-      </label>
-      <label>
-        Name
-        <input type="text" name="name" />
-      </label>
-      <label>
-        Message
-        <input type="text" name="message" />
-      </label>
-      <button type="submit">Send Message</button>
+      <FormControl mb={8}>
+        <FormLabel>Name</FormLabel>
+        <Input type="text" name="name" />
+      </FormControl>
+      <FormControl mb={8}>
+        <FormLabel>Email address</FormLabel>
+        <Input type="email" name="email" />
+        <FormHelperText fontSize={"xs"}>
+          We'll never share your email.
+        </FormHelperText>
+      </FormControl>
+      <FormControl mb={8}>
+        <FormLabel>Message</FormLabel>
+        <Input type="text" name="message" />
+      </FormControl>
+      <Button mt={4} backgroundColor="#86548A" color="#ffffff" type="submit">
+        Send Message
+      </Button>
     </form>
-  </main>
+  </>
 );
 
 export default ContactPage;
