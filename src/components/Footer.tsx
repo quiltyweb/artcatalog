@@ -38,6 +38,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
     <Box bg="white" justifySelf="left" p="4">
       <hr />
       <Heading
+        id="quicklinks"
         size="md"
         color="#6591A2"
         as={"h3"}

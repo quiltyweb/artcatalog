@@ -13,12 +13,12 @@ describe("contact Page", () => {
 
   it("loads contact page correctly", () => {
     cy.findByRole("heading", { name: "Send me your questions" });
-    cy.findByText(
-      "If you have questions that you cannot find answers to in the FAQ section, do not hesitate to contact me."
+
+    cy.get("#contact-form-description").contains(
+      "If you have questions that you cannot find answers in the about me page or quick links section, do not hesitate to contact me via the contact form below. Please allow 3 to 5 bussiness days to answer."
     );
-    cy.findByLabelText("Name");
+    cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");
-    cy.findByText("We'll never share your email.");
     cy.findByLabelText("Message");
     cy.findByRole("button", { name: "Send Message" });
   });

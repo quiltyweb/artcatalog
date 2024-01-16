@@ -138,4 +138,12 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "Terms of Service" }).click();
     cy.findByRole("heading", { name: "Terms of Service" });
   });
+  it("Navigates from home page to Contact page", () => {
+    cy.findByRole("link", { name: "contact me" }).click();
+    cy.findByRole("heading", { name: "Send me your questions" });
+    cy.findByLabelText("Full Name");
+    cy.findByLabelText("Email address");
+    cy.findByLabelText("Message");
+    cy.findByRole("button", { name: "Send Message" });
+  });
 });
