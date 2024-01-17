@@ -28,10 +28,13 @@ describe("ContactPage", () => {
     screen.getByRole("button", { name: "Send Message" });
   });
 
-  it("validates form correctly", () => {
+  it("validates form correctly", async () => {
     const user = userEvent.setup();
     render(<ContactPage />);
-    user.click(screen.getByRole("button", { name: "Send Message" }));
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "Send Message" }));
+    });
+
     screen.findByText("Name is Required");
     screen.findByText("Email is Required");
     screen.findByText("Message is Required");
