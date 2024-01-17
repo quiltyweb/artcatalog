@@ -21,6 +21,16 @@ const Content = styled(Box)`
   font-size: 1rem;
   line-height: 20px;
   color: #000000;
+
+  /* css to fix content overflow from long links in text */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  /* end css fix */
 `;
 
 type LegalContentProps = {
