@@ -74,7 +74,7 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
           }
         );
 
-        if (res.status !== 200) {
+        if (!res.ok) {
           setStatus({
             sent: false,
             message:

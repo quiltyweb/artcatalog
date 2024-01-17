@@ -73,11 +73,11 @@ describe("ContactPage", () => {
   it("renders arror message when gets error response back ", async () => {
     fetchMock.mockResponseOnce(
       JSON.stringify({
-        success: true,
+        success: false,
         formValues: {
-          fullname: "abc",
-          email: "def@gmail.com",
-          message: "ghijk",
+          fullname: "aaa",
+          email: "bbb@bbb.com",
+          message: "cccccccc",
         },
       }),
       { status: 404 }
@@ -86,12 +86,9 @@ describe("ContactPage", () => {
     render(<ContactPage />);
     expect(screen.queryByTestId("contact-form")).toBeInTheDocument();
     await act(async () => {
-      await user.type(screen.getByLabelText("Full Name"), "name testing");
-      await user.type(
-        screen.getByLabelText("Email address"),
-        "email@email.com"
-      );
-      await user.type(screen.getByLabelText("Message"), "message testing");
+      await user.type(screen.getByLabelText("Full Name"), "aaa");
+      await user.type(screen.getByLabelText("Email address"), "bbb@bbb.com");
+      await user.type(screen.getByLabelText("Message"), "cccccccc");
     });
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "Send Message" }));
