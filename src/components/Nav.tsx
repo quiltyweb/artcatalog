@@ -120,9 +120,9 @@ const Nav: React.FunctionComponent<NavProps> = ({
   // mobile first menu
   return (
     <>
-      <a href="mailto:brushellamaster@gmail.com">
+      <Link to="/contact">
         <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
-      </a>
+      </Link>
       <Drawer
         id="brushella-mobile-menu"
         onClose={onClose}
