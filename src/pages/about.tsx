@@ -10,6 +10,7 @@ const Title = styled(Heading)`
   font-size: 1.5rem;
   line-height: 29px;
   color: #4b828f;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   text-transform: capitalize;
 `;
@@ -45,8 +46,8 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
       <Stack
         spacing={4}
         align="center"
-        fontSize={["1rem", "1rem", "1rem", "1rem", "0.9rem"]}
-        direction={["column", "column", "column", "column", "row"]}
+        fontSize={["xl", "xl", "xl", "xl", "xl"]}
+        direction={["column", "column", "column", "column", "column"]}
         pt={[4, 4, 4, 4, 4]}
         mt={[4, 4, 4, 4, 4]}
         textTransform="capitalize"

@@ -82,12 +82,13 @@ describe("Home page", () => {
 
   it("renders main area", () => {
     cy.get("main");
-    cy.findByText("Featuring: Human Nature at");
-    cy.findByRole("link", { name: /Bad News Gallery/ });
-    cy.findByAltText(
-      /original artwork called After Grief from Human Nature Collection by Brushella/
-    );
-    cy.findByText(/"After Grief" from Human Nature Collection/);
+    cy.findAllByAltText("Macumba original painting");
+    cy.findByTestId("brushella-slider-index");
+    cy.findByRole("button", { name: "1" });
+    cy.findByRole("button", { name: "2" });
+    cy.findByRole("button", { name: "3" });
+    cy.findByLabelText("next");
+    cy.findByLabelText("previous");
 
     cy.findByRole("heading", { name: "Featured Categories" });
 

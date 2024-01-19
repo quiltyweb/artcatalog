@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import IndexPage from "../index";
@@ -14,16 +12,14 @@ afterEach(() => {
 
 describe("IndexPage", () => {
   it("renders basic index correctly", () => {
-    const mockDataProp = { site: { siteMetadata: { title: "test title" } } };
-    render(<IndexPage data={mockDataProp} />);
-    screen.getByText("Featuring: Human Nature at");
-    screen.getByRole("link", { name: "Bad News Gallery" });
-    screen.getByAltText(
-      /original artwork called After Grief from Human Nature Collection by Brushella/
-    );
-    screen.getByText(/"After Grief" from Human Nature Collection/);
-    screen.getByText("test title");
-
+    render(<IndexPage />);
+    screen.getAllByAltText("Macumba original painting");
+    screen.getByTestId("brushella-slider-index");
+    screen.getByRole("button", { name: "1" });
+    screen.getByRole("button", { name: "2" });
+    screen.getByRole("button", { name: "3" });
+    screen.getByLabelText("next");
+    screen.getByLabelText("previous");
     screen.getByRole("heading", { name: "Featured Categories" });
     screen.getByRole("link", { name: /Home Decor/ });
     screen.getByAltText("home decor");
