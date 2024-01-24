@@ -52,7 +52,7 @@ export default NotFoundPage;
 
 export const Head = () => (
   <SEO>
-    <title id="title">Page not found - www.brushella.art - 404</title>
+    <title id="404-title">Page not found - www.brushella.art - 404</title>
     <meta
       id="404"
       name="NotFoundPage"

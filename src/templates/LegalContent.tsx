@@ -41,7 +41,7 @@ export default LegalContent;
 
 export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
-    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
+    <title id="legal-title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
     <meta
       id="Legal-content-page"
       name="legal content"

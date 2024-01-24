@@ -46,7 +46,7 @@ export default SingleProduct;
 
 export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
-    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
+    <title id="single-title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
     <meta
       id="single-product-page"
       name="Brushella Product"

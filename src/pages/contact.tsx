@@ -175,7 +175,9 @@ export default ContactPage;
 
 export const Head = () => (
   <SEO>
-    <title id="title">Contact me - www.brushella.art - contact me</title>
+    <title id="contact-title">
+      Contact me - www.brushella.art - contact me
+    </title>
     <meta
       id="contact-page"
       name="Contact page"

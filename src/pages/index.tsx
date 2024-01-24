@@ -185,7 +185,7 @@ export default IndexPage;
 
 export const Head = (): React.ReactElement => (
   <SEO>
-    <title id="title">Welcome to Brushella - All things ART!</title>
+    <title id="home-title">Welcome to Brushella - All things ART!</title>
     <meta
       id="index-page"
       name="home page"

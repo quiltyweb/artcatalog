@@ -69,7 +69,8 @@ export default Collection;
 
 export const Head = ({ location }: PageProps): React.ReactElement => (
   <SEO>
-    <title id="title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
+    <html lang="en" />
+    <title id="collection-title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
     <meta
       id="collection-page"
       name="collection"

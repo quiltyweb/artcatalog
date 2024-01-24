@@ -15,7 +15,6 @@ const SEO: React.FunctionComponent<SEOProps> = ({
   return (
     <>
       <html lang="en" />
-
       <link rel="apple-touch-icon" sizes="180x180" href={brushellaFavicon1} />
       <link
         rel="icon"
