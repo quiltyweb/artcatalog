@@ -52,7 +52,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       backgroundColor="white"
       color="black"
       fontWeight="normal"
-      fontFamily={"Montserrat"}
     >
       <GridItem
         as="nav"
@@ -72,11 +71,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </GridItem>
       <GridItem
         as="main"
-        color="black"
+        color="#050505"
         bg="white"
         area={"main"}
         justifySelf="center"
-        maxWidth={"47rem"}
+        maxWidth={"56rem"}
         margin="1rem"
       >
         {children}

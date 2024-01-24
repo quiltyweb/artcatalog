@@ -7,23 +7,21 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
   return (
     <>
       <Heading
-        as="h2"
-        size="md"
+        as={"h2"}
+        size="lg"
+        color="teal.500"
         textAlign={"center"}
         marginTop={9}
         marginBottom={9}
       >
         Featured Categories
       </Heading>
-
       <Stack
-        spacing={[10, 10, 10, 10, 10]}
+        spacing={[2, 2, 2, 2, 2]}
         align="center"
-        marginTop={9}
-        marginBottom={9}
         direction={["column", "column", "row", "row", "row"]}
-        fontSize={["1rem", "1rem", "0.9rem", "0.9rem", "1rem"]}
-        fontWeight="600"
+        fontSize={"1.2rem"}
+        fontWeight="500"
         lineHeight="normal"
       >
         <Box
@@ -42,11 +40,12 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
               }}
             />
             <Box
-              as="h4"
+              as="h3"
+              fontSize="xl"
               p="4"
               noOfLines={1}
               color="white"
-              backgroundColor="#86548A"
+              backgroundColor="pink.800"
             >
               Original Paintings
             </Box>
@@ -66,13 +65,12 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
               style={{ filter: "grayscale(1)" }}
             />
             <Box
-              as="h4"
+              as="h3"
+              fontSize="xl"
               p="4"
-              fontWeight="600"
-              lineHeight="normal"
               noOfLines={1}
               color="white"
-              backgroundColor="#86548A"
+              backgroundColor="pink.800"
             >
               Prints
             </Box>
@@ -92,13 +90,12 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
               style={{ filter: "grayscale(1)" }}
             />
             <Box
-              as="h4"
+              as="h3"
+              fontSize="xl"
               p="4"
-              fontWeight="600"
-              lineHeight="normal"
               noOfLines={1}
               color="white"
-              backgroundColor="#86548A"
+              backgroundColor="pink.800"
             >
               Home Decor
             </Box>

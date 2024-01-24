@@ -26,7 +26,8 @@ describe("Home page", () => {
       cy.findByRole("link", { name: "wearable art" });
       cy.findByRole("link", { name: "stickers" });
       cy.findByRole("link", { name: "murals" });
-      cy.findByRole("link", { name: "about" });
+      cy.findByRole("link", { name: /about me/i });
+      cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: "facebook" });
       cy.findByRole("link", { name: "instagram" });
       cy.findByRole("link", { name: "whatsApp" });
@@ -76,7 +77,6 @@ describe("Home page", () => {
       cy.findByRole("link", { name: "wearable art" });
       cy.findByRole("link", { name: "stickers" });
       cy.findByRole("link", { name: "murals" });
-      cy.findByRole("link", { name: "about" });
     });
   });
 
@@ -112,7 +112,11 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "facebook" });
     cy.findByRole("link", { name: "instagram" });
     cy.findByRole("link", { name: "whatsApp" });
+    cy.findByRole("link", { name: /contact/i });
+    cy.findByRole("link", { name: /about me/i });
     cy.findByText(/© 2024, Brushella Art & Decor/);
+    cy.findByRole("link", { name: /go to top/i }).click();
+    cy.get('svg[alt="Brushella"]').should("be.visible");
   });
 
   it("Navigates from home page to Return and Refund Policy page", () => {
@@ -139,12 +143,18 @@ describe("Home page", () => {
     cy.findByRole("link", { name: "Terms of Service" }).click();
     cy.findByRole("heading", { name: "Terms of Service" });
   });
+
   it("Navigates from home page to Contact page", () => {
-    cy.findByRole("link", { name: "contact me" }).click();
+    cy.findByRole("link", { name: /contact/i }).click();
     cy.findByRole("heading", { name: "Send me your questions" });
     cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");
     cy.findByLabelText("Message");
     cy.findByRole("button", { name: "Send Message" });
+  });
+
+  it("Navigates from home page to About Me page", () => {
+    cy.findByRole("link", { name: /about me/i }).click();
+    cy.findByRole("heading", { name: /Meet the Artist/i });
   });
 });

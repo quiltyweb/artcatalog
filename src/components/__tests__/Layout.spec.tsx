@@ -122,9 +122,6 @@ describe("Layout", () => {
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByRole("button", { name: "menu" });
     within(Nav).getByAltText("Site Title");
-    expect(
-      within(Nav).queryByRole("link", { name: "about" })
-    ).not.toBeInTheDocument();
 
     screen.getByText("some content children");
 
@@ -160,7 +157,8 @@ describe("Layout", () => {
     const mobileMenu = await screen.findByTestId("mobile-menu");
     expect(mobileMenu).toBeVisible();
 
-    within(mobileMenu).getByText("about");
+    within(mobileMenu).getByRole("link", { name: /about me/i });
+    within(mobileMenu).getByRole("link", { name: /contact/i });
     within(mobileMenu).getByRole("link", { name: "commissions" });
     within(mobileMenu).getByRole("link", { name: "originals" });
     within(mobileMenu).getByRole("link", { name: "prints" });
@@ -173,51 +171,134 @@ describe("Layout", () => {
     expect(screen.getAllByLabelText("instagram")).toHaveLength(2);
     expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
   });
-});
 
-it("loads desktop layout", async () => {
-  const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
-  useStaticQuery.mockImplementation(() => mockUseStaticQuery);
-  Object.defineProperty(window, "matchMedia", {
-    value: jest.fn(() => ({
-      matches: true,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-    })),
+  it("renders no categories in mobile menu when not provided", async () => {
+    const emptyMockUseStaticQuery = {
+      site: {
+        siteMetadata: {
+          title: "Site Title",
+        },
+      },
+      allShopifyCollection: {
+        nodes: [],
+      },
+      adminshopify: {
+        legalContent: {
+          nodes: [
+            {
+              fields: [
+                {
+                  key: "return_and_refund_policy",
+                  definition: {
+                    name: "Return and Refund Policy",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+    const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
+    useStaticQuery.mockImplementation(() => emptyMockUseStaticQuery);
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: false,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
+    const user = userEvent.setup();
+    render(
+      <Layout>
+        <p>some content children</p>
+      </Layout>
+    );
+    await screen.findByRole("button", { name: "menu" });
+
+    const mobileButton = screen.getByRole("button", { name: "menu" });
+    user.click(mobileButton);
+    const mobileMenu = await screen.findByTestId("mobile-menu");
+    expect(mobileMenu).toBeVisible();
+
+    within(mobileMenu).getByRole("link", { name: /about me/i });
+    within(mobileMenu).getByRole("link", { name: /contact/i });
+    expect(screen.getAllByLabelText("facebook")).toHaveLength(2);
+    expect(screen.getAllByLabelText("instagram")).toHaveLength(2);
+    expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
+
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "commissions" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "originals" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "prints" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "resin and pigment art" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "decor" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "wearable art" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "stickers" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileMenu).queryByRole("link", { name: "murals" })
+    ).not.toBeInTheDocument();
   });
 
-  render(
-    <Layout>
-      <p>some content children</p>
-    </Layout>
-  );
+  it("loads desktop layout", async () => {
+    const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
+    useStaticQuery.mockImplementation(() => mockUseStaticQuery);
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: true,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
 
-  expect(
-    screen.queryByRole("button", { name: "menu" })
-  ).not.toBeInTheDocument();
-  expect(screen.queryByLabelText("send a message")).not.toBeInTheDocument();
-  screen.getByAltText("Site Title");
-  const desktopMenu = await screen.findByRole("navigation");
+    render(
+      <Layout>
+        <p>some content children</p>
+      </Layout>
+    );
 
-  within(desktopMenu).getByText("about");
-  within(desktopMenu).getByRole("link", { name: "commissions" });
-  within(desktopMenu).getByRole("link", { name: "originals" });
-  within(desktopMenu).getByRole("link", { name: "prints" });
-  within(desktopMenu).getByRole("link", { name: "resin and pigment art" });
-  within(desktopMenu).getByRole("link", { name: "decor" });
-  within(desktopMenu).getByRole("link", { name: "wearable art" });
-  within(desktopMenu).getByRole("link", { name: "stickers" });
-  within(desktopMenu).getByRole("link", { name: "murals" });
+    expect(
+      screen.queryByRole("button", { name: "menu" })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("send a message")).not.toBeInTheDocument();
+    screen.getByAltText("Site Title");
+    const desktopMenu = await screen.findByRole("navigation");
 
-  const Footer = await screen.findByRole("contentinfo");
+    within(desktopMenu).getByRole("link", { name: "commissions" });
+    within(desktopMenu).getByRole("link", { name: "originals" });
+    within(desktopMenu).getByRole("link", { name: "prints" });
+    within(desktopMenu).getByRole("link", { name: "resin and pigment art" });
+    within(desktopMenu).getByRole("link", { name: "decor" });
+    within(desktopMenu).getByRole("link", { name: "wearable art" });
+    within(desktopMenu).getByRole("link", { name: "stickers" });
+    within(desktopMenu).getByRole("link", { name: "murals" });
 
-  within(Footer).getByRole("link", { name: "Return and Refund Policy" });
-  within(Footer).getByRole("link", { name: "Hand Made Policy" });
-  within(Footer).getByRole("link", { name: "Shipping Policy" });
-  within(Footer).getByRole("link", { name: "Privacy Policy" });
-  within(Footer).getByRole("link", { name: "Terms of Service" });
+    const Footer = await screen.findByRole("contentinfo");
 
-  expect(screen.getAllByLabelText("facebook")).toHaveLength(1);
-  expect(screen.getAllByLabelText("instagram")).toHaveLength(1);
-  expect(screen.getAllByLabelText("whatsApp")).toHaveLength(1);
+    within(Footer).getByRole("link", { name: "Return and Refund Policy" });
+    within(Footer).getByRole("link", { name: "Hand Made Policy" });
+    within(Footer).getByRole("link", { name: "Shipping Policy" });
+    within(Footer).getByRole("link", { name: "Privacy Policy" });
+    within(Footer).getByRole("link", { name: "Terms of Service" });
+    within(Footer).getByRole("link", { name: /about me/i });
+    within(Footer).getByRole("link", { name: /contact/i });
+    within(Footer).getByRole("link", { name: /go to top/i });
+
+    expect(screen.getAllByLabelText("facebook")).toHaveLength(1);
+    expect(screen.getAllByLabelText("instagram")).toHaveLength(1);
+    expect(screen.getAllByLabelText("whatsApp")).toHaveLength(1);
+  });
 });

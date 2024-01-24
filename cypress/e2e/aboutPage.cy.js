@@ -11,10 +11,13 @@ describe("About page", () => {
     });
   });
 
-  it("loads About page correctly", () => {
+  it("loads About page correctly via mobile menu", () => {
     cy.viewport("iphone-4");
-    cy.clickDrawerMenuOption("about");
+    cy.findByRole("button", { name: "menu" }).click();
+
+    cy.findByRole("link", { name: /about me/i }).click();
     cy.findByText("Meet the Artist");
+
     cy.findByAltText("Painter Gabriela painting on a canvas");
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: "About my products" });

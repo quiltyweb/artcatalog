@@ -2,27 +2,16 @@ import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Stack, Text } from "@chakra-ui/react";
-import styled from "styled-components";
 
-const Title = styled(Heading)`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 29px;
-  color: #4b828f;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  text-transform: capitalize;
-`;
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   data: { storefrontshopify, adminshopify },
 }): React.ReactElement => {
   return (
     <>
       <Stack direction={"column"} alignItems="flex-start" p={4}>
-        <Title as="h2">
+        <Heading as="h2">
           {storefrontshopify.page?.title || "Meet the Artist"}
-        </Title>
+        </Heading>
         <StaticImage
           style={{
             filter: "grayscale(1)",
@@ -42,7 +31,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
         </Text>
       </Stack>
 
-      <Title as="h3">About my products</Title>
+      <Heading as="h3">About my products</Heading>
       <Stack
         spacing={4}
         align="center"
