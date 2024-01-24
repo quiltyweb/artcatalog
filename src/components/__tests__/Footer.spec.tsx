@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import Footer from "../Footer";
 
 beforeEach(() => {
@@ -11,51 +11,84 @@ afterEach(() => {
 });
 
 describe("Footer", () => {
-  const legalContentMockedData = [
-    {
-      key: "return_and_refund_policy",
-      definition: {
-        name: "Return and Refund Policy",
+  it("renders correctly", () => {
+    const legalContentMockedData = [
+      {
+        key: "return_and_refund_policy",
+        definition: {
+          name: "Return and Refund Policy",
+        },
       },
-    },
-    {
-      key: "hand_made_policy",
-      definition: {
-        name: "Hand Made Policy",
+      {
+        key: "hand_made_policy",
+        definition: {
+          name: "Hand Made Policy",
+        },
       },
-    },
-    {
-      key: "shipping_policy",
-      definition: {
-        name: "Shipping Policy",
+      {
+        key: "shipping_policy",
+        definition: {
+          name: "Shipping Policy",
+        },
       },
-    },
-    {
-      key: "privacy_policy",
-      definition: {
-        name: "Privacy Policy",
+      {
+        key: "privacy_policy",
+        definition: {
+          name: "Privacy Policy",
+        },
       },
-    },
-    {
-      key: "terms_of_service",
-      definition: {
-        name: "Terms of Service",
+      {
+        key: "terms_of_service",
+        definition: {
+          name: "Terms of Service",
+        },
       },
-    },
-  ];
-
-  it("renders correctly", async () => {
+    ];
     render(<Footer legalContentItems={legalContentMockedData} />);
-    // legal content policies links:
+    screen.getByRole("heading", { name: /Quick Links/i });
     screen.getByRole("link", { name: "Return and Refund Policy" });
     screen.getByRole("link", { name: "Hand Made Policy" });
     screen.getByRole("link", { name: "Shipping Policy" });
     screen.getByRole("link", { name: "Privacy Policy" });
     screen.getByRole("link", { name: "Terms of Service" });
+    screen.getByRole("link", { name: /contact/i });
+    screen.getByRole("link", { name: /about me/i });
 
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
     screen.getByTestId("whatsApp");
     screen.getByText(/© 2024, Brushella Art & Decor/);
+    screen.getByRole("link", { name: /go to top/i });
+  });
+
+  it("renders no policies link correctly", async () => {
+    render(<Footer />);
+
+    const footer = await screen.findByTestId("footer");
+
+    within(footer).getByRole("heading", { name: /quick links/i });
+
+    expect(
+      within(footer).queryByRole("link", { name: "Return and Refund Policy" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(footer).queryByRole("link", { name: "Hand Made Policy" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(footer).queryByRole("link", { name: "Shipping Policy" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(footer).queryByRole("link", { name: "Privacy Policy" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(footer).queryByRole("link", { name: "Terms of Service" })
+    ).not.toBeInTheDocument();
+    within(footer).getByRole("link", { name: /contact/i });
+    within(footer).getByRole("link", { name: /about me/i });
+    within(footer).getByText(/© 2024, Brushella Art & Decor/i);
+    within(footer).getByRole("link", { name: /Go to top/i });
+    within(footer).getByLabelText("facebook");
+    within(footer).getByLabelText("instagram");
+    within(footer).getByLabelText("whatsApp");
   });
 });

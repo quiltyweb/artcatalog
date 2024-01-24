@@ -8,7 +8,7 @@ import { IconButton } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const SliderContainer = styled.div`
-  margin: 0 0 6rem 0;
+  margin: 0 0 4rem 0;
   display: flex;
   justify-content: center;
 
@@ -44,7 +44,7 @@ const SliderContainer = styled.div`
       max-width: 680px;
     }
     @media (min-width: 1024px) {
-      max-width: 800px;
+      max-width: 890px;
     }
 
     .slick-next:before,
@@ -185,7 +185,7 @@ export default IndexPage;
 
 export const Head = (): React.ReactElement => (
   <SEO>
-    <title id="title">Welcome to Brushella - All things ART!</title>
+    <title id="home-title">Welcome to Brushella - All things ART!</title>
     <meta
       id="index-page"
       name="home page"

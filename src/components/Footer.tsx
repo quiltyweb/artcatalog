@@ -7,12 +7,13 @@ import {
   ListItem,
   Text,
   UnorderedList,
+  Link,
 } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { Link } from "gatsby";
+import { Link as GatsbyLink } from "gatsby";
 import styled from "styled-components";
 
-const FooterLink = styled(Link)`
+const FooterLink = styled(GatsbyLink)`
   text-decoration: none;
   color: #585858;
   &:hover {
@@ -28,94 +29,112 @@ const FooterIconLink = styled.a`
 `;
 
 type FooterProps = {
-  legalContentItems: Queries.LayoutPageQuery["adminshopify"]["legalContent"]["nodes"][0]["fields"];
+  legalContentItems?: Queries.LayoutPageQuery["adminshopify"]["legalContent"]["nodes"][0]["fields"];
 };
 
 const Footer: React.FunctionComponent<FooterProps> = ({
   legalContentItems,
 }): React.ReactElement => {
   return (
-    <Box bg="white" justifySelf="left" p="4">
-      <hr />
-      <Heading
-        id="quicklinks"
-        size="md"
-        color="#6591A2"
-        as={"h3"}
-        padding="2rem 0 2rem 0"
-        display="flex"
-        justifyContent={["left", "left", "center", "center", "center"]}
-      >
-        Quick Links
-      </Heading>
-      <UnorderedList
-        display="flex"
-        flexDirection={["column", "column", "row", "row", "row"]}
-        pt={[4, 4, 4, 4]}
-        justifyContent="space-around"
-        styleType="none"
-        margin={0}
-      >
-        {legalContentItems.map((item) => (
-          <ListItem key={item.key} padding="0 1rem 1rem 0">
-            <FooterLink to={`/legal-content/${item.key}`}>
-              {item.definition.name}
-            </FooterLink>
+    <Box data-testid="footer">
+      <Box p="4">
+        <hr />
+        <Heading
+          id="quicklinks"
+          as={"h4"}
+          size="md"
+          color="teal.500"
+          textAlign={["left", "left", "center", "center", "center"]}
+          pt="8"
+          pb="8"
+          pl="4"
+        >
+          Quick Links
+        </Heading>
+        <UnorderedList
+          display="flex"
+          flexDirection={["column", "column", "row", "row", "row"]}
+          justifyContent="space-around"
+          styleType="none"
+          fontSize="md"
+          textTransform="capitalize"
+        >
+          {legalContentItems &&
+            legalContentItems.map((item) => (
+              <ListItem key={item.key} p="0 1rem 1rem 0">
+                <FooterLink to={`/legal-content/${item.key}`}>
+                  {item.definition.name}
+                </FooterLink>
+              </ListItem>
+            ))}
+          <ListItem key={"contact-page"} p="0 1rem 1rem 0">
+            <FooterLink to="/contact">contact</FooterLink>
           </ListItem>
-        ))}
-        <ListItem key={"contact-page"} padding="0 1rem 1rem 0">
-          <FooterLink to="/contact">contact me</FooterLink>
-        </ListItem>
-      </UnorderedList>
+          <ListItem key={"about-page"} p="0 1rem 1rem 0">
+            <FooterLink to="/about">about me</FooterLink>
+          </ListItem>
+        </UnorderedList>
+      </Box>
+      <Box p="4">
+        <hr />
+        <HStack
+          display="flex"
+          flexDirection={["column", "row", "row", "row", "row"]}
+          justifyContent="space-between"
+          p="8"
+          fontSize="md"
+        >
+          <HStack spacing="1rem">
+            <FooterIconLink
+              data-testid="facebook"
+              href="https://www.facebook.com/Brushella"
+              target="_blank"
+            >
+              <Icon
+                boxSize="1rem"
+                aria-label="facebook"
+                title="facebook"
+                color="teal.500"
+                as={FaFacebookF}
+              />
+            </FooterIconLink>
 
-      <HStack spacing="1rem" padding="2rem" justifyContent="center">
-        <Box>
-          <FooterIconLink
-            data-testid="facebook"
-            href="https://www.facebook.com/Brushella"
-            target="_blank"
-          >
-            <Icon
-              boxSize="1.5rem"
-              aria-label="facebook"
-              title="facebook"
-              as={FaFacebookF}
-            />
-          </FooterIconLink>
-        </Box>
-        <Box>
-          <FooterIconLink
-            aria-label="instagram"
-            href="https://www.instagram.com/brushella_brushmaster/"
-            target="_blank"
-          >
-            <Icon
-              data-testid="instagram"
-              boxSize="1.5rem"
-              title="instagram"
-              as={FaInstagram}
-            />
-          </FooterIconLink>
-        </Box>
-        <Box>
-          <FooterIconLink
-            data-testid="whatsApp"
-            href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
-            target="_blank"
-          >
-            <Icon
-              boxSize="1.5rem"
-              aria-label="whatsApp"
-              title="whatsApp"
-              as={FaWhatsapp}
-            />
-          </FooterIconLink>
-        </Box>
-      </HStack>
-      <hr />
-      <Text display="flex" justifyContent="center" p={4}>
-        © 2024, Brushella Art & Decor
-      </Text>
+            <FooterIconLink
+              aria-label="instagram"
+              href="https://www.instagram.com/brushella_brushmaster/"
+              target="_blank"
+            >
+              <Icon
+                data-testid="instagram"
+                boxSize="1rem"
+                title="instagram"
+                color="teal.500"
+                as={FaInstagram}
+              />
+            </FooterIconLink>
+
+            <FooterIconLink
+              data-testid="whatsApp"
+              href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
+              target="_blank"
+            >
+              <Icon
+                boxSize="1rem"
+                aria-label="whatsApp"
+                title="whatsApp"
+                color="teal.500"
+                as={FaWhatsapp}
+              />
+            </FooterIconLink>
+          </HStack>
+          <Text display="flex" justifyContent="center" color="gray.600">
+            © 2024, Brushella Art & Decor
+          </Text>
+          <Link href="#top-logo" textDecoration="underline" color="gray.600">
+            Go to top
+          </Link>
+        </HStack>
+      </Box>
     </Box>
   );
 };

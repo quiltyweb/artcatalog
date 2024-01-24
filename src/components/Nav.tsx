@@ -14,8 +14,10 @@ import {
   Box,
   HStack,
   UseDisclosureProps,
+  Link,
 } from "@chakra-ui/react";
-import { Link } from "gatsby";
+import { Link as GatsbyLink } from "gatsby";
+
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../images/svg/brushella-white.svg";
 
@@ -25,20 +27,7 @@ import {
   FaWhatsapp,
   FaRegEnvelope,
 } from "react-icons/fa";
-import styled from "styled-components";
 
-const NavLink = styled(Link)`
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.5rem;
-  color: #ffffff;
-  text-decoration: none;
-  text-transform: uppercase;
-  &:hover {
-    color: #6591a2;
-  }
-`;
 type NavProps = {
   title?: string;
   allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
@@ -48,7 +37,44 @@ type CategoriesListMenuProps = {
   allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
   handleClickOnClose?: UseDisclosureProps["onClose"];
 };
+type StaticLinksMenuProps = {
+  handleClickOnClose?: UseDisclosureProps["onClose"];
+};
 
+const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
+  handleClickOnClose,
+}): React.ReactElement => {
+  return (
+    <Stack
+      spacing={[10, 10, 10, 5, 7, 7]}
+      align="left"
+      marginTop={2}
+      padding={3}
+      direction={["column", "column", "column", "row", "row", "row"]}
+    >
+      <Link
+        fontSize="xl"
+        textTransform="capitalize"
+        as={GatsbyLink}
+        key="about-item"
+        to="/about"
+        onClick={handleClickOnClose}
+      >
+        about me
+      </Link>
+      <Link
+        fontSize="xl"
+        textTransform="capitalize"
+        as={GatsbyLink}
+        key="contact-item"
+        to="/contact"
+        onClick={handleClickOnClose}
+      >
+        contact
+      </Link>
+    </Stack>
+  );
+};
 const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   allShopifyCollectionItems,
   handleClickOnClose,
@@ -57,24 +83,23 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
     <Stack
       spacing={[10, 10, 10, 5, 7, 7]}
       align="left"
-      marginTop={5}
-      marginBottom={[5, 5, 5, 0, 0, 0]}
+      padding={3}
       direction={["column", "column", "column", "row", "row", "row"]}
-      fontSize={["1.2rem", "1.2rem", "1.2rem", "0.9rem", "0.9rem", "0.9rem"]}
     >
       {allShopifyCollectionItems &&
+        allShopifyCollectionItems.length > 0 &&
         allShopifyCollectionItems.map((item) => (
-          <NavLink
+          <Link
+            fontSize="xl"
+            textTransform="capitalize"
+            as={GatsbyLink}
             key={item.id}
             to={`/collections/${item.handle}`}
             onClick={handleClickOnClose}
           >
             {item.title}
-          </NavLink>
+          </Link>
         ))}
-      <NavLink key="about-item" to="/about" onClick={handleClickOnClose}>
-        about
-      </NavLink>
     </Stack>
   );
 };
@@ -101,12 +126,17 @@ const Nav: React.FunctionComponent<NavProps> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <Box>
-          <Link to="/">
+        <Box padding={3}>
+          <Link as={GatsbyLink} to="/">
             <Logo
+              id="top-logo"
               aria-label={title || "Brushella"}
               alt={title || "Brushella"}
-              style={{ maxWidth: "70", maxHeight: "70", filter: "invert(1)" }}
+              style={{
+                maxWidth: "80",
+                maxHeight: "80",
+                filter: "invert(1)",
+              }}
             />
           </Link>
         </Box>
@@ -120,7 +150,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
   // mobile first menu
   return (
     <>
-      <Link to="/contact">
+      <Link as={GatsbyLink} to="/contact">
         <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
       </Link>
       <Drawer
@@ -138,10 +168,12 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <DrawerCloseButton />
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
+            <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
             <CategoriesListMenu
               allShopifyCollectionItems={allShopifyCollectionItems}
               handleClickOnClose={handleClickOnClose}
             />
+
             <HStack spacing="1rem" padding="3rem" justifyContent="center">
               <Box>
                 <a href="https://www.facebook.com/Brushella" target="_blank">
@@ -181,7 +213,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         </DrawerContent>
       </Drawer>
       <Box maxWidth={64} margin="0 auto">
-        <Link to="/">
+        <Link as={GatsbyLink} to="/">
           <Logo
             aria-label={title || "Brushella"}
             alt={title || "Brushella"}

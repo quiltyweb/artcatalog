@@ -76,10 +76,6 @@ describe("Nav", () => {
     screen.getByLabelText("send a message");
 
     expect(
-      screen.queryByRole("link", { name: "about" })
-    ).not.toBeInTheDocument();
-
-    expect(
       screen.queryByRole("link", { name: "commissions" })
     ).not.toBeInTheDocument();
   });
@@ -112,10 +108,9 @@ describe("Nav", () => {
     screen.getByRole("link", { name: "wearable art" });
     screen.getByRole("link", { name: "stickers" });
     screen.getByRole("link", { name: "murals" });
-    screen.getByRole("link", { name: "about" });
   });
 
-  it("renders only about page when categories are not provided", async () => {
+  it("renders desktop nav with no categories when they are not provided", async () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
         matches: true,
@@ -124,7 +119,7 @@ describe("Nav", () => {
       })),
     });
     render(<Nav title={mockedData.title} allShopifyCollectionItems={[]} />);
-    screen.getByRole("link", { name: "about" });
+
     expect(
       screen.queryByRole("link", { name: "commissions" })
     ).not.toBeInTheDocument();

@@ -22,4 +22,18 @@ describe("contact Page", () => {
     cy.findByLabelText("Message");
     cy.findByRole("button", { name: "Send Message" });
   });
+
+  it("navigates from contact form to about me page via link", () => {
+    cy.findByTestId("contact-form-description").within(() => {
+      cy.findByRole("link", { name: /about me/i }).click();
+    });
+    cy.findByRole("heading", { name: /Meet the Artist/i });
+  });
+
+  it("navigates from contact form to quick links section via link", () => {
+    cy.findByTestId("contact-form-description").within(() => {
+      cy.findByRole("link", { name: /quick links section/i }).click();
+    });
+    cy.findByRole("heading", { name: /quick links/i });
+  });
 });
