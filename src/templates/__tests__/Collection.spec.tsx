@@ -114,8 +114,7 @@ describe("Collection page Template", () => {
 
     render(<Collection pageContext={mockedPageContext} />);
 
-    expect(screen.getByText("$0")).not.toBeInTheDocument();
-    expect(screen.getByText(/AUD/i)).not.toBeInTheDocument();
+    expect(screen.queryByTestId("item-price")).toBeNull();
     screen.getByText(/view details & buy/i);
   });
 

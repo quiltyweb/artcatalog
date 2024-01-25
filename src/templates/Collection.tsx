@@ -105,7 +105,12 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                       marginTop="1"
                     >
                       {amount !== 0 && (
-                        <Text fontSize="xl" fontWeight="bold" color="pink.800">
+                        <Text
+                          data-testid="item-price"
+                          fontSize="xl"
+                          fontWeight="bold"
+                          color="pink.800"
+                        >
                           <Highlight
                             query="AUD"
                             styles={{ pr: "1", color: "#7e718a" }}
