@@ -61,8 +61,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         color="#FFFFFF"
         bg="#000000"
         area={"header"}
-        padding={4}
-        marginBottom={8}
+        padding={3}
       >
         <Nav
           title={data.site?.siteMetadata?.title ?? "Brushella"}
