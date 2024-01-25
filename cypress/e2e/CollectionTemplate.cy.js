@@ -19,9 +19,14 @@ describe("Collection Template", () => {
   it("Navigates from home to Print Collection template ", () => {
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "prints" });
+    cy.findByText("Prints description goes here.");
+    cy.findByAltText(/testing alt text for jungle panther print/);
     cy.findByRole("heading", { name: "Jungle Panther" });
     cy.findByText("Print from original painting testing.");
-    cy.findByAltText(/testing alt text for jungle panther print/);
+    cy.findByText("$500");
+    cy.findAllByText(/AUD/i);
+    cy.findAllByText(/view details & buy/i);
+    cy.findByText("$0").should("not.exist");
   });
 
   it("Navigates to single product view ", () => {
