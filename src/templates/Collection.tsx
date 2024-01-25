@@ -20,7 +20,7 @@ type CollectionProps = {
   pageContext: {
     title: string;
     collectionHandle: string;
-    description: string;
+    description?: string;
     products: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"];
   };
 };
@@ -41,7 +41,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
         )}
       </Stack>
 
-      {products.length !== 0 ? (
+      {products && products.length !== 0 ? (
         <SimpleGrid columns={[1, 2, 3]} spacing="40px" padding="10">
           {products.map(
             ({
@@ -94,7 +94,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                         >
                           {title}
                         </Heading>
-                        <Text minH="20">{description}</Text>
+                        {description && <Text minH="20">{description}</Text>}
                       </Stack>
                     </CardBody>
 
@@ -104,16 +104,23 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                       justifyContent="space-between"
                       marginTop="1"
                     >
-                      <Text fontSize="xl" fontWeight="bold" color="pink.800">
-                        <Highlight
-                          query="AUD"
-                          styles={{ pr: "1", color: "#7e718a" }}
-                        >
-                          {currencyCode}
-                        </Highlight>
-                        {`$${amount}`}
-                      </Text>
-                      <Text fontSize="md" textAlign="right" color={"pink.800"}>
+                      {amount !== 0 && (
+                        <Text fontSize="xl" fontWeight="bold" color="pink.800">
+                          <Highlight
+                            query="AUD"
+                            styles={{ pr: "1", color: "#7e718a" }}
+                          >
+                            {currencyCode}
+                          </Highlight>
+                          {`$${amount}`}
+                        </Text>
+                      )}
+                      <Text
+                        fontSize="md"
+                        textAlign="right"
+                        color={"pink.800"}
+                        marginLeft="auto"
+                      >
                         view details <br /> & buy <Icon as={ArrowForwardIcon} />
                       </Text>
                     </CardFooter>
