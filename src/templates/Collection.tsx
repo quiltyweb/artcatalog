@@ -42,7 +42,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       </Stack>
 
       {products && products.length !== 0 ? (
-        <SimpleGrid columns={[1, 2, 3]} spacing="40px" padding="10">
+        <SimpleGrid columns={[1, 1, 2, 3]} spacing="40px" padding="10">
           {products.map(
             ({
               id,
