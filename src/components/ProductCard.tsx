@@ -32,7 +32,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     initialValues: {
       productId: product.id,
       productTitle: product.title,
-      quantity: 0,
+      quantity: 1,
     },
     onSubmit: (values) => {
       if (values.quantity === 0) {

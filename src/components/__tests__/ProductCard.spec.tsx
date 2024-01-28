@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ProductCard from "../ProductCard";
 
 beforeEach(() => {
@@ -236,7 +236,11 @@ describe("ProductCard", () => {
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
-    screen.getByLabelText("Quantity");
-    screen.getByRole("button", { name: "Add to cart" });
+    screen.getByRole("button", {
+      name: "Add to cart",
+    });
+    const quantity = screen.getByLabelText("Quantity");
+
+    expect(quantity).toHaveValue("1");
   });
 });
