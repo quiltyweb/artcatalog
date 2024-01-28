@@ -60,7 +60,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   key={handle}
                   to={`/collections/${collectionHandle}/${handle}`}
                 >
-                  <Card maxW="sm" key={`${id}-product-item`} boxShadow="md">
+                  <Card maxW="sm" key={`${id}-product-item`} boxShadow="lg">
                     <CardBody>
                       {image ? (
                         <GatsbyImage
