@@ -32,6 +32,9 @@ describe("Collection Template", () => {
   it("Navigates to single product view ", () => {
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "Jungle Panther" }).click();
-    cy.findByText(/collection: prints/);
+    cy.findAllByText(/Jungle Panther/);
+    cy.findByText(/Print from original painting./);
+    cy.findByLabelText("Quantity");
+    cy.findByRole("button", { name: "Add to cart" });
   });
 });
