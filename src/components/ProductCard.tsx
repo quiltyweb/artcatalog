@@ -30,8 +30,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   const { addItemToCart } = useCartContext();
   const formik = useFormik({
     initialValues: {
-      productId: product.id,
-      productTitle: product.title,
+      id: product.id,
+      product: product,
       quantity: 1,
     },
     onSubmit: (values) => {
@@ -41,8 +41,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
       addItemToCart &&
         addItemToCart({
-          id: values.productId,
-          title: values.productTitle,
+          id: values.id,
+          product: values.product,
           quantity: values.quantity,
         });
     },
@@ -126,15 +126,16 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
               <Button
                 id="add-to-cart"
+                backgroundColor="#86548A"
+                color="#ffffff"
+                colorScheme="teal"
                 type="submit"
                 fontSize="xl"
-                backgroundColor="pink.800"
-                color="white"
                 width="100%"
                 padding="6"
                 my="4"
               >
-                Add to cart
+                Add to basket
               </Button>
             </form>
           </Box>

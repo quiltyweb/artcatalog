@@ -61,7 +61,7 @@ describe("Collection page Template", () => {
     screen.getByText("original description goes here");
     screen.getByText("$500");
     screen.getByText("AUD");
-    screen.getByText(/view details & buy/i);
+    screen.getByText(/view details/i);
 
     screen.getByRole("heading", { name: "frog" });
     screen.getByText("product description goes here");
@@ -115,7 +115,7 @@ describe("Collection page Template", () => {
     render(<Collection pageContext={mockedPageContext} />);
 
     expect(screen.queryByTestId("item-price")).toBeNull();
-    screen.getByText(/view details & buy/i);
+    screen.getByText(/view details/i);
   });
 
   it("renders correctly when there are no products", () => {

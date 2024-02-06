@@ -25,7 +25,7 @@ describe("Collection Template", () => {
     cy.findByText("Print from original painting testing.");
     cy.findByText("$500");
     cy.findAllByText(/AUD/i);
-    cy.findAllByText(/view details & buy/i);
+    cy.findAllByText(/view details/i);
     cy.findByText("$0").should("not.exist");
   });
 
@@ -35,6 +35,14 @@ describe("Collection Template", () => {
     cy.findAllByText(/Jungle Panther/);
     cy.findByText(/Print from original painting./);
     cy.findByLabelText("Quantity");
-    cy.findByRole("button", { name: "Add to cart" });
+    cy.findByRole("button", { name: "Add to basket" });
+  });
+
+  it("add 1 item to basket", () => {
+    cy.clickDrawerMenuOption("prints");
+    cy.findByRole("heading", { name: "Jungle Panther" }).click();
+    cy.findByRole("link", { name: /0/i });
+    cy.findByRole("button", { name: "Add to basket" }).click();
+    cy.findByRole("link", { name: /1/i });
   });
 });

@@ -237,7 +237,7 @@ describe("ProductCard", () => {
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
     screen.getByRole("button", {
-      name: "Add to cart",
+      name: "Add to basket",
     });
     const quantity = screen.getByLabelText("Quantity");
 

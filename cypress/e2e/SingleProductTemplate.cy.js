@@ -30,7 +30,7 @@ describe("Collection Template", () => {
       cy.findByText(/AUD/i);
     });
     cy.get("#quantity").should("have.value", "1");
-    cy.findByRole("button", { name: "Add to cart" });
+    cy.findByRole("button", { name: "Add to basket" });
   });
 
   it("renders breadcrumb to go back to category page", () => {

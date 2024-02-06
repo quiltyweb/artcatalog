@@ -126,7 +126,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                         color={"pink.800"}
                         marginLeft="auto"
                       >
-                        view details <br /> & buy <Icon as={ArrowForwardIcon} />
+                        view details <Icon as={ArrowForwardIcon} />
                       </Text>
                     </CardFooter>
                   </Card>
