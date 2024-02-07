@@ -41,7 +41,7 @@ describe("Basket page", () => {
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@email.com");
     cy.findByRole("button", { name: "Get a quote" }).click();
-    cy.findByTestId("basket-status-success")
+    cy.get(`[data-testid='basket-status-success']`)
       .should("exist")
       .contains(/Your quote was sent succesfully!/i);
   });
