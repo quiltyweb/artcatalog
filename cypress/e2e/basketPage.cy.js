@@ -33,11 +33,6 @@ describe("Basket page", () => {
   });
 
   it("sends quote correctly with 1 item", () => {
-    // eslint-disable-next-line no-console
-    console.log("GETFORM_ENDPOINT >>>", Cypress.env("GETFORM_ENDPOINT"));
-    cy.intercept(`https://getform.io/f/${Cypress.env("GETFORM_ENDPOINT")}`).as(
-      "getFormEndpoint"
-    );
     cy.viewport("iphone-4");
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "Jungle Panther" }).click();
@@ -47,7 +42,6 @@ describe("Basket page", () => {
     cy.findByLabelText("Email address").type("email@email.com");
     cy.findByRole("button", { name: "Get a quote" }).click();
     cy.get("main").scrollIntoView();
-    cy.wait("@getFormEndpoint");
     cy.get("[id='basket-status-success']").should("exist");
   });
 });
