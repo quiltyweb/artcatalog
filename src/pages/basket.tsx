@@ -41,8 +41,6 @@ interface FormValues {
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const { cart, deleteItemFromCart } = useCartContext();
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-  // eslint-disable-next-line no-console
-  console.log("cartCount >>>", cartCount);
 
   const getItemsFromBasket = (): string => {
     const cartForMessage = cart.map((item) => {
@@ -151,7 +149,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
             });
 
             const res = await fetch(
-              `https://getform.io/f/${process.env.REACT_APP_getform_endpoint}`,
+              `https://getform.io/f/${process.env.REACT_APP_GETFORM_ENDPOINT}`,
               {
                 method: "POST",
                 headers: { accept: "application/json" },
@@ -176,9 +174,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           }}
         >
           {(props) => {
-            // eslint-disable-next-line no-console
-            console.log("props >>>", props);
-
             return (
               <>
                 {props.status && props.status.sent && (
