@@ -33,9 +33,9 @@ describe("Basket page", () => {
   });
 
   it("sends quote correctly with 1 item", () => {
-    cy.intercept(
-      `https://getform.io/f/${process.env.REACT_APP_getform_endpoint}`
-    ).as("getFormEndpoint");
+    cy.intercept(`https://getform.io/f/${Cypress.env("getform_endpoint")}`).as(
+      "getFormEndpoint"
+    );
     cy.viewport("iphone-4");
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "Jungle Panther" }).click();
