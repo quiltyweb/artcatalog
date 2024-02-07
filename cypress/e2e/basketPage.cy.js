@@ -34,7 +34,7 @@ describe("Basket page", () => {
 
   it("sends quote correctly with 1 item", () => {
     // eslint-disable-next-line no-console
-    console.log(Cypress.env("GETFORM_ENDPOINT"));
+    console.log("GETFORM_ENDPOINT >>>", Cypress.env("GETFORM_ENDPOINT"));
     cy.intercept(Cypress.env("GETFORM_ENDPOINT")).as("getFormEndpoint");
     cy.viewport("iphone-4");
     cy.clickDrawerMenuOption("prints");
