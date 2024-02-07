@@ -38,11 +38,11 @@ describe("Basket page", () => {
     cy.findByRole("heading", { name: "Jungle Panther" }).click();
     cy.findByRole("button", { name: "Add to basket" }).click();
     cy.findByRole("link", { name: /view shopping basket 1/i }).click();
-
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@email.com");
     cy.findByRole("button", { name: "Get a quote" }).click();
-    cy.findByTestId("basket-status-success");
-    cy.findByText(/Your quote was sent succesfully!/i);
+    cy.findByTestId("basket-status-success")
+      .should("exist")
+      .contains(/Your quote was sent succesfully!/i);
   });
 });
