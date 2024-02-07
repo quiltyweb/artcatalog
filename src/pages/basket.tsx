@@ -176,10 +176,13 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           }}
         >
           {(props) => {
+            // eslint-disable-next-line no-console
+            console.log("props >>>", props);
+
             return (
               <>
                 {props.status && props.status.sent && (
-                  <Alert status="success" data-testid="basket-status-success">
+                  <Alert status="success" id="basket-status-success">
                     <AlertIcon />
                     {props.status.message}
                   </Alert>

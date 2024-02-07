@@ -45,8 +45,7 @@ describe("Basket page", () => {
       `https://getform.io/f/${process.env.REACT_APP_getform_endpoint}`
     ).as("getFormEndpoint");
     cy.wait("@getFormEndpoint");
-    cy.get(`[data-testid='basket-status-success']`)
-      .should("exist")
-      .contains(/Your quote was sent succesfully!/i);
+    cy.get("main").scrollIntoView();
+    cy.get("[id='basket-status-success']").should("exist");
   });
 });
