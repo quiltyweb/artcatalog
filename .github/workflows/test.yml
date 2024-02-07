@@ -10,6 +10,8 @@ jobs:
       SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
       SHOPIFY_STOREFRONT_PASSWORD: ${{ secrets.SHOPIFY_STOREFRONT_PASSWORD }}
       SHOPIFY_STORE_NAME: ${{ secrets.SHOPIFY_STORE_NAME }}
+      REACT_APP_GETFORM_ENDPOINT: ${{ secrets.REACT_APP_GETFORM_ENDPOINT }}
+      CYPRESS_GETFORM_ENDPOINT: ${{ secrets.CYPRESS_GETFORM_ENDPOINT }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
