@@ -42,6 +42,7 @@ describe("Basket page", () => {
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@email.com");
     cy.findByRole("button", { name: "Get a quote" }).click();
+    cy.findByTestId("basket-status-success");
     cy.findByText(/Your quote was sent succesfully!/i);
   });
 });

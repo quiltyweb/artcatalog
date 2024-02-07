@@ -53,7 +53,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Box display="flex" flexDirection="column">
       <Heading as="h2">My Basket</Heading>
-      <TableContainer width={["100%", "md", "xl ", "2xl", "3xl"]}>
+      <TableContainer width={["100%", "md", "xl", "2xl", "3xl"]}>
         <Table size="md">
           <TableCaption>
             {cartCount === 0 && `There are no items in your basket`}
@@ -62,8 +62,12 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           </TableCaption>
           <Thead>
             <Tr>
-              <Th>Action</Th>
-              <Th>Image</Th>
+              <Th textAlign="left" padding={["0", "xs", "xs", "sm", "sm"]}>
+                Action
+              </Th>
+              <Th textAlign="center" padding={["0", "xs", "xs", "sm", "sm"]}>
+                Image
+              </Th>
               <Th>Item</Th>
             </Tr>
           </Thead>
@@ -72,7 +76,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
               const IMAGE = getImage(item.product.featuredImage);
               return (
                 <Tr key={`${item.id}-item-${index}`}>
-                  <Td>
+                  <Td padding={["0", "xs", "xs", "sm", "sm"]}>
                     <IconButton
                       onClick={() =>
                         deleteItemFromCart &&
@@ -88,7 +92,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                       fontSize="16px"
                     />
                   </Td>
-                  <Td>
+                  <Td padding={["0.1rem", "xs", "xs", "sm", "sm"]}>
                     <Box width="80px">
                       {IMAGE ? (
                         <GatsbyImage
@@ -175,7 +179,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
             return (
               <>
                 {props.status && props.status.sent && (
-                  <Alert status="success">
+                  <Alert status="success" data-testid="basket-status-success">
                     <AlertIcon />
                     {props.status.message}
                   </Alert>
