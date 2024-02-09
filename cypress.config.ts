@@ -1,6 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+  env: {
+    ...process.env,
+  },
   e2e: {
     baseUrl: "http://localhost:8000/",
     setupNodeEvents(on) {
