@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("dotenv").config();
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /// <reference types="cypress" />
 // ***********************************************************
@@ -23,7 +20,4 @@ require("dotenv").config();
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  config.env.REACT_APP_GETFORM_ENDPOINT =
-    process.env.REACT_APP_GETFORM_ENDPOINT;
-  return config;
 };
