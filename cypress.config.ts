@@ -3,9 +3,6 @@ require("dotenv").config();
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-  env: {
-    REACT_APP_GETFORM_ENDPOINT: process.env.REACT_APP_GETFORM_ENDPOINT,
-  },
   e2e: {
     baseUrl: "http://localhost:8000/",
     setupNodeEvents(on) {
