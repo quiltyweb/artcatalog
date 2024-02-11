@@ -10,7 +10,7 @@
                 "description": "Print from original painting.",
                 "priceRangeV2": {
                     "maxVariantPrice": {
-                        "amount": 0,
+                        "amount": 20,
                         "currencyCode": "AUD"
                     }
                 },

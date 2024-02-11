@@ -1,85 +1,147 @@
 import * as React from "react";
 import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
-import { Box, useColorModeValue, Heading, Text, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  Stack,
+  Highlight,
+  Card,
+  CardBody,
+  Button,
+  FormControl,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+} from "@chakra-ui/react";
+import { useFormik } from "formik";
+import { useCartContext } from "../context/CartContext";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
-  collectionHandle: string;
 };
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
-  collectionHandle,
 }): React.ReactElement => {
-  const IMAGE = getImage(product.featuredImage);
+  const { addItemToCart } = useCartContext();
+  const formik = useFormik({
+    initialValues: {
+      id: product.id,
+      product: product,
+      quantity: 1,
+    },
+    onSubmit: (values) => {
+      if (values.quantity === 0) {
+        return;
+      }
 
+      addItemToCart &&
+        addItemToCart({
+          id: values.id,
+          product: values.product,
+          quantity: values.quantity,
+        });
+    },
+  });
+
+  const IMAGE = getImage(product.featuredImage);
+  const amount = product.priceRangeV2.maxVariantPrice.amount;
+  const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   return (
-    <Box
-      p={6}
-      my={12}
-      w="full"
-      bg={useColorModeValue("white", "gray.800")}
-      boxShadow="2xl"
-      rounded="lg"
-      pos="relative"
-      zIndex={1}
-      maxW={"100%"}
-      display={"flex"}
+    <Card
+      key={`${product.id}-single-view`}
+      direction={{ base: "column", sm: "column" }}
+      overflow="hidden"
+      boxShadow="0"
+      mt={7}
     >
-      <Box
-        rounded="lg"
-        pos="relative"
-        height={"460px"}
-        _after={{
-          transition: "all .3s ease",
-          content: '""',
-          w: "full",
-          h: "full",
-          pos: "absolute",
-          top: 5,
-          left: 0,
-          backgroundImage: `url(${IMAGE})`,
-          filter: "blur(15px)",
-          zIndex: -1,
-        }}
-        _groupHover={{
-          _after: {
-            filter: "blur(20px)",
-          },
-        }}
-      >
-        {IMAGE ? (
-          <GatsbyImage
-            image={IMAGE}
-            alt={product.featuredImage?.altText || product.title}
-            style={{
-              transform: "scaleX(-1)",
-            }}
-            loading="eager"
-          />
-        ) : (
-          <StaticImage
-            style={{
-              filter: "grayscale(1)",
-              transform: "scaleX(-1)",
-              borderRadius: "6px",
-              marginBottom: "2rem",
-            }}
-            alt="no product image available"
-            src="../images/noimg.jpg"
-          />
-        )}
-      </Box>
-      <Stack padding={4}>
-        <Heading fontSize="xl" fontWeight={600}>
-          {product.title}
-        </Heading>
-        <Text color="gray.600" fontSize="sm" textTransform="uppercase">
-          collection: {collectionHandle}
-        </Text>
-        <Text color="gray.700">{product.description}</Text>
-      </Stack>
-    </Box>
+      <CardBody display="flex" flexDirection={["column", "column", "row"]}>
+        <Box maxW="lg">
+          {IMAGE ? (
+            <GatsbyImage
+              image={IMAGE}
+              alt={product.featuredImage?.altText || product.title}
+              loading="eager"
+              style={{ boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 10px" }}
+            />
+          ) : (
+            <StaticImage
+              style={{
+                filter: "grayscale(1)",
+                borderRadius: "6px",
+                marginBottom: "2rem",
+              }}
+              alt="no product image available"
+              src="../images/noimg.jpg"
+            />
+          )}
+        </Box>
+        <Stack
+          spacing="3"
+          px={10}
+          py={4}
+          minHeight="sm"
+          maxWidth={["100%", "100%", "md"]}
+        >
+          <Heading size="lg">{product.title}</Heading>
+          <Text py="1">{product.description}</Text>
+          {amount !== 0 && (
+            <Text
+              data-testid="item-price"
+              fontSize="2xl"
+              fontWeight="bold"
+              color="pink.800"
+            >
+              <Highlight query="AUD" styles={{ pr: "1", color: "#7e718a" }}>
+                {currencyCode}
+              </Highlight>
+              {`$${amount}`}
+            </Text>
+          )}
+          <Box pt="9">
+            <form onSubmit={formik.handleSubmit}>
+              <FormControl id="quantity">
+                <FormLabel htmlFor="quantity">Quantity</FormLabel>
+                <NumberInput
+                  min={0}
+                  id="quantity"
+                  name="quantity"
+                  value={formik.values.quantity}
+                  onChange={(val) => {
+                    const quantity = parseInt(val);
+                    formik.setFieldValue("quantity", quantity);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper id="quantity-increment" />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+
+              <Button
+                id="add-to-cart"
+                backgroundColor="#86548A"
+                color="#ffffff"
+                colorScheme="teal"
+                type="submit"
+                fontSize="xl"
+                width="100%"
+                padding="6"
+                my="4"
+              >
+                Add to basket
+              </Button>
+            </form>
+          </Box>
+        </Stack>
+      </CardBody>
+    </Card>
   );
 };
 

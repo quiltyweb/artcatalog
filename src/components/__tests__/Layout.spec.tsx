@@ -106,7 +106,7 @@ afterEach(() => {
 });
 
 describe("Layout", () => {
-  it("renders correctly mobile first layout", async () => {
+  it("renders mobile layout correctly", async () => {
     const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
     useStaticQuery.mockImplementation(() => mockUseStaticQuery);
     Object.defineProperty(window, "matchMedia", {
@@ -120,8 +120,10 @@ describe("Layout", () => {
     render(<Layout>{<p>some content children</p>}</Layout>);
 
     const Nav = await screen.findByRole("navigation");
-    within(Nav).getByRole("button", { name: "menu" });
+    within(Nav).getByLabelText("send a message");
+    within(Nav).getByLabelText("view shopping basket");
     within(Nav).getByAltText("Site Title");
+    within(Nav).getByRole("button", { name: "menu" });
 
     screen.getByText("some content children");
 
@@ -273,7 +275,8 @@ describe("Layout", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("send a message")).not.toBeInTheDocument();
+    screen.queryByLabelText("send a message");
+    screen.getByLabelText("view shopping basket");
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
 

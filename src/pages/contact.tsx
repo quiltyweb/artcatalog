@@ -66,7 +66,7 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
         });
 
         const res = await fetch(
-          `https://getform.io/f/${process.env.REACT_APP_getform_endpoint}`,
+          `https://getform.io/f/db013ec6-dd9e-4e56-8c90-818b496bfcd5`,
           {
             method: "POST",
             headers: { accept: "application/json" },

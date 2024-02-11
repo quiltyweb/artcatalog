@@ -19,14 +19,18 @@ describe("Collection Template", () => {
   });
 
   it("Renders single product page", () => {
-    cy.findByRole("heading", { name: "Jungle Panther" });
-    cy.findByText(/collection: prints/);
-    cy.findByText(/Print from original painting./);
-    cy.findByAltText("testing altText");
-
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
       cy.findByRole("link", { name: /all prints/i });
     });
+    cy.findByRole("heading", { name: "Jungle Panther" });
+    cy.findByText(/Print from original painting./);
+    cy.findByAltText("testing altText");
+
+    cy.findByTestId("item-price").within(() => {
+      cy.findByText(/AUD/i);
+    });
+    cy.get("#quantity").should("have.value", "1");
+    cy.findByRole("button", { name: "Add to basket" });
   });
 
   it("renders breadcrumb to go back to category page", () => {

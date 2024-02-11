@@ -15,18 +15,21 @@ import {
   HStack,
   UseDisclosureProps,
   Link,
+  Grid,
+  GridItem,
+  Text,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
-
-import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../images/svg/brushella-white.svg";
-
 import {
   FaFacebookF,
   FaInstagram,
   FaWhatsapp,
   FaRegEnvelope,
+  FaShoppingBasket,
+  FaBars,
 } from "react-icons/fa";
+import { useCartContext } from "../context/CartContext";
 
 type NavProps = {
   title?: string;
@@ -46,14 +49,14 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
 }): React.ReactElement => {
   return (
     <Stack
-      spacing={[10, 10, 10, 5, 7, 7]}
+      spacing="6"
       align="left"
-      marginTop={2}
-      padding={3}
+      px={3}
+      mt={6}
       direction={["column", "column", "column", "row", "row", "row"]}
     >
       <Link
-        fontSize="xl"
+        fontSize="lg"
         textTransform="capitalize"
         as={GatsbyLink}
         key="about-item"
@@ -63,7 +66,7 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
         about me
       </Link>
       <Link
-        fontSize="xl"
+        fontSize="lg"
         textTransform="capitalize"
         as={GatsbyLink}
         key="contact-item"
@@ -81,16 +84,16 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
 }): React.ReactElement => {
   return (
     <Stack
-      spacing={[10, 10, 10, 5, 7, 7]}
+      spacing="6"
       align="left"
-      padding={3}
+      px={3}
       direction={["column", "column", "column", "row", "row", "row"]}
     >
       {allShopifyCollectionItems &&
         allShopifyCollectionItems.length > 0 &&
         allShopifyCollectionItems.map((item) => (
           <Link
-            fontSize="xl"
+            fontSize="lg"
             textTransform="capitalize"
             as={GatsbyLink}
             key={item.id}
@@ -108,6 +111,9 @@ const Nav: React.FunctionComponent<NavProps> = ({
   title,
   allShopifyCollectionItems,
 }): React.ReactElement => {
+  const { cart } = useCartContext();
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan992] = useMediaQuery("(min-width: 992px)");
   const handleClickOnOpen = () => {
@@ -120,38 +126,87 @@ const Nav: React.FunctionComponent<NavProps> = ({
   // desktop menu
   if (isLargerThan992)
     return (
-      <Box
-        display="flex"
-        flexDir="column"
+      <Grid
+        width="100%"
+        gridGap="1rem"
         alignItems="center"
-        justifyContent="space-between"
+        templateAreas={`"left-icon    logo          icons"
+                        "navigation navigation navigation"`}
       >
-        <Box padding={3}>
+        <GridItem area={"left-icon"} justifySelf="left" px="3rem">
+          <Link
+            as={GatsbyLink}
+            to="/contact"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap="0.5rem"
+          >
+            <Icon
+              role="img"
+              boxSize="1.5rem"
+              title="send a message"
+              aria-label="send a message"
+              as={FaRegEnvelope}
+            />
+            Contact me
+          </Link>
+        </GridItem>
+        <GridItem area={"logo"} justifySelf="center">
           <Link as={GatsbyLink} to="/">
             <Logo
               id="top-logo"
               aria-label={title || "Brushella"}
               alt={title || "Brushella"}
               style={{
-                maxWidth: "80",
-                maxHeight: "80",
+                maxWidth: "70",
+                maxHeight: "70",
                 filter: "invert(1)",
               }}
             />
           </Link>
-        </Box>
-
-        <CategoriesListMenu
-          allShopifyCollectionItems={allShopifyCollectionItems}
-        />
-      </Box>
+        </GridItem>
+        <GridItem area={"icons"} justifySelf="right" px="3rem">
+          <Link
+            as={GatsbyLink}
+            to="/basket"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap="0.5rem"
+          >
+            <Icon
+              role="img"
+              boxSize="1.5rem"
+              aria-label="view shopping basket"
+              as={FaShoppingBasket}
+            />
+            {` My basket (${cartCount} ${cartCount > 1 ? "items" : "item"})`}
+          </Link>
+        </GridItem>
+        <GridItem area={"navigation"} justifySelf="center">
+          <CategoriesListMenu
+            allShopifyCollectionItems={allShopifyCollectionItems}
+          />
+        </GridItem>
+      </Grid>
     );
 
   // mobile first menu
   return (
     <>
       <Link as={GatsbyLink} to="/contact">
-        <Icon boxSize="2rem" aria-label="send a message" as={FaRegEnvelope} />
+        <Icon boxSize="1.8rem" aria-label="send a message" as={FaRegEnvelope} />
+      </Link>
+      <Link as={GatsbyLink} to="/basket" display="flex" alignItems="baseline">
+        <Icon
+          boxSize="1.8rem"
+          aria-label="view shopping basket"
+          as={FaShoppingBasket}
+        />
+        <Text color="white" fontWeight="extrabold">
+          {cartCount}
+        </Text>
       </Link>
       <Drawer
         id="brushella-mobile-menu"
@@ -168,20 +223,17 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <DrawerCloseButton />
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
-            <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
             <CategoriesListMenu
               allShopifyCollectionItems={allShopifyCollectionItems}
               handleClickOnClose={handleClickOnClose}
             />
 
-            <HStack spacing="1rem" padding="3rem" justifyContent="center">
+            <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
+
+            <HStack spacing="1rem" pl="2" mt="8" justifyContent="left">
               <Box>
                 <a href="https://www.facebook.com/Brushella" target="_blank">
-                  <Icon
-                    boxSize="1.5rem"
-                    aria-label="facebook"
-                    as={FaFacebookF}
-                  />
+                  <Icon boxSize="1rem" aria-label="facebook" as={FaFacebookF} />
                 </a>
               </Box>
               <Box>
@@ -190,7 +242,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
                   target="_blank"
                 >
                   <Icon
-                    boxSize="1.5rem"
+                    boxSize="1rem"
                     aria-label="instagram"
                     as={FaInstagram}
                   />
@@ -201,11 +253,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
                   href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
                   target="_blank"
                 >
-                  <Icon
-                    boxSize="1.5rem"
-                    aria-label="whatsApp"
-                    as={FaWhatsapp}
-                  />
+                  <Icon boxSize="1rem" aria-label="whatsApp" as={FaWhatsapp} />
                 </a>
               </Box>
             </HStack>
@@ -228,14 +276,13 @@ const Nav: React.FunctionComponent<NavProps> = ({
       </Box>
       <IconButton
         onClick={() => handleClickOnOpen()}
-        key={"sm"}
-        m={1}
+        key={"bars-menu-button"}
         aria-label="menu"
         title="menu"
-        icon={<HamburgerIcon />}
-        backgroundColor="#000000"
+        icon={<FaBars />}
+        backgroundColor="transparent"
         color="#FFFFFF"
-        fontSize="35px"
+        fontSize="30px"
       />
     </>
   );

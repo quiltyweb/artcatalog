@@ -8,14 +8,13 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 type SingleProductProps = {
   location: PageProps["location"];
   pageContext: {
-    collectionHandle: string;
     product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
   };
 };
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
-  pageContext: { product, collectionHandle },
+  pageContext: { product },
 }): React.ReactElement => {
   const pathnameArray = location.pathname.split("/");
   const categoryName = pathnameArray[2];
@@ -38,7 +37,7 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <ProductCard product={product} collectionHandle={collectionHandle} />
+      <ProductCard product={product} />
     </Box>
   );
 };

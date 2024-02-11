@@ -43,7 +43,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   return (
     <Grid
       gridTemplateRows={"auto"}
-      gridTemplateColumns={"1fr 1fr 1fr 1fr"}
+      gridTemplateColumns={"1fr 1fr 1fr 1fr "}
       templateAreas={`"header header header header"
                       "main main main main"
                       "footer footer footer footer"`}
@@ -58,10 +58,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         display={"flex"}
         justifyContent={"center"}
         alignItems={"center"}
+        gap="1rem"
         color="#FFFFFF"
-        bg="#000000"
+        bg={"blackAlpha.900"}
         area={"header"}
-        padding={3}
+        px={3}
+        py={3}
+        width="100%"
       >
         <Nav
           title={data.site?.siteMetadata?.title ?? "Brushella"}
@@ -75,7 +78,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         area={"main"}
         justifySelf="center"
         maxWidth={"56rem"}
-        margin="1rem"
+        margin="0.5rem"
       >
         {children}
       </GridItem>

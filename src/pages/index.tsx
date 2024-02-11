@@ -8,7 +8,7 @@ import { IconButton } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const SliderContainer = styled.div`
-  margin: 0 0 4rem 0;
+  margin: 1rem 0 2rem 0;
   display: flex;
   justify-content: center;
 
@@ -43,6 +43,7 @@ const SliderContainer = styled.div`
     @media (min-width: 768px) {
       max-width: 680px;
     }
+
     @media (min-width: 1024px) {
       max-width: 890px;
     }
