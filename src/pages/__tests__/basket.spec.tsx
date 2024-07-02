@@ -51,7 +51,6 @@ describe("BasketPage", () => {
           ],
           addItemToCart: () => null,
           deleteItemFromCart: () => null,
-          deleteAllItemsFromCart: () => null,
         }}
       >
         <BasketPage />
@@ -109,7 +108,6 @@ describe("BasketPage", () => {
           ],
           addItemToCart: () => null,
           deleteItemFromCart: () => null,
-          deleteAllItemsFromCart: () => null,
         }}
       >
         <BasketPage />
@@ -231,7 +229,6 @@ describe("BasketPage", () => {
           ],
           addItemToCart: () => null,
           deleteItemFromCart: () => null,
-          deleteAllItemsFromCart: () => null,
         }}
       >
         <BasketPage />

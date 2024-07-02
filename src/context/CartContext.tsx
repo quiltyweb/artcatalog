@@ -14,14 +14,12 @@ interface CartContextProps {
   cart: Array<CartItemProps>;
   addItemToCart?: (item: CartItemProps) => void;
   deleteItemFromCart?: (item: DeleteItemFromCartProps) => void;
-  deleteAllItemsFromCart?: () => void;
 }
 
 const defaultContextState = {
   cart: [],
   addItemToCart: () => null,
   deleteItemFromCart: () => null,
-  deleteAllItemsFromCart: () => null,
 };
 
 const CartContext = React.createContext<CartContextProps>(defaultContextState);
@@ -72,12 +70,6 @@ class CartProvider extends React.Component<Props, State> {
     }
   };
 
-  deleteAllItemsFromCart = (): void => {
-    this.setState(() => ({
-      cart: [],
-    }));
-  };
-
   render() {
     const { children } = this.props;
     const { cart } = this.state;
@@ -87,7 +79,6 @@ class CartProvider extends React.Component<Props, State> {
           cart,
           addItemToCart: this.addItemToCart,
           deleteItemFromCart: this.deleteItemFromCart,
-          deleteAllItemsFromCart: this.deleteAllItemsFromCart,
         }}
       >
         {children}
