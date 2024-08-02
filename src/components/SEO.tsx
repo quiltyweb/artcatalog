@@ -28,7 +28,6 @@ const SEO: React.FunctionComponent<SEOProps> = ({
         sizes="16x16"
         href={brushellaFavicon3}
       />
-      <link rel="manifest" href="../images/site.webmanifest" />
       <link rel="mask-icon" href={brushellaFavicon4} color="#000000" />
       <link rel="shortcut icon" href={brushellaFavicon5} />
       <meta name="msapplication-TileColor" content="#ffffff" />

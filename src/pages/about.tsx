@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, Stack, Text } from "@chakra-ui/react";
+import SEO from "../components/SEO";
 
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   data: { storefrontshopify, adminshopify },
@@ -51,6 +52,14 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   );
 };
 export default AboutPage;
+
+export const Head = (): React.ReactElement => (
+  <SEO>
+    <html lang="en" />
+    <title id="about-page">{`About Brushella - brushella.art - all things art`}</title>
+    <meta id="about-page" name="about" content="About me page" />
+  </SEO>
+);
 
 export const query = graphql`
   query AboutPage {

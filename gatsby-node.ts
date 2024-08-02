@@ -1,6 +1,8 @@
 import path from "path";
 import type { GatsbyNode } from "gatsby";
 import { camelCase, kebabCase, upperFirst } from "lodash";
+import { gql } from "graphql-tag";
+import { print } from "graphql";
 
 export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
@@ -8,35 +10,48 @@ export const createPages: GatsbyNode["createPages"] = async ({
   reporter,
 }): Promise<void> => {
   const { createPage } = actions;
-  const collectionsAndProductsResult =
-    await graphql<Queries.CollectionsAndProductsIntoPagesQuery>(`
-      query CollectionsAndProductsIntoPages {
-        allShopifyCollection {
-          nodes {
+
+  const COLLECTIONS_AND_PRODUCTS_DATA = gql`
+    query CollectionsAndProductsIntoPages {
+      allShopifyCollection {
+        nodes {
+          id
+          title
+          handle
+          description
+          products {
             id
             title
             handle
             description
-            products {
-              id
-              title
-              handle
-              description
-              priceRangeV2 {
-                maxVariantPrice {
-                  amount
-                  currencyCode
-                }
+            priceRangeV2 {
+              maxVariantPrice {
+                amount
+                currencyCode
               }
-              featuredImage {
-                altText
-                gatsbyImageData(height: 460, width: 564)
+            }
+            featuredImage {
+              altText
+              gatsbyImageData(height: 460, width: 564)
+            }
+            variants {
+              shopifyId
+              product {
+                shopifyId
+                featuredImage {
+                  gatsbyImageData(height: 460, width: 564)
+                }
               }
             }
           }
         }
       }
-    `);
+    }
+  `;
+  const collectionsAndProductsResult =
+    await graphql<Queries.CollectionsAndProductsIntoPagesQuery>(
+      print(COLLECTIONS_AND_PRODUCTS_DATA)
+    );
 
   if (
     collectionsAndProductsResult.errors ||

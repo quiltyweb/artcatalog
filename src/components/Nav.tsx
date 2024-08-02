@@ -26,10 +26,10 @@ import {
   FaInstagram,
   FaWhatsapp,
   FaRegEnvelope,
-  FaShoppingBasket,
+  FaShoppingBag,
   FaBars,
 } from "react-icons/fa";
-import { useCartContext } from "../context/CartContext";
+import { useLineItemsCount } from "../context/StoreContext";
 
 type NavProps = {
   title?: string;
@@ -111,9 +111,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
   title,
   allShopifyCollectionItems,
 }): React.ReactElement => {
-  const { cart } = useCartContext();
-  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-
+  const lineItemsCount = useLineItemsCount();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan992] = useMediaQuery("(min-width: 992px)");
   const handleClickOnOpen = () => {
@@ -130,7 +128,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         width="100%"
         gridGap="1rem"
         alignItems="center"
-        templateAreas={`"left-icon    logo          icons"
+        templateAreas={`"left-icon    logo     icons "
                         "navigation navigation navigation"`}
       >
         <GridItem area={"left-icon"} justifySelf="left" px="3rem">
@@ -142,13 +140,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
             justifyContent="center"
             gap="0.5rem"
           >
-            <Icon
-              role="img"
-              boxSize="1.5rem"
-              title="send a message"
-              aria-label="send a message"
-              as={FaRegEnvelope}
-            />
+            <Icon boxSize="1.5rem" as={FaRegEnvelope} />
             Contact me
           </Link>
         </GridItem>
@@ -175,13 +167,10 @@ const Nav: React.FunctionComponent<NavProps> = ({
             justifyContent="center"
             gap="0.5rem"
           >
-            <Icon
-              role="img"
-              boxSize="1.5rem"
-              aria-label="view shopping basket"
-              as={FaShoppingBasket}
-            />
-            {` My basket (${cartCount} ${cartCount > 1 ? "items" : "item"})`}
+            <Icon boxSize="1.5rem" as={FaShoppingBag} />
+            {`My shopping bag (${lineItemsCount} ${
+              lineItemsCount > 1 ? "items" : "item"
+            })`}
           </Link>
         </GridItem>
         <GridItem area={"navigation"} justifySelf="center">
@@ -201,11 +190,11 @@ const Nav: React.FunctionComponent<NavProps> = ({
       <Link as={GatsbyLink} to="/basket" display="flex" alignItems="baseline">
         <Icon
           boxSize="1.8rem"
-          aria-label="view shopping basket"
-          as={FaShoppingBasket}
+          aria-label="go to shopping bag"
+          as={FaShoppingBag}
         />
         <Text color="white" fontWeight="extrabold">
-          {cartCount}
+          {lineItemsCount}
         </Text>
       </Link>
       <Drawer

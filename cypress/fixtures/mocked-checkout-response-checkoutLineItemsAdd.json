@@ -1,0 +1,131 @@
+{
+    "data": {
+        "checkoutLineItemsAdd": {
+            "userErrors": [],
+            "checkoutUserErrors": [],
+            "checkout": {
+                "id": "gid://shopify/Checkout/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+                "ready": false,
+                "requiresShipping": true,
+                "note": null,
+                "paymentDue": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "paymentDueV2": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+                "orderStatusUrl": null,
+                "taxExempt": false,
+                "taxesIncluded": false,
+                "currencyCode": "AUD",
+                "totalTax": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "totalTaxV2": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "lineItemsSubtotalPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "subtotalPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "subtotalPriceV2": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "totalPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "totalPriceV2": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "completedAt": null,
+                "createdAt": "2024-07-30T04:32:17Z",
+                "updatedAt": "2024-07-30T04:56:45Z",
+                "email": null,
+                "discountApplications": {
+                    "pageInfo": {
+                        "hasNextPage": false,
+                        "hasPreviousPage": false
+                    },
+                    "edges": []
+                },
+                "appliedGiftCards": [],
+                "shippingAddress": null,
+                "shippingLine": null,
+                "customAttributes": [],
+                "order": null,
+                "lineItems": {
+                    "pageInfo": {
+                        "hasNextPage": false,
+                        "hasPreviousPage": false
+                    },
+                    "edges": [
+                        {
+                            "cursor": "eyJsYXN0X2lkIjo0MzU4MDU1MjIxNjc4NDAsImxhc3RfdmFsdWUiOjQzNTgwNTUyMjE2Nzg0MH0=",
+                            "node": {
+                                "id": "gid://shopify/CheckoutLineItem/435805522167840?checkout=14c93388434a88eb2ef4767d37169dd3",
+                                "title": "test Jungle Tiger 2",
+                                "variant": {
+                                    "id": "gid://shopify/ProductVariant/43580552216784",
+                                    "title": "Default Title",
+                                    "price": {
+                                        "amount": "0.0",
+                                        "currencyCode": "AUD"
+                                    },
+                                    "priceV2": {
+                                        "amount": "0.0",
+                                        "currencyCode": "AUD"
+                                    },
+                                    "weight": 0.0,
+                                    "available": true,
+                                    "sku": "",
+                                    "compareAtPrice": null,
+                                    "compareAtPriceV2": null,
+                                    "image": {
+                                        "id": "gid://shopify/ProductImage/39268640227536",
+                                        "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8.jpg?v=1696585251",
+                                        "altText": null,
+                                        "width": 1278,
+                                        "height": 1704
+                                    },
+                                    "selectedOptions": [
+                                        {
+                                            "name": "Title",
+                                            "value": "Default Title"
+                                        }
+                                    ],
+                                    "unitPrice": null,
+                                    "unitPriceMeasurement": {
+                                        "measuredType": null,
+                                        "quantityUnit": null,
+                                        "quantityValue": 0.0,
+                                        "referenceUnit": null,
+                                        "referenceValue": 0
+                                    },
+                                    "product": {
+                                        "id": "gid://shopify/Product/7935802507472",
+                                        "handle": "test-jungle-tiger-2"
+                                    }
+                                },
+                                "quantity": 1,
+                                "customAttributes": [],
+                                "discountAllocations": []
+                            }
+                        }
+                    ]
+                }
+            }
+        }  
+    }
+}

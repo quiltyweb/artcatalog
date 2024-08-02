@@ -1,0 +1,128 @@
+{
+    "data": {
+        "node": {
+            "__typename": "Checkout",
+            "id": "gid://shopify/Checkout/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+            "ready": true,
+            "requiresShipping": true,
+            "note": null,
+            "paymentDue": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "paymentDueV2": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+            "orderStatusUrl": null,
+            "taxExempt": false,
+            "taxesIncluded": false,
+            "currencyCode": "AUD",
+            "totalTax": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "totalTaxV2": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "lineItemsSubtotalPrice": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "subtotalPrice": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "subtotalPriceV2": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "totalPrice": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "totalPriceV2": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "completedAt": null,
+            "createdAt": "2024-07-31T05:35:23Z",
+            "updatedAt": "2024-07-31T05:36:06Z",
+            "email": null,
+            "discountApplications": {
+                "pageInfo": {
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                },
+                "edges": []
+            },
+            "appliedGiftCards": [],
+            "shippingAddress": null,
+            "shippingLine": null,
+            "customAttributes": [],
+            "order": null,
+            "lineItems": {
+                "pageInfo": {
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                },
+                "edges": [
+                    {
+                        "cursor": "eyJsYXN0X2lkIjo0MzU4MDU0OTAzODI4ODAsImxhc3RfdmFsdWUiOjQzNTgwNTQ5MDM4Mjg4MH0=",
+                        "node": {
+                            "id": "gid://shopify/CheckoutLineItem/435805490382880?checkout=f727a56ba216c67c6ad32d07a49ff35b",
+                            "title": "Jungle Parrot",
+                            "variant": {
+                                "id": "gid://shopify/ProductVariant/43580549038288",
+                                "title": "Default Title",
+                                "price": {
+                                    "amount": "0.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "priceV2": {
+                                    "amount": "0.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "weight": 0.0,
+                                "available": true,
+                                "sku": "",
+                                "compareAtPrice": null,
+                                "compareAtPriceV2": null,
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/39268638064848",
+                                    "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print7.jpg?v=1696585185",
+                                    "altText": null,
+                                    "width": 1278,
+                                    "height": 1704
+                                },
+                                "selectedOptions": [
+                                    {
+                                        "name": "Title",
+                                        "value": "Default Title"
+                                    }
+                                ],
+                                "unitPrice": null,
+                                "unitPriceMeasurement": {
+                                    "measuredType": null,
+                                    "quantityUnit": null,
+                                    "quantityValue": 0.0,
+                                    "referenceUnit": null,
+                                    "referenceValue": 0
+                                },
+                                "product": {
+                                    "id": "gid://shopify/Product/7935801098448",
+                                    "handle": "jungle-parrot"
+                                }
+                            },
+                            "quantity": 1,
+                            "customAttributes": [],
+                            "discountAllocations": []
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

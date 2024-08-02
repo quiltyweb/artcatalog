@@ -121,7 +121,7 @@ describe("Layout", () => {
 
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByLabelText("send a message");
-    within(Nav).getByLabelText("view shopping basket");
+    within(Nav).getByLabelText("go to shopping bag");
     within(Nav).getByAltText("Site Title");
     within(Nav).getByRole("button", { name: "menu" });
 
@@ -276,7 +276,7 @@ describe("Layout", () => {
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
     screen.queryByLabelText("send a message");
-    screen.getByLabelText("view shopping basket");
+    screen.getByText("My shopping bag (0 item)");
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
 

@@ -13,7 +13,15 @@ const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-styled-components",
     "gatsby-plugin-gatsby-cloud",
-    "gatsby-plugin-image",
+
+    {
+      resolve: "gatsby-plugin-image",
+      options: {
+        defaults: {
+          placeholder: "dominantColor",
+        },
+      },
+    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -29,6 +37,7 @@ const config: GatsbyConfig = {
         password: process.env.SHOPIFY_ADMIN_PASSWORD,
         storeUrl: process.env.SHOPIFY_STORE_URL,
         shopifyConnections: ["orders", "collections", "locations"],
+        apiVersion: "2023-10",
       },
     },
     {
