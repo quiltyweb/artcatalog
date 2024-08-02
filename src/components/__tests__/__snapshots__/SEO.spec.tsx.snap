@@ -20,10 +20,6 @@ exports[`SEO render children correctly 1`] = `
     type="image/png"
   />
   <link
-    href="../images/site.webmanifest"
-    rel="manifest"
-  />
-  <link
     color="#000000"
     href="test-file-stub"
     rel="mask-icon"
