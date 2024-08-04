@@ -21,7 +21,7 @@ describe("Basket page desktop", () => {
   });
 
   it("checks for accessibility violations on desktop view", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -58,7 +58,7 @@ describe("Basket page mobile", () => {
   });
 
   it("checks for accessibility violations on mobile view", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -72,7 +72,7 @@ describe("Basket page mobile", () => {
   });
 
   it("loads Shopping bag page correctly with no items and no quote form", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -87,7 +87,7 @@ describe("Basket page mobile", () => {
   });
 
   it("loads Shopping bag page correctly with 3 items and a quote form", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -95,7 +95,7 @@ describe("Basket page mobile", () => {
     cy.findByRole("table", { name: "There are no items in your bag" });
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -117,7 +117,7 @@ describe("Basket page mobile", () => {
     cy.get("#quantity").should("have.value", "1");
     cy.get("#quantity-increment").click();
     cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
     }).as("checkoutLineItemsAddTwoItems");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -127,19 +127,19 @@ describe("Basket page mobile", () => {
   });
 
   it("delete an item from the shopping bag", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("table", { name: "There are no items in your bag" });
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.reload();
     cy.wait("@checkoutFetch");
     cy.findByRole("table", { name: "There is 1 item in your bag" });
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
     cy.findByRole("button", { name: "Delete item" }).click();
@@ -148,12 +148,12 @@ describe("Basket page mobile", () => {
   });
 
   it("render user errors in quote form correctly when submit with no data", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.reload();
@@ -166,12 +166,12 @@ describe("Basket page mobile", () => {
   });
 
   it("sends quote correctly with 1 item", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.reload();
@@ -190,12 +190,12 @@ describe("Basket page mobile", () => {
   });
 
   it("renders error message when quote failed to be sent", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.reload();

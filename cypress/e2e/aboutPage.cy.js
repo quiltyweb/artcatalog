@@ -1,7 +1,7 @@
 describe("About page desktop", () => {
   beforeEach(() => {
     cy.viewport("macbook-16");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/about");
@@ -19,7 +19,7 @@ describe("About page desktop", () => {
 describe("About page mobile", () => {
   beforeEach(() => {
     cy.viewport("iphone-4");
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/about");
@@ -52,7 +52,7 @@ describe("About page mobile", () => {
       cy.findByRole("link", { name: "prints" }).click();
     });
     cy.findByRole("heading", { name: "prints" });
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {

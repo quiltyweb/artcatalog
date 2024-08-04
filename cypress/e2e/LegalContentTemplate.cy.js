@@ -8,7 +8,7 @@ describe("LegalContent Template desktop", () => {
         fixture: "legalContent.json",
       }
     );
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
@@ -34,7 +34,7 @@ describe("LegalContent Template mobile", () => {
         fixture: "legalContent.json",
       }
     );
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");

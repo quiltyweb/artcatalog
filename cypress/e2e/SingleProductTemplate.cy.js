@@ -8,7 +8,7 @@ describe("Collection Template", () => {
         fixture: "singleProduct.json",
       }
     );
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/prints/jungle-panther/");
@@ -33,7 +33,7 @@ describe("Collection Template", () => {
         fixture: "singleProduct.json",
       }
     );
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/prints/jungle-panther/");
@@ -65,7 +65,7 @@ describe("Collection Template", () => {
 
   it("renders breadcrumb to go back to category page", () => {
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.intercept("POST", "/api/2023-10/graphql", {
+      cy.intercept("POST", /api\/2023-10\/graphql/, {
         fixture: "mocked-checkout-response.json",
       }).as("checkoutFetch");
       cy.findByRole("link", { name: /all prints/i }).click();

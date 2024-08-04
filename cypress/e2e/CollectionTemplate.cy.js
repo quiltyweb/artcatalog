@@ -4,7 +4,7 @@ describe("Collection Template desktop", () => {
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",
     });
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/prints/");
@@ -34,7 +34,7 @@ describe("Collection Template mobile", () => {
   });
 
   it("checks for accessibility violations mobile view", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.clickDrawerMenuOption("prints");
@@ -47,7 +47,7 @@ describe("Collection Template mobile", () => {
   });
 
   it("Navigates from home to Print Collection template", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.clickDrawerMenuOption("prints");
@@ -65,7 +65,7 @@ describe("Collection Template mobile", () => {
   });
 
   it("Navigates to single product view ", () => {
-    cy.intercept("POST", "/api/2023-10/graphql", {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.clickDrawerMenuOption("prints");
