@@ -113,32 +113,37 @@ describe("Home page mobile", () => {
     cy.findByRole("link", { name: /go to top/i });
   });
 
-  it("Navigates from home page to Return and Refund Policy page", () => {
+  it("Navigates from home page to legal content template", () => {
+    cy.intercept(
+      "GET",
+      /page-data\/legal-content\/return_and_refund_policy\/page-data/,
+      {
+        fixture: "legalContent.json",
+      }
+    ).as("legalContentTemplate");
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.wait("@legalContentTemplate");
     cy.findByRole("heading", { name: "Return and Refund Policy" });
+    cy.findByText("test content");
   });
 
-  it("Navigates from home page to Hand Made Policy page", () => {
-    cy.findByRole("link", { name: "Hand Made Policy" }).click();
-    cy.findByRole("heading", { name: "Hand Made Policy" });
+  it("Navigates from mobile menu to static page about me", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.intercept("GET", /page-data\/about/, {
+      fixture: "about.json",
+    }).as("aboutPage");
+    cy.findByRole("link", { name: /about me/i }).click();
+    cy.wait("@aboutPage");
+    cy.findByRole("heading", { name: "Meet the Artist" });
   });
 
-  it("Navigates from home page to Shipping Policy page", () => {
-    cy.findByRole("link", { name: "Shipping Policy" }).click();
-    cy.findByRole("heading", { name: "Shipping Policy" });
+  it("Navigates from mobile menu to static page contact", () => {
+    cy.findByRole("button", { name: "menu" }).click();
+    cy.findByRole("link", { name: /contact/i }).click();
+    cy.findByRole("heading", { name: /send me your questions/i });
   });
 
-  it("Navigates from home page to Privacy Policy page", () => {
-    cy.findByRole("link", { name: "Privacy Policy" }).click();
-    cy.findByRole("heading", { name: "Privacy Policy" });
-  });
-
-  it("Navigates from home page to Terms of Service page", () => {
-    cy.findByRole("link", { name: "Terms of Service" }).click();
-    cy.findByRole("heading", { name: "Terms of Service" });
-  });
-
-  it("Navigates from mobile menu to each item page", () => {
+  it("Navigates from mobile menu to each category page", () => {
     cy.clickDrawerMenuOption("commissions");
     cy.findByRole("heading", { name: "commissions" });
 
@@ -162,13 +167,5 @@ describe("Home page mobile", () => {
 
     cy.clickDrawerMenuOption("murals");
     cy.findByRole("heading", { name: "murals" });
-
-    cy.findByRole("button", { name: "menu" }).click();
-    cy.findByRole("link", { name: /about me/i }).click();
-    cy.findByRole("heading", { name: "Meet the Artist" });
-
-    cy.findByRole("button", { name: "menu" }).click();
-    cy.findByRole("link", { name: /contact/i }).click();
-    cy.findByRole("heading", { name: "Send me your questions" });
   });
 });
