@@ -12,8 +12,8 @@ const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 // create the client
 const client = Client.buildClient({
   apiVersion: "2023-10",
-  domain: `${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com`,
-  storefrontAccessToken: `${process.env.REACT_APP_SHOPIFY_STOREFRONT_PASSWORD}`,
+  domain: `${process.env.GATSBY_SHOPIFY_STORE_URL}`,
+  storefrontAccessToken: `${process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD}`,
 });
 
 interface StoreContextProps {
