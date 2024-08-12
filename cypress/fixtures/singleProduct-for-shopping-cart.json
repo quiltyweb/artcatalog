@@ -1,0 +1,77 @@
+{
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/prints/test-jungle-tiger-2/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "73a9bb0b-e1c5-5260-bc78-9320184b56ab",
+                "title": "test Jungle Tiger 2",
+                "handle": "test-jungle-tiger-2",
+                "description": "test Print from original painting testing in shopping bag.",
+                "priceRangeV2": {
+                    "maxVariantPrice": {
+                        "amount": 500,
+                        "currencyCode": "AUD"
+                    }
+                },
+                "featuredImage": {
+                    "altText": "testing alt text for test product print in shopping bag",
+                    "gatsbyImageData": {
+                        "images": {
+                            "sources": [
+                                {
+                                    "srcSet": "testing 123",
+                                    "sizes": "(min-width: 564px) 564px, 100vw",
+                                    "type": "image/webp"
+                                }
+                            ],
+                            "fallback": {
+                                "src": "testing 456",
+                                "srcSet": "testing",
+                                "sizes": "(min-width: 564px) 564px, 100vw"
+                            }
+                        },
+                        "layout": "constrained",
+                        "width": 564,
+                        "height": 460
+                    }
+                },
+                "variants": [
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/43580552216784",
+                        "product": {
+                            "shopifyId": "gid://shopify/Product/7935802507472",
+                            "featuredImage": {
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_141x115_crop_center.jpg.webp?v=1696585251 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_282x230_crop_center.jpg.webp?v=1696585251 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg.webp?v=1696585251 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_1128x920_crop_center.jpg.webp?v=1696585251 1128w",
+                                                "sizes": "(min-width: 564px) 564px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg?v=1696585251",
+                                            "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_141x115_crop_center.jpg?v=1696585251 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_282x230_crop_center.jpg?v=1696585251 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_564x460_crop_center.jpg?v=1696585251 564w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8_1128x920_crop_center.jpg?v=1696585251 1128w",
+                                            "sizes": "(min-width: 564px) 564px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "width": 564,
+                                    "height": 460
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3466113349"
+    ],
+    "slicesMap": {}
+}

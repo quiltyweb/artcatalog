@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { GatsbyBrowser } from "gatsby";
 import Layout from "./src/components/Layout";
-import { CartProvider } from "./src/context/CartContext";
+import { StoreContextProvider } from "./src/context/StoreContext";
 import "@fontsource/raleway/400.css";
 import "@fontsource/open-sans/700.css";
 import theme from "./src/theme.ts";
@@ -12,8 +12,8 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
   props,
 }) => (
   <ChakraProvider theme={theme}>
-    <CartProvider>
+    <StoreContextProvider>
       <Layout {...props}>{element}</Layout>
-    </CartProvider>
+    </StoreContextProvider>
   </ChakraProvider>
 );

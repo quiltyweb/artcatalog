@@ -18,7 +18,7 @@ import {
   NumberInputStepper,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useCartContext } from "../context/CartContext";
+import { useAddItemToCart } from "../context/StoreContext";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -27,7 +27,8 @@ type ProductCardProps = {
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
-  const { addItemToCart } = useCartContext();
+  const addItemToCart = useAddItemToCart();
+
   const formik = useFormik({
     initialValues: {
       id: product.id,
@@ -39,12 +40,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         return;
       }
 
-      addItemToCart &&
-        addItemToCart({
-          id: values.id,
-          product: values.product,
-          quantity: values.quantity,
-        });
+      addItemToCart({
+        variantId: values.product.variants[0].shopifyId,
+        quantity: values.quantity,
+      });
     },
   });
 
@@ -135,7 +134,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 padding="6"
                 my="4"
               >
-                Add to basket
+                Add to shopping bag
               </Button>
             </form>
           </Box>

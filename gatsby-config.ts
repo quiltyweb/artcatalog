@@ -7,13 +7,21 @@ dotenv.config({
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    siteUrl: "https://artcatalogmain.gatsbyjs.io/",
+    siteUrl: "https://www.brushella.art/",
     title: "Brushella",
   },
   plugins: [
     "gatsby-plugin-styled-components",
     "gatsby-plugin-gatsby-cloud",
-    "gatsby-plugin-image",
+
+    {
+      resolve: "gatsby-plugin-image",
+      options: {
+        defaults: {
+          placeholder: "dominantColor",
+        },
+      },
+    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -26,9 +34,10 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-shopify`,
       options: {
-        password: process.env.SHOPIFY_ADMIN_PASSWORD,
-        storeUrl: process.env.SHOPIFY_STORE_URL,
+        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
+        storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
         shopifyConnections: ["orders", "collections", "locations"],
+        apiVersion: "2023-10",
       },
     },
     {
@@ -36,9 +45,9 @@ const config: GatsbyConfig = {
       options: {
         typeName: "AdminShopify",
         fieldName: "adminshopify",
-        url: `https://${process.env.SHOPIFY_STORE_NAME}.myshopify.com/admin/api/2023-10/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/admin/api/2023-10/graphql.json`,
         headers: {
-          "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_PASSWORD,
+          "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         },
       },
     },
@@ -47,10 +56,10 @@ const config: GatsbyConfig = {
       options: {
         typeName: "StoreFrontShopify",
         fieldName: "storefrontshopify",
-        url: `https://${process.env.SHOPIFY_STORE_NAME}.myshopify.com/api/2023-10/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/2023-10/graphql.json`,
         headers: {
           "X-Shopify-Storefront-Access-Token":
-            process.env.SHOPIFY_STOREFRONT_PASSWORD,
+            process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
         },
       },
     },

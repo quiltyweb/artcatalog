@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
-import CartContext from "../../context/CartContext";
+import { StoreContextProvider } from "../../context/StoreContext";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -58,95 +58,6 @@ describe("Nav", () => {
     ],
   };
 
-  it("renders cart counter with 1 item correctly for mobile view", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: false,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-
-    render(
-      <CartContext.Provider
-        value={{
-          cart: [
-            {
-              id: "84ffc6ea-5fa7-5a0a-bc33-5062ea5ec4f8",
-              product: {
-                id: "84ffc6ea-5fa7-5a0a-bc33-5062ea5ec4f8",
-                title: "Tiger Sticker",
-                handle: "tiger-sticker",
-                description: 'Sticker from "Jungle" print',
-                priceRangeV2: {
-                  maxVariantPrice: {
-                    amount: 0,
-                    currencyCode: "AUD",
-                  },
-                },
-                featuredImage: null,
-              },
-              quantity: 1,
-            },
-          ],
-        }}
-      >
-        <Nav
-          title={mockedData.title}
-          allShopifyCollectionItems={mockedData.allShopifyCollectionItems}
-        />
-      </CartContext.Provider>
-    );
-
-    screen.getByLabelText("view shopping basket");
-    screen.getByText("1");
-  });
-
-  it("renders cart counter with 1 item correctly for desktop view", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: true,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-
-    render(
-      <CartContext.Provider
-        value={{
-          cart: [
-            {
-              id: "84ffc6ea-5fa7-5a0a-bc33-5062ea5ec4f8",
-              product: {
-                id: "84ffc6ea-5fa7-5a0a-bc33-5062ea5ec4f8",
-                title: "Tiger Sticker",
-                handle: "tiger-sticker",
-                description: 'Sticker from "Jungle" print',
-                priceRangeV2: {
-                  maxVariantPrice: {
-                    amount: 0,
-                    currencyCode: "AUD",
-                  },
-                },
-                featuredImage: null,
-              },
-              quantity: 1,
-            },
-          ],
-        }}
-      >
-        <Nav
-          title={mockedData.title}
-          allShopifyCollectionItems={mockedData.allShopifyCollectionItems}
-        />
-      </CartContext.Provider>
-    );
-
-    screen.getByLabelText("view shopping basket");
-    screen.getByRole("link", { name: /My basket/i });
-    screen.getByRole("link", { name: /(1 item)/i });
-  });
-
   it("renders mobile version correctly ", async () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
@@ -165,7 +76,7 @@ describe("Nav", () => {
 
     screen.getByAltText(/Brushella title/);
     screen.getByLabelText("send a message");
-    screen.getByLabelText("view shopping basket");
+    screen.getByLabelText("go to shopping bag");
     screen.getByRole("button", { name: "menu" });
 
     expect(
@@ -190,10 +101,9 @@ describe("Nav", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.getByTitle("send a message");
     screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByLabelText("view shopping basket");
+    screen.getByRole("link", { name: /My shopping bag/i });
     screen.getByRole("link", { name: "commissions" });
     screen.getByRole("link", { name: "originals" });
     screen.getByRole("link", { name: "prints" });
@@ -213,9 +123,9 @@ describe("Nav", () => {
       })),
     });
     render(<Nav title={mockedData.title} allShopifyCollectionItems={[]} />);
-    screen.getByTitle("send a message");
+    screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByLabelText("view shopping basket");
+    screen.getByText("My shopping bag (0 item)");
 
     expect(
       screen.queryByRole("link", { name: "commissions" })

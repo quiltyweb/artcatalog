@@ -1,13 +1,44 @@
-describe("Collection Template", () => {
+describe("Collection Template desktop", () => {
+  it("checks for accessibility violations desktop view", () => {
+    cy.viewport("macbook-16");
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collectionPrints.json",
+    });
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/collections/prints/");
+    cy.wait("@checkoutCreate");
+    cy.injectAxe();
+    cy.checkA11y(null, {
+      runOnly: ["wcag2a", "wcag2aa"],
+      includedImpacts: ["critical", "serious"],
+    });
+  });
+});
+
+describe("Collection Template mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",
     });
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-product-abc/page-data.json",
+      {
+        fixture: "singleProduct-for-collection-template.json",
+      }
+    );
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
     cy.visit("/");
+    cy.wait("@checkoutCreate");
   });
 
-  it("checks for accessibility violations", () => {
+  it("checks for accessibility violations mobile view", () => {
     cy.clickDrawerMenuOption("prints");
     cy.injectAxe();
     cy.checkA11y(null, {
@@ -16,33 +47,26 @@ describe("Collection Template", () => {
     });
   });
 
-  it("Navigates from home to Print Collection template ", () => {
+  it("Navigates from home to Print Collection template", () => {
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "prints" });
     cy.findByText("Prints description goes here.");
-    cy.findByAltText(/testing alt text for jungle panther print/);
-    cy.findByRole("heading", { name: "Jungle Panther" });
-    cy.findByText("Print from original painting testing.");
-    cy.findByText("$500");
+    cy.findByRole("heading", { name: "test product abc" });
+    cy.findByAltText(/alt text for test product abc for collection template/);
+    cy.findByText("description for test product abc for collection template");
+    cy.findByText("$100");
     cy.findAllByText(/AUD/i);
-    cy.findAllByText(/view details/i);
-    cy.findByText("$0").should("not.exist");
+    cy.findAllByText("$0").should("have.length", "0");
+    // listing items from this collection
+    cy.findAllByText(/view details/i).should("have.length", "12");
   });
 
   it("Navigates to single product view ", () => {
     cy.clickDrawerMenuOption("prints");
-    cy.findByRole("heading", { name: "Jungle Panther" }).click();
-    cy.findAllByText(/Jungle Panther/);
-    cy.findByText(/Print from original painting./);
+    cy.findByRole("heading", { name: "test product abc" }).click();
+    cy.findByAltText(/alt text for test product abc for collection template/);
+    cy.findByText("description for test product abc for collection template");
     cy.findByLabelText("Quantity");
-    cy.findByRole("button", { name: "Add to basket" });
-  });
-
-  it("add 1 item to basket", () => {
-    cy.clickDrawerMenuOption("prints");
-    cy.findByRole("heading", { name: "Jungle Panther" }).click();
-    cy.findByRole("link", { name: /0/i });
-    cy.findByRole("button", { name: "Add to basket" }).click();
-    cy.findByRole("link", { name: /1/i });
+    cy.findByRole("button", { name: "Add to shopping bag" });
   });
 });

@@ -1,9 +1,35 @@
-describe("contact Page", () => {
+describe("contact Page desktop", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.viewport("macbook-16");
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
     cy.visit("/contact");
+    cy.wait("@checkoutCreate");
   });
 
-  it("checks for accessibility violations", () => {
+  it("checks for accessibility violations on desktop", () => {
+    cy.injectAxe();
+    cy.checkA11y(null, {
+      runOnly: ["wcag2a", "wcag2aa"],
+      includedImpacts: ["critical", "serious"],
+    });
+  });
+});
+
+describe("contact Page mobile", () => {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.viewport("iphone-4");
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/contact");
+    cy.wait("@checkoutCreate");
+  });
+
+  it("checks for accessibility violations on mobile", () => {
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -22,17 +48,41 @@ describe("contact Page", () => {
     cy.findByRole("button", { name: "Send Message" });
   });
 
-  it("navigates from contact form to about me page via link", () => {
-    cy.findByTestId("contact-form-description").within(() => {
-      cy.findByRole("link", { name: /about me/i }).click();
-    });
-    cy.findByRole("heading", { name: /Meet the Artist/i });
+  it("shows user errors when form has no data", () => {
+    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.get("main").scrollIntoView();
+    cy.findByText("Name is Required");
+    cy.findByText("Email is Required");
+    cy.findByText("Message is Required");
   });
 
-  it("navigates from contact form to quick links section via link", () => {
-    cy.findByTestId("contact-form-description").within(() => {
-      cy.findByRole("link", { name: /quick links section/i }).click();
-    });
-    cy.findByRole("heading", { name: /quick links/i });
+  it("sends form correctly", () => {
+    cy.findByLabelText("Full Name").type("name goes here");
+    cy.findByLabelText("Email address").type("email@test.com");
+    cy.findByLabelText("Message").type("message goes here");
+    cy.intercept(
+      "POST",
+      "https://www.formbackend.com/f/a89f490517ad6461",
+      "success"
+    ).as("formbackendSuccess");
+    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.wait("@formbackendSuccess");
+    cy.get("main").scrollIntoView();
+    cy.findByText("You message was sent succesfully!");
+  });
+
+  it("renders error message when contact form failed to be sent", () => {
+    cy.findByLabelText("Full Name").type("name goes here");
+    cy.findByLabelText("Email address").type("email@test.com");
+    cy.findByLabelText("Message").type("message goes here");
+    cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
+      statusCode: 500,
+    }).as("formbackendFailure");
+    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.wait("@formbackendFailure");
+    cy.get("main").scrollIntoView();
+    cy.findByText(
+      "There was an error sending your message. Please try again later."
+    );
   });
 });
