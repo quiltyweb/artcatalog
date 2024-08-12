@@ -62,11 +62,11 @@ describe("contact Page mobile", () => {
     cy.findByLabelText("Message").type("message goes here");
     cy.intercept(
       "POST",
-      "https://getform.io/f/db013ec6-dd9e-4e56-8c90-818b496bfcd5",
+      "https://www.formbackend.com/f/a89f490517ad6461",
       "success"
-    ).as("getFormSuccess");
+    ).as("formbackendSuccess");
     cy.findByRole("button", { name: "Send Message" }).click();
-    cy.wait("@getFormSuccess");
+    cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText("You message was sent succesfully!");
   });
@@ -75,13 +75,11 @@ describe("contact Page mobile", () => {
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@test.com");
     cy.findByLabelText("Message").type("message goes here");
-    cy.intercept(
-      "POST",
-      "https://getform.io/f/db013ec6-dd9e-4e56-8c90-818b496bfcd5",
-      { statusCode: 500 }
-    ).as("getFormFailure");
+    cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
+      statusCode: 500,
+    }).as("formbackendFailure");
     cy.findByRole("button", { name: "Send Message" }).click();
-    cy.wait("@getFormFailure");
+    cy.wait("@formbackendFailure");
     cy.get("main").scrollIntoView();
     cy.findByText(
       "There was an error sending your message. Please try again later."

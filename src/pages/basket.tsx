@@ -48,7 +48,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
   const getItemsFromBasket = (): string => {
     const cartForMessage = checkoutLineItems.map((item) => {
-      return `${item.quantity} ${item.title} / ${item.unitPrice}`;
+      return `${item.quantity} ${item.title}`;
     });
     return cartForMessage.join(" __ ");
   };
@@ -139,6 +139,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           </Tbody>
         </Table>
       </TableContainer>
+
       {cartCount >= 1 && (
         <Formik
           initialValues={{
@@ -147,18 +148,19 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
             message: getItemsFromBasket(),
           }}
           validationSchema={SubmitSchema}
-          onSubmit={async (values: FormValues, { setStatus }) => {
-            const body = new FormData();
-            Object.entries(values).forEach(([key, val]) => {
-              body.append(key, val);
-            });
-
+          onSubmit={async (
+            { fullname, email, message }: FormValues,
+            { setStatus }
+          ) => {
             const res = await fetch(
-              `https://getform.io/f/db013ec6-dd9e-4e56-8c90-818b496bfcd5`,
+              "https://www.formbackend.com/f/a89f490517ad6461",
               {
                 method: "POST",
-                headers: { accept: "application/json" },
-                body,
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({ fullname, email, message }),
               }
             );
 
