@@ -8,7 +8,7 @@ describe("LegalContent Template desktop", () => {
       {
         fixture: "legalContent.json",
       }
-    );
+    ).as("legalContent");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -18,6 +18,7 @@ describe("LegalContent Template desktop", () => {
 
   it("checks for accessibility violations desktop view", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.wait("@legalContent");
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -35,7 +36,7 @@ describe("LegalContent Template mobile", () => {
       {
         fixture: "legalContent.json",
       }
-    );
+    ).as("legalContent");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -45,6 +46,7 @@ describe("LegalContent Template mobile", () => {
 
   it("checks for accessibility violations mobile view", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.wait("@legalContent");
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -54,6 +56,7 @@ describe("LegalContent Template mobile", () => {
 
   it("Navigates from home to Legal Content template ", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.wait("@legalContent");
     cy.findByText(/test content/);
   });
 });
