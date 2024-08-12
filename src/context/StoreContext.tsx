@@ -9,7 +9,6 @@ import ShopifyBuy from "shopify-buy";
 import Client from "shopify-buy";
 const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 
-// create the client
 const client = Client.buildClient({
   apiVersion: "2023-10",
   domain: `${process.env.GATSBY_SHOPIFY_STORE_URL}`,

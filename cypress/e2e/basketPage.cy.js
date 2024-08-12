@@ -1,5 +1,6 @@
 describe("Basket page desktop", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",
@@ -37,6 +38,7 @@ describe("Basket page desktop", () => {
 
 describe("Basket page mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",

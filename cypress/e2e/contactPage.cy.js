@@ -1,5 +1,6 @@
 describe("contact Page desktop", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
@@ -19,6 +20,7 @@ describe("contact Page desktop", () => {
 
 describe("contact Page mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",

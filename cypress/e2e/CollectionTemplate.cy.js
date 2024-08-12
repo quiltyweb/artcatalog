@@ -19,6 +19,7 @@ describe("Collection Template desktop", () => {
 
 describe("Collection Template mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collectionPrints.json",

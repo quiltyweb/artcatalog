@@ -1,5 +1,6 @@
 describe("LegalContent Template desktop", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept(
       "GET",
@@ -26,6 +27,7 @@ describe("LegalContent Template desktop", () => {
 });
 describe("LegalContent Template mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept(
       "GET",

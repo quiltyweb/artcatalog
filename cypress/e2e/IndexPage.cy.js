@@ -1,5 +1,6 @@
 describe("Home page desktop", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
@@ -34,6 +35,7 @@ describe("Home page desktop", () => {
 
 describe("Home page mobile", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
@@ -48,6 +50,20 @@ describe("Home page mobile", () => {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
+  });
+
+  it("Navigates from home page to legal content template", () => {
+    cy.intercept(
+      "GET",
+      /page-data\/legal-content\/return_and_refund_policy\/page-data/,
+      {
+        fixture: "legalContent.json",
+      }
+    ).as("legalContentTemplate");
+    cy.findByRole("link", { name: "Return and Refund Policy" }).click();
+    cy.wait("@legalContentTemplate");
+    cy.findByRole("heading", { name: "Return and Refund Policy" });
+    cy.findByText("test content");
   });
 
   it("renders top navigation for mobile", () => {
@@ -111,20 +127,6 @@ describe("Home page mobile", () => {
     cy.findByRole("link", { name: /about me/i });
     cy.findByText(/© 2024, Brushella Art & Decor/);
     cy.findByRole("link", { name: /go to top/i });
-  });
-
-  it("Navigates from home page to legal content template", () => {
-    cy.intercept(
-      "GET",
-      /page-data\/legal-content\/return_and_refund_policy\/page-data/,
-      {
-        fixture: "legalContent.json",
-      }
-    ).as("legalContentTemplate");
-    cy.findByRole("link", { name: "Return and Refund Policy" }).click();
-    cy.wait("@legalContentTemplate");
-    cy.findByRole("heading", { name: "Return and Refund Policy" });
-    cy.findByText("test content");
   });
 
   it("Navigates from mobile menu to static page about me", () => {
