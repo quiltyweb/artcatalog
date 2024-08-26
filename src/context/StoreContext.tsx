@@ -22,7 +22,7 @@ interface StoreContextProps {
     checkout: {
       id: Client.ID;
       subtotalPrice: ShopifyBuy.Checkout["subtotalPrice"];
-      lineItems: Array<Client.CheckoutLineItem>;
+      lineItems: Array<ShopifyBuy.CheckoutLineItem>;
     };
   };
   setStore: Dispatch<SetStateAction<StoreContextProps["store"]>>;
