@@ -44,7 +44,9 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     return (
       <Box display="flex" flexDirection="column">
         <Heading as="h2">Your Cart</Heading>
-        <Heading as="h3">Your cart is empty.</Heading>
+        <Heading as="h3" size="sm" fontWeight="normal">
+          Your cart is empty.
+        </Heading>
       </Box>
     );
   }
