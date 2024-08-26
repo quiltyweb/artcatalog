@@ -72,7 +72,7 @@ describe("Home page mobile", () => {
     cy.findByLabelText(/send a message/i).click();
     cy.findByRole("heading", { name: /Send me your questions/i });
     cy.findByLabelText(/go to shopping bag/i).click();
-    cy.findByRole("heading", { name: /My Shopping Bag/i });
+    cy.findByRole("heading", { name: "Your Cart" });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByTestId("mobile-menu").within(() => {
       cy.findByRole("link", { name: "murals" });

@@ -103,7 +103,7 @@ describe("Nav", () => {
     ).not.toBeInTheDocument();
     screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByRole("link", { name: /My shopping bag/i });
+    screen.getByRole("link", { name: /Your Cart/i });
     screen.getByRole("link", { name: "commissions" });
     screen.getByRole("link", { name: "originals" });
     screen.getByRole("link", { name: "prints" });

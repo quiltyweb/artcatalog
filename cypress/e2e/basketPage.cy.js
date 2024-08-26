@@ -27,12 +27,49 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("table", { name: "There are no items in your bag" });
+    cy.findByRole("heading", { name: "Your Cart" });
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
+  });
+
+  it("loads empty Shopping bag correctly", () => {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/basket");
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.findByRole("table").should("not.exist");
+    cy.findByRole("button", { name: "check out" }).should("not.exist");
+  });
+
+  it("loads shopping cart with 1 item on desktop view", () => {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/basket");
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.findByRole("link", { name: "prints" }).click();
+    cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutLineItemsAdd.json",
+    }).as("checkoutLineItemsAdd");
+    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+    cy.wait("@checkoutLineItemsAdd");
+    cy.findByRole("link", { name: "My shopping bag (1 item)" }).click();
+    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+    cy.findByRole("columnheader", { name: "thumbnail" });
+    cy.findByRole("columnheader", { name: "product" });
+    cy.findByRole("columnheader", { name: "unit price" });
+    cy.findByRole("columnheader", { name: "quantity" });
+    cy.findByRole("columnheader", { name: "actions" });
+    cy.findByRole("columnheader", { name: "total" });
   });
 });
 
@@ -65,7 +102,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("table", { name: "There are no items in your bag" });
+    cy.findByRole("heading", { name: "Your Cart" });
     cy.injectAxe();
     cy.checkA11y(null, {
       runOnly: ["wcag2a", "wcag2aa"],
@@ -73,19 +110,16 @@ describe("Basket page mobile", () => {
     });
   });
 
-  it("loads Shopping bag page correctly with no items and no quote form", () => {
+  it("loads empty Shopping bag correctly", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "My Shopping Bag" });
-    cy.findByRole("table", { name: "There are no items in your bag" });
-    cy.findByRole("columnheader", { name: "Image" });
-    cy.findByRole("columnheader", { name: "Item" });
-    cy.findByLabelText("Full Name").should("not.exist");
-    cy.findByLabelText("Email address").should("not.exist");
-    cy.findByRole("button", { name: "Get a quote" }).should("not.exist");
+    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.findByRole("table").should("not.exist");
+    cy.findByRole("button", { name: "check out" }).should("not.exist");
   });
 
   it("loads Shopping bag page correctly with 3 items and a quote form", () => {
@@ -94,7 +128,8 @@ describe("Basket page mobile", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("table", { name: "There are no items in your bag" });
+    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
     cy.intercept("POST", /api\/2023-10\/graphql/, {
@@ -103,20 +138,26 @@ describe("Basket page mobile", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByLabelText(/go to shopping bag/).click();
-    cy.findByRole("table", { name: "There is 1 item in your bag" });
-    cy.findAllByRole("button", { name: "Delete item" }).should(
+    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+
+    cy.findByRole("columnheader", { name: "product" });
+    cy.findByRole("columnheader", { name: "unit price" });
+
+    cy.findByRole("table").within(() => {
+      cy.findByAltText(
+        /this is an altText for Default Variant Title for test Jungle Tiger 2/i
+      );
+      cy.findByText(/Variant title test Jungle Tiger 2/i);
+      cy.findByText(/quantity: 1/i);
+      cy.findAllByText(/10.00/i).should("have.length", 3);
+    });
+    cy.findAllByRole("button", { name: "remove item" }).should(
       "have.length",
       1
     );
-    // quote form
-    cy.findByLabelText("Full Name");
-    cy.findByLabelText("Email address");
-    cy.findByRole("button", { name: "Get a quote" });
-
     // add two new items
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "Test Jungle Panther" }).click();
-    cy.get("#quantity").should("have.value", "1");
     cy.get("#quantity-increment").click();
     cy.get("#quantity").should("have.value", "2");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
@@ -125,93 +166,52 @@ describe("Basket page mobile", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByLabelText(/go to shopping bag/).click();
-    cy.findByRole("table", { name: "There are 3 items in your bag" });
+    cy.findByRole("table", { name: /3 items in your cart/ });
+    cy.findByText(/Variant title Test Jungle Panther/i);
+    cy.findByText(/unit price: \$10.00/i).should("be.visible");
+    cy.findByText(/unit price: \$15.00/i).should("be.visible");
+    cy.findByRole("main").within(() => {
+      cy.get("h3").scrollIntoView();
+      cy.findByRole("heading", { name: "summary" });
+      cy.findByText(/cart total:/i);
+      cy.findAllByText(/\$40.00/).should("have.length", 2);
+      cy.findAllByRole("button", { name: "remove item" }).should(
+        "have.length",
+        2
+      );
+      cy.findByText(/taxes and/i);
+      cy.findByRole("link", { name: /shipping/i });
+      cy.findByRole("table", { name: "3 items in your cart. Total $40.00" });
+      cy.findByText(/taxes and /i);
+      cy.findByRole("link", { name: /shipping/i });
+      cy.findByText("calculated at check out");
+      cy.findByRole("button", { name: "check out" });
+    });
   });
 
-  it("delete an item from the shopping bag", () => {
+  it("deletes an item from the shopping bag", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("table", { name: "There are no items in your bag" });
+    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response.json",
     }).as("checkoutFetch");
     cy.reload();
     cy.wait("@checkoutFetch");
-    cy.findByRole("table", { name: "There is 1 item in your bag" });
+    cy.findByRole("table", { name: "1 item in your cart. Total $23.00" });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
-    cy.findByRole("button", { name: "Delete item" }).click();
+    cy.findByRole("button", { name: "remove item" }).click();
     cy.wait("@checkoutLineItemsRemove");
-    cy.findByRole("table", { name: "There are no items in your bag" });
+    cy.findByRole("heading", { name: "Your cart is empty." });
   });
 
-  it("render user errors in quote form correctly when submit with no data", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response.json",
-    }).as("checkoutFetch");
-    cy.reload();
-    cy.wait("@checkoutFetch");
-    cy.findByRole("button", { name: "Get a quote" });
-    cy.findByRole("button", { name: "Get a quote" }).click();
-    cy.get("main").scrollIntoView();
-    cy.findByText("Name is Required");
-    cy.findByText("Email is Required");
-  });
-
-  it("sends quote correctly with 1 item", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response.json",
-    }).as("checkoutFetch");
-    cy.reload();
-    cy.wait("@checkoutFetch");
-    cy.findByLabelText("Full Name").type("name goes here");
-    cy.findByLabelText("Email address").type("email@email.com");
-    cy.intercept(
-      "POST",
-      "https://www.formbackend.com/f/a89f490517ad6461",
-      "success"
-    ).as("formbackendSuccess");
-    cy.findByRole("button", { name: "Get a quote" }).click();
-    cy.wait("@formbackendSuccess");
-    cy.get("main").scrollIntoView();
-    cy.findByText("Your quote was sent succesfully!");
-  });
-
-  it("renders error message when quote failed to be sent", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response.json",
-    }).as("checkoutFetch");
-    cy.reload();
-    cy.wait("@checkoutFetch");
-    cy.findByLabelText("Full Name").type("name goes here");
-    cy.findByLabelText("Email address").type("email@email.com");
-    cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
-      statusCode: 500,
-    }).as("formbackendFailure");
-    cy.findByRole("button", { name: "Get a quote" }).click();
-    cy.wait("@formbackendFailure");
-    cy.get("main").scrollIntoView();
-    cy.findByText(
-      "There was an error sending your quote. Please try again later."
-    );
+  it("sends user to external Shoppify checkout page", () => {
+    // TODO:
   });
 });

@@ -32,11 +32,11 @@
                 "currencyCode": "AUD"
             },
             "subtotalPrice": {
-                "amount": "0.0",
+                "amount": "23.0",
                 "currencyCode": "AUD"
             },
             "subtotalPriceV2": {
-                "amount": "0.0",
+                "amount": "23.0",
                 "currencyCode": "AUD"
             },
             "totalPrice": {
@@ -78,11 +78,11 @@
                                 "id": "gid://shopify/ProductVariant/43580549038288",
                                 "title": "Default Title",
                                 "price": {
-                                    "amount": "0.0",
+                                    "amount": "23.0",
                                     "currencyCode": "AUD"
                                 },
                                 "priceV2": {
-                                    "amount": "0.0",
+                                    "amount": "23.0",
                                     "currencyCode": "AUD"
                                 },
                                 "weight": 0.0,
