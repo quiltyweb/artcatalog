@@ -21,7 +21,7 @@ describe("Home page desktop", () => {
     cy.get('svg[title="menu"]').should("not.exist");
     cy.get('svg[alt="Brushella"]').should("exist");
     cy.findByRole("link", { name: /Contact me/i }).should("be.visible");
-    cy.findByRole("link", { name: "My shopping bag (0 item)" });
+    cy.findByRole("link", { name: "My shopping cart (0 item)" });
     cy.findByRole("link", { name: "murals" });
     cy.findByRole("link", { name: "stickers" });
     cy.findByRole("link", { name: "wearable art" });

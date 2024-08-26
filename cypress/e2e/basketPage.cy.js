@@ -62,7 +62,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "My shopping bag (1 item)" }).click();
+    cy.findByRole("link", { name: "My shopping cart (1 item)" }).click();
     cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });

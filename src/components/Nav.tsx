@@ -168,7 +168,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
             gap="0.5rem"
           >
             <Icon boxSize="1.5rem" as={FaShoppingBag} />
-            {`My shopping bag (${lineItemsCount} ${
+            {`My shopping cart (${lineItemsCount} ${
               lineItemsCount > 1 ? "items" : "item"
             })`}
           </Link>
