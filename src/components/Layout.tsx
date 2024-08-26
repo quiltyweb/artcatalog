@@ -47,11 +47,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       templateAreas={`"header header header header"
                       "main main main main"
                       "footer footer footer footer"`}
-      gap="10px"
+      gap="6"
       gridAutoFlow="row"
       backgroundColor="white"
       color="black"
       fontWeight="normal"
+      justifyItems="center"
     >
       <GridItem
         as="nav"
@@ -76,9 +77,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         color="#050505"
         bg="white"
         area={"main"}
-        justifySelf="center"
         maxWidth={"56rem"}
-        margin="0.5rem"
+        px={3}
+        w="100%"
       >
         {children}
       </GridItem>
