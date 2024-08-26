@@ -20,7 +20,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
-import Logo from "../images/svg/brushella-white.svg";
+import Logo from "../images/svg/brushella-black-bg.svg";
 import {
   FaFacebookF,
   FaInstagram,
@@ -153,7 +153,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
               style={{
                 maxWidth: "70",
                 maxHeight: "70",
-                filter: "invert(1)",
               }}
             />
           </Link>
@@ -258,7 +257,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
               width: "56",
               maxWidth: "64",
               maxHeight: "64",
-              filter: "invert(1)",
             }}
           />
         </Link>
