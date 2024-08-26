@@ -19,6 +19,7 @@ import {
   useCheckoutLineItems,
   useRemoveItemFromCart,
   useCartTotals,
+  useCheckout,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -37,6 +38,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     currency: cartSubtotalPrice.currencyCode,
     value: cartSubtotalPrice.amount,
   });
+  const handleCheckout = useCheckout();
 
   if (cartCount === 0) {
     return (
@@ -229,6 +231,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           color="#ffffff"
           colorScheme="teal"
           type="button"
+          onClick={handleCheckout}
         >
           check out
         </Button>

@@ -211,7 +211,31 @@ describe("Basket page mobile", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
   });
 
-  it("sends user to external Shoppify checkout page", () => {
-    // TODO:
+  it("opens a new window with shoppify checkout page", () => {
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/basket");
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.clickDrawerMenuOption("prints");
+    cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
+    cy.intercept("POST", /api\/2023-10\/graphql/, {
+      fixture: "mocked-checkout-response-checkoutLineItemsAdd.json",
+    }).as("checkoutLineItemsAdd");
+    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+    cy.wait("@checkoutLineItemsAdd");
+    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+
+    cy.window().then((win) => {
+      cy.stub(win, "open").as("windowOpen");
+    });
+    cy.findByRole("button", { name: "check out" }).click();
+
+    cy.get("@windowOpen").should(
+      "be.calledWith",
+      "https://testing/123/checkouts/456?key=789"
+    );
   });
 });

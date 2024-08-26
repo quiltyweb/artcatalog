@@ -14,7 +14,7 @@
                 "amount": "0.0",
                 "currencyCode": "AUD"
             },
-            "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+            "webUrl": "https://testing/123/checkouts/456?key=789",
             "orderStatusUrl": null,
             "taxExempt": false,
             "taxesIncluded": false,
