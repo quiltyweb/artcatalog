@@ -202,6 +202,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
                   <Td gridArea={"unitprice"}>
                     <Text
+                      visibility={"hidden"}
                       sx={{
                         textWrap: "wrap",
                         wordWrap: "normal",
@@ -236,6 +237,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
                   <Td display={["none", "table-cell"]}>
                     <Text
+                      visibility={"hidden"}
                       sx={{
                         textWrap: "wrap",
                         wordWrap: "normal",
