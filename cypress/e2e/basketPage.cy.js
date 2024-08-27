@@ -246,7 +246,29 @@ describe("Basket page mobile", () => {
 });
 
 // TODO: remove this describe when checkout feature is PROD ready
-describe("Basket page with Quote form", () => {
+describe("Basket page with Quote form for mobile view", () => {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.viewport("iphone-4");
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collectionPrints.json",
+    });
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-jungle-tiger-2/page-data.json",
+      {
+        fixture: "singleProduct-for-shopping-cart.json",
+      }
+    );
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-jungle-panther/page-data.json",
+      {
+        fixture: "singleProduct-for-shopping-cart-2.json",
+      }
+    );
+  });
+
   it("loads Shopping bag page correctly with 3 items and a Quote form", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
