@@ -36,6 +36,12 @@ export const createPages: GatsbyNode["createPages"] = async ({
             }
             variants {
               shopifyId
+              title
+              price
+              image {
+                gatsbyImageData(height: 460, width: 564)
+                altText
+              }
               product {
                 shopifyId
                 featuredImage {

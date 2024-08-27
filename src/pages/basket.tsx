@@ -23,11 +23,56 @@ import {
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
-
 import { getShopifyImage } from "gatsby-source-shopify";
 import { formatPrice } from "../utils/formatPrice";
 import { Link } from "gatsby";
 import { DeleteIcon } from "@chakra-ui/icons";
+import QuoteForm from "../components/QuoteForm";
+
+type CartSummaryProps = {
+  cartSubtotalPriceWithFormat: string;
+  handleCheckout: () => void;
+};
+
+const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
+  cartSubtotalPriceWithFormat,
+  handleCheckout,
+}) => {
+  return (
+    <Box py={6} display="grid" justifyContent="end">
+      <Heading as="h3" size="sm">
+        summary
+      </Heading>
+
+      <SimpleGrid columns={2} spacing={2}>
+        <Box>cart total:</Box>
+        <Box>{cartSubtotalPriceWithFormat}</Box>
+        <Box>
+          taxes and{" "}
+          <Link
+            to="/legal-content/shipping_policy/"
+            style={{ textDecoration: "underline" }}
+          >
+            shipping
+          </Link>
+          :
+        </Box>
+        <Box>calculated at check out</Box>
+      </SimpleGrid>
+
+      <Button
+        mt={4}
+        backgroundColor="#86548A"
+        color="#ffffff"
+        colorScheme="teal"
+        type="button"
+        onClick={handleCheckout}
+      >
+        check out
+      </Button>
+    </Box>
+  );
+};
 
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
@@ -54,7 +99,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <>
       <Heading as="h2">Your Cart</Heading>
-      <TableContainer>
+      <TableContainer mb="8">
         <Table size="sm">
           <TableCaption placement="top" textAlign={["left", "center"]}>
             {cartCount === 1 &&
@@ -206,38 +251,13 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           </Tbody>
         </Table>
       </TableContainer>
-      <Box py={6} display="grid" justifyContent="end">
-        <Heading as="h3" size="sm">
-          summary
-        </Heading>
+      {/* TODO: COMMENTED OUT BECAUSE IS WORK IN PROGRESS, CART CHECKOUT NOT PROD READY  */}
+      {/* <CartSummary
+        cartSubtotalPriceWithFormat={cartSubtotalPriceWithFormat}
+        handleCheckout={handleCheckout}
+      /> */}
 
-        <SimpleGrid columns={2} spacing={2}>
-          <Box>cart total:</Box>
-          <Box>{cartSubtotalPriceWithFormat}</Box>
-          <Box>
-            taxes and{" "}
-            <Link
-              to="/legal-content/shipping_policy/"
-              style={{ textDecoration: "underline" }}
-            >
-              shipping
-            </Link>
-            :
-          </Box>
-          <Box>calculated at check out</Box>
-        </SimpleGrid>
-
-        <Button
-          mt={4}
-          backgroundColor="#86548A"
-          color="#ffffff"
-          colorScheme="teal"
-          type="button"
-          onClick={handleCheckout}
-        >
-          check out
-        </Button>
-      </Box>
+      <QuoteForm checkoutLineItems={checkoutLineItems} cartCount={cartCount} />
     </>
   );
 };

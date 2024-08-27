@@ -6,6 +6,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   Input,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -41,6 +42,9 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
 
   return (
     <>
+      <Heading as="h3" size="sm">
+        Quotation form
+      </Heading>
       {cartCount >= 1 && (
         <Formik
           initialValues={{
@@ -139,7 +143,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
                       colorScheme="teal"
                       type="submit"
                     >
-                      Get a quote
+                      Get a Quote
                     </Button>
                   </Form>
                 )}
