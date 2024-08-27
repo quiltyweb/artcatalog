@@ -315,8 +315,8 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByLabelText(/go to shopping bag/).click();
     cy.findByRole("table", { name: /3 items in your cart/ });
     cy.findByText(/Variant title Test Jungle Panther/i);
-    cy.findByText(/unit price: \$10.00/i).should("be.visible");
-    cy.findByText(/unit price: \$15.00/i).should("be.visible");
+    cy.findByText(/unit price: \$10.00/i).should("not.be.visible");
+    cy.findByText(/unit price: \$15.00/i).should("not.be.visible");
     cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");
     cy.findByRole("button", { name: /Get a Quote/i });
