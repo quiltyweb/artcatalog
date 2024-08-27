@@ -1,14 +1,9 @@
 import * as React from "react";
 import {
-  Alert,
-  AlertIcon,
   Box,
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Heading,
-  Input,
+  SimpleGrid,
   Table,
   TableCaption,
   TableContainer,
@@ -23,56 +18,126 @@ import {
   useLineItemsCount,
   useCheckoutLineItems,
   useRemoveItemFromCart,
+  useCartTotals,
+  useCheckout,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { getShopifyImage } from "gatsby-source-shopify";
+import { formatPrice } from "../utils/formatPrice";
+import { Link } from "gatsby";
+import { DeleteIcon } from "@chakra-ui/icons";
+import QuoteForm from "../components/QuoteForm";
 
-const SubmitSchema = Yup.object().shape({
-  fullname: Yup.string().max(100, "Too Long!").required("Name is Required"),
-  email: Yup.string().email("Invalid email").required("Email is Required"),
-  message: Yup.string().required("Message is Required"),
-});
-interface FormValues {
-  fullname: string;
-  email: string;
-  message: string;
-}
+type CartSummaryProps = {
+  cartSubtotalPriceWithFormat: string;
+  handleCheckout: () => void;
+};
+
+const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
+  cartSubtotalPriceWithFormat,
+  handleCheckout,
+}) => {
+  return (
+    <Box py={6} display="grid" justifyContent="end">
+      <Heading as="h3" size="sm">
+        summary
+      </Heading>
+
+      <SimpleGrid columns={2} spacing={2}>
+        <Box>cart total:</Box>
+        <Box>{cartSubtotalPriceWithFormat}</Box>
+        <Box>
+          taxes and{" "}
+          <Link
+            to="/legal-content/shipping_policy/"
+            style={{ textDecoration: "underline" }}
+          >
+            shipping
+          </Link>
+          :
+        </Box>
+        <Box>calculated at check out</Box>
+      </SimpleGrid>
+
+      <Button
+        mt={4}
+        backgroundColor="#86548A"
+        color="#ffffff"
+        colorScheme="teal"
+        type="button"
+        onClick={handleCheckout}
+      >
+        check out
+      </Button>
+    </Box>
+  );
+};
 
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
+  const cartSubtotalPrice = useCartTotals();
+  const cartSubtotalPriceWithFormat = formatPrice({
+    currency: cartSubtotalPrice.currencyCode,
+    value: cartSubtotalPrice.amount,
+  });
+  const handleCheckout = useCheckout();
 
-  const getItemsFromBasket = (): string => {
-    const cartForMessage = checkoutLineItems.map((item) => {
-      return `${item.quantity} ${item.title}`;
-    });
-    return cartForMessage.join(" __ ");
-  };
+  if (cartCount === 0) {
+    return (
+      <Box display="flex" flexDirection="column">
+        <Heading as="h2">Your Cart</Heading>
+        <Heading as="h3" size="sm" fontWeight="normal">
+          Your cart is empty.
+        </Heading>
+      </Box>
+    );
+  }
+
   return (
-    <Box display="flex" flexDirection="column">
-      <Heading as="h2">My Shopping Bag</Heading>
-      <TableContainer width={["100%", "md", "xl", "2xl", "3xl"]}>
-        <Table size="md">
-          <TableCaption>
-            {cartCount === 0 && `There are no items in your bag`}
-            {cartCount === 1 && `There is 1 item in your bag`}
-            {cartCount > 1 && `There are ${cartCount} items in your bag`}
+    <>
+      <Heading as="h2">Your Cart</Heading>
+      <TableContainer mb="8">
+        <Table size="sm">
+          {/* TODO: add caption with totals below, when cart is PROD ready */}
+          {/* <TableCaption placement="top" textAlign={["left", "center"]}>
+            {cartCount === 1 &&
+              `1 item in your cart. Total ${cartSubtotalPriceWithFormat}`}
+            {cartCount > 1 &&
+              `${cartCount} items in your cart. Total ${cartSubtotalPriceWithFormat}`}
+          </TableCaption> */}
+          {/* TODO: Remove this table caption with no totals. */}
+          <TableCaption placement="top" textAlign={["left", "center"]}>
+            {cartCount === 1 && `1 item in your cart.`}
+            {cartCount > 1 && `${cartCount} items in your cart.`}
           </TableCaption>
           <Thead>
-            <Tr>
-              <Th textAlign="center" padding={["0", "xs", "xs", "sm", "sm"]}>
-                Image
-              </Th>
-              <Th>Item</Th>
-              <Th>Action</Th>
+            <Tr
+              display={["flex", "table-row"]}
+              justifyContent={["space-between"]}
+            >
+              <Th display={["none", "table-cell"]}>thumbnail</Th>
+              <Th>product</Th>
+              <Th>unit price</Th>
+              <Th display={["none", "table-cell"]}>quantity</Th>
+              <Th display={["none", "table-cell"]}>actions</Th>
+              <Th display={["none", "table-cell"]}>total</Th>
             </Tr>
           </Thead>
           <Tbody>
             {checkoutLineItems.map((item, index) => {
+              const variantPriceWithFormat = formatPrice({
+                currency: item.variant?.price?.currencyCode,
+                value: Number(item.variant?.price?.amount),
+              });
+
+              const lineItemTotalWithFormat = formatPrice({
+                currency: item.variant?.price.currencyCode,
+                value: Number(item.variant?.price.amount) * item.quantity,
+              });
+
               const variantImage = {
                 ...item.variant?.image,
                 originalSrc: item.variant?.image?.src,
@@ -84,54 +149,109 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                   image: variantImage,
                   layout: "constrained",
                   crop: "contain",
-                  width: 80,
-                  height: 80,
+                  width: 60,
+                  height: 60,
                 });
 
               return (
-                <Tr key={`${item.id}-item-${index}`}>
-                  <Td padding={["0.1rem", "xs", "xs", "sm", "sm"]}>
-                    <Box width="80px">
-                      {image ? (
-                        <GatsbyImage
-                          key={variantImage.src}
-                          image={image}
-                          alt={variantImage.altText ?? item.title}
-                          style={{
-                            borderRadius: "3px",
-                            boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
-                          }}
-                        />
-                      ) : (
-                        <StaticImage
-                          style={{
-                            filter: "grayscale(1)",
-                            borderRadius: "6px",
-                            marginBottom: "2rem",
-                          }}
-                          width={80}
-                          height={80}
-                          alt={item.title}
-                          src="../images/noimg.jpg"
-                        />
-                      )}
-                    </Box>
+                <Tr
+                  key={`${item.id}-item-${index}`}
+                  display={["grid", "table-row"]}
+                  gridTemplate={[
+                    `
+                      "image title title unitprice"
+                      "image quantity quantity remove"
+                      `,
+                  ]}
+                  gap={["0.1rem"]}
+                  marginBottom={["2rem"]}
+                >
+                  <Td gridArea={"image"}>
+                    {image ? (
+                      <GatsbyImage
+                        key={variantImage.src}
+                        image={image}
+                        alt={variantImage.altText ?? item.title}
+                        style={{
+                          borderRadius: "3px",
+                          boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
+                          maxWidth: "100%",
+                          width: "60px",
+                          height: "60px",
+                        }}
+                      />
+                    ) : (
+                      <StaticImage
+                        style={{
+                          filter: "grayscale(1)",
+                          borderRadius: "6px",
+                        }}
+                        width={60}
+                        height={60}
+                        alt={item.title}
+                        src="../images/noimg.jpg"
+                      />
+                    )}
                   </Td>
-                  <Td>
+
+                  <Td gridArea={"title"}>
                     <Text
-                      maxW="150px"
-                      style={{
-                        whiteSpace: "normal",
-                        wordWrap: "break-word",
+                      sx={{
+                        textWrap: "wrap",
+                        wordWrap: "normal",
+                        minWidth: "min-content",
                       }}
                     >
-                      {item.quantity} {item.title}
+                      {item.variant?.title ?? item.title}
                     </Text>
                   </Td>
-                  <Td>
-                    <Button onClick={() => removeItemFromCart(item.id)}>
-                      Delete item
+
+                  <Td gridArea={"unitprice"}>
+                    <Text
+                      visibility={"hidden"}
+                      sx={{
+                        textWrap: "wrap",
+                        wordWrap: "normal",
+                        minWidth: "min-content",
+                      }}
+                    >
+                      unit price: {variantPriceWithFormat}
+                    </Text>
+                  </Td>
+
+                  <Td gridArea={"quantity"}>
+                    <Text
+                      sx={{
+                        textWrap: "wrap",
+                        wordWrap: "normal",
+                        minWidth: "min-content",
+                      }}
+                    >
+                      quantity: {item.quantity}
+                    </Text>
+                  </Td>
+
+                  <Td gridArea={"remove"}>
+                    <Button
+                      size="sm"
+                      onClick={() => removeItemFromCart(item.id)}
+                      aria-label="remove item"
+                    >
+                      <DeleteIcon boxSize="1rem" />
                     </Button>
+                  </Td>
+
+                  <Td display={["none", "table-cell"]}>
+                    <Text
+                      visibility={"hidden"}
+                      sx={{
+                        textWrap: "wrap",
+                        wordWrap: "normal",
+                        minWidth: "min-content",
+                      }}
+                    >
+                      total: {lineItemTotalWithFormat}
+                    </Text>
                   </Td>
                 </Tr>
               );
@@ -139,126 +259,25 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           </Tbody>
         </Table>
       </TableContainer>
+      {/* TODO: COMMENTED OUT BECAUSE IS WORK IN PROGRESS, CART CHECKOUT NOT PROD READY  */}
+      {/* <CartSummary
+        cartSubtotalPriceWithFormat={cartSubtotalPriceWithFormat}
+        handleCheckout={handleCheckout}
+      /> */}
 
-      {cartCount >= 1 && (
-        <Formik
-          initialValues={{
-            fullname: "",
-            email: "",
-            message: getItemsFromBasket(),
-          }}
-          validationSchema={SubmitSchema}
-          onSubmit={async (
-            { fullname, email, message }: FormValues,
-            { setStatus }
-          ) => {
-            const res = await fetch(
-              "https://www.formbackend.com/f/a89f490517ad6461",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-                body: JSON.stringify({ fullname, email, message }),
-              }
-            );
-
-            if (!res.ok) {
-              setStatus({
-                sent: false,
-                message:
-                  "There was an error sending your quote. Please try again later.",
-              });
-            } else {
-              if (res.status === 200) {
-                setStatus({
-                  sent: true,
-                  message: "Your quote was sent succesfully!",
-                });
-              }
-            }
-          }}
-        >
-          {(props) => {
-            return (
-              <>
-                {props.status && props.status.sent && (
-                  <Alert status="success" id="bag-status-success">
-                    <AlertIcon />
-                    {props.status.message}
-                  </Alert>
-                )}
-                {props.status && !props.status.sent && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    {props.status.message}
-                  </Alert>
-                )}
-
-                {!props.status && (
-                  <Form data-testid="quote-contact-form">
-                    <Field name="fullname" type="text">
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.fullname && form.touched.fullname
-                          }
-                          mb={8}
-                        >
-                          <FormLabel>Full Name</FormLabel>
-                          <Input {...field} />
-                          <FormErrorMessage>
-                            <ErrorMessage name="fullname" />
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-
-                    <Field name="email" type="email">
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.email && form.touched.email}
-                          mb={8}
-                        >
-                          <FormLabel>Email address</FormLabel>
-                          <Input {...field} />
-                          <FormErrorMessage>
-                            <ErrorMessage name="email" />
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-
-                    <Button
-                      isLoading={props.isSubmitting}
-                      mt={4}
-                      backgroundColor="#86548A"
-                      color="#ffffff"
-                      colorScheme="teal"
-                      type="submit"
-                    >
-                      Get a quote
-                    </Button>
-                  </Form>
-                )}
-              </>
-            );
-          }}
-        </Formik>
-      )}
-    </Box>
+      <QuoteForm checkoutLineItems={checkoutLineItems} cartCount={cartCount} />
+    </>
   );
 };
 export default MyBasketPage;
 
 export const Head = () => (
   <SEO>
-    <title id="contact-title">Basket - www.brushella.art - Basket</title>
+    <title id="contact-title">Basket - www.brushella.art - shopping cart</title>
     <meta
       id="basket-page"
-      name="Basket page"
-      content="get a quote of brushella items"
+      name="shopping cart page"
+      content="shopping cart for brushella items"
     />
   </SEO>
 );

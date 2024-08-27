@@ -4,7 +4,7 @@
             "userErrors": [],
             "checkoutUserErrors": [],
             "checkout": {
-                "id": "gid://shopify/Checkout/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+                "id": "gid://shopify/Checkout/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
                 "ready": false,
                 "requiresShipping": true,
                 "note": null,
@@ -16,7 +16,7 @@
                     "amount": "0.0",
                     "currencyCode": "AUD"
                 },
-                "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/5e371380e54e77ba1312bd1410a57e29?key=b1e4120569b1ca12df346f777fe2e0cf",
+                "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
                 "orderStatusUrl": null,
                 "taxExempt": false,
                 "taxesIncluded": false,
@@ -34,7 +34,7 @@
                     "currencyCode": "AUD"
                 },
                 "subtotalPrice": {
-                    "amount": "0.0",
+                    "amount": "40.0",
                     "currencyCode": "AUD"
                 },
                 "subtotalPriceV2": {
@@ -78,13 +78,13 @@
                                 "title": "test Jungle Tiger 2",
                                 "variant": {
                                     "id": "gid://shopify/ProductVariant/43580552216784",
-                                    "title": "Default Title",
+                                    "title": "Variant title test Jungle Tiger 2",
                                     "price": {
-                                        "amount": "0.0",
+                                        "amount": "10.0",
                                         "currencyCode": "AUD"
                                     },
                                     "priceV2": {
-                                        "amount": "0.0",
+                                        "amount": "10.0",
                                         "currencyCode": "AUD"
                                     },
                                     "weight": 0.0,
@@ -130,13 +130,13 @@
                                 "title": "Test Jungle Panther",
                                 "variant": {
                                     "id": "gid://shopify/ProductVariant/43580554019024",
-                                    "title": "Default Title",
+                                    "title": "Variant title Test Jungle Panther",
                                     "price": {
-                                        "amount": "0.0",
+                                        "amount": "15.0",
                                         "currencyCode": "AUD"
                                     },
                                     "priceV2": {
-                                        "amount": "0.0",
+                                        "amount": "15.0",
                                         "currencyCode": "AUD"
                                     },
                                     "weight": 0.0,
