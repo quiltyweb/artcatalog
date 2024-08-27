@@ -311,8 +311,7 @@ describe("Basket page with Quote form", () => {
     }).as("checkoutFetch");
     cy.reload();
     cy.wait("@checkoutFetch");
-    cy.findByRole("button", { name: "Get a quote" });
-    cy.findByRole("button", { name: "Get a quote" }).click();
+    cy.findByRole("button", { name: /Get a Quote/i }).click();
     cy.get("main").scrollIntoView();
     cy.findByText("Name is Required");
     cy.findByText("Email is Required");
@@ -336,7 +335,7 @@ describe("Basket page with Quote form", () => {
       "https://www.formbackend.com/f/a89f490517ad6461",
       "success"
     ).as("formbackendSuccess");
-    cy.findByRole("button", { name: "Get a quote" }).click();
+    cy.findByRole("button", { name: /Get a Quote/i }).click();
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText("Your quote was sent succesfully!");
@@ -358,7 +357,7 @@ describe("Basket page with Quote form", () => {
     cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
       statusCode: 500,
     }).as("formbackendFailure");
-    cy.findByRole("button", { name: "Get a quote" }).click();
+    cy.findByRole("button", { name: /Get a Quote/i }).click();
     cy.wait("@formbackendFailure");
     cy.get("main").scrollIntoView();
     cy.findByText(
