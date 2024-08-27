@@ -101,11 +101,17 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       <Heading as="h2">Your Cart</Heading>
       <TableContainer mb="8">
         <Table size="sm">
-          <TableCaption placement="top" textAlign={["left", "center"]}>
+          {/* TODO: add caption with totals below, when cart is PROD ready */}
+          {/* <TableCaption placement="top" textAlign={["left", "center"]}>
             {cartCount === 1 &&
               `1 item in your cart. Total ${cartSubtotalPriceWithFormat}`}
             {cartCount > 1 &&
               `${cartCount} items in your cart. Total ${cartSubtotalPriceWithFormat}`}
+          </TableCaption> */}
+          {/* TODO: Remove this table caption with no totals. */}
+          <TableCaption placement="top" textAlign={["left", "center"]}>
+            {cartCount === 1 && `1 item in your cart.`}
+            {cartCount > 1 && `${cartCount} items in your cart.`}
           </TableCaption>
           <Thead>
             <Tr

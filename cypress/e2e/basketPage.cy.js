@@ -66,7 +66,9 @@ describe("Basket page desktop", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "My shopping cart (1 item)" }).click();
-    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+    cy.findByRole("table", { name: "1 item in your cart." });
+    // TODO: add table caption test when checkout is prod ready
+    // cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
     cy.findByRole("columnheader", { name: "unit price" });
@@ -138,7 +140,9 @@ describe("Basket page mobile", () => {
     }).as("checkoutFetch");
     cy.reload();
     cy.wait("@checkoutFetch");
-    cy.findByRole("table", { name: "1 item in your cart. Total $23.00" });
+    cy.findByRole("table", { name: "1 item in your cart." });
+    // TODO: add this below when checkout cart is prod ready
+    // cy.findByRole("table", { name: "1 item in your cart. Total $23.00" });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
@@ -285,7 +289,7 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByLabelText(/go to shopping bag/).click();
-    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+    cy.findByRole("table", { name: /1 item in your cart./i });
 
     cy.findByRole("columnheader", { name: "product" });
     cy.findByRole("columnheader", { name: "unit price" });
@@ -313,7 +317,7 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByLabelText(/go to shopping bag/).click();
-    cy.findByRole("table", { name: /3 items in your cart/ });
+    cy.findByRole("table", { name: /3 items in your cart/i });
     cy.findByText(/Variant title Test Jungle Panther/i);
     cy.findByText(/unit price: \$10.00/i).should("not.be.visible");
     cy.findByText(/unit price: \$15.00/i).should("not.be.visible");
