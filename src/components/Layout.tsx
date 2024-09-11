@@ -77,9 +77,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         color="#050505"
         bg="white"
         area={"main"}
-        maxWidth={"56rem"}
-        px={3}
         w="100%"
+        maxWidth="1240px"
+        margin="0 auto"
       >
         {children}
       </GridItem>
