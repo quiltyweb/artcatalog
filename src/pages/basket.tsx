@@ -202,7 +202,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                         minWidth: "min-content",
                       }}
                     >
-                      {item.variant?.title ?? item.title}
+                      {`${item.title} - ${item.variant?.title}`}
                     </Text>
                   </Td>
 
