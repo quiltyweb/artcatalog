@@ -25,6 +25,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
             handle
             description
             priceRangeV2 {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
               maxVariantPrice {
                 amount
                 currencyCode
@@ -32,22 +36,52 @@ export const createPages: GatsbyNode["createPages"] = async ({
             }
             featuredImage {
               altText
-              gatsbyImageData(height: 460, width: 564)
+              gatsbyImageData(width: 500, layout: CONSTRAINED)
             }
+            hasOnlyDefaultVariant
+            totalVariants
             variants {
               shopifyId
+              displayName
               title
               price
-              image {
-                gatsbyImageData(height: 460, width: 564)
-                altText
+              inventoryQuantity
+              selectedOptions {
+                name
+                value
               }
-              product {
-                shopifyId
-                featuredImage {
-                  gatsbyImageData(height: 460, width: 564)
+              image {
+                src
+                altText
+                height
+                width
+                gatsbyImageData(width: 500, layout: CONSTRAINED)
+                originalSrc
+                transformedSrc
+              }
+            }
+            mediaCount
+            media {
+              id
+              alt
+              mediaContentType
+              preview {
+                status
+                image {
+                  src
+                  altText
+                  height
+                  width
+                  gatsbyImageData(height: 82, width: 82, aspectRatio: 1)
+                  originalSrc
+                  transformedSrc
                 }
               }
+            }
+            options {
+              shopifyId
+              name
+              values
             }
           }
         }
