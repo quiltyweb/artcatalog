@@ -74,6 +74,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </GridItem>
       <GridItem
         as="main"
+        id="main"
         color="#050505"
         bg="white"
         area={"main"}
