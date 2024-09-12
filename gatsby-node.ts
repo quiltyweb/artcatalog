@@ -19,6 +19,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
           title
           handle
           description
+          descriptionHtml
           products {
             id
             title
@@ -110,6 +111,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
       context: {
         title: node.title,
         products: node.products,
+        description: node.description,
         collectionHandle: node.handle,
       },
     });
