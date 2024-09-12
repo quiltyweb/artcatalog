@@ -53,6 +53,15 @@ const SliderContainer = styled.div`
       color: black;
     }
 
+    .slick-dots li button {
+      outline: none;
+      &:focus,
+      &:focus-visible {
+        border-radius: 6px;
+        outline: dotted thin blue;
+      }
+    }
+
     .brushella-slide {
       border: 6px solid white;
       border-radius: 10px;
