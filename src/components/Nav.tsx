@@ -128,6 +128,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         width="100%"
         gridGap="1rem"
         alignItems="center"
+        gridTemplateColumns={"1fr 1fr 1fr "}
         templateAreas={`"left-icon    logo     icons "
                         "navigation navigation navigation"`}
       >

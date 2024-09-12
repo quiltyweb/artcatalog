@@ -80,6 +80,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         w="100%"
         maxWidth="1240px"
         margin="0 auto"
+        pl="2"
+        pr="2"
       >
         {children}
       </GridItem>
@@ -89,7 +91,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         justifySelf="center"
         width={"100%"}
         maxWidth="1024px"
-        marginTop="2rem"
+        marginTop="6"
       >
         <Footer
           legalContentItems={data.adminshopify?.legalContent.nodes[0].fields}

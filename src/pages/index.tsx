@@ -176,7 +176,6 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           />
         </Slider>
       </SliderContainer>
-
       <TileList />
     </>
   );

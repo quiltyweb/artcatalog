@@ -80,8 +80,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         const selectedVariant = values.product.variants.find((variant) => {
           return variant.title === values.variant;
         });
-        // eslint-disable-next-line no-console
-        console.log(selectedVariant);
 
         if (!selectedVariant) {
           throw Error;
@@ -126,7 +124,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           >
             <CardBody
               display="flex"
-              justifyContent={"space-between"}
+              justifyContent="center"
               flexDirection={["column", "column", "row"]}
             >
               <VStack>
@@ -220,13 +218,11 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               </VStack>
 
               <Stack
-                spacing="3"
-                px={10}
-                py={4}
-                minHeight="sm"
-                maxWidth={["100%", "100%", "xl"]}
+                px={5}
+                py={["5", "5", "0"]}
+                maxWidth={["100%", "100%", "md", "lg", "xl"]}
               >
-                <Heading size="lg" lineHeight="normal">
+                <Heading size="lg" lineHeight="normal" minH="80px">
                   {product.title}
                   <br />
                   {props.values.variant !== "" && `${props.values.variant}`}

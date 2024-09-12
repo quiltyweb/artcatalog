@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import { Heading, Stack, Text } from "@chakra-ui/react";
+import { Heading, SimpleGrid, Stack, Tag, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
@@ -9,45 +9,61 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
 }): React.ReactElement => {
   return (
     <>
-      <Stack direction={"column"} alignItems="flex-start" p={4}>
-        <Heading as="h2">
-          {storefrontshopify.page?.title || "Meet the Artist"}
+      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
+        <Heading textTransform="capitalize" as="h1" size="2xl" color="#4b828f">
+          Meet the Artist
         </Heading>
+      </Stack>
+
+      <SimpleGrid columns={[1, 1, 1, 2]} justifyItems="center">
         <StaticImage
           style={{
             filter: "grayscale(1)",
             transform: "scaleX(-1)",
             borderRadius: "6px",
-            marginBottom: "2rem",
+            margin: "1rem",
           }}
           alt="Painter Gabriela painting on a canvas"
           src="../images/author.jpg"
+          width={500}
         />
-        <Text fontSize="md" as={"div"}>
+        <Text fontSize="md" as={"div"} margin="1rem">
           <div
             dangerouslySetInnerHTML={{
               __html: storefrontshopify.page?.body,
             }}
           />
         </Text>
-      </Stack>
+      </SimpleGrid>
 
-      <Heading as="h3">About my products</Heading>
-      <Stack
-        spacing={4}
-        align="center"
-        fontSize={["xl", "xl", "xl", "xl", "xl"]}
-        direction={["column", "column", "column", "column", "column"]}
-        pt={[4, 4, 4, 4, 4]}
-        mt={[4, 4, 4, 4, 4]}
-        textTransform="capitalize"
-      >
-        {adminshopify?.metaobjects.nodes[0].fields.map((item) => (
-          <Link key={item.key} to={`/product-categories/${item.key}`}>
-            {item.definition.name}
-          </Link>
-        ))}
+      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
+        <Heading textTransform="capitalize" as="h2" size="2xl" color="#4b828f">
+          About my products
+        </Heading>
       </Stack>
+      <SimpleGrid
+        columns={[1, 1, 2, 3]}
+        justifyItems="center"
+        gap={4}
+        pl="5"
+        pr="5"
+      >
+        {adminshopify?.metaobjects.nodes[0].fields.map((item, i) => (
+          <Tag
+            size="lg"
+            key={i}
+            borderRadius="full"
+            variant="solid"
+            backgroundColor="pink.800"
+            color="white"
+            textTransform="capitalize"
+          >
+            <Link key={item.key} to={`/product-categories/${item.key}`}>
+              {item.definition.name}
+            </Link>
+          </Tag>
+        ))}
+      </SimpleGrid>
     </>
   );
 };

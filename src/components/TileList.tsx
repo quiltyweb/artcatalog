@@ -20,6 +20,7 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
         spacing={[2, 2, 2, 2, 2]}
         align="center"
         direction={["column", "column", "row", "row", "row"]}
+        justifyContent="center"
         fontSize={"1.2rem"}
         fontWeight="500"
         lineHeight="normal"
