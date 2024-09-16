@@ -114,6 +114,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           value: variantFound?.price ?? 0,
         });
 
+        const noImageURL = "../images/noimg.jpg";
+
         return (
           <Card
             key={`${product.id}-single-view`}
@@ -129,14 +131,26 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             >
               <VStack>
                 <Box>
-                  {props.values.variant == "" && featuredImage && (
+                  {featuredImage && props.values.variant == "" && (
                     <GatsbyImage
                       image={featuredImage}
                       alt={product.featuredImage?.altText || product.title}
                       loading="eager"
                     />
                   )}
-                  {props.values.variant !== "" && variantFoundImage && (
+                  {!featuredImage && props.values.variant == "" && (
+                    <img
+                      style={{
+                        filter: "grayscale(1)",
+                        width: "400px",
+                        height: "300px",
+                        border: "1px solid gray",
+                      }}
+                      src={noImageURL}
+                      alt=""
+                    />
+                  )}
+                  {variantFoundImage && props.values.variant !== "" && (
                     <GatsbyImage
                       image={variantFoundImage}
                       alt={
@@ -182,6 +196,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     );
                   })}
                 </Flex>
+
                 <Heading as="h4" size="md" color="pink.800">
                   Details gallery:
                 </Heading>

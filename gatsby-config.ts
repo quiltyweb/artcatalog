@@ -13,7 +13,6 @@ const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-styled-components",
     "gatsby-plugin-gatsby-cloud",
-
     {
       resolve: "gatsby-plugin-image",
       options: {

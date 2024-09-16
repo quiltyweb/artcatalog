@@ -47,14 +47,14 @@ describe("Single product Template", () => {
             images: {
               sources: [
                 {
-                  srcSet: null,
+                  srcSet: mockedImageURL,
                   sizes: "(min-width: 500px) 500px, 100vw",
                   type: "image/webp",
                 },
               ],
               fallback: {
-                src: null,
-                srcSet: null,
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
                 sizes: "(min-width: 500px) 500px, 100vw",
               },
             },
@@ -116,7 +116,7 @@ describe("Single product Template", () => {
             preview: {
               status: "READY",
               image: {
-                src: null,
+                src: mockedImageURL,
                 altText: "image media alternative text goes here",
                 height: 568,
                 width: 582,
@@ -124,14 +124,14 @@ describe("Single product Template", () => {
                   images: {
                     sources: [
                       {
-                        srcSet: null,
+                        srcSet: mockedImageURL,
                         sizes: "(min-width: 82px) 82px, 100vw",
                         type: "image/webp",
                       },
                     ],
                     fallback: {
-                      src: null,
-                      srcSet: null,
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
                       sizes: "(min-width: 82px) 82px, 100vw",
                     },
                   },
@@ -139,8 +139,8 @@ describe("Single product Template", () => {
                   width: 82,
                   height: 82,
                 },
-                originalSrc: null,
-                transformedSrc: null,
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
               },
             },
           },
