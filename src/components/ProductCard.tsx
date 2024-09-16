@@ -234,20 +234,21 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   fontWeight="bold"
                   color="pink.800"
                 >
-                  <Text
-                    as="div"
-                    data-testid="item-price"
-                    fontSize="sm"
-                    fontWeight="bold"
-                    color="pink.800"
-                    visibility={
-                      props.values.variant === "" ? "visible" : "hidden"
-                    }
-                  >
-                    From
-                  </Text>
                   {props.values.variant === "" && (
                     <>
+                      <Text
+                        as="span"
+                        display="block"
+                        data-testid="item-price"
+                        fontSize="sm"
+                        fontWeight="bold"
+                        color="pink.800"
+                        visibility={
+                          props.values.variant === "" ? "visible" : "hidden"
+                        }
+                      >
+                        From
+                      </Text>
                       <Highlight
                         query="AUD"
                         styles={{ pr: "1", color: "#7e718a" }}
@@ -279,7 +280,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                             {({ field, form }: FieldProps) => (
                               <FormControl isInvalid={!!form.errors.variant}>
                                 <FormLabel
-                                  htmlFor={variantName}
+                                  htmlFor="variant"
                                   key={variantName + index}
                                 >
                                   {variantName}:
