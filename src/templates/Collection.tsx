@@ -51,7 +51,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       </Stack>
 
       {products && products.length !== 0 ? (
-        <SimpleGrid columns={[1, 2, 3, 4]} spacing="7" justifyItems="center">
+        <SimpleGrid columns={[1, 2, 3, 4]} spacing="6" justifyItems="center">
           {products.map(
             ({
               id,
@@ -59,7 +59,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               title,
               handle,
               priceRangeV2: {
-                maxVariantPrice: { amount, currencyCode },
+                minVariantPrice: { amount, currencyCode },
               },
             }) => {
               const image = getImage(featuredImage);
@@ -68,7 +68,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   key={handle}
                   to={`/collections/${collectionHandle}/${handle}`}
                 >
-                  <Card key={`${id}-product-item`} boxShadow="lg">
+                  <Card key={`${id}-product-item`} boxShadow="md">
                     <CardBody>
                       {image ? (
                         <GatsbyImage
@@ -86,7 +86,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                             minHeight: "300px",
                             maxHeight: "300px",
                           }}
-                          alt="product image not available"
+                          alt=""
                           src="../images/noimg.jpg"
                         />
                       )}
@@ -108,6 +108,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                       alignItems="flex-end"
                       display="flex"
                       justifyContent="space-between"
+                      minH={20}
                     >
                       {amount !== 0 && (
                         <Text
@@ -117,6 +118,16 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           color="pink.800"
                           lineHeight="normal"
                         >
+                          <Text
+                            as="span"
+                            display="block"
+                            data-testid="item-price-from"
+                            fontSize="sm"
+                            fontWeight="bold"
+                            color="pink.800"
+                          >
+                            From
+                          </Text>
                           <Highlight
                             query="AUD"
                             styles={{ pr: "1", color: "#7e718a" }}
