@@ -178,7 +178,7 @@ describe("Single product Template", () => {
     screen.getByText(/AUD/i);
     screen.getByText(/\$10.00/i);
     screen.getByLabelText(/color/i);
-    screen.getByLabelText(/Quantity/i);
+    screen.getByLabelText(/quantity/i);
     screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });

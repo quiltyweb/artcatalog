@@ -1,0 +1,111 @@
+{
+    "componentChunkName": "component---src-templates-collection-tsx",
+    "path": "/collections/prints/",
+    "result": {
+        "pageContext": {
+            "title": "prints",
+            "products": [
+                {
+                    "id": "20646d4e-5b74-58c0-9e66-1a897d05a7ff",
+                    "title": "Macumba",
+                    "handle": "macumba",
+                    "description": "this is description text for macumba print",
+                    "priceRangeV2": {
+                        "minVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        },
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": {
+                        "altText": "alt text for featuredImage of macumba print",
+                        "gatsbyImageData": {
+                            "images": {
+                                "sources": [
+                                    {
+                                        "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                        "sizes": "(min-width: 500px) 500px, 100vw",
+                                        "type": "image/webp"
+                                    }
+                                ],
+                                "fallback": {
+                                    "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                    "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                    "sizes": "(min-width: 500px) 500px, 100vw"
+                                }
+                            },
+                            "layout": "constrained",
+                            "width": 500,
+                            "height": 500
+                        }
+                    },
+                    "hasOnlyDefaultVariant": true,
+                    "totalVariants": 1,
+                    "variants": [
+                        {
+                            "shopifyId": "gid://shopify/ProductVariant/44198259884240",
+                            "displayName": "Macumba - large",
+                            "title": "large",
+                            "price": 50,
+                            "inventoryQuantity": 2,
+                            "selectedOptions": [
+                                {
+                                    "name": "Size",
+                                    "value": "large"
+                                }
+                            ],
+                            "image": {
+                                "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                "altText": null,
+                                "height": 1355,
+                                "width": 1016,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                                "sizes": "(min-width: 500px) 500px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                            "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                            "sizes": "(min-width: 500px) 500px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "width": 500,
+                                    "height": 667
+                                },
+                                "originalSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                "transformedSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg"
+                            }
+                        }
+                    ],
+                    "mediaCount": 0,
+                    "media": [],
+                    "options": [
+                        {
+                            "shopifyId": "gid://shopify/ProductOption/10345008496848",
+                            "name": "Size",
+                            "values": [
+                                "large"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "description": "This is description text for collection prints",
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "3466113349"
+    ],
+    "slicesMap": {}
+}

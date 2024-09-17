@@ -129,115 +129,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               justifyContent="center"
               flexDirection={["column", "column", "row"]}
             >
-              <VStack>
-                <Box>
-                  {featuredImage && props.values.variant == "" && (
-                    <GatsbyImage
-                      image={featuredImage}
-                      alt={product.featuredImage?.altText || product.title}
-                      loading="eager"
-                    />
-                  )}
-                  {!featuredImage && props.values.variant == "" && (
-                    <img
-                      style={{
-                        filter: "grayscale(1)",
-                        width: "400px",
-                        height: "300px",
-                        border: "1px solid gray",
-                      }}
-                      src={noImageURL}
-                      alt=""
-                    />
-                  )}
-                  {variantFoundImage && props.values.variant !== "" && (
-                    <GatsbyImage
-                      image={variantFoundImage}
-                      alt={
-                        variantFound.image.altText ||
-                        `${props.values.variant} ${product.title}`
-                      }
-                      loading="eager"
-                    />
-                  )}
-                </Box>
-                <Heading as="h3" size="md" color="pink.800">
-                  Variations:
-                </Heading>
-                <Flex
-                  flexDirection="row"
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  maxW={"70%"}
-                  mb="4"
-                >
-                  {product.variants.map((variant, index) => {
-                    if (!variant.image) {
-                      return;
-                    }
-                    const variantImage = getImage(variant.image);
-                    return (
-                      variantImage && (
-                        <GatsbyImage
-                          key={index}
-                          image={variantImage}
-                          alt={
-                            variant.image.altText ||
-                            `${variant.title} ${product.title}`
-                          }
-                          loading="lazy"
-                          style={{
-                            margin: "0.5rem",
-                            width: "82px",
-                            height: "82px",
-                          }}
-                        />
-                      )
-                    );
-                  })}
-                </Flex>
-
-                <Heading as="h4" size="md" color="pink.800">
-                  Details gallery:
-                </Heading>
-                <Flex
-                  flexDirection="row"
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  maxW={"70%"}
-                >
-                  {product.mediaCount > 0 &&
-                    product.media.map((mediaItem, index) => {
-                      if (mediaItem.mediaContentType !== "IMAGE") {
-                        return;
-                      }
-                      const mediaImage =
-                        mediaItem.preview?.image &&
-                        getImage(mediaItem?.preview?.image);
-
-                      return (
-                        mediaImage && (
-                          <GatsbyImage
-                            key={index}
-                            image={mediaImage}
-                            alt={
-                              mediaItem.preview?.image.altText || product.title
-                            }
-                            loading="lazy"
-                            style={{ margin: "0.5rem" }}
-                          />
-                        )
-                      );
-                    })}
-                </Flex>
-              </VStack>
-
               <Stack
                 px={5}
                 py={["5", "5", "0"]}
                 maxWidth={["100%", "100%", "md", "lg", "xl"]}
               >
-                <Heading size="lg" lineHeight="normal" minH="80px">
+                <Heading as="h2" size="lg" lineHeight="normal" minH="80px">
                   {product.title}
                   <br />
                   {props.values.variant !== "" && `${props.values.variant}`}
@@ -364,6 +261,109 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   </Form>
                 </Box>
               </Stack>
+
+              <VStack>
+                <Box>
+                  {featuredImage && props.values.variant == "" && (
+                    <GatsbyImage
+                      image={featuredImage}
+                      alt={product.featuredImage?.altText || product.title}
+                      loading="eager"
+                    />
+                  )}
+                  {!featuredImage && props.values.variant == "" && (
+                    <img
+                      style={{
+                        filter: "grayscale(1)",
+                        width: "400px",
+                        height: "300px",
+                        border: "1px solid gray",
+                      }}
+                      src={noImageURL}
+                      alt=""
+                    />
+                  )}
+                  {variantFoundImage && props.values.variant !== "" && (
+                    <GatsbyImage
+                      image={variantFoundImage}
+                      alt={
+                        variantFound.image.altText ||
+                        `${props.values.variant} ${product.title}`
+                      }
+                      loading="eager"
+                    />
+                  )}
+                </Box>
+                <Heading as="h3" size="md" color="pink.800">
+                  Variations:
+                </Heading>
+                <Flex
+                  flexDirection="row"
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  maxW={"70%"}
+                  mb="4"
+                >
+                  {product.variants.map((variant, index) => {
+                    if (!variant.image) {
+                      return;
+                    }
+                    const variantImage = getImage(variant.image);
+                    return (
+                      variantImage && (
+                        <GatsbyImage
+                          key={index}
+                          image={variantImage}
+                          alt={
+                            variant.image.altText ||
+                            `${variant.title} ${product.title}`
+                          }
+                          loading="lazy"
+                          style={{
+                            margin: "0.5rem",
+                            width: "82px",
+                            height: "82px",
+                          }}
+                        />
+                      )
+                    );
+                  })}
+                </Flex>
+
+                <Heading as="h3" size="md" color="pink.800">
+                  Details gallery:
+                </Heading>
+                <Flex
+                  flexDirection="row"
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  maxW={"70%"}
+                >
+                  {product.mediaCount > 0 &&
+                    product.media.map((mediaItem, index) => {
+                      if (mediaItem.mediaContentType !== "IMAGE") {
+                        return;
+                      }
+                      const mediaImage =
+                        mediaItem.preview?.image &&
+                        getImage(mediaItem?.preview?.image);
+
+                      return (
+                        mediaImage && (
+                          <GatsbyImage
+                            key={index}
+                            image={mediaImage}
+                            alt={
+                              mediaItem.preview?.image.altText || product.title
+                            }
+                            loading="lazy"
+                            style={{ margin: "0.5rem" }}
+                          />
+                        )
+                      );
+                    })}
+                </Flex>
+              </VStack>
             </CardBody>
           </Card>
         );

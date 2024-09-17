@@ -55,7 +55,7 @@ describe("About page mobile", () => {
     });
     cy.findByRole("heading", { name: "prints" });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response.json",
+      fixture: "mocked-checkout-response-node.json",
     }).as("checkoutFetch");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
       cy.findByRole("link", { name: /about/i }).click();

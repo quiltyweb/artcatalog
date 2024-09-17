@@ -1,18 +1,17 @@
 describe("Collection Template desktop", () => {
   it("checks for accessibility violations desktop view", () => {
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
-      fixture: "collectionPrints.json",
+    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+      fixture: "collection/collectionDecor.json",
     });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
+      fixture: "collection/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/prints/");
+    cy.visit("/collections/decor/");
     cy.wait("@checkoutCreate");
     cy.injectAxe();
-    cy.checkA11y(null, {
-      runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical", "serious"],
+    cy.checkA11y({
+      exclude: [".chakra-portal", "#__chakra_env"],
     });
   });
 });
@@ -21,52 +20,53 @@ describe("Collection Template mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
-      fixture: "collectionPrints.json",
+    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+      fixture: "collection/collectionDecor.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/prints/test-product-abc/page-data.json",
+      "/page-data/collections/decor/beach-towel/page-data.json",
       {
-        fixture: "singleProduct-for-collection-template.json",
+        fixture: "collection/singleProduct-for-collection-template.json",
       }
     );
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
+      fixture: "collection/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
     cy.wait("@checkoutCreate");
   });
 
   it("checks for accessibility violations mobile view", () => {
-    cy.clickDrawerMenuOption("prints");
+    cy.clickDrawerMenuOption("decor");
     cy.injectAxe();
-    cy.checkA11y(null, {
-      runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical", "serious"],
+    cy.checkA11y({
+      exclude: [".chakra-portal", "#__chakra_env"],
     });
   });
 
-  it("Navigates from home to Print Collection template", () => {
-    cy.clickDrawerMenuOption("prints");
-    cy.findByRole("heading", { name: "prints" });
-    cy.findByText("Prints description goes here.");
-    cy.findByRole("heading", { name: "test product abc" });
-    cy.findByAltText(/alt text for test product abc for collection template/);
-    cy.findByText("description for test product abc for collection template");
-    cy.findByText("$100");
-    cy.findAllByText(/AUD/i);
+  it("Navigates from home to Collection page", () => {
+    cy.clickDrawerMenuOption("decor");
+    cy.findByRole("heading", { name: "decor" });
+    cy.findByText("This is the collection description text");
+    cy.findByRole("heading", { name: "Cotton Beach towel" });
+    cy.findByAltText(/alt text for Cotton Beach towel/i);
     cy.findAllByText("$0").should("have.length", "0");
-    // listing items from this collection
-    cy.findAllByText(/view details/i).should("have.length", "12");
+    cy.findByText(/from/i);
+    cy.findByText(/AUD/i);
+    cy.findByText(/\$10/i);
+    cy.findAllByText(/view details/i).should("have.length", "2");
   });
 
-  it("Navigates to single product view ", () => {
-    cy.clickDrawerMenuOption("prints");
-    cy.findByRole("heading", { name: "test product abc" }).click();
-    cy.findByAltText(/alt text for test product abc for collection template/);
-    cy.findByText("description for test product abc for collection template");
-    cy.findByLabelText("Quantity");
+  it("Navigates from Collection page to single product view", () => {
+    cy.clickDrawerMenuOption("decor");
+    cy.findByRole("heading", { name: "decor" });
+    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
+    cy.findByRole("heading", { name: "Cotton Beach towel" });
+    cy.findByAltText(/alt text for Cotton Beach towel/i);
+    cy.findByText("description text for Cotton Beach towel");
+    cy.findByLabelText(/color/i);
+    cy.findByLabelText(/quantity/i);
     cy.findByRole("button", { name: "Add to shopping bag" });
   });
 });

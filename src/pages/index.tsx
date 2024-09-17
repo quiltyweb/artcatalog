@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import SEO from "../components/SEO";
 import { StaticImage } from "gatsby-plugin-image";
 import TileList from "../components/TileList";

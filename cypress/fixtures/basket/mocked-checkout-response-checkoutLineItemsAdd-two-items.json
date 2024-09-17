@@ -4,19 +4,19 @@
             "userErrors": [],
             "checkoutUserErrors": [],
             "checkout": {
-                "id": "gid://shopify/Checkout/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
+                "id": "gid://shopify/Checkout/123456185c800fd7270a82da6ec59171?key=123453ec0256e9f38e24766323519b2a",
                 "ready": false,
                 "requiresShipping": true,
                 "note": null,
                 "paymentDue": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "paymentDueV2": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
-                "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
+                "webUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
                 "orderStatusUrl": null,
                 "taxExempt": false,
                 "taxesIncluded": false,
@@ -30,28 +30,28 @@
                     "currencyCode": "AUD"
                 },
                 "lineItemsSubtotalPrice": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "subtotalPrice": {
-                    "amount": "40.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "subtotalPriceV2": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "totalPrice": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "totalPriceV2": {
-                    "amount": "0.0",
+                    "amount": "111.0",
                     "currencyCode": "AUD"
                 },
                 "completedAt": null,
-                "createdAt": "2024-07-30T04:32:17Z",
-                "updatedAt": "2024-07-31T04:04:54Z",
+                "createdAt": "2024-09-17T09:51:08Z",
+                "updatedAt": "2024-09-17T10:53:58Z",
                 "email": null,
                 "discountApplications": {
                     "pageInfo": {
@@ -72,19 +72,19 @@
                     },
                     "edges": [
                         {
-                            "cursor": "eyJsYXN0X2lkIjo0MzU4MDU1MjIxNjc4NDAsImxhc3RfdmFsdWUiOjQzNTgwNTUyMjE2Nzg0MH0=",
+                            "cursor": "eyJsYXN0X2lkIjo0NDE2MTcwODU4OTI2NDAsImxhc3RfdmFsdWUiOjQ0MTYxNzA4NTg5MjY0MH0=",
                             "node": {
-                                "id": "gid://shopify/CheckoutLineItem/435805522167840?checkout=14c93388434a88eb2ef4767d37169dd3",
-                                "title": "test Jungle Tiger 2",
+                                "id": "gid://shopify/CheckoutLineItem/123457085892640?checkout=1234456185c800fd7270a82da6ec59171",
+                                "title": "Cotton Beach towel",
                                 "variant": {
-                                    "id": "gid://shopify/ProductVariant/43580552216784",
-                                    "title": "Variant title test Jungle Tiger 2",
+                                    "id": "gid://shopify/ProductVariant/44161708589264",
+                                    "title": "Green",
                                     "price": {
-                                        "amount": "10.0",
+                                        "amount": "11.0",
                                         "currencyCode": "AUD"
                                     },
                                     "priceV2": {
-                                        "amount": "10.0",
+                                        "amount": "11.0",
                                         "currencyCode": "AUD"
                                     },
                                     "weight": 0.0,
@@ -93,16 +93,16 @@
                                     "compareAtPrice": null,
                                     "compareAtPriceV2": null,
                                     "image": {
-                                        "id": "gid://shopify/ProductImage/39268640227536",
-                                        "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print8.jpg?v=1696585251",
+                                        "id": "gid://shopify/ProductImage/40454759612624",
+                                        "src": "https://fake-cdn.fake-shopify.com/s/files/1/0586/9892/4240/files/towel2_3945e6f8-9fa8-4f12-9722-09475e8434fd.jpg?v=1725844903",
                                         "altText": null,
-                                        "width": 1278,
-                                        "height": 1704
+                                        "width": 715,
+                                        "height": 1077
                                     },
                                     "selectedOptions": [
                                         {
-                                            "name": "Title",
-                                            "value": "Default Title"
+                                            "name": "Color",
+                                            "value": "Green"
                                         }
                                     ],
                                     "unitPrice": null,
@@ -114,8 +114,8 @@
                                         "referenceValue": 0
                                     },
                                     "product": {
-                                        "id": "gid://shopify/Product/7935802507472",
-                                        "handle": "test-jungle-tiger-2"
+                                        "id": "gid://shopify/Product/7913776316624",
+                                        "handle": "beach-towel"
                                     }
                                 },
                                 "quantity": 1,
@@ -124,37 +124,37 @@
                             }
                         },
                         {
-                            "cursor": "eyJsYXN0X2lkIjo0MzU4MDU1NDAxOTAyNDAsImxhc3RfdmFsdWUiOjQzNTgwNTU0MDE5MDI0MH0=",
+                            "cursor": "eyJsYXN0X2lkIjo0NDE5ODI1OTg4NDI0MDAsImxhc3RfdmFsdWUiOjQ0MTk4MjU5ODg0MjQwMH0=",
                             "node": {
-                                "id": "gid://shopify/CheckoutLineItem/435805540190240?checkout=14c93388434a88eb2ef4767d37169dd3",
-                                "title": "Test Jungle Panther",
+                                "id": "gid://shopify/CheckoutLineItem/123456598842400?checkout=271f66185c800fd7270a82da6ec59171",
+                                "title": "Macumba",
                                 "variant": {
-                                    "id": "gid://shopify/ProductVariant/43580554019024",
-                                    "title": "Variant title Test Jungle Panther",
+                                    "id": "gid://shopify/ProductVariant/12345259884240",
+                                    "title": "large",
                                     "price": {
-                                        "amount": "15.0",
+                                        "amount": "50.0",
                                         "currencyCode": "AUD"
                                     },
                                     "priceV2": {
-                                        "amount": "15.0",
+                                        "amount": "50.0",
                                         "currencyCode": "AUD"
                                     },
-                                    "weight": 0.0,
+                                    "weight": 100.0,
                                     "available": true,
                                     "sku": "",
                                     "compareAtPrice": null,
                                     "compareAtPriceV2": null,
                                     "image": {
-                                        "id": "gid://shopify/ProductImage/39268641407184",
-                                        "src": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print9.jpg?v=1696585281",
+                                        "id": "gid://shopify/ProductImage/12345632559824",
+                                        "src": "https://fake-cdn.fake-shopify.com/s/files/1/0586/9892/4240/files/print3.jpg?v=1726545658",
                                         "altText": null,
-                                        "width": 1440,
-                                        "height": 1440
+                                        "width": 1016,
+                                        "height": 1355
                                     },
                                     "selectedOptions": [
                                         {
-                                            "name": "Title",
-                                            "value": "Default Title"
+                                            "name": "Size",
+                                            "value": "large"
                                         }
                                     ],
                                     "unitPrice": null,
@@ -166,8 +166,8 @@
                                         "referenceValue": 0
                                     },
                                     "product": {
-                                        "id": "gid://shopify/Product/7935803228368",
-                                        "handle": "test-jungle-panther"
+                                        "id": "gid://shopify/Product/1234597788880",
+                                        "handle": "macumba"
                                     }
                                 },
                                 "quantity": 2,

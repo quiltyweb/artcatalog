@@ -45,7 +45,7 @@ describe("Footer", () => {
       },
     ];
     render(<Footer legalContentItems={legalContentMockedData} />);
-    screen.getByRole("heading", { name: /Quick Links/i });
+    screen.getByText(/Quick Links/i);
     screen.getByRole("link", { name: "Return and Refund Policy" });
     screen.getByRole("link", { name: "Hand Made Policy" });
     screen.getByRole("link", { name: "Shipping Policy" });
@@ -66,7 +66,7 @@ describe("Footer", () => {
 
     const footer = await screen.findByTestId("footer");
 
-    within(footer).getByRole("heading", { name: /quick links/i });
+    within(footer).getByText(/Quick Links/i);
 
     expect(
       within(footer).queryByRole("link", { name: "Return and Refund Policy" })

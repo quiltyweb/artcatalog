@@ -18,6 +18,7 @@ import {
   Grid,
   GridItem,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import Logo from "../images/svg/brushella-black-bg.svg";

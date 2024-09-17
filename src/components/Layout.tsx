@@ -1,12 +1,27 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Footer from "./Footer";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import Nav from "./Nav";
+import styled from "styled-components";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
+
+const HeaderVisuallyHidden = styled.h1`
+  border: 0;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+`;
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
@@ -84,6 +99,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         pl="2"
         pr="2"
       >
+        <HeaderVisuallyHidden>Brushella</HeaderVisuallyHidden>
         {children}
       </GridItem>
       <GridItem

@@ -39,18 +39,18 @@ const Footer: React.FunctionComponent<FooterProps> = ({
     <Box data-testid="footer">
       <Box p="4">
         <hr />
-        <Heading
+        <Text
           id="quicklinks"
-          as={"h4"}
           size="md"
-          color="teal.500"
+          fontWeight="bold"
+          color="teal.600"
           textAlign={["left", "left", "center", "center", "center"]}
           pt="8"
           pb="8"
           pl="4"
         >
           Quick Links
-        </Heading>
+        </Text>
         <UnorderedList
           display="flex"
           flexDirection={["column", "column", "row", "row", "row"]}

@@ -1,7 +1,6 @@
 import React from "react";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ContactPage from "../contact";
-import userEvent from "@testing-library/user-event";
 import fetchMock from "jest-fetch-mock";
 
 fetchMock.enableMocks();
