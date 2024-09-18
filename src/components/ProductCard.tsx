@@ -289,7 +289,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         image={featuredImage}
                         alt={product.featuredImage?.altText || product.title}
                         loading="eager"
-                        style={{ maxHeight: "500px" }}
+                        style={{ maxWidth: "500px" }}
                       />
                     </Box>
                   )}
@@ -303,7 +303,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                           `${props.values.variant} ${product.title}`
                         }
                         loading="eager"
-                        style={{ maxHeight: "500px" }}
+                        style={{ maxWidth: "500px" }}
                       />
                     </Box>
                   )}
