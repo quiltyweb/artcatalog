@@ -1,0 +1,156 @@
+{
+    "componentChunkName":"component---src-templates-single-product-tsx",
+    "path":"/collections/decor/beach-towel/",
+    "result":{
+       "pageContext":{
+          "product":{
+             "id":"e493b892-fe46-58e5-9f77-6ce96a7b9eaa",
+             "title":"Cotton Beach towel",
+             "handle":"beach-towel",
+             "description":"description text for Cotton Beach towel",
+             "priceRangeV2":{
+                "minVariantPrice":{
+                   "amount":10,
+                   "currencyCode":"AUD"
+                },
+                "maxVariantPrice":{
+                   "amount":13,
+                   "currencyCode":"AUD"
+                }
+             },
+             "featuredImage":{
+                "altText":"alt text of featured image for Cotton Beach towel",
+                "gatsbyImageData":{
+                   "images":{
+                      "sources":[
+                         {
+                            "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                            "sizes":"(min-width: 500px) 500px, 100vw",
+                            "type":"image/webp"
+                         }
+                      ],
+                      "fallback":{
+                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "sizes":"(min-width: 500px) 500px, 100vw"
+                      }
+                   },
+                   "layout":"constrained",
+                   "width":500,
+                   "height":667
+                }
+             },
+             "hasOnlyDefaultVariant":true,
+             "totalVariants":1,
+             "variants": [
+                {
+                  "shopifyId": "gid://shopify/ProductVariant/43472264233168",
+                  "displayName": "Cotton Beach towel - Default Title",
+                  "title": "Default Title",
+                  "price": 14.00,
+                  "inventoryQuantity": 1,
+                  "selectedOptions": [
+                    {
+                      "name": "Title",
+                      "value": "Default Title"
+                    }
+                  ],
+                  "image": null
+                }
+              ],
+             "mediaCount":2,
+             "media":[
+                {
+                   "id":"ee82ea3a-d654-5c4f-8cee-b406fee2c44e",
+                   "alt":"",
+                   "mediaContentType":"IMAGE",
+                   "preview":{
+                      "status":"READY",
+                      "image":{
+                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "altText":"alt text for media 1",
+                         "height":4608,
+                         "width":3456,
+                         "gatsbyImageData":{
+                            "images":{
+                               "sources":[
+                                  {
+                                     "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                     "sizes":"(min-width: 82px) 82px, 100vw",
+                                     "type":"image/webp"
+                                  }
+                               ],
+                               "fallback":{
+                                  "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                  "sizes":"(min-width: 82px) 82px, 100vw"
+                               }
+                            },
+                            "layout":"constrained",
+                            "width":82,
+                            "height":82
+                         },
+                         "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
+                      }
+                   }
+                },
+                {
+                   "id":"1d892257-6640-5e18-afe1-24b20bf11d96",
+                   "alt":"",
+                   "mediaContentType":"IMAGE",
+                   "preview":{
+                      "status":"READY",
+                      "image":{
+                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "altText":"alt text for media 2",
+                         "height":1077,
+                         "width":715,
+                         "gatsbyImageData":{
+                            "images":{
+                               "sources":[
+                                  {
+                                     "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                     "sizes":"(min-width: 82px) 82px, 100vw",
+                                     "type":"image/webp"
+                                  }
+                               ],
+                               "fallback":{
+                                  "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                  "sizes":"(min-width: 82px) 82px, 100vw"
+                               }
+                            },
+                            "layout":"constrained",
+                            "width":82,
+                            "height":82
+                         },
+                         "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
+                      }
+                   }
+                }               
+             ],
+             "options":[
+                {
+                   "shopifyId":"gid://shopify/ProductOption/10332548366544",
+                   "name":"Color",
+                   "values":[
+                      "Original",
+                      "Green",
+                      "Pink"
+                   ]
+                }
+             ]
+          },
+          "collectionHandle":"decor"
+       },
+       "serverData":null
+    },
+    "staticQueryHashes":[
+       "3466113349"
+    ],
+    "slicesMap":{
+       
+    }
+ }

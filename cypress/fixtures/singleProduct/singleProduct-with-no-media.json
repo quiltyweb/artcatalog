@@ -1,0 +1,85 @@
+{
+    "componentChunkName":"component---src-templates-single-product-tsx",
+    "path":"/collections/decor/beach-towel/",
+    "result":{
+       "pageContext":{
+          "product":{
+             "id":"e493b892-fe46-58e5-9f77-6ce96a7b9eaa",
+             "title":"Cotton Beach towel",
+             "handle":"beach-towel",
+             "description":"description text for Cotton Beach towel",
+             "priceRangeV2":{
+                "minVariantPrice":{
+                   "amount":10,
+                   "currencyCode":"AUD"
+                },
+                "maxVariantPrice":{
+                   "amount":13,
+                   "currencyCode":"AUD"
+                }
+             },
+             "featuredImage":{
+                "altText":"alt text of featured image for Cotton Beach towel",
+                "gatsbyImageData":{
+                   "images":{
+                      "sources":[
+                         {
+                            "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                            "sizes":"(min-width: 500px) 500px, 100vw",
+                            "type":"image/webp"
+                         }
+                      ],
+                      "fallback":{
+                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "sizes":"(min-width: 500px) 500px, 100vw"
+                      }
+                   },
+                   "layout":"constrained",
+                   "width":500,
+                   "height":667
+                }
+             },
+             "hasOnlyDefaultVariant":true,
+             "totalVariants":1,
+             "variants": [
+                {
+                  "shopifyId": "gid://shopify/ProductVariant/43472264233168",
+                  "displayName": "Cotton Beach towel - Default Title",
+                  "title": "Default Title",
+                  "price": 14.00,
+                  "inventoryQuantity": 1,
+                  "selectedOptions": [
+                    {
+                      "name": "Title",
+                      "value": "Default Title"
+                    }
+                  ],
+                  "image": null
+                }
+              ],
+             "mediaCount":0,
+             "media":[],
+             "options":[
+                {
+                   "shopifyId":"gid://shopify/ProductOption/10332548366544",
+                   "name":"Color",
+                   "values":[
+                      "Original",
+                      "Green",
+                      "Pink"
+                   ]
+                }
+             ]
+          },
+          "collectionHandle":"decor"
+       },
+       "serverData":null
+    },
+    "staticQueryHashes":[
+       "3466113349"
+    ],
+    "slicesMap":{
+       
+    }
+ }

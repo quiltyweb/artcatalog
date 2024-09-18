@@ -148,6 +148,9 @@ describe("ProductCard", () => {
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
     screen.getByText("Test product name");
+    screen.getByAltText(
+      "Alternative text of featured Image of product goes here..."
+    );
     screen.getByText("Product description goes here");
     screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
@@ -164,7 +167,7 @@ describe("ProductCard", () => {
     screen.getByRole("option", { name: /red/i });
   });
 
-  it("renders without variant select when product has Only Default Variant", async () => {
+  it("renders without variant select and variant images gallery when product has Only Default Variant", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
@@ -298,9 +301,113 @@ describe("ProductCard", () => {
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
     expect(screen.queryByRole("select")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Variations:" })
+    ).not.toBeInTheDocument();
   });
 
-  it("renders product title as alt text to featured image when it was not provided", async () => {
+  it("renders without media images gallery when product has no media", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 500,
+            height: 488.00000000000006,
+          },
+        },
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/12345098884816",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+    expect(
+      screen.queryByRole("heading", { name: "Details gallery:" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders product title as alt text to featured image when altText not provided", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
@@ -393,7 +500,7 @@ describe("ProductCard", () => {
     screen.getByText("Test product name");
   });
 
-  it("renders fallback featured image when not provided", async () => {
+  it("renders fallback image when featuredImage not provided", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",

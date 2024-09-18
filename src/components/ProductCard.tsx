@@ -268,105 +268,124 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
               <VStack>
                 <Box>
-                  {featuredImage && props.values.variant == "" && (
-                    <GatsbyImage
-                      image={featuredImage}
-                      alt={product.featuredImage?.altText || product.title}
-                      loading="eager"
-                    />
+                  {!featuredImage && !variantFoundImage && (
+                    <Box border={"1px solid gray"}>
+                      <img
+                        data-testid="no-image-found"
+                        style={{
+                          filter: "grayscale(1)",
+                          width: "400px",
+                          height: "300px",
+                        }}
+                        src={noImageURL}
+                        alt=""
+                      />
+                    </Box>
                   )}
-                  {!featuredImage && props.values.variant == "" && (
-                    <img
-                      style={{
-                        filter: "grayscale(1)",
-                        width: "400px",
-                        height: "300px",
-                        border: "1px solid gray",
-                      }}
-                      src={noImageURL}
-                      alt=""
-                    />
+
+                  {featuredImage && !variantFoundImage && (
+                    <Box>
+                      <GatsbyImage
+                        image={featuredImage}
+                        alt={product.featuredImage?.altText || product.title}
+                        loading="eager"
+                        style={{ maxHeight: "500px" }}
+                      />
+                    </Box>
                   )}
+
                   {variantFoundImage && props.values.variant !== "" && (
-                    <GatsbyImage
-                      image={variantFoundImage}
-                      alt={
-                        variantFound.image.altText ||
-                        `${props.values.variant} ${product.title}`
-                      }
-                      loading="eager"
-                    />
+                    <Box>
+                      <GatsbyImage
+                        image={variantFoundImage}
+                        alt={
+                          variantFound.image.altText ||
+                          `${props.values.variant} ${product.title}`
+                        }
+                        loading="eager"
+                        style={{ maxHeight: "500px" }}
+                      />
+                    </Box>
                   )}
                 </Box>
-                <Heading as="h3" size="md" color="pink.800">
-                  Variations:
-                </Heading>
-                <Flex
-                  flexDirection="row"
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  maxW={"70%"}
-                  mb="4"
-                >
-                  {product.variants.map((variant, index) => {
-                    if (!variant.image) {
-                      return;
-                    }
-                    const variantImage = getImage(variant.image);
-                    return (
-                      variantImage && (
-                        <GatsbyImage
-                          key={index}
-                          image={variantImage}
-                          alt={
-                            variant.image.altText ||
-                            `${variant.title} ${product.title}`
-                          }
-                          loading="lazy"
-                          style={{
-                            margin: "0.5rem",
-                            width: "82px",
-                            height: "82px",
-                          }}
-                        />
-                      )
-                    );
-                  })}
-                </Flex>
 
-                <Heading as="h3" size="md" color="pink.800">
-                  Details gallery:
-                </Heading>
-                <Flex
-                  flexDirection="row"
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  maxW={"70%"}
-                >
-                  {product.mediaCount > 0 &&
-                    product.media.map((mediaItem, index) => {
-                      if (mediaItem.mediaContentType !== "IMAGE") {
-                        return;
-                      }
-                      const mediaImage =
-                        mediaItem.preview?.image &&
-                        getImage(mediaItem?.preview?.image);
+                {!product.hasOnlyDefaultVariant && (
+                  <>
+                    <Heading as="h3" size="md" color="pink.800">
+                      Variations:
+                    </Heading>
+                    <Flex
+                      flexDirection="row"
+                      flexWrap="wrap"
+                      justifyContent="center"
+                      maxW={"70%"}
+                      mb="4"
+                    >
+                      {product.variants.map((variant, index) => {
+                        if (!variant.image) {
+                          return;
+                        }
+                        const variantImage = getImage(variant.image);
+                        return (
+                          variantImage && (
+                            <GatsbyImage
+                              key={index}
+                              image={variantImage}
+                              alt={
+                                variant.image.altText ||
+                                `${variant.title} ${product.title}`
+                              }
+                              loading="lazy"
+                              style={{
+                                margin: "0.5rem",
+                                width: "82px",
+                                height: "82px",
+                              }}
+                            />
+                          )
+                        );
+                      })}
+                    </Flex>
+                  </>
+                )}
 
-                      return (
-                        mediaImage && (
-                          <GatsbyImage
-                            key={index}
-                            image={mediaImage}
-                            alt={
-                              mediaItem.preview?.image.altText || product.title
-                            }
-                            loading="lazy"
-                            style={{ margin: "0.5rem" }}
-                          />
-                        )
-                      );
-                    })}
-                </Flex>
+                {product.mediaCount > 0 && (
+                  <>
+                    <Heading as="h3" size="md" color="pink.800">
+                      Details gallery:
+                    </Heading>
+                    <Flex
+                      flexDirection="row"
+                      flexWrap="wrap"
+                      justifyContent="center"
+                      maxW={"70%"}
+                    >
+                      {product.media.map((mediaItem, index) => {
+                        if (mediaItem.mediaContentType !== "IMAGE") {
+                          return;
+                        }
+                        const mediaImage =
+                          mediaItem.preview?.image &&
+                          getImage(mediaItem?.preview?.image);
+
+                        return (
+                          mediaImage && (
+                            <GatsbyImage
+                              key={index}
+                              image={mediaImage}
+                              alt={
+                                mediaItem.preview?.image.altText ||
+                                product.title
+                              }
+                              loading="lazy"
+                              style={{ margin: "0.5rem" }}
+                            />
+                          )
+                        );
+                      })}
+                    </Flex>
+                  </>
+                )}
               </VStack>
             </CardBody>
           </Card>
