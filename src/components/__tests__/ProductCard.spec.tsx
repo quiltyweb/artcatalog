@@ -53,7 +53,7 @@ describe("ProductCard", () => {
             height: 488.00000000000006,
           },
         },
-        hasOnlyDefaultVariant: true,
+        hasOnlyDefaultVariant: false,
         totalVariants: 1,
         variants: [
           {
@@ -164,6 +164,142 @@ describe("ProductCard", () => {
     screen.getByRole("option", { name: /red/i });
   });
 
+  it("renders without variant select when product has Only Default Variant", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 500,
+            height: 488.00000000000006,
+          },
+        },
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "7bda34b8-6c93-5035-aff2-f356eadb7a36",
+            alt: "media alternative text goes here",
+            mediaContentType: "IMAGE",
+            preview: {
+              status: "READY",
+              image: {
+                src: null,
+                altText: "image media alternative text goes here",
+                height: 568,
+                width: 582,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 82px) 82px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 82px) 82px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  width: 82,
+                  height: 82,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+          },
+        ],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/12345098884816",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+
+    expect(screen.queryByRole("select")).not.toBeInTheDocument();
+  });
+
   it("renders product title as alt text to featured image when it was not provided", async () => {
     const mockedShopifyProductData = {
       product: {
@@ -203,7 +339,7 @@ describe("ProductCard", () => {
             height: 488.00000000000006,
           },
         },
-        hasOnlyDefaultVariant: true,
+        hasOnlyDefaultVariant: false,
         totalVariants: 1,
         variants: [
           {
@@ -275,7 +411,7 @@ describe("ProductCard", () => {
           },
         },
         featuredImage: null,
-        hasOnlyDefaultVariant: true,
+        hasOnlyDefaultVariant: false,
         totalVariants: 1,
         variants: [
           {

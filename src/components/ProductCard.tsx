@@ -58,7 +58,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     id: product.id,
     product: product,
     quantity: 1,
-    variant: "",
+    variant: product.hasOnlyDefaultVariant
+      ? product.variants[0].selectedOptions[0].value
+      : "",
   };
   const SubmitSchema = Yup.object().shape({
     variant: Yup.string().required("Option Required"),
@@ -77,8 +79,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           return;
         }
         setSubmitting(true);
-        const selectedVariant = values.product.variants.find((variant) => {
-          return variant.title === values.variant;
+
+        const selectedVariant = product.variants.find((variant) => {
+          return variant.title.toLowerCase() === values.variant.toLowerCase();
         });
 
         if (!selectedVariant) {
@@ -137,7 +140,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 <Heading as="h2" size="lg" lineHeight="normal" minH="80px">
                   {product.title}
                   <br />
-                  {props.values.variant !== "" && `${props.values.variant}`}
+                  {!product.hasOnlyDefaultVariant && `${props.values.variant}`}
                 </Heading>
                 <Text py="1">{product.description}</Text>
                 <Text
@@ -184,7 +187,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 </Text>
                 <Box pt="9">
                   <Form>
-                    {product.options.length > 0 &&
+                    {!product.hasOnlyDefaultVariant &&
+                      product.options.length > 0 &&
                       product.options.map(({ name, values }, index) => {
                         const variantName = `${name.toLowerCase()}`;
                         return (

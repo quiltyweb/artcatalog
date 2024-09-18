@@ -63,7 +63,7 @@ describe("Single product Template", () => {
             height: 488.00000000000006,
           },
         },
-        hasOnlyDefaultVariant: true,
+        hasOnlyDefaultVariant: false,
         totalVariants: 1,
         variants: [
           {
