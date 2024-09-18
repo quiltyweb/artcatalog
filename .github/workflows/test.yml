@@ -11,7 +11,7 @@ jobs:
       GATSBY_SHOPIFY_ADMIN_PASSWORD: ${{ secrets.GATSBY_SHOPIFY_ADMIN_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: "18"
       - name: Install npm packages
@@ -20,7 +20,7 @@ jobs:
         run: npm run test:unit --watchAll=false
       - name: Run e2e tests
         run: npm run test:e2e:ci
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: cypress-screenshots
