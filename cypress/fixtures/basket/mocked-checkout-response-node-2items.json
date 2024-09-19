@@ -1,0 +1,180 @@
+{
+    "data": {
+        "node": {
+            "__typename": "Checkout",
+            "id": "gid://shopify/Checkout/123456185c800fd7270a82da6ec59171?key=0a4833ec0256e9f38e24766323519b2a",
+            "ready": true,
+            "requiresShipping": true,
+            "note": null,
+            "paymentDue": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "paymentDueV2": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "webUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
+            "orderStatusUrl": null,
+            "taxExempt": false,
+            "taxesIncluded": false,
+            "currencyCode": "AUD",
+            "totalTax": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "totalTaxV2": {
+                "amount": "0.0",
+                "currencyCode": "AUD"
+            },
+            "lineItemsSubtotalPrice": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "subtotalPrice": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "subtotalPriceV2": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "totalPrice": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "totalPriceV2": {
+                "amount": "11.0",
+                "currencyCode": "AUD"
+            },
+            "completedAt": null,
+            "createdAt": "2024-09-17T09:51:08Z",
+            "updatedAt": "2024-09-17T09:51:27Z",
+            "email": null,
+            "discountApplications": {
+                "pageInfo": {
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                },
+                "edges": []
+            },
+            "appliedGiftCards": [],
+            "shippingAddress": null,
+            "shippingLine": null,
+            "customAttributes": [],
+            "order": null,
+            "lineItems": {
+                "pageInfo": {
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                },
+                "edges": [
+                    {
+                        "cursor": "eyJsYXN0X2lkIjo0NDE2MTcwODU4OTI2NDAsImxhc3RfdmFsdWUiOjQ0MTYxNzA4NTg5MjY0MH0=",
+                        "node": {
+                            "id": "gid://shopify/CheckoutLineItem/123457085892640?checkout=123456185c800fd7270a82da6ec59171",
+                            "title": "Cotton Beach towel",
+                            "variant": {
+                                "id": "gid://shopify/ProductVariant/12345708589264",
+                                "title": "Purple",
+                                "price": {
+                                    "amount": "11.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "priceV2": {
+                                    "amount": "11.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "weight": 0.0,
+                                "available": true,
+                                "sku": "",
+                                "compareAtPrice": null,
+                                "compareAtPriceV2": null,
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/40454759612624",
+                                    "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                    "altText": null,
+                                    "width": 715,
+                                    "height": 1077
+                                },
+                                "selectedOptions": [
+                                    {
+                                        "name": "Color",
+                                        "value": "Purple"
+                                    }
+                                ],
+                                "unitPrice": null,
+                                "unitPriceMeasurement": {
+                                    "measuredType": null,
+                                    "quantityUnit": null,
+                                    "quantityValue": 0.0,
+                                    "referenceUnit": null,
+                                    "referenceValue": 0
+                                },
+                                "product": {
+                                    "id": "gid://shopify/Product/7913776316624",
+                                    "handle": "beach-towel"
+                                }
+                            },
+                            "quantity": 1,
+                            "customAttributes": [],
+                            "discountAllocations": []
+                        }
+                    }, 
+                    {
+                        "cursor": "eyJsYXN0X2lkIjo0NDE2MTcwODU4OTI2NDAsImxhc3RfdmFsdWUiOjQ0MTYxNzA4NTg5MjY0MH0=",
+                        "node": {
+                            "id": "gid://shopify/CheckoutLineItem/123457085892640?checkout=123456185c800fd7270a82da6ec59171",
+                            "title": "Bamboo Beach towel",
+                            "variant": {
+                                "id": "gid://shopify/ProductVariant/12345708589264",
+                                "title": "Green",
+                                "price": {
+                                    "amount": "11.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "priceV2": {
+                                    "amount": "11.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "weight": 0.0,
+                                "available": true,
+                                "sku": "",
+                                "compareAtPrice": null,
+                                "compareAtPriceV2": null,
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/40454759612624",
+                                    "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                    "altText": null,
+                                    "width": 715,
+                                    "height": 1077
+                                },
+                                "selectedOptions": [
+                                    {
+                                        "name": "Color",
+                                        "value": "Green"
+                                    }
+                                ],
+                                "unitPrice": null,
+                                "unitPriceMeasurement": {
+                                    "measuredType": null,
+                                    "quantityUnit": null,
+                                    "quantityValue": 0.0,
+                                    "referenceUnit": null,
+                                    "referenceValue": 0
+                                },
+                                "product": {
+                                    "id": "gid://shopify/Product/7913776316624",
+                                    "handle": "bamboo-beach-towel"
+                                }
+                            },
+                            "quantity": 2,
+                            "customAttributes": [],
+                            "discountAllocations": []
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

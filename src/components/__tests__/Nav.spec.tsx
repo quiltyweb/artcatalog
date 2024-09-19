@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
-import { StoreContextProvider } from "../../context/StoreContext";
 
 beforeEach(() => {
   jest.clearAllMocks();

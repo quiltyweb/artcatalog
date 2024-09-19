@@ -350,9 +350,9 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByText("Email is Required");
   });
 
-  it("sends quote correctly with 1 item", () => {
+  it.only("sends quote correctly with 1 item", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node.json",
+      fixture: "basket/mocked-checkout-response-node-2items",
     }).as("checkoutFetch");
     cy.reload();
     cy.wait("@checkoutFetch");
@@ -366,7 +366,9 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByRole("button", { name: /Get a Quote/i }).click();
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
-    cy.findByText("Your quote was sent succesfully!");
+    cy.findByText(
+      /Your quote was sent succesfully with the following items: 1 Cotton Beach towel Purple, 2 Bamboo Beach towel Green/i
+    );
   });
 
   it("renders error message when quote failed to be sent", () => {
