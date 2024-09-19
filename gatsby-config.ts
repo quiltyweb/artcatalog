@@ -7,8 +7,10 @@ dotenv.config({
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    siteUrl: "https://www.brushella.art/",
     title: "Brushella",
+    siteUrl: "https://www.brushella.art",
+    description: "Brushella Art and Decor Store",
+    image: "/brushella-icon.svg",
   },
   plugins: [
     "gatsby-plugin-styled-components",

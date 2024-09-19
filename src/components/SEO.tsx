@@ -1,38 +1,39 @@
 import * as React from "react";
-import brushellaFavicon1 from "../images/apple-touch-icon.png";
-import brushellaFavicon2 from "../images/favicon-32x32.png";
-import brushellaFavicon3 from "../images/favicon-16x16.png";
-import brushellaFavicon4 from "../images/safari-pinned-tab.svg";
-import brushellaFavicon5 from "../images/favicon.ico";
+import { useSiteMetadata } from "../hooks/use-site-metadata";
 
 type SEOProps = {
   children: React.ReactNode;
+  title: string;
+  description: string;
+  pathname: string;
 };
 
 const SEO: React.FunctionComponent<SEOProps> = ({
+  title,
+  description,
+  pathname,
   children,
 }): React.ReactElement => {
+  const {
+    title: defaultTitle,
+    description: defaultDescription,
+    image,
+    siteUrl,
+  } = useSiteMetadata();
+
+  const seo = {
+    title: title || defaultTitle,
+    description: description || defaultDescription,
+    image: `${siteUrl}${image}`,
+    url: `${siteUrl}${pathname || ``}`,
+  };
   return (
     <>
-      <html lang="en" />
-      <link rel="apple-touch-icon" sizes="180x180" href={brushellaFavicon1} />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href={brushellaFavicon2}
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href={brushellaFavicon3}
-      />
-      <link rel="mask-icon" href={brushellaFavicon4} color="#000000" />
-      <link rel="shortcut icon" href={brushellaFavicon5} />
-      <meta name="msapplication-TileColor" content="#ffffff" />
-      <meta name="msapplication-config" content="../images/browserconfig.xml" />
-      <meta name="theme-color" content="#ffffff" />
+      <title>{seo.title}</title>
+      <meta name="description" content={seo.description} />
+      <meta name="image" content={seo.image} />
+      <link rel="icon" href={seo.image} type="image/svg+xml" sizes="any" />
+
       <link
         rel="stylesheet"
         type="text/css"
@@ -43,13 +44,6 @@ const SEO: React.FunctionComponent<SEOProps> = ({
         rel="stylesheet"
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-      />
-      <body className="brushella" />
-      <title id="title">www.brushella.art - Welcome</title>
-      <meta
-        id="description"
-        name="description"
-        content="Brushella store offers original paintings, art decor, crafts, clothing and more"
       />
       {children}
     </>
