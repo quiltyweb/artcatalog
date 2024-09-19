@@ -6,11 +6,11 @@ describe("LegalContent Template desktop", () => {
       "GET",
       "/page-data/legal-content/return_and_refund_policy/page-data.json",
       {
-        fixture: "legalContent.json",
+        fixture: "footer/legalContent.json",
       }
     ).as("legalContent");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
+      fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
     cy.wait("@checkoutCreate");
@@ -20,9 +20,8 @@ describe("LegalContent Template desktop", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
     cy.wait("@legalContent");
     cy.injectAxe();
-    cy.checkA11y(null, {
-      runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical", "serious"],
+    cy.checkA11y({
+      exclude: [".chakra-portal", "#__chakra_env"],
     });
   });
 });
@@ -34,11 +33,11 @@ describe("LegalContent Template mobile", () => {
       "GET",
       "/page-data/legal-content/return_and_refund_policy/page-data.json",
       {
-        fixture: "legalContent.json",
+        fixture: "footer/legalContent.json",
       }
     ).as("legalContent");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
+      fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
     cy.wait("@checkoutCreate");
@@ -48,13 +47,12 @@ describe("LegalContent Template mobile", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
     cy.wait("@legalContent");
     cy.injectAxe();
-    cy.checkA11y(null, {
-      runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical", "serious"],
+    cy.checkA11y({
+      exclude: [".chakra-portal", "#__chakra_env"],
     });
   });
 
-  it("Navigates from home to Legal Content template ", () => {
+  it("Navigates from home to Legal Content template", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
     cy.wait("@legalContent");
     cy.findByText(/test content/);

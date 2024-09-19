@@ -2,6 +2,9 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ProductCard from "../ProductCard";
 
+const mockedImageURL =
+  "https://cdn.fake-image-for-brushella.art/fake-image.jpg";
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
@@ -14,59 +17,410 @@ describe("ProductCard", () => {
   it("renders correctly", async () => {
     const mockedShopifyProductData = {
       product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "decor description",
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
         priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
           maxVariantPrice: {
-            amount: 0,
+            amount: 20.0,
             currencyCode: "AUD",
           },
         },
         featuredImage: {
-          altText: "This is alt text for testing",
+          altText: "Alternative text of featured Image of product goes here...",
           gatsbyImageData: {
             images: {
               sources: [
                 {
-                  srcSet:
-                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
-                  sizes: "(min-width: 564px) 564px, 100vw",
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
                   type: "image/webp",
                 },
               ],
               fallback: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
-                srcSet:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
-                sizes: "(min-width: 564px) 564px, 100vw",
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
               },
             },
             layout: "constrained",
-            width: 564,
-            height: 460,
+            width: 500,
+            height: 488.00000000000006,
           },
         },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Color",
+                value: "red",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "7bda34b8-6c93-5035-aff2-f356eadb7a36",
+            alt: "media alternative text goes here",
+            mediaContentType: "IMAGE",
+            preview: {
+              status: "READY",
+              image: {
+                src: null,
+                altText: "image media alternative text goes here",
+                height: 568,
+                width: 582,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 82px) 82px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 82px) 82px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  width: 82,
+                  height: 82,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+          },
+        ],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/1234543212345",
+            name: "Color",
+            values: ["red"],
+          },
+        ],
       },
+      collectionHandle: "decor",
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
-    screen.getByText("posavasos title");
-    screen.getByText("decor description");
-    screen.getByAltText("This is alt text for testing");
+    screen.getByText("Test product name");
+    screen.getByAltText(
+      "Alternative text of featured Image of product goes here..."
+    );
+    screen.getByText("Product description goes here");
+    screen.getByRole("heading", { name: "Variations:" });
+    screen.getByAltText("this is Alternative text for variant image");
+    screen.getByRole("heading", { name: "Details gallery:" });
+    screen.getByAltText("image media alternative text goes here");
+    screen.getByRole("button", { name: "Add to shopping bag" });
+    screen.getByText(/from/i);
+    screen.getByText(/AUD/i);
+    screen.getByText(/\$10.00/i);
+    const quantity = screen.getByLabelText(/quantity/i);
+    expect(quantity).toHaveValue("1");
+    screen.getByLabelText(/color/i);
+    screen.getByRole("option", { name: /select a Color/i });
+    screen.getByRole("option", { name: /red/i });
   });
 
-  it("renders product title as alt text when it was not provided", async () => {
+  it("renders without variant select and variant images gallery when product has Only Default Variant", async () => {
     const mockedShopifyProductData = {
       product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "decor description",
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
         priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
           maxVariantPrice: {
-            amount: 0,
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 500,
+            height: 488.00000000000006,
+          },
+        },
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "7bda34b8-6c93-5035-aff2-f356eadb7a36",
+            alt: "media alternative text goes here",
+            mediaContentType: "IMAGE",
+            preview: {
+              status: "READY",
+              image: {
+                src: null,
+                altText: "image media alternative text goes here",
+                height: 568,
+                width: 582,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 82px) 82px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 82px) 82px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  width: 82,
+                  height: 82,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+          },
+        ],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/12345098884816",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+
+    expect(screen.queryByRole("select")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Variations:" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders without media images gallery when product has no media", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            width: 500,
+            height: 488.00000000000006,
+          },
+        },
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/12345098884816",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+    expect(
+      screen.queryByRole("heading", { name: "Details gallery:" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders product title as alt text to featured image when altText not provided", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
             currencyCode: "AUD",
           },
         },
@@ -76,112 +430,121 @@ describe("ProductCard", () => {
             images: {
               sources: [
                 {
-                  srcSet:
-                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
-                  sizes: "(min-width: 564px) 564px, 100vw",
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
                   type: "image/webp",
                 },
               ],
               fallback: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
-                srcSet:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
-                sizes: "(min-width: 564px) 564px, 100vw",
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
               },
             },
             layout: "constrained",
-            width: 564,
-            height: 460,
+            width: 500,
+            height: 488.00000000000006,
           },
         },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Color",
+                value: "red",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [],
+        options: [],
       },
       collectionHandle: "decor",
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
-
-    screen.getByText("posavasos title");
+    screen.getByText("Test product name");
   });
 
-  it("renders product description", async () => {
+  it("renders fallback image when featuredImage not provided", async () => {
     const mockedShopifyProductData = {
       product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "products description goes here...",
+        id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+        title: "Test product name",
+        handle: "test-product-handle",
+        description: "Product description goes here",
         priceRangeV2: {
-          maxVariantPrice: {
-            amount: 10,
+          minVariantPrice: {
+            amount: 10.0,
             currencyCode: "AUD",
           },
-        },
-      },
-    };
-
-    render(<ProductCard product={mockedShopifyProductData.product} />);
-
-    screen.getByText("products description goes here...");
-  });
-
-  it("renders product amount in USD dollar ", async () => {
-    const mockedShopifyProductData = {
-      product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "decor description",
-        priceRangeV2: {
           maxVariantPrice: {
-            amount: 10,
-            currencyCode: "AUD",
-          },
-        },
-        featuredImage: {
-          altText: "This is alt text for testing",
-          gatsbyImageData: {
-            images: {
-              sources: [
-                {
-                  srcSet:
-                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
-                  sizes: "(min-width: 564px) 564px, 100vw",
-                  type: "image/webp",
-                },
-              ],
-              fallback: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
-                srcSet:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
-                sizes: "(min-width: 564px) 564px, 100vw",
-              },
-            },
-            layout: "constrained",
-            width: 564,
-            height: 460,
-          },
-        },
-      },
-    };
-    render(<ProductCard product={mockedShopifyProductData.product} />);
-
-    screen.getByText(/AUD/i);
-    screen.getByText(/10/i);
-  });
-
-  it("renders fallback image with alt text", async () => {
-    const mockedShopifyProductData = {
-      product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "decor description",
-        priceRangeV2: {
-          maxVariantPrice: {
-            amount: 0,
+            amount: 20.0,
             currencyCode: "AUD",
           },
         },
         featuredImage: null,
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            displayName: "Test product name - Default Title",
+            title: "Default Title",
+            price: 12.0,
+            inventoryQuantity: 1,
+            selectedOptions: [
+              {
+                name: "Color",
+                value: "red",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 0,
+        media: null,
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/1234543212345",
+            name: "Color",
+            values: ["red"],
+          },
+        ],
       },
       collectionHandle: "decor",
     };
@@ -191,56 +554,8 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductData.collectionHandle}
       />
     );
-
-    screen.getByAltText("no product image available");
-  });
-
-  it("renders form controls", async () => {
-    const mockedShopifyProductData = {
-      product: {
-        id: "4af45bf5-a1ca-5b57-9318-c7ce027947f0",
-        title: "posavasos title",
-        handle: "posavasos",
-        description: "decor description",
-        priceRangeV2: {
-          maxVariantPrice: {
-            amount: 10,
-            currencyCode: "AUD",
-          },
-        },
-        featuredImage: {
-          altText: "This is alt text for testing",
-          gatsbyImageData: {
-            images: {
-              sources: [
-                {
-                  srcSet:
-                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg.webp?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg.webp?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg.webp?v=1689332359 564w",
-                  sizes: "(min-width: 564px) 564px, 100vw",
-                  type: "image/webp",
-                },
-              ],
-              fallback: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359",
-                srcSet:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_141x115_crop_center.jpg?v=1689332359 141w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_282x230_crop_center.jpg?v=1689332359 282w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/WhatsAppImage2023-04-28at9.19.54PM_1_564x460_crop_center.jpg?v=1689332359 564w",
-                sizes: "(min-width: 564px) 564px, 100vw",
-              },
-            },
-            layout: "constrained",
-            width: 564,
-            height: 460,
-          },
-        },
-      },
-    };
-    render(<ProductCard product={mockedShopifyProductData.product} />);
-
-    screen.getByRole("button", {
-      name: "Add to shopping bag",
-    });
-    const quantity = screen.getByLabelText("Quantity");
-
-    expect(quantity).toHaveValue("1");
+    const fallbackImage = screen.getByRole("img");
+    expect(fallbackImage).toHaveAttribute("alt", "");
+    expect(fallbackImage).toHaveAttribute("src", "../images/noimg.jpg");
   });
 });

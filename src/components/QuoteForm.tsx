@@ -35,9 +35,9 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
 }): React.ReactElement => {
   const getItemsFromBasket = (): string => {
     const cartForMessage = checkoutLineItems.map((item) => {
-      return `${item.quantity} ${item.title}`;
+      return `${item.quantity} ${item.title} ${item.variant?.title}`;
     });
-    return cartForMessage.join(" __ ");
+    return cartForMessage.join(", ");
   };
 
   return (
@@ -79,7 +79,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
               if (res.status === 200) {
                 setStatus({
                   sent: true,
-                  message: "Your quote was sent succesfully!",
+                  message: `Your quote was sent succesfully with the following items: ${message}`,
                 });
               }
             }

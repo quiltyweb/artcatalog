@@ -30,28 +30,36 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 }): React.ReactElement => {
   return (
     <>
-      <Stack padding="15" maxW="xl" margin="0px auto" alignItems="center">
+      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
         <Heading textTransform="capitalize" as="h2" size="2xl" color="pink.800">
           {title}
         </Heading>
         {description && (
-          <Text fontSize="md" lineHeight="6" mt="4" textAlign="center">
+          <Text
+            color="#513548"
+            fontSize="md"
+            lineHeight="normal"
+            mt="4"
+            mb="4"
+            pr="16"
+            pl="16"
+            textAlign="center"
+          >
             {description}
           </Text>
         )}
       </Stack>
 
       {products && products.length !== 0 ? (
-        <SimpleGrid columns={[1, 1, 2, 3]} spacing="40px" padding="10">
+        <SimpleGrid columns={[1, 2, 3, 4]} spacing="6" justifyItems="center">
           {products.map(
             ({
               id,
               featuredImage,
               title,
-              description,
               handle,
               priceRangeV2: {
-                maxVariantPrice: { amount, currencyCode },
+                minVariantPrice: { amount, currencyCode },
               },
             }) => {
               const image = getImage(featuredImage);
@@ -60,25 +68,25 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   key={handle}
                   to={`/collections/${collectionHandle}/${handle}`}
                 >
-                  <Card maxW="sm" key={`${id}-product-item`} boxShadow="lg">
+                  <Card key={`${id}-product-item`} boxShadow="md">
                     <CardBody>
                       {image ? (
                         <GatsbyImage
                           image={image}
                           alt={featuredImage?.altText || title}
                           style={{
-                            transform: "scaleX(-1)",
+                            minHeight: "300px",
+                            maxHeight: "300px",
                           }}
                         />
                       ) : (
                         <StaticImage
                           style={{
                             filter: "grayscale(1)",
-                            transform: "scaleX(-1)",
-                            borderRadius: "6px",
-                            marginBottom: "2rem",
+                            minHeight: "300px",
+                            maxHeight: "300px",
                           }}
-                          alt="no product image available"
+                          alt=""
                           src="../images/noimg.jpg"
                         />
                       )}
@@ -90,19 +98,17 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           textTransform="capitalize"
                           fontWeight={600}
                           color={"pink.800"}
-                          minH="12"
+                          minH="normal"
                         >
                           {title}
                         </Heading>
-                        {description && <Text minH="20">{description}</Text>}
                       </Stack>
                     </CardBody>
-
                     <CardFooter
                       alignItems="flex-end"
                       display="flex"
                       justifyContent="space-between"
-                      marginTop="1"
+                      minH={20}
                     >
                       {amount !== 0 && (
                         <Text
@@ -110,7 +116,18 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           fontSize="xl"
                           fontWeight="bold"
                           color="pink.800"
+                          lineHeight="normal"
                         >
+                          <Text
+                            as="span"
+                            display="block"
+                            data-testid="item-price-from"
+                            fontSize="sm"
+                            fontWeight="bold"
+                            color="pink.800"
+                          >
+                            From
+                          </Text>
                           <Highlight
                             query="AUD"
                             styles={{ pr: "1", color: "#7e718a" }}

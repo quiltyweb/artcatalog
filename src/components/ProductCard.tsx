@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
   Heading,
@@ -16,131 +16,382 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Select,
+  FormErrorMessage,
+  VStack,
+  Flex,
 } from "@chakra-ui/react";
-import { useFormik } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  FormikHelpers,
+  FieldProps,
+  FormikProps,
+  ErrorMessage,
+} from "formik";
 import { useAddItemToCart } from "../context/StoreContext";
+import * as Yup from "yup";
+import { formatPrice } from "../utils/formatPrice";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
 };
+
+interface ProductCardFormValues {
+  id: string;
+  product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
+  quantity: number;
+  variant: string;
+}
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
 
-  const formik = useFormik({
-    initialValues: {
-      id: product.id,
-      product: product,
-      quantity: 1,
-    },
-    onSubmit: (values) => {
-      if (values.quantity === 0) {
-        return;
-      }
+  const featuredImage = getImage(product.featuredImage);
 
-      addItemToCart({
-        variantId: values.product.variants[0].shopifyId,
-        quantity: values.quantity,
-      });
-    },
+  const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
+
+  const initialValues: ProductCardFormValues = {
+    id: product.id,
+    product: product,
+    quantity: 1,
+    variant: product.hasOnlyDefaultVariant
+      ? product.variants[0].selectedOptions[0].value
+      : "",
+  };
+  const SubmitSchema = Yup.object().shape({
+    variant: Yup.string().required("Option Required"),
+    quantity: Yup.number().required("Quantity Required"),
   });
 
-  const IMAGE = getImage(product.featuredImage);
-  const amount = product.priceRangeV2.maxVariantPrice.amount;
-  const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   return (
-    <Card
-      key={`${product.id}-single-view`}
-      direction={{ base: "column", sm: "column" }}
-      overflow="hidden"
-      boxShadow="0"
-      mt={7}
-    >
-      <CardBody display="flex" flexDirection={["column", "column", "row"]}>
-        <Box maxW="lg">
-          {IMAGE ? (
-            <GatsbyImage
-              image={IMAGE}
-              alt={product.featuredImage?.altText || product.title}
-              loading="eager"
-              style={{ boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 10px" }}
-            />
-          ) : (
-            <StaticImage
-              style={{
-                filter: "grayscale(1)",
-                borderRadius: "6px",
-                marginBottom: "2rem",
-              }}
-              alt="no product image available"
-              src="../images/noimg.jpg"
-            />
-          )}
-        </Box>
-        <Stack
-          spacing="3"
-          px={10}
-          py={4}
-          minHeight="sm"
-          maxWidth={["100%", "100%", "md"]}
-        >
-          <Heading size="lg">{product.title}</Heading>
-          <Text py="1">{product.description}</Text>
-          {amount !== 0 && (
-            <Text
-              data-testid="item-price"
-              fontSize="2xl"
-              fontWeight="bold"
-              color="pink.800"
-            >
-              <Highlight query="AUD" styles={{ pr: "1", color: "#7e718a" }}>
-                {currencyCode}
-              </Highlight>
-              {`$${amount}`}
-            </Text>
-          )}
-          <Box pt="9">
-            <form onSubmit={formik.handleSubmit}>
-              <FormControl id="quantity">
-                <FormLabel htmlFor="quantity">Quantity</FormLabel>
-                <NumberInput
-                  min={0}
-                  id="quantity"
-                  name="quantity"
-                  value={formik.values.quantity}
-                  onChange={(val) => {
-                    const quantity = parseInt(val);
-                    formik.setFieldValue("quantity", quantity);
-                  }}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper id="quantity-increment" />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={SubmitSchema}
+      onSubmit={(
+        values: ProductCardFormValues,
+        { setSubmitting }: FormikHelpers<ProductCardFormValues>
+      ) => {
+        if (values.quantity === 0) {
+          return;
+        }
+        setSubmitting(true);
 
-              <Button
-                id="add-to-cart"
-                backgroundColor="#86548A"
-                color="#ffffff"
-                colorScheme="teal"
-                type="submit"
-                fontSize="xl"
-                width="100%"
-                padding="6"
-                my="4"
+        const selectedVariant = product.variants.find((variant) => {
+          return variant.title.toLowerCase() === values.variant.toLowerCase();
+        });
+
+        if (!selectedVariant) {
+          throw Error;
+        }
+
+        addItemToCart({
+          variantId: selectedVariant.shopifyId,
+          quantity: values.quantity,
+        });
+
+        setSubmitting(false);
+      }}
+    >
+      {(props: FormikProps<ProductCardFormValues>) => {
+        const minPrice = formatPrice({
+          currency: product.priceRangeV2.minVariantPrice.currencyCode,
+          value: product.priceRangeV2.minVariantPrice.amount,
+        });
+
+        const variantFound = props.values.product.variants.find((variant) => {
+          return (
+            variant.selectedOptions[0].value.toLowerCase() ==
+            props.values.variant.toLowerCase()
+          );
+        });
+        const variantFoundImage =
+          variantFound?.image && getImage(variantFound.image);
+
+        const variantPriceWithFormat = formatPrice({
+          currency:
+            props.values.product.priceRangeV2.maxVariantPrice.currencyCode,
+          value: variantFound?.price ?? 0,
+        });
+
+        const noImageURL = "../images/noimg.jpg";
+
+        return (
+          <Card
+            key={`${product.id}-single-view`}
+            direction={{ base: "column", sm: "column" }}
+            overflow="hidden"
+            boxShadow="0"
+            mt={7}
+          >
+            <CardBody
+              display="flex"
+              justifyContent="center"
+              flexDirection={["column", "column", "row"]}
+            >
+              <Stack
+                px={5}
+                py={["5", "5", "0"]}
+                maxWidth={["100%", "100%", "md", "lg", "xl"]}
               >
-                Add to shopping bag
-              </Button>
-            </form>
-          </Box>
-        </Stack>
-      </CardBody>
-    </Card>
+                <Heading as="h2" size="lg" lineHeight="normal" minH="80px">
+                  {product.title}
+                  <br />
+                  {!product.hasOnlyDefaultVariant && `${props.values.variant}`}
+                </Heading>
+                <Text py="1">{product.description}</Text>
+                <Text
+                  data-testid="item-price"
+                  fontSize="2xl"
+                  fontWeight="bold"
+                  color="pink.800"
+                >
+                  {props.values.variant === "" && (
+                    <>
+                      <Text
+                        as="span"
+                        display="block"
+                        data-testid="item-price"
+                        fontSize="sm"
+                        fontWeight="bold"
+                        color="pink.800"
+                        visibility={
+                          props.values.variant === "" ? "visible" : "hidden"
+                        }
+                      >
+                        From
+                      </Text>
+                      <Highlight
+                        query="AUD"
+                        styles={{ pr: "1", color: "#7e718a" }}
+                      >
+                        {currencyCode}
+                      </Highlight>
+                      {minPrice}
+                    </>
+                  )}
+                  {props.values.variant !== "" && (
+                    <>
+                      <Highlight
+                        query="AUD"
+                        styles={{ pr: "1", color: "#7e718a" }}
+                      >
+                        {currencyCode}
+                      </Highlight>
+                      {variantPriceWithFormat}
+                    </>
+                  )}
+                </Text>
+                <Box pt="9">
+                  <Form>
+                    {!product.hasOnlyDefaultVariant &&
+                      product.options.length > 0 &&
+                      product.options.map(({ name, values }, index) => {
+                        const variantName = `${name.toLowerCase()}`;
+                        return (
+                          <Field key={index} name="variant" type="select">
+                            {({ field, form }: FieldProps) => (
+                              <FormControl isInvalid={!!form.errors.variant}>
+                                <FormLabel
+                                  htmlFor="variant"
+                                  key={variantName + index}
+                                >
+                                  {variantName}:
+                                </FormLabel>
+                                <Select
+                                  id="variant"
+                                  name="variant"
+                                  placeholder={`Select a ${variantName}`}
+                                  onChange={field.onChange}
+                                >
+                                  {values.map((value, i) => (
+                                    <option key={i} value={value}>
+                                      {value}
+                                    </option>
+                                  ))}
+                                </Select>
+                                <FormErrorMessage>
+                                  <ErrorMessage name="variant" />
+                                </FormErrorMessage>
+                              </FormControl>
+                            )}
+                          </Field>
+                        );
+                      })}
+                    <Field name="quantity">
+                      {({ field, form }: FieldProps) => {
+                        return (
+                          <FormControl id="quantity">
+                            <FormLabel htmlFor="quantity">Quantity</FormLabel>
+                            <NumberInput
+                              min={1}
+                              id="quantity"
+                              name="quantity"
+                              value={field.value}
+                              onChange={(val) => {
+                                const quantity = parseInt(val);
+                                form.setFieldValue("quantity", quantity);
+                              }}
+                            >
+                              <NumberInputField />
+                              <NumberInputStepper>
+                                <NumberIncrementStepper id="quantity-increment" />
+                                <NumberDecrementStepper />
+                              </NumberInputStepper>
+                            </NumberInput>
+                          </FormControl>
+                        );
+                      }}
+                    </Field>
+                    <Button
+                      id="add-to-cart"
+                      type="submit"
+                      backgroundColor="#86548A"
+                      color="#ffffff"
+                      colorScheme="teal"
+                      fontSize="xl"
+                      width="100%"
+                      padding="6"
+                      my="4"
+                      isLoading={props.isSubmitting}
+                      isDisabled={props.isSubmitting}
+                      aria-disabled={props.isSubmitting}
+                    >
+                      Add to shopping bag
+                    </Button>
+                  </Form>
+                </Box>
+              </Stack>
+
+              <VStack>
+                <Box>
+                  {!featuredImage && !variantFoundImage && (
+                    <Box border={"1px solid gray"}>
+                      <img
+                        data-testid="no-image-found"
+                        style={{
+                          filter: "grayscale(1)",
+                          width: "400px",
+                          height: "300px",
+                        }}
+                        src={noImageURL}
+                        alt=""
+                      />
+                    </Box>
+                  )}
+
+                  {featuredImage && !variantFoundImage && (
+                    <Box>
+                      <GatsbyImage
+                        image={featuredImage}
+                        alt={product.featuredImage?.altText || product.title}
+                        loading="eager"
+                        style={{ maxWidth: "500px" }}
+                      />
+                    </Box>
+                  )}
+
+                  {variantFoundImage && props.values.variant !== "" && (
+                    <Box>
+                      <GatsbyImage
+                        image={variantFoundImage}
+                        alt={
+                          variantFound.image.altText ||
+                          `${props.values.variant} ${product.title}`
+                        }
+                        loading="eager"
+                        style={{ maxWidth: "500px" }}
+                      />
+                    </Box>
+                  )}
+                </Box>
+
+                {!product.hasOnlyDefaultVariant && (
+                  <>
+                    <Heading as="h3" size="md" color="pink.800">
+                      Variations:
+                    </Heading>
+                    <Flex
+                      flexDirection="row"
+                      flexWrap="wrap"
+                      justifyContent="center"
+                      maxW={"70%"}
+                      mb="4"
+                    >
+                      {product.variants.map((variant, index) => {
+                        if (!variant.image) {
+                          return;
+                        }
+                        const variantImage = getImage(variant.image);
+                        return (
+                          variantImage && (
+                            <GatsbyImage
+                              key={index}
+                              image={variantImage}
+                              alt={
+                                variant.image.altText ||
+                                `${variant.title} ${product.title}`
+                              }
+                              loading="lazy"
+                              style={{
+                                margin: "0.5rem",
+                                width: "82px",
+                                height: "82px",
+                              }}
+                            />
+                          )
+                        );
+                      })}
+                    </Flex>
+                  </>
+                )}
+
+                {product.mediaCount > 0 && (
+                  <>
+                    <Heading as="h3" size="md" color="pink.800">
+                      Details gallery:
+                    </Heading>
+                    <Flex
+                      flexDirection="row"
+                      flexWrap="wrap"
+                      justifyContent="center"
+                      maxW={"70%"}
+                    >
+                      {product.media.map((mediaItem, index) => {
+                        if (mediaItem.mediaContentType !== "IMAGE") {
+                          return;
+                        }
+                        const mediaImage =
+                          mediaItem.preview?.image &&
+                          getImage(mediaItem?.preview?.image);
+
+                        return (
+                          mediaImage && (
+                            <GatsbyImage
+                              key={index}
+                              image={mediaImage}
+                              alt={
+                                mediaItem.preview?.image.altText ||
+                                product.title
+                              }
+                              loading="lazy"
+                              style={{ margin: "0.5rem" }}
+                            />
+                          )
+                        );
+                      })}
+                    </Flex>
+                  </>
+                )}
+              </VStack>
+            </CardBody>
+          </Card>
+        );
+      }}
+    </Formik>
   );
 };
 

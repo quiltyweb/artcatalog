@@ -36,7 +36,6 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
           <BreadcrumbLink href="#">{product.title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-
       <ProductCard product={product} />
     </Box>
   );

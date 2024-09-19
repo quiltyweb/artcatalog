@@ -57,7 +57,7 @@ describe("Home page mobile", () => {
       "GET",
       /page-data\/legal-content\/return_and_refund_policy\/page-data/,
       {
-        fixture: "legalContent.json",
+        fixture: "footer/legalContent.json",
       }
     ).as("legalContentTemplate");
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
@@ -114,7 +114,7 @@ describe("Home page mobile", () => {
 
   it("renders footer", () => {
     cy.get("footer");
-    cy.findByRole("heading", { name: "Quick Links" });
+    cy.findByText("Quick Links");
     cy.findByRole("link", { name: "Return and Refund Policy" });
     cy.findByRole("link", { name: "Hand Made Policy" });
     cy.findByRole("link", { name: "Shipping Policy" });

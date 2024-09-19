@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import SEO from "../components/SEO";
 import { StaticImage } from "gatsby-plugin-image";
 import TileList from "../components/TileList";
@@ -51,6 +51,15 @@ const SliderContainer = styled.div`
     .slick-next:before,
     .slick-prev:before {
       color: black;
+    }
+
+    .slick-dots li button {
+      outline: none;
+      &:focus,
+      &:focus-visible {
+        border-radius: 6px;
+        outline: dotted thin blue;
+      }
     }
 
     .brushella-slide {
@@ -176,7 +185,6 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           />
         </Slider>
       </SliderContainer>
-
       <TileList />
     </>
   );

@@ -202,7 +202,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                         minWidth: "min-content",
                       }}
                     >
-                      {item.variant?.title ?? item.title}
+                      {`${item.title} - ${item.variant?.title}`}
                     </Text>
                   </Td>
 
@@ -235,7 +235,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     <Button
                       size="sm"
                       onClick={() => removeItemFromCart(item.id)}
-                      aria-label="remove item"
+                      aria-label={`remove item ${`${item.title} - ${item.variant?.title}`}`}
                     >
                       <DeleteIcon boxSize="1rem" />
                     </Button>

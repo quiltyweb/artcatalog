@@ -18,6 +18,7 @@ import {
   Grid,
   GridItem,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import Logo from "../images/svg/brushella-black-bg.svg";
@@ -128,6 +129,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         width="100%"
         gridGap="1rem"
         alignItems="center"
+        gridTemplateColumns={"1fr 1fr 1fr "}
         templateAreas={`"left-icon    logo     icons "
                         "navigation navigation navigation"`}
       >
