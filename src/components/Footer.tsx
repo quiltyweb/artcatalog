@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Box,
   HStack,
-  Heading,
   Icon,
   ListItem,
   Text,
@@ -10,7 +9,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { Link as GatsbyLink } from "gatsby";
+import { Link as GatsbyLink, graphql, useStaticQuery } from "gatsby";
 import styled from "styled-components";
 
 const FooterLink = styled(GatsbyLink)`
@@ -28,13 +27,25 @@ const FooterIconLink = styled.a`
   }
 `;
 
-type FooterProps = {
-  legalContentItems?: Queries.LayoutPageQuery["adminshopify"]["legalContent"]["nodes"][0]["fields"];
-};
-
-const Footer: React.FunctionComponent<FooterProps> = ({
-  legalContentItems,
-}): React.ReactElement => {
+const Footer: React.FunctionComponent = (): React.ReactElement => {
+  const {
+    adminshopify: { legalContent },
+  } = useStaticQuery<Queries.FooterQuery>(graphql`
+    query Footer {
+      adminshopify {
+        legalContent: metaobjects(first: 10, type: "legal_content") {
+          nodes {
+            fields {
+              key
+              definition {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
   return (
     <Box data-testid="footer">
       <Box p="4">
@@ -59,8 +70,8 @@ const Footer: React.FunctionComponent<FooterProps> = ({
           fontSize="md"
           textTransform="capitalize"
         >
-          {legalContentItems &&
-            legalContentItems.map((item) => (
+          {legalContent.nodes &&
+            legalContent.nodes[0].fields.map((item) => (
               <ListItem key={item.key} p="0 1rem 1rem 0">
                 <FooterLink to={`/legal-content/${item.key}`}>
                   {item.definition.name}

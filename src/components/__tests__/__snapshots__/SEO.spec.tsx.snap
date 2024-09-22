@@ -2,43 +2,22 @@
 
 exports[`SEO render children correctly 1`] = `
 <DocumentFragment>
-  <link
-    href="test-file-stub"
-    rel="apple-touch-icon"
-    sizes="180x180"
+  <title>
+    pagetitle prop Sitetitle prop
+  </title>
+  <meta
+    content="description prop"
+    name="description"
+  />
+  <meta
+    content="../../image.png"
+    name="image"
   />
   <link
-    href="test-file-stub"
+    href="../../image.png"
     rel="icon"
-    sizes="32x32"
-    type="image/png"
-  />
-  <link
-    href="test-file-stub"
-    rel="icon"
-    sizes="16x16"
-    type="image/png"
-  />
-  <link
-    color="#000000"
-    href="test-file-stub"
-    rel="mask-icon"
-  />
-  <link
-    href="test-file-stub"
-    rel="shortcut icon"
-  />
-  <meta
-    content="#ffffff"
-    name="msapplication-TileColor"
-  />
-  <meta
-    content="../images/browserconfig.xml"
-    name="msapplication-config"
-  />
-  <meta
-    content="#ffffff"
-    name="theme-color"
+    sizes="any"
+    type="image/svg+xml"
   />
   <link
     charset="UTF-8"
@@ -51,18 +30,41 @@ exports[`SEO render children correctly 1`] = `
     rel="stylesheet"
     type="text/css"
   />
-  <title
-    id="title"
-  >
-    www.brushella.art - Welcome
+  <div>
+    children div for SEO component
+  </div>
+</DocumentFragment>
+`;
+
+exports[`SEO render fallback values 1`] = `
+<DocumentFragment>
+  <title>
+    page title from prop Brushella
   </title>
   <meta
-    content="Brushella store offers original paintings, art decor, crafts, clothing and more"
-    id="description"
+    content="Brushella Art and Decor store"
     name="description"
   />
-  <div>
-    Text for SEO
-  </div>
+  <meta
+    content="/brushella-icon.svg"
+    name="image"
+  />
+  <link
+    href="/brushella-icon.svg"
+    rel="icon"
+    sizes="any"
+    type="image/svg+xml"
+  />
+  <link
+    charset="UTF-8"
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
 </DocumentFragment>
 `;

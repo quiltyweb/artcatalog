@@ -136,7 +136,9 @@ describe("Home page mobile", () => {
     }).as("aboutPage");
     cy.findByRole("link", { name: /about me/i }).click();
     cy.wait("@aboutPage");
-    cy.findByRole("heading", { name: "Meet the Artist" });
+    cy.findByRole("heading", {
+      name: "This is a test title from storefrontshopify mock",
+    });
   });
 
   it("Navigates from mobile menu to static page contact", () => {

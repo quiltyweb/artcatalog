@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
-import { Link, PageProps } from "gatsby";
+import { Link } from "gatsby";
 import SEO from "../components/SEO";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
@@ -160,14 +160,11 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 };
 export default Collection;
 
-export const Head = ({ location }: PageProps): React.ReactElement => (
-  <SEO>
-    <html lang="en" />
-    <title id="collection-title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
-    <meta
-      id="collection-page"
-      name="collection"
-      content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle={`${props.pageContext.title} - Collection Page`}
+      description="Product Collections of Brushella Store"
     />
-  </SEO>
-);
+  );
+};

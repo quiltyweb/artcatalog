@@ -4,6 +4,7 @@ import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
 import { Box, Heading } from "@chakra-ui/react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import styled from "styled-components";
+import SEO from "../components/SEO";
 
 const Content = styled(Box)`
   /* css to fix content overflow from long links in text */
@@ -50,3 +51,12 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
   );
 };
 export default ProductCategories;
+
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle={`${props.pageContext.title} - Product Categories Page`}
+      description="Product category page for Brushella Art and Decor store"
+    />
+  );
+};

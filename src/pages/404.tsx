@@ -50,13 +50,8 @@ const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default NotFoundPage;
 
-export const Head = () => (
-  <SEO>
-    <title id="404-title">Page not found - www.brushella.art - 404</title>
-    <meta
-      id="404"
-      name="NotFoundPage"
-      content="404 Page not found at www.brushella.art"
-    />
-  </SEO>
-);
+export const Head = (props: any) => {
+  return (
+    <SEO pageTitle="Page Not Found" description="404 Error page not found" />
+  );
+};

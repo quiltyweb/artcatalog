@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useStaticQuery, graphql } from "gatsby";
 import {
   Drawer,
   DrawerBody,
@@ -18,7 +19,6 @@ import {
   Grid,
   GridItem,
   Text,
-  Heading,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import Logo from "../images/svg/brushella-black-bg.svg";
@@ -32,13 +32,8 @@ import {
 } from "react-icons/fa";
 import { useLineItemsCount } from "../context/StoreContext";
 
-type NavProps = {
-  title?: string;
-  allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
-};
-
 type CategoriesListMenuProps = {
-  allShopifyCollectionItems: Queries.LayoutPageQuery["allShopifyCollection"]["nodes"];
+  allShopifyCollectionItems: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
   handleClickOnClose?: UseDisclosureProps["onClose"];
 };
 type StaticLinksMenuProps = {
@@ -108,10 +103,25 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   );
 };
 
-const Nav: React.FunctionComponent<NavProps> = ({
-  title,
-  allShopifyCollectionItems,
-}): React.ReactElement => {
+const Nav: React.FunctionComponent = (): React.ReactElement => {
+  const { site, allShopifyCollection } =
+    useStaticQuery<Queries.NavigationQuery>(graphql`
+      query Navigation {
+        site {
+          siteMetadata {
+            title
+          }
+        }
+        allShopifyCollection {
+          nodes {
+            id
+            title
+            handle
+          }
+        }
+      }
+    `);
+
   const lineItemsCount = useLineItemsCount();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan992] = useMediaQuery("(min-width: 992px)");
@@ -150,8 +160,8 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <Link as={GatsbyLink} to="/">
             <Logo
               id="top-logo"
-              aria-label={title || "Brushella"}
-              alt={title || "Brushella"}
+              aria-label={site?.siteMetadata?.title || "Brushella"}
+              alt={site?.siteMetadata?.title || "Brushella"}
               style={{
                 maxWidth: "70",
                 maxHeight: "70",
@@ -176,7 +186,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
         </GridItem>
         <GridItem area={"navigation"} justifySelf="center">
           <CategoriesListMenu
-            allShopifyCollectionItems={allShopifyCollectionItems}
+            allShopifyCollectionItems={allShopifyCollection.nodes}
           />
         </GridItem>
       </Grid>
@@ -214,7 +224,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           <DrawerHeader width={40}></DrawerHeader>
           <DrawerBody>
             <CategoriesListMenu
-              allShopifyCollectionItems={allShopifyCollectionItems}
+              allShopifyCollectionItems={allShopifyCollection.nodes}
               handleClickOnClose={handleClickOnClose}
             />
 
@@ -253,8 +263,8 @@ const Nav: React.FunctionComponent<NavProps> = ({
       <Box maxWidth={64} margin="0 auto">
         <Link as={GatsbyLink} to="/">
           <Logo
-            aria-label={title || "Brushella"}
-            alt={title || "Brushella"}
+            aria-label={site?.siteMetadata?.title || "Brushella"}
+            alt={site?.siteMetadata?.title || "Brushella"}
             style={{
               width: "56",
               maxWidth: "64",
