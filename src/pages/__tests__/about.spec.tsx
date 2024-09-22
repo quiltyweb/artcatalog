@@ -28,13 +28,13 @@ describe("AboutPage", () => {
                   definition: {
                     name: "originals",
                   },
-                  key: "originals",
+                  key: "original_artworks",
                 },
                 {
                   definition: {
                     name: "prints",
                   },
-                  key: "prints",
+                  key: "archival_fine_art_prints",
                 },
                 {
                   definition: {
@@ -46,7 +46,7 @@ describe("AboutPage", () => {
                   definition: {
                     name: "decor",
                   },
-                  key: "decor",
+                  key: "home_and_decor",
                 },
                 {
                   definition: {
@@ -73,17 +73,25 @@ describe("AboutPage", () => {
       },
       storefrontshopify: {
         page: {
-          title: "Meet the Artist",
-          body: "<p>Gabriela Ugalde (Brushella) was born in Santiago, Chile in February 1987.</p>",
+          title: "This is a test title from storefrontshopify mock",
+          body: '<p data-mce-fragment="1"><span style="font-weight: 400;" data-mce-style="font-weight: 400;" data-mce-fragment="1">this is test data for bio about me page</span></em></p>\n<p data-mce-fragment="1"> </p>\n<p data-mce-fragment="1"> </p>',
+        },
+      },
+      site: {
+        siteMetadata: {
+          title: "This is a test title from SiteMetadata",
+          description: "Brushella Art and Decor Store",
+          image: "/brushella-icon.svg",
+          siteUrl: "https://www.brushella.art",
         },
       },
     };
     render(<AboutPage data={aboutPageMockedData} />);
     screen.getByAltText("Painter Gabriela painting on a canvas");
-    screen.getByText(
-      "Gabriela Ugalde (Brushella) was born in Santiago, Chile in February 1987."
-    );
-    screen.getByRole("heading", { name: "Meet the Artist" });
+    screen.getByRole("heading", {
+      name: "This is a test title from storefrontshopify mock",
+    });
+    screen.getByText("this is test data for bio about me page");
     screen.getByRole("link", { name: "commissions" });
     screen.getByRole("link", { name: "originals" });
     screen.getByRole("link", { name: "prints" });

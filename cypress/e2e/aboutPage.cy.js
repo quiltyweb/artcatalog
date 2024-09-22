@@ -2,6 +2,9 @@ describe("About page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
+    cy.intercept("GET", /page-data\/about/, {
+      fixture: "about.json",
+    }).as("aboutPage");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -21,6 +24,9 @@ describe("About page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
+    cy.intercept("GET", /page-data\/about/, {
+      fixture: "about.json",
+    }).as("aboutPage");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -39,8 +45,10 @@ describe("About page mobile", () => {
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: /about me/i }).click();
-    cy.findByText("Meet the Artist");
+    cy.findByText("This is a test title from storefrontshopify mock");
     cy.findByAltText("Painter Gabriela painting on a canvas");
+    cy.findByText(/this is test data for bio about me page/i);
+    cy.title().should("contain", "This is a test title from SiteMetadata");
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: "About my products" });
       cy.findByRole("link", { name: "commissions" });
@@ -61,6 +69,6 @@ describe("About page mobile", () => {
       cy.findByRole("link", { name: /about/i }).click();
     });
     cy.wait("@checkoutFetch");
-    cy.findByText("Meet the Artist");
+    cy.findByText("This is a test title from storefrontshopify mock");
   });
 });

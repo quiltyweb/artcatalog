@@ -174,15 +174,11 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
 
 export default ContactPage;
 
-export const Head = () => (
-  <SEO>
-    <title id="contact-title">
-      Contact me - www.brushella.art - contact me
-    </title>
-    <meta
-      id="contact-page"
-      name="Contact page"
-      content="Send me your enquiries via the contact form"
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle="Contact Page"
+      description="Contact page to send enquiries to Brushella Store via the contact form"
     />
-  </SEO>
-);
+  );
+};

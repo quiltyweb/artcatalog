@@ -1,7 +1,6 @@
 import * as React from "react";
-import { useStaticQuery, graphql } from "gatsby";
 import Footer from "./Footer";
-import { Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import Nav from "./Nav";
 import styled from "styled-components";
 
@@ -26,35 +25,6 @@ const HeaderVisuallyHidden = styled.h1`
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
-  const data = useStaticQuery<Queries.LayoutPageQuery>(graphql`
-    query LayoutPage {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-      allShopifyCollection {
-        nodes {
-          id
-          title
-          handle
-        }
-      }
-      adminshopify {
-        legalContent: metaobjects(first: 10, type: "legal_content") {
-          nodes {
-            fields {
-              key
-              definition {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
-
   return (
     <Grid
       gridTemplateRows={"auto"}
@@ -82,10 +52,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         py={3}
         width="100%"
       >
-        <Nav
-          title={data.site?.siteMetadata?.title ?? "Brushella"}
-          allShopifyCollectionItems={data.allShopifyCollection?.nodes}
-        />
+        <Nav />
       </GridItem>
       <GridItem
         as="main"
@@ -110,9 +77,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         maxWidth="1024px"
         marginTop="6"
       >
-        <Footer
-          legalContentItems={data.adminshopify?.legalContent.nodes[0].fields}
-        />
+        <Footer />
       </GridItem>
     </Grid>
   );

@@ -1,39 +1,29 @@
 import * as React from "react";
-import { useSiteMetadata } from "../hooks/use-site-metadata";
 
 type SEOProps = {
-  children: React.ReactNode;
-  title: string;
-  description: string;
-  pathname: string;
+  pageTitle: string;
+  description?: string;
+  siteTitle?: string;
+  image?: string;
+  children?: React.ReactNode;
 };
 
 const SEO: React.FunctionComponent<SEOProps> = ({
-  title,
-  description,
-  pathname,
+  pageTitle,
+  description = "Brushella Art and Decor store",
+  siteTitle = "Brushella",
+  image = "/brushella-icon.svg",
   children,
 }): React.ReactElement => {
-  const {
-    title: defaultTitle,
-    description: defaultDescription,
-    image,
-    siteUrl,
-  } = useSiteMetadata();
-
-  const seo = {
-    title: title || defaultTitle,
-    description: description || defaultDescription,
-    image: `${siteUrl}${image}`,
-    url: `${siteUrl}${pathname || ``}`,
-  };
   return (
     <>
-      <title>{seo.title}</title>
-      <meta name="description" content={seo.description} />
-      <meta name="image" content={seo.image} />
-      <link rel="icon" href={seo.image} type="image/svg+xml" sizes="any" />
-
+      <html lang="en" />
+      <title>
+        {pageTitle} {siteTitle}
+      </title>
+      <meta name="description" content={description} />
+      <meta name="image" content={image} />
+      <link rel="icon" href={image} type="image/svg+xml" sizes="any" />
       <link
         rel="stylesheet"
         type="text/css"

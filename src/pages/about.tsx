@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, graphql, PageProps } from "gatsby";
+import { Link, graphql, PageProps, HeadProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Heading, SimpleGrid, Stack, Tag, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
@@ -11,7 +11,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
     <>
       <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
         <Heading textTransform="capitalize" as="h1" size="2xl" color="#4b828f">
-          Meet the Artist
+          {storefrontshopify.page?.title || "Meet the Artist"}
         </Heading>
       </Stack>
 
@@ -69,13 +69,16 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
 };
 export default AboutPage;
 
-export const Head = (): React.ReactElement => (
-  <SEO>
-    <html lang="en" />
-    <title id="about-page">{`About Brushella - brushella.art - all things art`}</title>
-    <meta id="about-page" name="about" content="About me page" />
-  </SEO>
-);
+export const Head = (props: HeadProps<any>) => {
+  return (
+    <SEO
+      pageTitle="About Page - Meet the artist"
+      siteTitle={props.data.site.siteMetadata.title}
+      description="Meet Gabriela, the artist behind Brushella Store"
+      image={props.data.site.siteMetadata.image}
+    />
+  );
+};
 
 export const query = graphql`
   query AboutPage {
@@ -95,6 +98,14 @@ export const query = graphql`
       page(handle: "meet-the-artist") {
         title
         body
+      }
+    }
+    site {
+      siteMetadata {
+        title
+        description
+        image
+        siteUrl
       }
     }
   }

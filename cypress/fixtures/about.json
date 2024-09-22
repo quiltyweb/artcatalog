@@ -63,8 +63,16 @@
             },
             "storefrontshopify": {
                 "page": {
-                    "title": "Meet the Artist",
-                    "body": "<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Gabriela Ugalde (Brushella) was born in Santiago, Chile in February 1987. From a very young age, she developed deep love and connection towards nature and animals, as well as love for creating things out of scrap materials and painting.</span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\"></span><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Growing up, Gabriela completed her university studies for Event Management and Production, thinking of working for the music industry one day. When she realised this wasn’t to be her  path, Gabriela decided to go on a working holiday visa to New Zealand. This trip gave her the ‘travel bug’, leading her to many places around the world until she met her partner and settled in Sydney, Australia. Having found a place to call home in one spot, Gabriela  reconnected with her creative force and decided to share her creations with the world outside her head, under the name of Brush-ella.</span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Brushella plays with many different mediums and materials constanly, therefore her style is in constant mutation driven by experimentation -  the variety and colour richness of her pieces, whether a painting, a sculpture, a resin keychain or a woollen beanie, is outstanding and eye catching. </span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Nature inspires most of Brushella’s creations but there is also a pinch (or maybe a lot), of her inner space too … where strange and funny things appear! </span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Today, Bushella works in her art studio in her house on the South Coast of Sydney -  the place where all her creations are shipped from globally. </span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">The message through Brushella’s art is that “this human experience will never lack of suffering and pain at some level at some point in our lives, and that is exactly the purpose of being alive! How do we look at our suffering? How do we connect with it? And if it won’t go away, what can we do with it? How do we alchemize it and transform it into something beautiful and meaningful?” </span></p>\n<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">Brushella’s art is a reminder that, on the other side of our grey lenses, there are still infinite colours! As well as a reminder that we are all capable of creating something from our imagination and our heart,  using the help of our emotions to guide the way.</span></p>\n<p data-mce-fragment=\"1\"><em><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">“Let your pain and sorrows be the cataclysm of your entire existence, for they are powerful forces that, when channelled through the way of Light and Love, are capable of moving mountains. Also, be brave enough to use all of the colours, with all of their many different tones, all together in the one piece”.  Brushella.</span></em></p>\n<p data-mce-fragment=\"1\"> </p>\n<p data-mce-fragment=\"1\"> </p>"
+                    "title": "This is a test title from storefrontshopify mock",
+                    "body": "<p data-mce-fragment=\"1\"><span style=\"font-weight: 400;\" data-mce-style=\"font-weight: 400;\" data-mce-fragment=\"1\">this is test data for bio about me page</span></em></p>\n<p data-mce-fragment=\"1\"> </p>\n<p data-mce-fragment=\"1\"> </p>"
+                }
+            },
+            "site": {
+                "siteMetadata": {
+                    "title": "This is a test title from SiteMetadata",
+                    "description": "Brushella Art and Decor Store",
+                    "image": "/brushella-icon.svg",
+                    "siteUrl": "https://www.brushella.art"
                 }
             }
         },
@@ -72,7 +80,8 @@
         "serverData": null
     },
     "staticQueryHashes": [
-        "3466113349"
+        "1353110752",
+        "3003321059"
     ],
     "slicesMap": {}
 }

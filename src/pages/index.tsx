@@ -192,13 +192,8 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
 
 export default IndexPage;
 
-export const Head = (): React.ReactElement => (
-  <SEO>
-    <title id="home-title">Welcome to Brushella - All things ART!</title>
-    <meta
-      id="index-page"
-      name="home page"
-      content="All things ART! Murals, Canvas painting, Crafts, Face and Body painting"
-    />
-  </SEO>
-);
+export const Head = (props: any) => {
+  return (
+    <SEO pageTitle="Home Page" description="Home Page for Brushella Store" />
+  );
+};

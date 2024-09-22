@@ -271,13 +271,11 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 };
 export default MyBasketPage;
 
-export const Head = () => (
-  <SEO>
-    <title id="contact-title">Basket - www.brushella.art - shopping cart</title>
-    <meta
-      id="basket-page"
-      name="shopping cart page"
-      content="shopping cart for brushella items"
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle="Shopping Cart"
+      description="Shopping Cart with your selected items from the Brushella Store"
     />
-  </SEO>
-);
+  );
+};

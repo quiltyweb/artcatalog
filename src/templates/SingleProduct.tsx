@@ -8,13 +8,16 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 type SingleProductProps = {
   location: PageProps["location"];
   pageContext: {
+    title: string;
+    id: string;
+    collectionHandle: string;
     product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
   };
 };
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
-  pageContext: { product },
+  pageContext,
 }): React.ReactElement => {
   const pathnameArray = location.pathname.split("/");
   const categoryName = pathnameArray[2];
@@ -33,22 +36,20 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">{product.title}</BreadcrumbLink>
+          <BreadcrumbLink href="#">{pageContext.product.title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <ProductCard product={product} />
+      <ProductCard product={pageContext.product} />
     </Box>
   );
 };
 export default SingleProduct;
 
-export const Head = ({ location }: PageProps): React.ReactElement => (
-  <SEO>
-    <title id="single-title">{`Welcome to Brushella - All things ART! ${location.pathname}`}</title>
-    <meta
-      id="single-product-page"
-      name="Brushella Product"
-      content="All things ART! Murals, Canvas painting, Crafts, Face and Bodypainting"
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle={`${props.pageContext.product.title} - Product Page`}
+      description="Product page for Brushella Art and Decor store"
     />
-  </SEO>
-);
+  );
+};

@@ -1,6 +1,9 @@
 import React from "react";
+import * as Gatsby from "gatsby";
 import { render, screen, within } from "@testing-library/react";
 import Footer from "../Footer";
+
+const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -12,39 +15,50 @@ afterEach(() => {
 
 describe("Footer", () => {
   it("renders correctly", () => {
-    const legalContentMockedData = [
-      {
-        key: "return_and_refund_policy",
-        definition: {
-          name: "Return and Refund Policy",
+    useStaticQuery.mockImplementation(() => ({
+      adminshopify: {
+        legalContent: {
+          nodes: [
+            {
+              fields: [
+                {
+                  key: "return_and_refund_policy",
+                  definition: {
+                    name: "Return and Refund Policy",
+                  },
+                },
+                {
+                  key: "hand_made_policy",
+                  definition: {
+                    name: "Hand Made Policy",
+                  },
+                },
+                {
+                  key: "shipping_policy",
+                  definition: {
+                    name: "Shipping Policy",
+                  },
+                },
+                {
+                  key: "privacy_policy",
+                  definition: {
+                    name: "Privacy Policy",
+                  },
+                },
+                {
+                  key: "terms_of_service",
+                  definition: {
+                    name: "Terms of Service",
+                  },
+                },
+              ],
+            },
+          ],
         },
       },
-      {
-        key: "hand_made_policy",
-        definition: {
-          name: "Hand Made Policy",
-        },
-      },
-      {
-        key: "shipping_policy",
-        definition: {
-          name: "Shipping Policy",
-        },
-      },
-      {
-        key: "privacy_policy",
-        definition: {
-          name: "Privacy Policy",
-        },
-      },
-      {
-        key: "terms_of_service",
-        definition: {
-          name: "Terms of Service",
-        },
-      },
-    ];
-    render(<Footer legalContentItems={legalContentMockedData} />);
+    }));
+
+    render(<Footer />);
     screen.getByText(/Quick Links/i);
     screen.getByRole("link", { name: "Return and Refund Policy" });
     screen.getByRole("link", { name: "Hand Made Policy" });
@@ -61,7 +75,14 @@ describe("Footer", () => {
     screen.getByRole("link", { name: /go to top/i });
   });
 
-  it("renders no policies link correctly", async () => {
+  it("renders no links correctly", async () => {
+    useStaticQuery.mockImplementation(() => ({
+      adminshopify: {
+        legalContent: {
+          nodes: null,
+        },
+      },
+    }));
     render(<Footer />);
 
     const footer = await screen.findByTestId("footer");
