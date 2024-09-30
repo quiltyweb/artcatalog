@@ -157,17 +157,19 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
           </Link>
         </GridItem>
         <GridItem area={"logo"} justifySelf="center">
-          <Link as={GatsbyLink} to="/">
-            <Logo
-              id="top-logo"
-              aria-label={site?.siteMetadata?.title || "Brushella"}
-              alt={site?.siteMetadata?.title || "Brushella"}
-              style={{
-                maxWidth: "70",
-                maxHeight: "70",
-              }}
-            />
-          </Link>
+          <Box maxHeight={"70px"} maxWidth={"70px"}>
+            <Link as={GatsbyLink} to="/">
+              <Logo
+                id="top-logo"
+                aria-label={site?.siteMetadata?.title || "Brushella"}
+                alt={site?.siteMetadata?.title || "Brushella"}
+                style={{
+                  maxWidth: "70",
+                  maxHeight: "70",
+                }}
+              />
+            </Link>
+          </Box>
         </GridItem>
         <GridItem area={"icons"} justifySelf="right" px="3rem">
           <Link
