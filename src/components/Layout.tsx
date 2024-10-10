@@ -32,7 +32,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       templateAreas={`"header header header header"
                       "main main main main"
                       "footer footer footer footer"`}
-      gap="6"
       gridAutoFlow="row"
       backgroundColor="white"
       color="black"
@@ -55,16 +54,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         <Nav />
       </GridItem>
       <GridItem
-        as="main"
         id="main"
+        as="main"
         color="#050505"
         bg="white"
         area={"main"}
         w="100%"
-        maxWidth="1240px"
         margin="0 auto"
-        pl="2"
-        pr="2"
       >
         <HeaderVisuallyHidden>Brushella</HeaderVisuallyHidden>
         {children}
