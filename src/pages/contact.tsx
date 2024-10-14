@@ -178,6 +178,7 @@ export const Head = (props: any) => {
   return (
     <SEO
       pageTitle="Contact Page"
+      siteTitle="Brushella"
       description="Contact page to send enquiries to Brushella Store via the contact form"
     />
   );

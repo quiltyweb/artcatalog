@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Box } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y, EffectFade } from "swiper/modules";
+import SEO from "../components/SEO";
 
 // Swiper styles:
 import "swiper/css";
@@ -135,3 +136,13 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
 };
 
 export default IndexPage;
+
+export const Head = (props: any) => {
+  return (
+    <SEO
+      pageTitle="Home Page"
+      siteTitle="Brushella"
+      description="Home Page for Brushella Store"
+    />
+  );
+};

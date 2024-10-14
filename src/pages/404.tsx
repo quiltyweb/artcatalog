@@ -52,6 +52,10 @@ export default NotFoundPage;
 
 export const Head = (props: any) => {
   return (
-    <SEO pageTitle="Page Not Found" description="404 Error page not found" />
+    <SEO
+      pageTitle="Page Not Found"
+      siteTitle="Brushella"
+      description="404 Error page not found"
+    />
   );
 };

@@ -275,6 +275,7 @@ export const Head = (props: any) => {
   return (
     <SEO
       pageTitle="Shopping Cart"
+      siteTitle="Brushella"
       description="Shopping Cart with your selected items from the Brushella Store"
     />
   );
