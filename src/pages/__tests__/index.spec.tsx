@@ -32,7 +32,9 @@ afterEach(() => {
 describe("IndexPage", () => {
   it("renders basic index correctly", () => {
     render(<IndexPage />);
-    screen.getAllByAltText("testing tiger alt");
+    screen.getAllByAltText(
+      "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
+    );
     screen.getByTestId("swiper");
     screen.getAllByTestId("swiper-slide");
     screen.getByRole("heading", { name: "Featured Categories" });
