@@ -93,14 +93,15 @@ describe("Home page mobile", () => {
 
   it("renders main area", () => {
     cy.get("main");
-    cy.findAllByAltText("Macumba original painting");
-    cy.findByTestId("brushella-slider-index");
+    cy.findByAltText(
+      "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
+    );
     cy.findByRole("button", { name: "1" });
     cy.findByRole("button", { name: "2" });
     cy.findByRole("button", { name: "3" });
-    cy.findByLabelText("next");
-    cy.findByLabelText("previous");
-
+    cy.findByRole("button", { name: "4" });
+    cy.findByRole("button", { name: "5" });
+    cy.findByRole("button", { name: "6" });
     cy.findByRole("heading", { name: "Featured Categories" });
 
     cy.findByRole("link", { name: /Original Paintings/ });

@@ -82,7 +82,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           <SwiperSlide key={"tiger"}>
             <StaticImage
               className="brushella-slide"
-              alt={"testing tiger alt"}
+              alt={
+                "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
+              }
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tiger.jpg?v=1728531323"
               placeholder="blurred"
             />
@@ -90,7 +92,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           <SwiperSlide key={"tucan"}>
             <StaticImage
               className="brushella-slide"
-              alt={"testing tucan alt"}
+              alt={
+                "Partial area of the Jungle print canvas, depicting a black and white toucan perched on a tree branch in a vibrant jungle with trees in the background."
+              }
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tucan.jpg?v=1728531404"
               placeholder="blurred"
             />
@@ -98,7 +102,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
 
           <SwiperSlide key={"redchicken"}>
             <StaticImage
-              className="brushella-slide"
+              className="Partial area of the jungle print canvas showing a red chicken and a blue snake in a vibrant jungle with flowers and plants in the background."
               alt={"testing alt"}
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-redchicken.jpg?v=1728532542"
               placeholder="blurred"
@@ -107,7 +111,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           <SwiperSlide key={"monkeys"}>
             <StaticImage
               className="brushella-slide"
-              alt={"testing monkey alt"}
+              alt={
+                "Partial area of the jungle print canvas, depicting two colorful monkeys in a jungle with trees in the background."
+              }
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-monkeys.jpg?v=1728531337"
               placeholder="blurred"
             />
@@ -115,7 +121,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           <SwiperSlide key={"parrot"}>
             <StaticImage
               className="brushella-slide"
-              alt={"testing alt"}
+              alt={
+                "Partial area of the printed canvas titled 'Jungle', displaying a colorful parrot perched on a tree branch."
+              }
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-parrot.jpg?v=1728532787"
               placeholder="blurred"
             />
@@ -123,7 +131,9 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           <SwiperSlide key={"panther"}>
             <StaticImage
               className="brushella-slide"
-              alt={"testing alt"}
+              alt={
+                "Partial area of the jungle print canvas depicting a black panther and an iguana in a vibrant background."
+              }
               src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-panther.jpg?v=1728532742"
               placeholder="blurred"
             />
