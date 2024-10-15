@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Box,
   Button,
+  Container,
   Heading,
   SimpleGrid,
   Table,
@@ -87,18 +88,22 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
   if (cartCount === 0) {
     return (
-      <Box display="flex" flexDirection="column">
-        <Heading as="h2">Your Cart</Heading>
-        <Heading as="h3" size="sm" fontWeight="normal">
+      <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+        <Heading as="h2" color="teal.500">
+          Shopping Cart
+        </Heading>
+        <Heading as="h3" size="md" fontWeight="normal">
           Your cart is empty.
         </Heading>
-      </Box>
+      </Container>
     );
   }
 
   return (
-    <>
-      <Heading as="h2">Your Cart</Heading>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Heading as="h2" color="teal.500" mb="2.4rem">
+        Shopping Cart
+      </Heading>
       <TableContainer mb="8">
         <Table size="sm">
           {/* TODO: add caption with totals below, when cart is PROD ready */}
@@ -109,7 +114,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
               `${cartCount} items in your cart. Total ${cartSubtotalPriceWithFormat}`}
           </TableCaption> */}
           {/* TODO: Remove this table caption with no totals. */}
-          <TableCaption placement="top" textAlign={["left", "center"]}>
+          <TableCaption placement="bottom" textAlign={["left", "center"]}>
             {cartCount === 1 && `1 item in your cart.`}
             {cartCount > 1 && `${cartCount} items in your cart.`}
           </TableCaption>
@@ -173,7 +178,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                         image={image}
                         alt={variantImage.altText ?? item.title}
                         style={{
-                          borderRadius: "3px",
+                          borderRadius: "md",
                           boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
                           maxWidth: "100%",
                           width: "60px",
@@ -184,7 +189,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                       <StaticImage
                         style={{
                           filter: "grayscale(1)",
-                          borderRadius: "6px",
+                          borderRadius: "md",
                         }}
                         width={60}
                         height={60}
@@ -266,7 +271,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       /> */}
 
       <QuoteForm checkoutLineItems={checkoutLineItems} cartCount={cartCount} />
-    </>
+    </Container>
   );
 };
 export default MyBasketPage;

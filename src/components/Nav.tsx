@@ -181,7 +181,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             gap="0.5rem"
           >
             <Icon boxSize="1.5rem" as={FaShoppingBag} />
-            {`My shopping cart (${lineItemsCount} ${
+            {`Cart (${lineItemsCount} ${
               lineItemsCount > 1 ? "items" : "item"
             })`}
           </Link>

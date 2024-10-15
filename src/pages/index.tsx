@@ -140,6 +140,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           </SwiperSlide>
         </Swiper>
       </SliderContainer>
+
       <TileList />
     </>
   );

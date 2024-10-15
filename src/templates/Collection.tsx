@@ -3,6 +3,7 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Container,
   Divider,
   Heading,
   Highlight,
@@ -29,26 +30,23 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
   pageContext: { title, description, products, collectionHandle },
 }): React.ReactElement => {
   return (
-    <>
-      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
-        <Heading textTransform="capitalize" as="h2" size="2xl" color="pink.800">
-          {title}
-        </Heading>
-        {description && (
-          <Text
-            color="#513548"
-            fontSize="md"
-            lineHeight="normal"
-            mt="4"
-            mb="4"
-            pr="16"
-            pl="16"
-            textAlign="center"
-          >
-            {description}
-          </Text>
-        )}
-      </Stack>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Heading as="h2" color="teal.500" textTransform="capitalize" mb="2.4rem">
+        {title}
+      </Heading>
+      {description && (
+        <Text
+          maxWidth={["100%", "100%", "60%"]}
+          mb="2.4rem"
+          lineHeight={7}
+          fontWeight={"medium"}
+          id="contact-form-description"
+          data-testid="contact-form-description"
+          wordBreak="normal"
+        >
+          {description}
+        </Text>
+      )}
 
       {products && products.length !== 0 ? (
         <SimpleGrid columns={[1, 2, 3, 4]} spacing="6" justifyItems="center">
@@ -155,7 +153,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       ) : (
         <Text textAlign="center">There are no products available.</Text>
       )}
-    </>
+    </Container>
   );
 };
 export default Collection;

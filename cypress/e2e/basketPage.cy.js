@@ -27,7 +27,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -40,7 +40,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
     cy.findByRole("button", { name: "check out" }).should("not.exist");
@@ -54,7 +54,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("link", { name: "decor" }).click();
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
@@ -68,7 +68,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "My shopping cart (1 item)" }).click();
+    cy.findByRole("link", { name: "Cart (1 item)" }).click();
     cy.findByRole("table", { name: "1 item in your cart." });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
@@ -90,7 +90,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "basket/mocked-checkout-response-node.json",
@@ -130,7 +130,7 @@ describe("Basket page mobile", () => {
   });
 
   it("checks for accessibility violations on mobile view", () => {
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -138,7 +138,7 @@ describe("Basket page mobile", () => {
   });
 
   it("loads empty Shopping bag correctly", () => {
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
     cy.findByRole("button", { name: "check out" }).should("not.exist");
@@ -171,7 +171,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.clickDrawerMenuOption("prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
@@ -296,7 +296,7 @@ describe("Basket page with Quote form for mobile view", () => {
   });
 
   it("loads Shopping bag page correctly with 3 items and a Quote form", () => {
-    cy.findByRole("heading", { name: "Your Cart" });
+    cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.clickDrawerMenuOption("decor");
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();

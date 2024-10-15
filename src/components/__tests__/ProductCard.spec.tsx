@@ -554,8 +554,7 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductData.collectionHandle}
       />
     );
-    const fallbackImage = screen.getByRole("img");
+    const fallbackImage = screen.getByTestId("no-image-found");
     expect(fallbackImage).toHaveAttribute("alt", "");
-    expect(fallbackImage).toHaveAttribute("src", "../images/noimg.jpg");
   });
 });

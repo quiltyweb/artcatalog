@@ -5,7 +5,7 @@ import BasketPage from "../basket";
 describe("BasketPage", () => {
   it("renders empty Basket Page correctly", () => {
     render(<BasketPage />);
-    screen.getByRole("heading", { name: "Your Cart" });
+    screen.getByRole("heading", { name: "Shopping Cart" });
     screen.getByRole("heading", { name: "Your cart is empty." });
   });
 });

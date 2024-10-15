@@ -70,7 +70,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         area={"footer"}
         justifySelf="center"
         width={"100%"}
-        maxWidth="1024px"
+        maxWidth="1200px"
         marginTop="6"
       >
         <Footer />

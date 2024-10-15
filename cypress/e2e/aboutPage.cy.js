@@ -45,8 +45,8 @@ describe("About page mobile", () => {
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: /about me/i }).click();
-    cy.findByText("This is a test title from storefrontshopify mock");
-    cy.findByAltText("Painter Gabriela painting on a canvas");
+    cy.findByText("About me");
+    cy.findByAltText("Gabriela in her art studio painting on a large canvas");
     cy.findByText(/this is test data for bio about me page/i);
     cy.title().should("contain", "This is a test title from SiteMetadata");
     cy.findByRole("main").within(() => {
@@ -69,6 +69,6 @@ describe("About page mobile", () => {
       cy.findByRole("link", { name: /about/i }).click();
     });
     cy.wait("@checkoutFetch");
-    cy.findByText("This is a test title from storefrontshopify mock");
+    cy.findByText("About me");
   });
 });

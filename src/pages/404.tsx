@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "gatsby";
 import SEO from "../components/SEO";
+import { Container } from "@chakra-ui/react";
 
 const pageStyles = {
   color: "#232129",
@@ -21,30 +22,32 @@ const codeStyles = {
   padding: 4,
   backgroundColor: "#FFF4DB",
   fontSize: "1.25rem",
-  borderRadius: 4,
+  borderRadius: "md",
 };
 
 const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
   <main style={pageStyles}>
-    <title>Not found</title>
-    <h1 style={headingStyles}>Page not found</h1>
-    <p style={paragraphStyles}>
-      Sorry{" "}
-      <span role="img" aria-label="Pensive emoji">
-        😔
-      </span>{" "}
-      we couldn’t find what you were looking for.
-      <br />
-      {process.env.NODE_ENV === "development" ? (
-        <>
-          <br />
-          Try creating a page in <code style={codeStyles}>src/pages/</code>.
-          <br />
-        </>
-      ) : null}
-      <br />
-      <Link to="/">Go home</Link>.
-    </p>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <title>Page Not found</title>
+      <h1 style={headingStyles}>Page not found</h1>
+      <p style={paragraphStyles}>
+        Sorry{" "}
+        <span role="img" aria-label="Pensive emoji">
+          😔
+        </span>{" "}
+        we couldn’t find what you were looking for.
+        <br />
+        {process.env.NODE_ENV === "development" ? (
+          <>
+            <br />
+            Try creating a page in <code style={codeStyles}>src/pages/</code>.
+            <br />
+          </>
+        ) : null}
+        <br />
+        <Link to="/">Go home</Link>.
+      </p>
+    </Container>
   </main>
 );
 

@@ -1,46 +1,37 @@
 import * as React from "react";
 import { Link, graphql, PageProps, HeadProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import { Heading, SimpleGrid, Stack, Tag, Text } from "@chakra-ui/react";
+import { Container, Heading, SimpleGrid, Tag, Text } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
   data: { storefrontshopify, adminshopify },
 }): React.ReactElement => {
   return (
-    <>
-      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
-        <Heading textTransform="capitalize" as="h1" size="2xl" color="#4b828f">
-          {storefrontshopify.page?.title || "Meet the Artist"}
-        </Heading>
-      </Stack>
-
-      <SimpleGrid columns={[1, 1, 1, 2]} justifyItems="center">
-        <StaticImage
-          style={{
-            filter: "grayscale(1)",
-            transform: "scaleX(-1)",
-            borderRadius: "6px",
-            margin: "1rem",
-          }}
-          alt="Painter Gabriela painting on a canvas"
-          src="../images/author.jpg"
-          width={500}
-        />
-        <Text fontSize="md" as={"div"} margin="1rem">
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Heading as="h2" color="teal.500" mb="2.4rem">
+        About me
+      </Heading>
+      <SimpleGrid columns={[1, 1, 1, 2]} justifyItems="center" mb="2.4rem">
+        <Text fontSize="md">
           <div
             dangerouslySetInnerHTML={{
               __html: storefrontshopify.page?.body,
             }}
           />
         </Text>
+        <StaticImage
+          style={{
+            borderRadius: "md",
+          }}
+          alt="Gabriela in her art studio painting on a large canvas"
+          src="../images/author.jpg"
+          width={500}
+        />
       </SimpleGrid>
-
-      <Stack maxW="xxl" mt="8" mb="8" ml="auto" mr="auto" alignItems="center">
-        <Heading textTransform="capitalize" as="h2" size="2xl" color="#4b828f">
-          About my products
-        </Heading>
-      </Stack>
+      <Heading as="h3" color="teal.500" mb="2.4rem">
+        About my products
+      </Heading>
       <SimpleGrid
         columns={[1, 1, 2, 3]}
         justifyItems="center"
@@ -52,7 +43,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           <Tag
             size="lg"
             key={i}
-            borderRadius="full"
+            borderRadius="md"
             variant="solid"
             backgroundColor="pink.800"
             color="white"
@@ -64,7 +55,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           </Tag>
         ))}
       </SimpleGrid>
-    </>
+    </Container>
   );
 };
 export default AboutPage;

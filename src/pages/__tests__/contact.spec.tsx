@@ -17,7 +17,7 @@ afterEach(() => {
 describe("ContactPage", () => {
   it("renders correctly", () => {
     render(<ContactPage />);
-    screen.getByRole("heading", { name: "Send me your questions" });
+    screen.getByRole("heading", { name: "Contact me" });
     expect(screen.getByTestId("contact-form-description").textContent).toBe(
       "If you have questions that you cannot find answers in the about me page or quick links section, do not hesitate to contact me via the contact form below. Please allow 3 to 5 bussiness days to answer."
     );

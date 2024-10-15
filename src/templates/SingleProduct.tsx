@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 import SEO from "../components/SEO";
 import { PageProps } from "gatsby";
@@ -23,24 +23,22 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   const categoryName = pathnameArray[2];
 
   return (
-    <Box>
-      <Breadcrumb>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Breadcrumb mb="2.4rem">
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
-
         <BreadcrumbItem>
           <BreadcrumbLink href={`/collections/${categoryName}`}>
             All {categoryName}
           </BreadcrumbLink>
         </BreadcrumbItem>
-
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href="#">{pageContext.product.title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <ProductCard product={pageContext.product} />
-    </Box>
+    </Container>
   );
 };
 export default SingleProduct;

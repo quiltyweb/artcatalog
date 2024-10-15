@@ -151,7 +151,7 @@ describe("Nav", () => {
     ).not.toBeInTheDocument();
     screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByRole("link", { name: /My shopping cart/i });
+    screen.getByRole("link", { name: /Cart/i });
     screen.getByRole("link", { name: "commissions" });
     screen.getByRole("link", { name: "originals" });
     screen.getByRole("link", { name: "prints" });
@@ -183,7 +183,7 @@ describe("Nav", () => {
     render(<Nav />);
     screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText("Brushella");
-    screen.getByText("My shopping cart (0 item)");
+    screen.getByText("Cart (0 item)");
 
     expect(
       screen.queryByRole("link", { name: "commissions" })
