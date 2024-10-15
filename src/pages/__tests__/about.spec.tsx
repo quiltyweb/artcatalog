@@ -73,7 +73,7 @@ describe("AboutPage", () => {
       },
       storefrontshopify: {
         page: {
-          title: "This is a test title from storefrontshopify mock",
+          title: "About me",
           body: '<p data-mce-fragment="1"><span style="font-weight: 400;" data-mce-style="font-weight: 400;" data-mce-fragment="1">this is test data for bio about me page</span></em></p>\n<p data-mce-fragment="1"> </p>\n<p data-mce-fragment="1"> </p>',
         },
       },
@@ -87,9 +87,11 @@ describe("AboutPage", () => {
       },
     };
     render(<AboutPage data={aboutPageMockedData} />);
-    screen.getByAltText("Painter Gabriela painting on a canvas");
+    screen.getByAltText(
+      "Gabriela in her art studio painting on a large canvas"
+    );
     screen.getByRole("heading", {
-      name: "This is a test title from storefrontshopify mock",
+      name: "About me",
     });
     screen.getByText("this is test data for bio about me page");
     screen.getByRole("link", { name: "commissions" });

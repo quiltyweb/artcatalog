@@ -52,7 +52,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
         <hr />
         <Text
           id="quicklinks"
-          size="md"
+          size="lg"
           fontWeight="bold"
           color="teal.600"
           textAlign={["left", "left", "center", "center", "center"]}
@@ -68,6 +68,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           justifyContent="space-around"
           styleType="none"
           fontSize="md"
+          fontWeight="medium"
           textTransform="capitalize"
         >
           {legalContent.nodes &&
@@ -79,7 +80,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
               </ListItem>
             ))}
           <ListItem key={"contact-page"} p="0 1rem 1rem 0">
-            <FooterLink to="/contact">contact</FooterLink>
+            <FooterLink to="/contact">contact me</FooterLink>
           </ListItem>
           <ListItem key={"about-page"} p="0 1rem 1rem 0">
             <FooterLink to="/about">about me</FooterLink>

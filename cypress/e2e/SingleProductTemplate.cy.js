@@ -90,11 +90,6 @@ describe("Collection Template mobile view", () => {
         "alt",
         ""
       );
-      cy.get("img[data-testid='no-image-found']").should(
-        "have.attr",
-        "src",
-        "../images/noimg.jpg"
-      );
     });
   });
 

@@ -42,7 +42,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
 
   return (
     <>
-      <Heading as="h3" size="sm">
+      <Heading as="h3" size="sm" color="teal.500">
         Quotation form
       </Heading>
       {cartCount >= 1 && (

@@ -1,7 +1,7 @@
 import React from "react";
 import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer";
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Container, Heading } from "@chakra-ui/react";
 import styled from "styled-components";
 import SEO from "../components/SEO";
 
@@ -9,7 +9,7 @@ const Content = styled(Box)`
   /* css to fix content overflow from long links in text */
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: normal
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -28,12 +28,14 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
   pageContext: { title, content },
 }): React.ReactElement => {
   return (
-    <>
-      <Heading as="h2">{title}</Heading>
-      <Content>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Heading as="h2" color="teal.500" mb="2.4rem">
+        {title}
+      </Heading>
+      <Content maxWidth={["100%", "100%", "60%"]}>
         <RichTextRenderer data={content} />
       </Content>
-    </>
+    </Container>
   );
 };
 export default LegalContent;

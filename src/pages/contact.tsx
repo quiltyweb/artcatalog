@@ -10,6 +10,8 @@ import {
   Textarea,
   Alert,
   AlertIcon,
+  Box,
+  Container,
 } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 import * as Yup from "yup";
@@ -31,12 +33,15 @@ interface FormValues {
 }
 
 const ContactPage: React.FunctionComponent = (): React.ReactElement => (
-  <>
-    <Heading as="h2" color="#4b828f" mb="1rem">
-      Send me your questions
+  <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+    <Heading as="h2" color="teal.500" mb="2.4rem">
+      Contact me
     </Heading>
     <Text
-      mb="1rem"
+      maxWidth={["100%", "100%", "60%"]}
+      mb="2.4rem"
+      lineHeight={7}
+      fontWeight={"medium"}
       id="contact-form-description"
       data-testid="contact-form-description"
     >
@@ -51,125 +56,128 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
       , do not hesitate to contact me via the contact form below. Please allow 3
       to 5 bussiness days to answer.
     </Text>
+    <Box maxW="lg">
+      <Formik
+        initialValues={{
+          fullname: "",
+          email: "",
+          message: "",
+        }}
+        validationSchema={SubmitSchema}
+        onSubmit={async (
+          { fullname, email, message }: FormValues,
+          { setStatus }
+        ) => {
+          const res = await fetch(
+            "https://www.formbackend.com/f/a89f490517ad6461",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({ fullname, email, message }),
+            }
+          );
 
-    <Formik
-      initialValues={{
-        fullname: "",
-        email: "",
-        message: "",
-      }}
-      validationSchema={SubmitSchema}
-      onSubmit={async (
-        { fullname, email, message }: FormValues,
-        { setStatus }
-      ) => {
-        const res = await fetch(
-          "https://www.formbackend.com/f/a89f490517ad6461",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({ fullname, email, message }),
-          }
-        );
-
-        if (!res.ok) {
-          setStatus({
-            sent: false,
-            message:
-              "There was an error sending your message. Please try again later.",
-          });
-        } else {
-          if (res.status === 200) {
+          if (!res.ok) {
             setStatus({
-              sent: true,
-              message: "You message was sent succesfully!",
+              sent: false,
+              message:
+                "There was an error sending your message. Please try again later.",
             });
+          } else {
+            if (res.status === 200) {
+              setStatus({
+                sent: true,
+                message: "You message was sent succesfully!",
+              });
+            }
           }
-        }
-      }}
-    >
-      {(props) => {
-        return (
-          <>
-            {props.status && props.status.sent && (
-              <Alert status="success">
-                <AlertIcon />
-                {props.status.message}
-              </Alert>
-            )}
-            {props.status && !props.status.sent && (
-              <Alert status="error">
-                <AlertIcon />
-                {props.status.message}
-              </Alert>
-            )}
+        }}
+      >
+        {(props) => {
+          return (
+            <>
+              {props.status && props.status.sent && (
+                <Alert status="success">
+                  <AlertIcon />
+                  {props.status.message}
+                </Alert>
+              )}
+              {props.status && !props.status.sent && (
+                <Alert status="error">
+                  <AlertIcon />
+                  {props.status.message}
+                </Alert>
+              )}
 
-            {!props.status && (
-              <Form data-testid="contact-form">
-                <Field name="fullname" type="text">
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={form.errors.fullname && form.touched.fullname}
-                      mb={8}
-                    >
-                      <FormLabel>Full Name</FormLabel>
-                      <Input {...field} />
-                      <FormErrorMessage>
-                        <ErrorMessage name="fullname" />
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+              {!props.status && (
+                <Form data-testid="contact-form">
+                  <Field name="fullname" type="text">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.fullname && form.touched.fullname
+                        }
+                        mb={8}
+                      >
+                        <FormLabel>Full Name</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>
+                          <ErrorMessage name="fullname" />
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                <Field name="email" type="email">
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={form.errors.email && form.touched.email}
-                      mb={8}
-                    >
-                      <FormLabel>Email address</FormLabel>
-                      <Input {...field} />
-                      <FormErrorMessage>
-                        <ErrorMessage name="email" />
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="message" type="text">
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={form.errors.message && form.touched.message}
-                      mb={8}
-                    >
-                      <FormLabel>Message</FormLabel>
-                      <Textarea {...field} />
-                      <FormErrorMessage>
-                        <ErrorMessage name="message" />
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                  <Field name="email" type="email">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                        mb={8}
+                      >
+                        <FormLabel>Email address</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>
+                          <ErrorMessage name="email" />
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="message" type="text">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={form.errors.message && form.touched.message}
+                        mb={8}
+                      >
+                        <FormLabel>Message</FormLabel>
+                        <Textarea {...field} />
+                        <FormErrorMessage>
+                          <ErrorMessage name="message" />
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                <Button
-                  isLoading={props.isSubmitting}
-                  mt={4}
-                  backgroundColor="#86548A"
-                  color="#ffffff"
-                  colorScheme="teal"
-                  type="submit"
-                >
-                  Send Message
-                </Button>
-              </Form>
-            )}
-          </>
-        );
-      }}
-    </Formik>
-  </>
+                  <Button
+                    isLoading={props.isSubmitting}
+                    mt={4}
+                    backgroundColor="#86548A"
+                    color="#ffffff"
+                    colorScheme="teal"
+                    type="submit"
+                  >
+                    Send Message
+                  </Button>
+                </Form>
+              )}
+            </>
+          );
+        }}
+      </Formik>
+    </Box>
+  </Container>
 );
 
 export default ContactPage;

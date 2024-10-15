@@ -276,7 +276,7 @@ describe("Layout", () => {
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
     screen.queryByLabelText("send a message");
-    screen.getByText("My shopping cart (0 item)");
+    screen.getByText("Cart (0 item)");
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
 
