@@ -78,7 +78,7 @@ describe("Nav", () => {
 
     screen.getByAltText(/Brushella title/);
     screen.getByLabelText("send a message");
-    screen.getByLabelText("go to shopping bag");
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByRole("button", { name: "menu" });
 
     expect(

@@ -71,7 +71,7 @@ describe("Home page mobile", () => {
     cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
     cy.findByLabelText(/send a message/i).click();
     cy.findByRole("heading", { name: /Contact me/i });
-    cy.findByLabelText(/go to shopping bag/i).click();
+    cy.findByLabelText(/shopping cart/i).click();
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByTestId("mobile-menu").within(() => {

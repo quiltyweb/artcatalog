@@ -180,7 +180,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByLabelText(/shopping cart/).click();
     cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
 
     cy.findByRole("columnheader", { name: "product" });
@@ -209,7 +209,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutLineItemsAddTwoItems");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByLabelText(/shopping cart/).click();
     cy.findByRole("table", { name: /3 items in your cart/ });
     cy.findByText(/Variant title Test Jungle Panther/i);
     cy.findByText(/unit price: \$10.00/i).should("be.visible");
@@ -248,7 +248,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByLabelText(/shopping cart/).click();
     cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
 
     cy.window().then((win) => {
@@ -306,7 +306,7 @@ describe("Basket page with Quote form for mobile view", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByLabelText(/shopping cart/).click();
     cy.findByRole("table", { name: /1 item in your cart./i });
     cy.findByRole("table").within(() => {
       cy.findByAltText(/alt text for variant Green/i);
@@ -329,7 +329,7 @@ describe("Basket page with Quote form for mobile view", () => {
     }).as("checkoutLineItemsAddTwoItems");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByLabelText(/go to shopping bag/).click();
+    cy.findByLabelText(/shopping cart/).click();
     cy.findByRole("table", { name: /3 items in your cart/i });
     cy.findByText(/Macumba - large/i);
     cy.findByText(/Cotton Beach towel - Green/i);

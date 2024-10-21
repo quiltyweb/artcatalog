@@ -121,7 +121,7 @@ describe("Layout", () => {
 
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByLabelText("send a message");
-    within(Nav).getByLabelText("go to shopping bag");
+    within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
     within(Nav).getByAltText("Site Title");
     within(Nav).getByRole("button", { name: "menu" });
 
