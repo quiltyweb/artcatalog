@@ -164,9 +164,9 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             as={GatsbyLink}
             to="/basket"
             display="flex"
-            alignItems="center"
+            alignItems="baseline"
             justifyContent="center"
-            gap="0.5rem"
+            gap="0"
             aria-labelledby="cartIcon cartCounter"
           >
             <Icon
@@ -175,14 +175,14 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
               boxSize="1.5rem"
               as={FaShoppingBag}
             />
-            <Tag
+            <Text
               id="cartCounter"
               aria-label={`${lineItemsCount} items`}
-              borderRadius="full"
-              variant="outline"
+              color="white"
+              fontWeight="extrabold"
             >
               {lineItemsCount}
-            </Tag>
+            </Text>
           </Link>
         </GridItem>
         <GridItem area={"navigation"} justifySelf="center">
@@ -199,13 +199,25 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
       <Link as={GatsbyLink} to="/contact">
         <Icon boxSize="1.8rem" aria-label="send a message" as={FaRegEnvelope} />
       </Link>
-      <Link as={GatsbyLink} to="/basket" display="flex" alignItems="baseline">
+      <Link
+        as={GatsbyLink}
+        to="/basket"
+        aria-labelledby="cartIconMobile cartCounterMobile"
+        display="flex"
+        alignItems="baseline"
+      >
         <Icon
+          id="cartIconMobile"
+          aria-label="Shopping cart"
           boxSize="1.8rem"
-          aria-label="go to shopping bag"
           as={FaShoppingBag}
         />
-        <Text color="white" fontWeight="extrabold">
+        <Text
+          id="cartCounterMobile"
+          aria-label={`${lineItemsCount} items`}
+          color="white"
+          fontWeight="extrabold"
+        >
           {lineItemsCount}
         </Text>
       </Link>
