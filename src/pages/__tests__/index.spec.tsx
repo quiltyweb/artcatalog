@@ -37,12 +37,17 @@ describe("IndexPage", () => {
     );
     screen.getByTestId("swiper");
     screen.getAllByTestId("swiper-slide");
-    screen.getByRole("heading", { name: "Featured Categories" });
-    screen.getByRole("link", { name: /Home Decor/ });
-    screen.getByAltText("home decor");
-    screen.getByRole("link", { name: /Original Paintings/ });
-    screen.getByAltText("original paintings");
-    screen.getByRole("link", { name: /Prints/ });
-    screen.getByAltText("prints");
+    screen.getByRole("heading", { name: "Browse Brushella’s World" });
+    screen.getByText("Commissions");
+    screen.getByText("Original Paintings");
+    screen.getByText("Prints");
+    screen.getByText("Resin & Pigment Art");
+    screen.getByText("Home Decor");
+    screen.getByText("Wearable Art");
+    screen.getByText("Stickers");
+    screen.getByText("Murals & Sign Writing");
+    screen.getByAltText(
+      "Collage depicting products of Original Paintings category"
+    );
   });
 });

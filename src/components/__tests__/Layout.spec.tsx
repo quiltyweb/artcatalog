@@ -275,8 +275,8 @@ describe("Layout", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.queryByLabelText("send a message");
-    screen.getByText("Cart (0 item)");
+    expect(screen.queryByLabelText("send a message")).not.toBeInTheDocument();
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
 

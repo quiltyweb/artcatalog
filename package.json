@@ -14,6 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test develop http://localhost:8000 cy:open",

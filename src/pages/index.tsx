@@ -1,6 +1,7 @@
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import TileList from "../components/TileList";
+import HeroSection from "../components/HeroSection";
 import styled from "styled-components";
 import { Box } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -46,6 +47,7 @@ const SliderContainer = styled(Box)`
       color: #000000;
       background: #ffffff;
     }
+
     .swiper-slide img {
       height: calc(100vh - var(--brushellaMobileNav-height));
       width: 100vw;
@@ -55,6 +57,23 @@ const SliderContainer = styled(Box)`
     }
   }
 `;
+
+const SlideOverlay = () => {
+  return (
+    <div
+      style={{
+        background:
+          "radial-gradient(ellipse at center, rgba(0,0,0,0) 50%,rgba(0,0,0,0.8) 100%,rgba(0,0,0,1) 100%)",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        position: "absolute",
+        top: "0",
+        zIndex: "1",
+      }}
+    ></div>
+  );
+};
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => {
   return (
@@ -79,7 +98,42 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           }}
           effect={"fade"}
         >
+          <SwiperSlide key={"lungs"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the Lungs depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="../images/homepage-slider/lungs.jpg"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={"brain"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the Brain canvas depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="../images/homepage-slider/brain.jpg"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={"animal-heart"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the animal heart depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="../images/homepage-slider/animal-heart.jpg"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+
           <SwiperSlide key={"tiger"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
@@ -90,6 +144,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
             />
           </SwiperSlide>
           <SwiperSlide key={"tucan"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
@@ -99,36 +154,8 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               placeholder="blurred"
             />
           </SwiperSlide>
-
-          <SwiperSlide key={"redchicken"}>
-            <StaticImage
-              className="Partial area of the jungle print canvas showing a red chicken and a blue snake in a vibrant jungle with flowers and plants in the background."
-              alt={"testing alt"}
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-redchicken.jpg?v=1728532542"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
-          <SwiperSlide key={"monkeys"}>
-            <StaticImage
-              className="brushella-slide"
-              alt={
-                "Partial area of the jungle print canvas, depicting two colorful monkeys in a jungle with trees in the background."
-              }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-monkeys.jpg?v=1728531337"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
-          <SwiperSlide key={"parrot"}>
-            <StaticImage
-              className="brushella-slide"
-              alt={
-                "Partial area of the printed canvas titled 'Jungle', displaying a colorful parrot perched on a tree branch."
-              }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-parrot.jpg?v=1728532787"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
           <SwiperSlide key={"panther"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
@@ -140,7 +167,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           </SwiperSlide>
         </Swiper>
       </SliderContainer>
-
+      <HeroSection />
       <TileList />
     </>
   );

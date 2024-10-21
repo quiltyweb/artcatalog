@@ -149,9 +149,8 @@ describe("Nav", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByRole("link", { name: /Cart/i });
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByRole("link", { name: "commissions" });
     screen.getByRole("link", { name: "originals" });
     screen.getByRole("link", { name: "prints" });
@@ -181,9 +180,8 @@ describe("Nav", () => {
       })),
     });
     render(<Nav />);
-    screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText("Brushella");
-    screen.getByText("Cart (0 item)");
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
 
     expect(
       screen.queryByRole("link", { name: "commissions" })

@@ -19,6 +19,7 @@ import {
   Grid,
   GridItem,
   Text,
+  Tag,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import Logo from "../images/svg/brushella-black-bg.svg";
@@ -143,19 +144,6 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
         templateAreas={`"left-icon    logo     icons "
                         "navigation navigation navigation"`}
       >
-        <GridItem area={"left-icon"} justifySelf="left" px="3rem">
-          <Link
-            as={GatsbyLink}
-            to="/contact"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            gap="0.5rem"
-          >
-            <Icon boxSize="1.5rem" as={FaRegEnvelope} />
-            Contact me
-          </Link>
-        </GridItem>
         <GridItem area={"logo"} justifySelf="center">
           <Box maxHeight={"70px"} maxWidth={"70px"}>
             <Link as={GatsbyLink} to="/">
@@ -179,11 +167,22 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             alignItems="center"
             justifyContent="center"
             gap="0.5rem"
+            aria-labelledby="cartIcon cartCounter"
           >
-            <Icon boxSize="1.5rem" as={FaShoppingBag} />
-            {`Cart (${lineItemsCount} ${
-              lineItemsCount > 1 ? "items" : "item"
-            })`}
+            <Icon
+              id="cartIcon"
+              aria-label="Shopping cart"
+              boxSize="1.5rem"
+              as={FaShoppingBag}
+            />
+            <Tag
+              id="cartCounter"
+              aria-label={`${lineItemsCount} items`}
+              borderRadius="full"
+              variant="outline"
+            >
+              {lineItemsCount}
+            </Tag>
           </Link>
         </GridItem>
         <GridItem area={"navigation"} justifySelf="center">

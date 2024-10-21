@@ -20,8 +20,8 @@ describe("Home page desktop", () => {
   it("renders top navigation for desktop", () => {
     cy.get('svg[title="menu"]').should("not.exist");
     cy.get('svg[alt="Brushella"]').should("exist");
-    cy.findByRole("link", { name: "Contact me" }).should("be.visible");
-    cy.findByRole("link", { name: "Cart (0 item)" });
+    cy.findByRole("link", { name: "Contact me" }).should("not.exist");
+    cy.findByRole("link", { name: "Shopping cart 0 items" });
     cy.findByRole("link", { name: "murals" });
     cy.findByRole("link", { name: "stickers" });
     cy.findByRole("link", { name: "wearable art" });
@@ -102,15 +102,30 @@ describe("Home page mobile", () => {
     cy.findByRole("button", { name: "4" });
     cy.findByRole("button", { name: "5" });
     cy.findByRole("button", { name: "6" });
-    cy.findByRole("heading", { name: "Featured Categories" });
 
-    cy.findByRole("link", { name: /Original Paintings/ });
-    cy.findByRole("link", { name: /Prints/ });
-    cy.findByRole("link", { name: /Home Decor/ });
+    cy.findByAltText(
+      "Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
+    );
+    cy.findByRole("heading", { name: /Welcome to Brushella's Art Store/i });
+    cy.findByText(
+      "Your one-stop online shop where craftsmanship meets creativity!"
+    );
+    cy.findByText(
+      /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
+    );
 
-    cy.findByAltText("original paintings");
-    cy.findByAltText("prints");
-    cy.findByAltText("home decor");
+    cy.findByRole("heading", { name: "Browse Brushella’s World" });
+    cy.findByText("Commissions");
+    cy.findByText("Original Paintings");
+    cy.findByText("Prints");
+    cy.findByText("Resin & Pigment Art");
+    cy.findByText("Home Decor");
+    cy.findByText("Wearable Art");
+    cy.findByText("Stickers");
+    cy.findByText("Murals & Sign Writing");
+    cy.findByAltText(
+      "Collage depicting products of Original Paintings category"
+    );
   });
 
   it("renders footer", () => {
