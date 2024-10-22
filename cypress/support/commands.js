@@ -25,5 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add("clickDrawerMenuOption", (option) => {
   cy.findByRole("button", { name: "menu" }).click();
-  cy.findByText(option).click();
+  // mobile-menu
+  cy.findByRole("dialog").within(() => {
+    cy.findByText(option).click();
+  });
 });

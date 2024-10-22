@@ -38,7 +38,7 @@ describe("Collection Template mobile", () => {
   });
 
   it("checks for accessibility violations mobile view", () => {
-    cy.clickDrawerMenuOption("decor");
+    cy.clickDrawerMenuOption("Home Decor");
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -46,8 +46,8 @@ describe("Collection Template mobile", () => {
   });
 
   it("Navigates from home to Collection page", () => {
-    cy.clickDrawerMenuOption("decor");
-    cy.findByRole("heading", { name: "decor" });
+    cy.clickDrawerMenuOption("Home Decor");
+    cy.findByRole("heading", { name: "Home Decor" });
     cy.findByText("This is the collection description text");
     cy.findByRole("heading", { name: "Cotton Beach towel" });
     cy.findByAltText(/alt text for Cotton Beach towel/i);
@@ -59,8 +59,8 @@ describe("Collection Template mobile", () => {
   });
 
   it("Navigates from Collection page to single product view", () => {
-    cy.clickDrawerMenuOption("decor");
-    cy.findByRole("heading", { name: "decor" });
+    cy.clickDrawerMenuOption("Home Decor");
+    cy.findByRole("heading", { name: "Home Decor" });
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
     cy.findByRole("heading", { name: "Cotton Beach towel" });
     cy.findByAltText(/alt text for Cotton Beach towel/i);

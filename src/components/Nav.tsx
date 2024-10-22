@@ -85,12 +85,13 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       align="left"
       px={3}
       direction={["column", "column", "column", "row", "row", "row"]}
+      textAlign="center"
     >
       {allShopifyCollectionItems &&
         allShopifyCollectionItems.length > 0 &&
         allShopifyCollectionItems.map((item) => (
           <Link
-            fontSize="lg"
+            fontSize={["lg", "md", "md"]}
             textTransform="capitalize"
             as={GatsbyLink}
             key={item.id}
@@ -133,6 +134,8 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
     onClose();
   };
 
+  const counterLabel =
+    lineItemsCount === 1 ? `${lineItemsCount} item` : `${lineItemsCount} items`;
   // desktop menu
   if (isLargerThan992)
     return (
@@ -177,7 +180,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             />
             <Text
               id="cartCounter"
-              aria-label={`${lineItemsCount} items`}
+              aria-label={counterLabel}
               color="white"
               fontWeight="extrabold"
             >
@@ -214,7 +217,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
         />
         <Text
           id="cartCounterMobile"
-          aria-label={`${lineItemsCount} items`}
+          aria-label={counterLabel}
           color="white"
           fontWeight="extrabold"
         >

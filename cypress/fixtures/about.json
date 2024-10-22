@@ -7,58 +7,58 @@
                 "metaobjects": {
                     "nodes": [
                         {
-                            "fields": [
-                                {
-                                    "definition": {
-                                        "name": "commissions"
-                                    },
-                                    "key": "commissions"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "originals"
-                                    },
-                                    "key": "original_artworks"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "prints"
-                                    },
-                                    "key": "archival_fine_art_prints"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "resin and pigment art"
-                                    },
-                                    "key": "resin_and_pigment_art"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "decor"
-                                    },
-                                    "key": "home_and_decor"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "wearable art"
-                                    },
-                                    "key": "wearable_art"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "stickers"
-                                    },
-                                    "key": "stickers"
-                                },
-                                {
-                                    "definition": {
-                                        "name": "murals"
-                                    },
-                                    "key": "murals"
-                                }
-                            ]
+                          "fields": [
+                            {
+                              "definition": {
+                                "name": "Commissions"
+                              },
+                              "key": "commissions"
+                            },
+                            {
+                              "definition": {
+                                "name": "Original Paintings"
+                              },
+                              "key": "original_artworks"
+                            },
+                            {
+                              "definition": {
+                                "name": "Prints"
+                              },
+                              "key": "archival_fine_art_prints"
+                            },
+                            {
+                              "definition": {
+                                "name": "Resin & Pigment Art"
+                              },
+                              "key": "resin_and_pigment_art"
+                            },
+                            {
+                              "definition": {
+                                "name": "Home Decor"
+                              },
+                              "key": "home_and_decor"
+                            },
+                            {
+                              "definition": {
+                                "name": "Wearable Art"
+                              },
+                              "key": "wearable_art"
+                            },
+                            {
+                              "definition": {
+                                "name": "Stickers"
+                              },
+                              "key": "stickers"
+                            },
+                            {
+                              "definition": {
+                                "name": "Murals & Sign Writing"
+                              },
+                              "key": "murals"
+                            }
+                          ]
                         }
-                    ]
+                      ]
                 }
             },
             "storefrontshopify": {

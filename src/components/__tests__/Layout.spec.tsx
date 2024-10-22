@@ -15,42 +15,42 @@ const mockUseStaticQuery = {
     nodes: [
       {
         id: "4179b182-b572-5609-a8a2-05083671479a",
-        title: "murals",
+        title: "Murals & Sign Writing",
         handle: "murals",
       },
       {
         id: "f824e7dd-2243-5286-a2aa-162cbc0f42cd",
-        title: "stickers",
+        title: "Stickers",
         handle: "stickers",
       },
       {
         id: "a1f141d4-942b-51bc-9ab2-a2f4a48d1755",
-        title: "wearable art",
+        title: "Wearable Art",
         handle: "wearable-art",
       },
       {
         id: "1f50e1f9-d3a0-54cc-b961-652870d93340",
-        title: "resin and pigment art",
+        title: "Resin & Pigment Art",
         handle: "resin-and-pigment-art",
       },
       {
         id: "62470692-0598-57cc-bc0a-1ea60791c995",
-        title: "commissions",
+        title: "Commissions",
         handle: "commissions",
       },
       {
         id: "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
-        title: "prints",
+        title: "Prints",
         handle: "prints",
       },
       {
         id: "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
-        title: "originals",
+        title: "Original Paintings",
         handle: "originals",
       },
       {
         id: "384d31c2-36b3-5bc7-a4eb-1dc34dea1ab1",
-        title: "decor",
+        title: "Home Decor",
         handle: "decor",
       },
     ],
@@ -161,14 +161,14 @@ describe("Layout", () => {
 
     within(mobileMenu).getByRole("link", { name: /about me/i });
     within(mobileMenu).getByRole("link", { name: /contact/i });
-    within(mobileMenu).getByRole("link", { name: "commissions" });
-    within(mobileMenu).getByRole("link", { name: "originals" });
-    within(mobileMenu).getByRole("link", { name: "prints" });
-    within(mobileMenu).getByRole("link", { name: "resin and pigment art" });
-    within(mobileMenu).getByRole("link", { name: "decor" });
-    within(mobileMenu).getByRole("link", { name: "wearable art" });
-    within(mobileMenu).getByRole("link", { name: "stickers" });
-    within(mobileMenu).getByRole("link", { name: "murals" });
+    within(mobileMenu).getByRole("link", { name: "Commissions" });
+    within(mobileMenu).getByRole("link", { name: "Original Paintings" });
+    within(mobileMenu).getByRole("link", { name: "Prints" });
+    within(mobileMenu).getByRole("link", { name: "Resin & Pigment Art" });
+    within(mobileMenu).getByRole("link", { name: "Home Decor" });
+    within(mobileMenu).getByRole("link", { name: "Wearable Art" });
+    within(mobileMenu).getByRole("link", { name: "Stickers" });
+    within(mobileMenu).getByRole("link", { name: "Murals & Sign Writing" });
     expect(screen.getAllByLabelText("facebook")).toHaveLength(2);
     expect(screen.getAllByLabelText("instagram")).toHaveLength(2);
     expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
@@ -230,28 +230,7 @@ describe("Layout", () => {
     expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
 
     expect(
-      within(mobileMenu).queryByRole("link", { name: "commissions" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "originals" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "prints" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "resin and pigment art" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "decor" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "wearable art" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "stickers" })
-    ).not.toBeInTheDocument();
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "murals" })
+      within(mobileMenu).queryByRole("link", { name: "Commissions" })
     ).not.toBeInTheDocument();
   });
 
@@ -280,14 +259,14 @@ describe("Layout", () => {
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
 
-    within(desktopMenu).getByRole("link", { name: "commissions" });
-    within(desktopMenu).getByRole("link", { name: "originals" });
-    within(desktopMenu).getByRole("link", { name: "prints" });
-    within(desktopMenu).getByRole("link", { name: "resin and pigment art" });
-    within(desktopMenu).getByRole("link", { name: "decor" });
-    within(desktopMenu).getByRole("link", { name: "wearable art" });
-    within(desktopMenu).getByRole("link", { name: "stickers" });
-    within(desktopMenu).getByRole("link", { name: "murals" });
+    within(desktopMenu).getByRole("link", { name: "Commissions" });
+    within(desktopMenu).getByRole("link", { name: "Original Paintings" });
+    within(desktopMenu).getByRole("link", { name: "Prints" });
+    within(desktopMenu).getByRole("link", { name: "Resin & Pigment Art" });
+    within(desktopMenu).getByRole("link", { name: "Home Decor" });
+    within(desktopMenu).getByRole("link", { name: "Wearable Art" });
+    within(desktopMenu).getByRole("link", { name: "Stickers" });
+    within(desktopMenu).getByRole("link", { name: "Murals & Sign Writing" });
 
     const Footer = await screen.findByRole("contentinfo");
 

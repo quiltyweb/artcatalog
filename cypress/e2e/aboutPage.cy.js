@@ -51,17 +51,16 @@ describe("About page mobile", () => {
     cy.title().should("contain", "This is a test title from SiteMetadata");
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: "About my products" });
-      cy.findByRole("link", { name: "commissions" });
-      cy.findByRole("link", { name: "originals" });
-      cy.findByRole("link", { name: "prints" });
-      cy.findByRole("link", { name: "resin and pigment art" });
-      cy.findByRole("link", { name: "decor" });
-      cy.findByRole("link", { name: "wearable art" });
-      cy.findByRole("link", { name: "stickers" });
-      cy.findByRole("link", { name: "murals" });
-      cy.findByRole("link", { name: "prints" }).click();
+      cy.findByRole("link", { name: "Commissions" });
+      cy.findByRole("link", { name: "Original Paintings" });
+      cy.findByRole("link", { name: "Resin & Pigment Art" });
+      cy.findByRole("link", { name: "Home Decor" });
+      cy.findByRole("link", { name: "Wearable Art" });
+      cy.findByRole("link", { name: "Stickers" });
+      cy.findByRole("link", { name: "Murals & Sign Writing" });
+      cy.findByRole("link", { name: "Prints" }).click();
     });
-    cy.findByRole("heading", { name: "prints" });
+    cy.findByRole("heading", { name: "Prints" });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-node.json",
     }).as("checkoutFetch");

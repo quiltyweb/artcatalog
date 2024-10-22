@@ -40,6 +40,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
+    cy.findByRole("link", { name: "Shopping cart 0 items" });
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
@@ -56,7 +57,7 @@ describe("Basket page desktop", () => {
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.findByRole("link", { name: "decor" }).click();
+    cy.findByRole("link", { name: "Home Decor" }).click();
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
     cy.findByRole("heading", { name: "Cotton Beach towel" });
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -68,7 +69,7 @@ describe("Basket page desktop", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Cart (1 item)" }).click();
+    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", { name: "1 item in your cart." });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
@@ -173,14 +174,14 @@ describe("Basket page mobile", () => {
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("prints");
+    cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/shopping cart/).click();
+    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
 
     cy.findByRole("columnheader", { name: "product" });
@@ -199,7 +200,7 @@ describe("Basket page mobile", () => {
       1
     );
     // add two new items
-    cy.clickDrawerMenuOption("prints");
+    cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "Test Jungle Panther" }).click();
     cy.get("#quantity-increment").click();
     cy.get("#quantity").should("have.value", "2");
@@ -209,7 +210,7 @@ describe("Basket page mobile", () => {
     }).as("checkoutLineItemsAddTwoItems");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByLabelText(/shopping cart/).click();
+    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", { name: /3 items in your cart/ });
     cy.findByText(/Variant title Test Jungle Panther/i);
     cy.findByText(/unit price: \$10.00/i).should("be.visible");
@@ -241,14 +242,14 @@ describe("Basket page mobile", () => {
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("prints");
+    cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/shopping cart/).click();
+    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
 
     cy.window().then((win) => {
@@ -298,7 +299,7 @@ describe("Basket page with Quote form for mobile view", () => {
   it("loads Shopping bag page correctly with 3 items and a Quote form", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("decor");
+    cy.clickDrawerMenuOption("Home Decor");
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
     cy.get("select").select("Green");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
@@ -306,7 +307,7 @@ describe("Basket page with Quote form for mobile view", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByLabelText(/shopping cart/).click();
+    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", { name: /1 item in your cart./i });
     cy.findByRole("table").within(() => {
       cy.findByAltText(/alt text for variant Green/i);
@@ -318,7 +319,7 @@ describe("Basket page with Quote form for mobile view", () => {
       name: "remove item Cotton Beach towel - Green",
     }).should("have.length", 1);
     // add two new items
-    cy.clickDrawerMenuOption("prints");
+    cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "Macumba" }).click();
     cy.get("select").select("large");
     cy.get("#quantity-increment").click();
@@ -329,7 +330,7 @@ describe("Basket page with Quote form for mobile view", () => {
     }).as("checkoutLineItemsAddTwoItems");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByLabelText(/shopping cart/).click();
+    cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
     cy.findByRole("table", { name: /3 items in your cart/i });
     cy.findByText(/Macumba - large/i);
     cy.findByText(/Cotton Beach towel - Green/i);
@@ -350,7 +351,7 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByText("Email is Required");
   });
 
-  it.only("sends quote correctly with 1 item", () => {
+  it("sends quote correctly with 1 item", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "basket/mocked-checkout-response-node-2items",
     }).as("checkoutFetch");
