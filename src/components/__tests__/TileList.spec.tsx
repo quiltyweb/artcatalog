@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 describe("TileList", () => {
-  it("renders correctly", async () => {
+  it("renders correctly with default title", async () => {
     render(<TileList />);
     screen.getByRole("heading", { name: "Browse Brushella’s World" });
     screen.getByText("Commissions");
@@ -25,5 +25,9 @@ describe("TileList", () => {
     screen.getByAltText(
       "Collage depicting products of Original Paintings category"
     );
+  });
+  it("renders correctly with custom title", async () => {
+    render(<TileList title="my title" />);
+    screen.getByRole("heading", { name: "my title" });
   });
 });

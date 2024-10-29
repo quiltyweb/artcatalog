@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 import SEO from "../components/SEO";
 import { PageProps } from "gatsby";
@@ -27,6 +27,9 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
       <Breadcrumb mb="2.4rem">
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/collections">Categories</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href={`/collections/${categoryName}`}>

@@ -38,6 +38,9 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/collections">Categories</BreadcrumbLink>
+        </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href="#">{title}</BreadcrumbLink>
         </BreadcrumbItem>

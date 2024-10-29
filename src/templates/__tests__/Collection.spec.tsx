@@ -313,6 +313,7 @@ describe("Collection page Template", () => {
     screen.getByText("This is the Collection description text");
     screen.getByText("There are no products available.");
     screen.getByRole("link", { name: "Home" });
+    screen.getByRole("link", { name: "Categories" });
   });
 
   it("renders placeholder image", () => {

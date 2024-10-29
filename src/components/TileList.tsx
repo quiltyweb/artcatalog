@@ -10,7 +10,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { Link } from "gatsby";
-import tilePlaceholder from "../images/web-asset-noimg.jpg";
 import commisionsCategory from "../images/homepage-categories/commissions.jpg";
 import homedecorCategory from "../images/homepage-categories/home-decor.jpg";
 import muralsAndSignWritingCategory from "../images/homepage-categories/murals-and-sign-writing.jpg";
@@ -20,7 +19,12 @@ import stickersCategory from "../images/homepage-categories/stickers.jpg";
 import wearableArtCategory from "../images/homepage-categories/wearable-art.jpg";
 import prints from "../images/homepage-categories/prints.jpg";
 
-const TileList: React.FunctionComponent = (): React.ReactElement => {
+type TileListProps = {
+  title?: string;
+};
+const TileList: React.FunctionComponent<TileListProps> = ({
+  title,
+}): React.ReactElement => {
   const categories = [
     {
       name: "Original Paintings",
@@ -74,7 +78,7 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container as="section" maxW="1200px" paddingBottom={"4rem"}>
       <Heading as="h2" color="pink.800" mb="2.4rem" textAlign="left">
-        Browse Brushella’s World
+        {title || "Browse Brushella’s World"}
       </Heading>
       <SimpleGrid role="list" columns={[1, 2, 3, 4]} spacing={[4, 5, 10, 10]}>
         {categories.map((category, index) => {
