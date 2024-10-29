@@ -1,6 +1,7 @@
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import TileList from "../components/TileList";
+import HeroSection from "../components/HeroSection";
 import styled from "styled-components";
 import { Box } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,11 +17,11 @@ import "swiper/css/effect-fade";
 
 const SliderContainer = styled(Box)`
   --brushellaSliderHomepage-text-color: white;
-  --brushellaDesktopNav-height: 130px;
+  --brushellaDesktopNav-height: 84px;
   --brushellaMobileNav-height: 88px;
-  --brushellaSliderHomepage-text-color: white;
   .brushellaSliderHomepage {
     width: 100%;
+    background-color: #000000;
     .swiper-button-prev,
     .swiper-button-next {
       color: var(--brushellaSliderHomepage-text-color);
@@ -46,6 +47,7 @@ const SliderContainer = styled(Box)`
       color: #000000;
       background: #ffffff;
     }
+
     .swiper-slide img {
       height: calc(100vh - var(--brushellaMobileNav-height));
       width: 100vw;
@@ -55,6 +57,23 @@ const SliderContainer = styled(Box)`
     }
   }
 `;
+
+const SlideOverlay = () => {
+  return (
+    <div
+      style={{
+        background:
+          "radial-gradient(ellipse at center, rgba(0,0,0,0) 50%,rgba(0,0,0,0.5) 100%,rgba(0,0,0,1) 100%)",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        position: "absolute",
+        top: "0",
+        zIndex: "1",
+      }}
+    ></div>
+  );
+};
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => {
   return (
@@ -79,68 +98,76 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
           }}
           effect={"fade"}
         >
+          <SwiperSlide key={"lungs"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the Lungs depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider1-lungs.jpg?v=1729679598"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={"brain"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the Brain canvas depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider3-brain.jpg?v=1729679603"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={"animal-heart"}>
+            <SlideOverlay />
+            <StaticImage
+              className="brushella-slide"
+              alt={
+                "Partial area of the animal heart depicting a human heart with wildlife and flowers in a vibrant background."
+              }
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider2-animalheart.jpg?v=1729679609"
+              placeholder="blurred"
+            />
+          </SwiperSlide>
+
           <SwiperSlide key={"tiger"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
                 "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tiger.jpg?v=1728531323"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider5-tiger.jpg?v=1729679622"
               placeholder="blurred"
             />
           </SwiperSlide>
           <SwiperSlide key={"tucan"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
                 "Partial area of the Jungle print canvas, depicting a black and white toucan perched on a tree branch in a vibrant jungle with trees in the background."
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tucan.jpg?v=1728531404"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
-
-          <SwiperSlide key={"redchicken"}>
-            <StaticImage
-              className="Partial area of the jungle print canvas showing a red chicken and a blue snake in a vibrant jungle with flowers and plants in the background."
-              alt={"testing alt"}
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-redchicken.jpg?v=1728532542"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
-          <SwiperSlide key={"monkeys"}>
-            <StaticImage
-              className="brushella-slide"
-              alt={
-                "Partial area of the jungle print canvas, depicting two colorful monkeys in a jungle with trees in the background."
-              }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-monkeys.jpg?v=1728531337"
-              placeholder="blurred"
-            />
-          </SwiperSlide>
-          <SwiperSlide key={"parrot"}>
-            <StaticImage
-              className="brushella-slide"
-              alt={
-                "Partial area of the printed canvas titled 'Jungle', displaying a colorful parrot perched on a tree branch."
-              }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-parrot.jpg?v=1728532787"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider4-tucan.jpg?v=1729679618"
               placeholder="blurred"
             />
           </SwiperSlide>
           <SwiperSlide key={"panther"}>
+            <SlideOverlay />
             <StaticImage
               className="brushella-slide"
               alt={
                 "Partial area of the jungle print canvas depicting a black panther and an iguana in a vibrant background."
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-panther.jpg?v=1728532742"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider6-panther.jpg?v=1729679613"
               placeholder="blurred"
             />
           </SwiperSlide>
         </Swiper>
       </SliderContainer>
-
+      <HeroSection />
       <TileList />
     </>
   );

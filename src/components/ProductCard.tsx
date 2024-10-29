@@ -33,7 +33,7 @@ import {
 import { useAddItemToCart } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
-import notFoundImage from "../images/noimg.jpg";
+import notFoundImage from "../images/web-asset-noimg.jpg";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];

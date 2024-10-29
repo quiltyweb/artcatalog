@@ -1,7 +1,14 @@
 import React from "react";
 import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer";
 import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
-import { Box, Container, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Container,
+  Heading,
+} from "@chakra-ui/react";
 import styled from "styled-components";
 import SEO from "../components/SEO";
 
@@ -29,6 +36,14 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Breadcrumb mb="2.4rem">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">{title}</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">
         {title}
       </Heading>

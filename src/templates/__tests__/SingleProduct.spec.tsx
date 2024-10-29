@@ -167,6 +167,10 @@ describe("Single product Template", () => {
       />
     );
     screen.getByRole("link", { name: /home/i });
+    expect(screen.getByRole("link", { name: "Categories" })).toHaveAttribute(
+      "href",
+      "/collections"
+    );
     expect(screen.getByRole("link", { name: /All decor/i })).toHaveAttribute(
       "href",
       "/collections/decor"

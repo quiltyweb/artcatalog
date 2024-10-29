@@ -25,5 +25,6 @@ describe("ContactPage", () => {
     screen.getByLabelText("Email address");
     screen.getByLabelText("Message");
     screen.getByRole("button", { name: "Send Message" });
+    screen.getByRole("link", { name: "Home" });
   });
 });

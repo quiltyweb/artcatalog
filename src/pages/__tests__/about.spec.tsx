@@ -90,6 +90,7 @@ describe("AboutPage", () => {
     screen.getByAltText(
       "Gabriela in her art studio painting on a large canvas"
     );
+    screen.getByRole("link", { name: "Home" });
     screen.getByRole("heading", {
       name: "About me",
     });

@@ -1,5 +1,8 @@
 import React from "react";
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Card,
   CardBody,
   CardFooter,
@@ -31,6 +34,17 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Breadcrumb mb="2.4rem">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/collections">Categories</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">{title}</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <Heading as="h2" color="teal.500" textTransform="capitalize" mb="2.4rem">
         {title}
       </Heading>
@@ -66,7 +80,14 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   key={handle}
                   to={`/collections/${collectionHandle}/${handle}`}
                 >
-                  <Card key={`${id}-product-item`} boxShadow="md">
+                  <Card
+                    key={`${id}-product-item`}
+                    boxShadow="md"
+                    _hover={{
+                      transform: "scale(1.03)",
+                      transition: "transform .15s ease-in",
+                    }}
+                  >
                     <CardBody>
                       {image ? (
                         <GatsbyImage
@@ -85,7 +106,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                             maxHeight: "300px",
                           }}
                           alt=""
-                          src="../images/noimg.jpg"
+                          src="../images/web-asset-noimg.jpg"
                         />
                       )}
                       <Stack mt="6" spacing="3">

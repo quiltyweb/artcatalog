@@ -188,4 +188,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
         });
       });
     });
+
+  //TODO: add collections items for 'Nav' and 'TileList' components from here.
 };

@@ -20,16 +20,19 @@ describe("Home page desktop", () => {
   it("renders top navigation for desktop", () => {
     cy.get('svg[title="menu"]').should("not.exist");
     cy.get('svg[alt="Brushella"]').should("exist");
-    cy.findByRole("link", { name: "Contact me" }).should("be.visible");
-    cy.findByRole("link", { name: "Cart (0 item)" });
-    cy.findByRole("link", { name: "murals" });
-    cy.findByRole("link", { name: "stickers" });
-    cy.findByRole("link", { name: "wearable art" });
-    cy.findByRole("link", { name: "resin and pigment art" });
-    cy.findByRole("link", { name: "commissions" });
-    cy.findByRole("link", { name: "prints" });
-    cy.findByRole("link", { name: "originals" });
-    cy.findByRole("link", { name: "decor" });
+    cy.findByRole("link", { name: "Contact me" }).should("not.exist");
+    cy.findByRole("link", { name: "Shopping cart 0 items" });
+
+    cy.findByRole("navigation").within(() => {
+      cy.findByRole("link", { name: "Commissions" });
+      cy.findByRole("link", { name: "Original Paintings" });
+      cy.findByRole("link", { name: "Prints" });
+      cy.findByRole("link", { name: "Resin & Pigment Art" });
+      cy.findByRole("link", { name: "Home Decor" });
+      cy.findByRole("link", { name: "Wearable Art" });
+      cy.findByRole("link", { name: "Stickers" });
+      cy.findByRole("link", { name: "Murals & Sign Writing" });
+    });
   });
 });
 
@@ -69,20 +72,18 @@ describe("Home page mobile", () => {
   it("renders top navigation for mobile", () => {
     cy.viewport("iphone-4");
     cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
-    cy.findByLabelText(/send a message/i).click();
-    cy.findByRole("heading", { name: /Contact me/i });
-    cy.findByLabelText(/go to shopping bag/i).click();
+    cy.findByLabelText(/shopping cart/i).click();
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("button", { name: "menu" }).click();
-    cy.findByTestId("mobile-menu").within(() => {
-      cy.findByRole("link", { name: "murals" });
-      cy.findByRole("link", { name: "stickers" });
-      cy.findByRole("link", { name: "wearable art" });
-      cy.findByRole("link", { name: "resin and pigment art" });
-      cy.findByRole("link", { name: "commissions" });
-      cy.findByRole("link", { name: "prints" });
-      cy.findByRole("link", { name: "originals" });
-      cy.findByRole("link", { name: "decor" });
+    cy.findByTestId("mobile-drawer-content").within(() => {
+      cy.findByText("Commissions");
+      cy.findByText("Original Paintings");
+      cy.findByText("Prints");
+      cy.findByText("Resin & Pigment Art");
+      cy.findByText("Home Decor");
+      cy.findByText("Wearable Art");
+      cy.findByText("Stickers");
+      cy.findByText("Murals & Sign Writing");
       cy.findByRole("link", { name: /about me/i });
       cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: "facebook" });
@@ -102,15 +103,31 @@ describe("Home page mobile", () => {
     cy.findByRole("button", { name: "4" });
     cy.findByRole("button", { name: "5" });
     cy.findByRole("button", { name: "6" });
-    cy.findByRole("heading", { name: "Featured Categories" });
 
-    cy.findByRole("link", { name: /Original Paintings/ });
-    cy.findByRole("link", { name: /Prints/ });
-    cy.findByRole("link", { name: /Home Decor/ });
-
-    cy.findByAltText("original paintings");
-    cy.findByAltText("prints");
-    cy.findByAltText("home decor");
+    cy.findByAltText(
+      "Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
+    );
+    cy.findByRole("heading", { name: /Welcome to Brushella's Art Store/i });
+    cy.findByText(
+      "Your one-stop online shop where craftsmanship meets creativity!"
+    );
+    cy.findByText(
+      /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
+    );
+    cy.findByRole("heading", { name: "Browse Brushella’s World" });
+    cy.findByRole("main").within(() => {
+      cy.findByText("Commissions");
+      cy.findByText("Original Paintings");
+      cy.findByText("Prints");
+      cy.findByText("Resin & Pigment Art");
+      cy.findByText("Home Decor");
+      cy.findByText("Wearable Art");
+      cy.findByText("Stickers");
+      cy.findByText("Murals & Sign Writing");
+      cy.findByAltText(
+        "Collage depicting products of Original Paintings category"
+      );
+    });
   });
 
   it("renders footer", () => {
@@ -149,28 +166,28 @@ describe("Home page mobile", () => {
   });
 
   it("Navigates from mobile menu to each category page", () => {
-    cy.clickDrawerMenuOption("commissions");
-    cy.findByRole("heading", { name: "commissions" });
+    cy.clickDrawerMenuOption("Commissions");
+    cy.findByRole("heading", { name: "Commissions" });
 
-    cy.clickDrawerMenuOption("originals");
-    cy.findByRole("heading", { name: "originals" });
+    cy.clickDrawerMenuOption("Original Paintings");
+    cy.findByRole("heading", { name: "Original Paintings" });
 
-    cy.clickDrawerMenuOption("prints");
-    cy.findByRole("heading", { name: "prints" });
+    cy.clickDrawerMenuOption("Prints");
+    cy.findByRole("heading", { name: "Prints" });
 
-    cy.clickDrawerMenuOption("resin and pigment art");
-    cy.findByRole("heading", { name: "resin and pigment art" });
+    cy.clickDrawerMenuOption("Resin & Pigment Art");
+    cy.findByRole("heading", { name: "Resin & Pigment Art" });
 
-    cy.clickDrawerMenuOption("decor");
-    cy.findByRole("heading", { name: "decor" });
+    cy.clickDrawerMenuOption("Home Decor");
+    cy.findByRole("heading", { name: "Home Decor" });
 
-    cy.clickDrawerMenuOption("wearable art");
-    cy.findByRole("heading", { name: "wearable art" });
+    cy.clickDrawerMenuOption("Wearable Art");
+    cy.findByRole("heading", { name: "Wearable Art" });
 
-    cy.clickDrawerMenuOption("stickers");
-    cy.findByRole("heading", { name: "stickers" });
+    cy.clickDrawerMenuOption("Stickers");
+    cy.findByRole("heading", { name: "Stickers" });
 
-    cy.clickDrawerMenuOption("murals");
-    cy.findByRole("heading", { name: "murals" });
+    cy.clickDrawerMenuOption("Murals & Sign Writing");
+    cy.findByRole("heading", { name: "Murals & Sign Writing" });
   });
 });

@@ -1,9 +1,10 @@
 import React from "react";
 import * as Gatsby from "gatsby";
+import * as StoreContext from "../../context/StoreContext";
 import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
-
 const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
+const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -15,78 +16,14 @@ afterEach(() => {
 
 describe("Nav", () => {
   it("renders mobile version correctly ", async () => {
-    useStaticQuery.mockImplementation(() => ({
-      site: {
-        siteMetadata: {
-          title: "Brushella title",
-        },
-      },
-      allShopifyCollection: {
-        nodes: [
-          {
-            id: "4179b182-b572-5609-a8a2-05083671479a",
-            title: "murals",
-            handle: "murals",
-          },
-          {
-            id: "f824e7dd-2243-5286-a2aa-162cbc0f42cd",
-            title: "stickers",
-            handle: "stickers",
-          },
-          {
-            id: "a1f141d4-942b-51bc-9ab2-a2f4a48d1755",
-            title: "wearable art",
-            handle: "wearable-art",
-          },
-          {
-            id: "1f50e1f9-d3a0-54cc-b961-652870d93340",
-            title: "resin and pigment art",
-            handle: "resin-and-pigment-art",
-          },
-          {
-            id: "62470692-0598-57cc-bc0a-1ea60791c995",
-            title: "commissions",
-            handle: "commissions",
-          },
-          {
-            id: "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
-            title: "prints",
-            handle: "prints",
-          },
-          {
-            id: "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
-            title: "originals",
-            handle: "originals",
-          },
-          {
-            id: "384d31c2-36b3-5bc7-a4eb-1dc34dea1ab1",
-            title: "decor",
-            handle: "decor",
-          },
-        ],
-      },
-    }));
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
-        matches: false,
+        matches: false, //mobile
         addListener: jest.fn(),
         removeListener: jest.fn(),
       })),
     });
 
-    render(<Nav />);
-
-    screen.getByAltText(/Brushella title/);
-    screen.getByLabelText("send a message");
-    screen.getByLabelText("go to shopping bag");
-    screen.getByRole("button", { name: "menu" });
-
-    expect(
-      screen.queryByRole("link", { name: "commissions" })
-    ).not.toBeInTheDocument();
-  });
-
-  it("renders desktop version correctly", async () => {
     useStaticQuery.mockImplementation(() => ({
       site: {
         siteMetadata: {
@@ -97,47 +34,55 @@ describe("Nav", () => {
         nodes: [
           {
             id: "4179b182-b572-5609-a8a2-05083671479a",
-            title: "murals",
+            title: "Murals & Sign Writing",
             handle: "murals",
           },
           {
             id: "f824e7dd-2243-5286-a2aa-162cbc0f42cd",
-            title: "stickers",
+            title: "Stickers",
             handle: "stickers",
           },
           {
             id: "a1f141d4-942b-51bc-9ab2-a2f4a48d1755",
-            title: "wearable art",
+            title: "Wearable Art",
             handle: "wearable-art",
           },
           {
             id: "1f50e1f9-d3a0-54cc-b961-652870d93340",
-            title: "resin and pigment art",
+            title: "Resin & Pigment Art",
             handle: "resin-and-pigment-art",
           },
           {
             id: "62470692-0598-57cc-bc0a-1ea60791c995",
-            title: "commissions",
+            title: "Commissions",
             handle: "commissions",
           },
           {
             id: "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
-            title: "prints",
+            title: "Prints",
             handle: "prints",
           },
           {
             id: "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
-            title: "originals",
+            title: "Original Paintings",
             handle: "originals",
           },
           {
             id: "384d31c2-36b3-5bc7-a4eb-1dc34dea1ab1",
-            title: "decor",
+            title: "Home Decor",
             handle: "decor",
           },
         ],
       },
     }));
+
+    render(<Nav />);
+    screen.getByAltText(/Brushella title/);
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
+    screen.getByRole("button", { name: "menu" });
+  });
+
+  it("renders desktop version correctly", async () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
         matches: true,
@@ -145,24 +90,75 @@ describe("Nav", () => {
         removeListener: jest.fn(),
       })),
     });
+    useStaticQuery.mockImplementation(() => ({
+      site: {
+        siteMetadata: {
+          title: "Brushella title",
+        },
+      },
+      allShopifyCollection: {
+        nodes: [
+          {
+            id: "4179b182-b572-5609-a8a2-05083671479a",
+            title: "Murals & Sign Writing",
+            handle: "murals",
+          },
+          {
+            id: "f824e7dd-2243-5286-a2aa-162cbc0f42cd",
+            title: "Stickers",
+            handle: "stickers",
+          },
+          {
+            id: "a1f141d4-942b-51bc-9ab2-a2f4a48d1755",
+            title: "Wearable Art",
+            handle: "wearable-art",
+          },
+          {
+            id: "1f50e1f9-d3a0-54cc-b961-652870d93340",
+            title: "Resin & Pigment Art",
+            handle: "resin-and-pigment-art",
+          },
+          {
+            id: "62470692-0598-57cc-bc0a-1ea60791c995",
+            title: "Commissions",
+            handle: "commissions",
+          },
+          {
+            id: "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
+            title: "Prints",
+            handle: "prints",
+          },
+          {
+            id: "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
+            title: "Original Paintings",
+            handle: "originals",
+          },
+          {
+            id: "384d31c2-36b3-5bc7-a4eb-1dc34dea1ab1",
+            title: "Home Decor",
+            handle: "decor",
+          },
+        ],
+      },
+    }));
+
     render(<Nav />);
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText(/Brushella title/);
-    screen.getByRole("link", { name: /Cart/i });
-    screen.getByRole("link", { name: "commissions" });
-    screen.getByRole("link", { name: "originals" });
-    screen.getByRole("link", { name: "prints" });
-    screen.getByRole("link", { name: "resin and pigment art" });
-    screen.getByRole("link", { name: "decor" });
-    screen.getByRole("link", { name: "wearable art" });
-    screen.getByRole("link", { name: "stickers" });
-    screen.getByRole("link", { name: "murals" });
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
+    screen.getByRole("link", { name: "Commissions" });
+    screen.getByRole("link", { name: "Original Paintings" });
+    screen.getByRole("link", { name: "Prints" });
+    screen.getByRole("link", { name: "Resin & Pigment Art" });
+    screen.getByRole("link", { name: "Home Decor" });
+    screen.getByRole("link", { name: "Wearable Art" });
+    screen.getByRole("link", { name: "Stickers" });
+    screen.getByRole("link", { name: "Murals & Sign Writing" });
   });
 
-  it("renders desktop nav with no categories when they are not provided", async () => {
+  it("renders desktop navigation with no categories", async () => {
     useStaticQuery.mockImplementation(() => ({
       site: {
         siteMetadata: {
@@ -181,33 +177,26 @@ describe("Nav", () => {
       })),
     });
     render(<Nav />);
-    screen.getByRole("link", { name: /Contact me/i });
     screen.getByAltText("Brushella");
-    screen.getByText("Cart (0 item)");
+    screen.getByRole("link", { name: "Shopping cart 0 items" });
+    expect(
+      screen.queryByRole("link", { name: "Original Paintings" })
+    ).not.toBeInTheDocument();
+  });
 
-    expect(
-      screen.queryByRole("link", { name: "commissions" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "originals" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "prints" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "resin and pigment art" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "decor" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "wearable art" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "stickers" })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "murals" })
-    ).not.toBeInTheDocument();
+  it("renders counter text with correct label for 1 item", async () => {
+    useStaticQuery.mockImplementation(() => ({
+      site: {
+        siteMetadata: {
+          title: null,
+        },
+      },
+      allShopifyCollection: {
+        nodes: [],
+      },
+    }));
+    useLineItemsCount.mockImplementation(() => 1);
+    render(<Nav />);
+    screen.getByRole("link", { name: "Shopping cart 1 item" });
   });
 });

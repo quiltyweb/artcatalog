@@ -158,6 +158,7 @@ describe("Collection page Template", () => {
     screen.getByText(/\$10/i);
     screen.getByText(/view details/i);
     screen.getByRole("heading", { name: "Test product name" });
+    screen.getByRole("link", { name: "Home" });
   });
 
   it("renders no price when price is 0", () => {
@@ -304,11 +305,15 @@ describe("Collection page Template", () => {
     const mockedPageContext = {
       title: "This is the collection title",
       products: [],
+      description: "This is the Collection description text",
       collectionHandle: "this-is-the-collection-handle",
     };
-
     render(<Collection pageContext={mockedPageContext} />);
+    screen.getByRole("heading", { name: "This is the collection title" });
+    screen.getByText("This is the Collection description text");
     screen.getByText("There are no products available.");
+    screen.getByRole("link", { name: "Home" });
+    screen.getByRole("link", { name: "Categories" });
   });
 
   it("renders placeholder image", () => {
@@ -351,7 +356,10 @@ describe("Collection page Template", () => {
     render(<Collection pageContext={mockedPageContext} />);
     const fallbackImage = screen.getByRole("img");
     expect(fallbackImage).toHaveAttribute("alt", "");
-    expect(fallbackImage).toHaveAttribute("src", "../images/noimg.jpg");
+    expect(fallbackImage).toHaveAttribute(
+      "src",
+      "../images/web-asset-noimg.jpg"
+    );
     screen.getByRole("heading", { name: "Test product name" });
   });
 });

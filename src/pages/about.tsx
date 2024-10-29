@@ -1,7 +1,16 @@
 import * as React from "react";
 import { Link, graphql, PageProps, HeadProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import { Container, Heading, SimpleGrid, Tag, Text } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Container,
+  Heading,
+  SimpleGrid,
+  Tag,
+  Text,
+} from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
@@ -9,6 +18,14 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Breadcrumb mb="2.4rem">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">About me</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">
         About me
       </Heading>
@@ -25,7 +42,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
             borderRadius: "md",
           }}
           alt="Gabriela in her art studio painting on a large canvas"
-          src="../images/author.jpg"
+          src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           width={500}
         />
       </SimpleGrid>
