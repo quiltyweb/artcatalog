@@ -77,7 +77,14 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   key={handle}
                   to={`/collections/${collectionHandle}/${handle}`}
                 >
-                  <Card key={`${id}-product-item`} boxShadow="md">
+                  <Card
+                    key={`${id}-product-item`}
+                    boxShadow="md"
+                    _hover={{
+                      transform: "scale(1.03)",
+                      transition: "transform .15s ease-in",
+                    }}
+                  >
                     <CardBody>
                       {image ? (
                         <GatsbyImage

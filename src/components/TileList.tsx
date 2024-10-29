@@ -49,25 +49,25 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
     {
       name: "Prints",
       src: prints,
-      alt: "",
+      alt: "Collage depicting products of Prints category",
       to: "/collections/prints/",
     },
     {
       name: "Resin & Pigment Art",
       src: resinAndPigmentsArtCategory,
-      alt: "",
+      alt: "Collage depicting products of Resin & Pigment Art category",
       to: "/collections/resin-and-pigment-art/",
     },
     {
       name: "Wearable Art",
       src: wearableArtCategory,
-      alt: "",
+      alt: "Collage depicting products of Wearable Art category",
       to: "/collections/wearable-art/",
     },
     {
       name: "Stickers",
       src: stickersCategory,
-      alt: "",
+      alt: "Collage depicting products of Stickers category",
       to: "/collections/stickers/",
     },
   ];
@@ -92,7 +92,11 @@ const TileList: React.FunctionComponent = (): React.ReactElement => {
                     alt={category.alt}
                     borderRadius="sm"
                     minH={200}
-                    _hover={{ filter: "brightness(1.3)" }}
+                    style={{ filter: "brightness(1.2)" }}
+                    _hover={{
+                      transform: "scale(1.03)",
+                      transition: "transform .15s ease-in",
+                    }}
                   />
                   <Stack mt="2" spacing="3">
                     <Text
