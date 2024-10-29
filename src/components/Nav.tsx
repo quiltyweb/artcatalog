@@ -1,109 +1,19 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import {
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Icon,
-  IconButton,
-  Stack,
-  useDisclosure,
   useMediaQuery,
-  Box,
-  HStack,
-  UseDisclosureProps,
   Link,
-  Grid,
-  GridItem,
   Text,
-  Tag,
+  Flex,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import Logo from "../images/svg/brushella-black-bg.svg";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaWhatsapp,
-  FaRegEnvelope,
-  FaShoppingBag,
-  FaBars,
-} from "react-icons/fa";
+
 import { useLineItemsCount } from "../context/StoreContext";
-
-type CategoriesListMenuProps = {
-  allShopifyCollectionItems: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
-  handleClickOnClose?: UseDisclosureProps["onClose"];
-};
-type StaticLinksMenuProps = {
-  handleClickOnClose?: UseDisclosureProps["onClose"];
-};
-
-const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
-  handleClickOnClose,
-}): React.ReactElement => {
-  return (
-    <Stack
-      spacing="6"
-      align="left"
-      px={3}
-      mt={6}
-      direction={["column", "column", "column", "row", "row", "row"]}
-    >
-      <Link
-        fontSize="lg"
-        textTransform="capitalize"
-        as={GatsbyLink}
-        key="about-item"
-        to="/about"
-        onClick={handleClickOnClose}
-      >
-        about me
-      </Link>
-      <Link
-        fontSize="lg"
-        textTransform="capitalize"
-        as={GatsbyLink}
-        key="contact-item"
-        to="/contact"
-        onClick={handleClickOnClose}
-      >
-        contact
-      </Link>
-    </Stack>
-  );
-};
-const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
-  allShopifyCollectionItems,
-  handleClickOnClose,
-}): React.ReactElement => {
-  return (
-    <Stack
-      spacing="6"
-      align="left"
-      px={3}
-      direction={["column", "column", "column", "row", "row", "row"]}
-      textAlign="center"
-    >
-      {allShopifyCollectionItems &&
-        allShopifyCollectionItems.length > 0 &&
-        allShopifyCollectionItems.map((item) => (
-          <Link
-            fontSize={["lg", "md", "md"]}
-            textTransform="capitalize"
-            as={GatsbyLink}
-            key={item.id}
-            to={`/collections/${item.handle}`}
-            onClick={handleClickOnClose}
-          >
-            {item.title}
-          </Link>
-        ))}
-    </Stack>
-  );
-};
+import ResponsiveMenu from "./ResponsiveMenu";
+import { FaShoppingBag } from "react-icons/fa";
 
 const Nav: React.FunctionComponent = (): React.ReactElement => {
   const { site, allShopifyCollection } =
@@ -125,181 +35,68 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
     `);
 
   const lineItemsCount = useLineItemsCount();
+  const [isDektop] = useMediaQuery("(min-width: 929px)");
+  const counterLabel =
+    lineItemsCount === 1 ? `${lineItemsCount} item` : `${lineItemsCount} items`;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLargerThan992] = useMediaQuery("(min-width: 992px)");
+
   const handleClickOnOpen = () => {
     onOpen();
   };
   const handleClickOnClose = () => {
     onClose();
   };
-
-  const counterLabel =
-    lineItemsCount === 1 ? `${lineItemsCount} item` : `${lineItemsCount} items`;
-  // desktop menu
-  if (isLargerThan992)
-    return (
-      <Grid
-        width="100%"
-        gridGap="1rem"
-        alignItems="center"
-        gridTemplateColumns={"1fr 1fr 1fr "}
-        templateAreas={`"left-icon    logo     icons "
-                        "navigation navigation navigation"`}
-      >
-        <GridItem area={"logo"} justifySelf="center">
-          <Box maxHeight={"70px"} maxWidth={"70px"}>
-            <Link as={GatsbyLink} to="/">
-              <Logo
-                id="top-logo"
-                aria-label={site?.siteMetadata?.title || "Brushella"}
-                alt={site?.siteMetadata?.title || "Brushella"}
-                style={{
-                  maxWidth: "70",
-                  maxHeight: "70",
-                }}
-              />
-            </Link>
-          </Box>
-        </GridItem>
-        <GridItem area={"icons"} justifySelf="right" px="3rem">
-          <Link
-            as={GatsbyLink}
-            to="/basket"
-            display="flex"
-            alignItems="baseline"
-            justifyContent="center"
-            gap="0"
-            aria-labelledby="cartIcon cartCounter"
-          >
-            <Icon
-              id="cartIcon"
-              aria-label="Shopping cart"
-              boxSize="1.5rem"
-              as={FaShoppingBag}
-            />
-            <Text
-              id="cartCounter"
-              aria-label={counterLabel}
-              color="white"
-              fontWeight="extrabold"
-            >
-              {lineItemsCount}
-            </Text>
-          </Link>
-        </GridItem>
-        <GridItem area={"navigation"} justifySelf="center">
-          <CategoriesListMenu
-            allShopifyCollectionItems={allShopifyCollection.nodes}
-          />
-        </GridItem>
-      </Grid>
-    );
-
-  // mobile first menu
   return (
-    <>
-      <Link as={GatsbyLink} to="/contact">
-        <Icon boxSize="1.8rem" aria-label="send a message" as={FaRegEnvelope} />
-      </Link>
-      <Link
-        as={GatsbyLink}
-        to="/basket"
-        aria-labelledby="cartIconMobile cartCounterMobile"
-        display="flex"
-        alignItems="baseline"
-      >
-        <Icon
-          id="cartIconMobile"
-          aria-label="Shopping cart"
-          boxSize="1.8rem"
-          as={FaShoppingBag}
+    <Flex gap="4" alignItems="center" justify="space-between">
+      <Link as={GatsbyLink} to="/" marginEnd="auto">
+        <Logo
+          id="top-logo"
+          aria-label={site?.siteMetadata?.title || "Brushella"}
+          alt={site?.siteMetadata?.title || "Brushella"}
+          style={{
+            maxWidth: "60",
+            maxHeight: "60",
+          }}
         />
-        <Text
-          id="cartCounterMobile"
-          aria-label={counterLabel}
-          color="white"
-          fontWeight="extrabold"
-        >
-          {lineItemsCount}
-        </Text>
       </Link>
-      <Drawer
-        id="brushella-mobile-menu"
-        onClose={onClose}
-        isOpen={isOpen}
-        size={"xs"}
+      <Flex
+        flexDirection={isDektop ? "row-reverse" : "row"}
+        alignItems="center"
       >
-        <DrawerOverlay />
-        <DrawerContent
-          data-testid="mobile-menu"
-          backgroundColor="#377482"
-          color="#FFFFFF"
+        <Link
+          as={GatsbyLink}
+          to="/basket"
+          display="flex"
+          alignItems="baseline"
+          justifyContent="center"
+          gap="0"
+          aria-labelledby="cartIcon cartCounter"
         >
-          <DrawerCloseButton />
-          <DrawerHeader width={40}></DrawerHeader>
-          <DrawerBody>
-            <CategoriesListMenu
-              allShopifyCollectionItems={allShopifyCollection.nodes}
-              handleClickOnClose={handleClickOnClose}
-            />
-
-            <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
-
-            <HStack spacing="1rem" pl="2" mt="8" justifyContent="left">
-              <Box>
-                <a href="https://www.facebook.com/Brushella" target="_blank">
-                  <Icon boxSize="1rem" aria-label="facebook" as={FaFacebookF} />
-                </a>
-              </Box>
-              <Box>
-                <a
-                  href="https://www.instagram.com/brushella_brushmaster/"
-                  target="_blank"
-                >
-                  <Icon
-                    boxSize="1rem"
-                    aria-label="instagram"
-                    as={FaInstagram}
-                  />
-                </a>
-              </Box>
-              <Box>
-                <a
-                  href="https://api.whatsapp.com/send?phone=%2B61487877848&data=ARA2rjgrqD3ei6sgHpFdIxK1uippHhhlEnjcRmjkg3dG11AjZI8ShCbVqQYbVOdnhLfQad5KZQjB6Zogvx5p2r8gv6IgP7Ne4haC1SlM6kKI2H4VPgYdvvoSKUWELTr5rQZJooPwDE1IUpa7DgzMPGgREw&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwAR0un8_ftxPe1teJyVWm4Fun3pwKs-AjHqz6-AJ1STGxpwGkn6mBLDxMOZM"
-                  target="_blank"
-                >
-                  <Icon boxSize="1rem" aria-label="whatsApp" as={FaWhatsapp} />
-                </a>
-              </Box>
-            </HStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-      <Box maxWidth={64} margin="0 auto">
-        <Link as={GatsbyLink} to="/">
-          <Logo
-            aria-label={site?.siteMetadata?.title || "Brushella"}
-            alt={site?.siteMetadata?.title || "Brushella"}
-            style={{
-              width: "56",
-              maxWidth: "64",
-              maxHeight: "64",
-            }}
+          <Icon
+            id="cartIcon"
+            aria-label="Shopping cart"
+            boxSize="1.5rem"
+            as={FaShoppingBag}
           />
+          <Text
+            id="cartCounter"
+            aria-label={counterLabel}
+            color="white"
+            fontWeight="extrabold"
+          >
+            {lineItemsCount}
+          </Text>
         </Link>
-      </Box>
-      <IconButton
-        onClick={() => handleClickOnOpen()}
-        key={"bars-menu-button"}
-        aria-label="menu"
-        title="menu"
-        icon={<FaBars />}
-        backgroundColor="transparent"
-        color="#FFFFFF"
-        fontSize="30px"
-      />
-    </>
+        <ResponsiveMenu
+          isDektop={isDektop}
+          allShopifyCollectionNodes={allShopifyCollection.nodes}
+          isOpen={isOpen}
+          handleClickOnOpen={handleClickOnOpen}
+          handleClickOnClose={handleClickOnClose}
+        />
+      </Flex>
+    </Flex>
   );
 };
 

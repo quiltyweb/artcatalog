@@ -17,11 +17,11 @@ import "swiper/css/effect-fade";
 
 const SliderContainer = styled(Box)`
   --brushellaSliderHomepage-text-color: white;
-  --brushellaDesktopNav-height: 130px;
+  --brushellaDesktopNav-height: 84px;
   --brushellaMobileNav-height: 88px;
-  --brushellaSliderHomepage-text-color: white;
   .brushellaSliderHomepage {
     width: 100%;
+    background-color: #000000;
     .swiper-button-prev,
     .swiper-button-next {
       color: var(--brushellaSliderHomepage-text-color);
@@ -63,7 +63,7 @@ const SlideOverlay = () => {
     <div
       style={{
         background:
-          "radial-gradient(ellipse at center, rgba(0,0,0,0) 50%,rgba(0,0,0,0.8) 100%,rgba(0,0,0,1) 100%)",
+          "radial-gradient(ellipse at center, rgba(0,0,0,0) 50%,rgba(0,0,0,0.5) 100%,rgba(0,0,0,1) 100%)",
         height: "100%",
         width: "100%",
         display: "flex",
@@ -105,7 +105,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "Partial area of the Lungs depicting a human heart with wildlife and flowers in a vibrant background."
               }
-              src="../images/homepage-slider/lungs.jpg"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider1-lungs.jpg?v=1729679598"
               placeholder="blurred"
             />
           </SwiperSlide>
@@ -116,7 +116,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "Partial area of the Brain canvas depicting a human heart with wildlife and flowers in a vibrant background."
               }
-              src="../images/homepage-slider/brain.jpg"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider3-brain.jpg?v=1729679603"
               placeholder="blurred"
             />
           </SwiperSlide>
@@ -127,7 +127,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "Partial area of the animal heart depicting a human heart with wildlife and flowers in a vibrant background."
               }
-              src="../images/homepage-slider/animal-heart.jpg"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider2-animalheart.jpg?v=1729679609"
               placeholder="blurred"
             />
           </SwiperSlide>
@@ -139,7 +139,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tiger.jpg?v=1728531323"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider5-tiger.jpg?v=1729679622"
               placeholder="blurred"
             />
           </SwiperSlide>
@@ -150,7 +150,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "Partial area of the Jungle print canvas, depicting a black and white toucan perched on a tree branch in a vibrant jungle with trees in the background."
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-tucan.jpg?v=1728531404"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider4-tucan.jpg?v=1729679618"
               placeholder="blurred"
             />
           </SwiperSlide>
@@ -161,7 +161,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
               alt={
                 "Partial area of the jungle print canvas depicting a black panther and an iguana in a vibrant background."
               }
-              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/homepage-slider-panther.jpg?v=1728532742"
+              src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-homepage-slider6-panther.jpg?v=1729679613"
               placeholder="blurred"
             />
           </SwiperSlide>

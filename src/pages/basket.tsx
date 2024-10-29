@@ -194,7 +194,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                         width={60}
                         height={60}
                         alt={item.title}
-                        src="../images/noimg.jpg"
+                        src="../images/web-asset-noimg.jpg"
                       />
                     )}
                   </Td>

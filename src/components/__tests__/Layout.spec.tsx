@@ -120,118 +120,16 @@ describe("Layout", () => {
     render(<Layout>{<p>some content children</p>}</Layout>);
 
     const Nav = await screen.findByRole("navigation");
-    within(Nav).getByLabelText("send a message");
     within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
     within(Nav).getByAltText("Site Title");
     within(Nav).getByRole("button", { name: "menu" });
-
     screen.getByText("some content children");
-
     const Footer = await screen.findByRole("contentinfo");
-
     within(Footer).getByRole("link", { name: "Return and Refund Policy" });
     within(Footer).getByRole("link", { name: "Hand Made Policy" });
     within(Footer).getByRole("link", { name: "Shipping Policy" });
     within(Footer).getByRole("link", { name: "Privacy Policy" });
     within(Footer).getByRole("link", { name: "Terms of Service" });
-  });
-
-  it("trigger mobile dialog when clicking the menu button", async () => {
-    const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
-    useStaticQuery.mockImplementation(() => mockUseStaticQuery);
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: false,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-    const user = userEvent.setup();
-    render(
-      <Layout>
-        <p>some content children</p>
-      </Layout>
-    );
-    await screen.findByRole("button", { name: "menu" });
-
-    const mobileButton = screen.getByRole("button", { name: "menu" });
-    user.click(mobileButton);
-    const mobileMenu = await screen.findByTestId("mobile-menu");
-    expect(mobileMenu).toBeVisible();
-
-    within(mobileMenu).getByRole("link", { name: /about me/i });
-    within(mobileMenu).getByRole("link", { name: /contact/i });
-    within(mobileMenu).getByRole("link", { name: "Commissions" });
-    within(mobileMenu).getByRole("link", { name: "Original Paintings" });
-    within(mobileMenu).getByRole("link", { name: "Prints" });
-    within(mobileMenu).getByRole("link", { name: "Resin & Pigment Art" });
-    within(mobileMenu).getByRole("link", { name: "Home Decor" });
-    within(mobileMenu).getByRole("link", { name: "Wearable Art" });
-    within(mobileMenu).getByRole("link", { name: "Stickers" });
-    within(mobileMenu).getByRole("link", { name: "Murals & Sign Writing" });
-    expect(screen.getAllByLabelText("facebook")).toHaveLength(2);
-    expect(screen.getAllByLabelText("instagram")).toHaveLength(2);
-    expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
-  });
-
-  it("renders no categories in mobile menu when not provided", async () => {
-    const emptyMockUseStaticQuery = {
-      site: {
-        siteMetadata: {
-          title: "Site Title",
-        },
-      },
-      allShopifyCollection: {
-        nodes: [],
-      },
-      adminshopify: {
-        legalContent: {
-          nodes: [
-            {
-              fields: [
-                {
-                  key: "return_and_refund_policy",
-                  definition: {
-                    name: "Return and Refund Policy",
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      },
-    };
-    const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
-    useStaticQuery.mockImplementation(() => emptyMockUseStaticQuery);
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: false,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-    const user = userEvent.setup();
-    render(
-      <Layout>
-        <p>some content children</p>
-      </Layout>
-    );
-    await screen.findByRole("button", { name: "menu" });
-
-    const mobileButton = screen.getByRole("button", { name: "menu" });
-    user.click(mobileButton);
-    const mobileMenu = await screen.findByTestId("mobile-menu");
-    expect(mobileMenu).toBeVisible();
-
-    within(mobileMenu).getByRole("link", { name: /about me/i });
-    within(mobileMenu).getByRole("link", { name: /contact/i });
-    expect(screen.getAllByLabelText("facebook")).toHaveLength(2);
-    expect(screen.getAllByLabelText("instagram")).toHaveLength(2);
-    expect(screen.getAllByLabelText("whatsApp")).toHaveLength(2);
-
-    expect(
-      within(mobileMenu).queryByRole("link", { name: "Commissions" })
-    ).not.toBeInTheDocument();
   });
 
   it("loads desktop layout", async () => {
@@ -254,11 +152,9 @@ describe("Layout", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("send a message")).not.toBeInTheDocument();
     screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByAltText("Site Title");
     const desktopMenu = await screen.findByRole("navigation");
-
     within(desktopMenu).getByRole("link", { name: "Commissions" });
     within(desktopMenu).getByRole("link", { name: "Original Paintings" });
     within(desktopMenu).getByRole("link", { name: "Prints" });
@@ -267,9 +163,7 @@ describe("Layout", () => {
     within(desktopMenu).getByRole("link", { name: "Wearable Art" });
     within(desktopMenu).getByRole("link", { name: "Stickers" });
     within(desktopMenu).getByRole("link", { name: "Murals & Sign Writing" });
-
     const Footer = await screen.findByRole("contentinfo");
-
     within(Footer).getByRole("link", { name: "Return and Refund Policy" });
     within(Footer).getByRole("link", { name: "Hand Made Policy" });
     within(Footer).getByRole("link", { name: "Shipping Policy" });
@@ -278,7 +172,6 @@ describe("Layout", () => {
     within(Footer).getByRole("link", { name: /about me/i });
     within(Footer).getByRole("link", { name: /contact/i });
     within(Footer).getByRole("link", { name: /go to top/i });
-
     expect(screen.getAllByLabelText("facebook")).toHaveLength(1);
     expect(screen.getAllByLabelText("instagram")).toHaveLength(1);
     expect(screen.getAllByLabelText("whatsApp")).toHaveLength(1);

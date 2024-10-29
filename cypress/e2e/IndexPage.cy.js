@@ -72,12 +72,10 @@ describe("Home page mobile", () => {
   it("renders top navigation for mobile", () => {
     cy.viewport("iphone-4");
     cy.get('svg[alt="Brushella"]').should("have.attr", "alt", "Brushella");
-    cy.findByLabelText(/send a message/i).click();
-    cy.findByRole("heading", { name: /Contact me/i });
     cy.findByLabelText(/shopping cart/i).click();
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("button", { name: "menu" }).click();
-    cy.findByTestId("mobile-menu").within(() => {
+    cy.findByTestId("mobile-drawer-content").within(() => {
       cy.findByText("Commissions");
       cy.findByText("Original Paintings");
       cy.findByText("Prints");

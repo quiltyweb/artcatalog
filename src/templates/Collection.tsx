@@ -85,7 +85,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                             maxHeight: "300px",
                           }}
                           alt=""
-                          src="../images/noimg.jpg"
+                          src="../images/web-asset-noimg.jpg"
                         />
                       )}
                       <Stack mt="6" spacing="3">

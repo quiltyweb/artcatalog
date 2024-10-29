@@ -25,7 +25,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
             borderRadius: "md",
           }}
           alt="Gabriela in her art studio painting on a large canvas"
-          src="../images/author/brushella.jpg"
+          src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           width={500}
         />
       </SimpleGrid>

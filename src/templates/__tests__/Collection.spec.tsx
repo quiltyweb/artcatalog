@@ -351,7 +351,10 @@ describe("Collection page Template", () => {
     render(<Collection pageContext={mockedPageContext} />);
     const fallbackImage = screen.getByRole("img");
     expect(fallbackImage).toHaveAttribute("alt", "");
-    expect(fallbackImage).toHaveAttribute("src", "../images/noimg.jpg");
+    expect(fallbackImage).toHaveAttribute(
+      "src",
+      "../images/web-asset-noimg.jpg"
+    );
     screen.getByRole("heading", { name: "Test product name" });
   });
 });

@@ -8,10 +8,11 @@ import {
   Text,
   Image,
   CardHeader,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import authorPicture from "../images/author/brushella.jpg";
 
 const HeroSection: React.FunctionComponent = (): React.ReactElement => {
+  const [isDektop] = useMediaQuery("(min-width: 992px)");
   return (
     <Container as="section" maxW="1200px" padding={"4rem 0"}>
       <Card
@@ -20,21 +21,7 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         direction={{ base: "column", sm: "column", md: "column", lg: "row" }}
         overflow="hidden"
       >
-        <Image
-          src={authorPicture}
-          alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "100%", md: "100%", lg: "50%" }}
-        />
-        <Stack
-          padding={{
-            base: "1rem",
-            sm: "2rem",
-            md: "2.5rem",
-            lg: "3rem",
-            xl: "4rem",
-          }}
-        >
+        {!isDektop && (
           <CardHeader>
             <Heading
               as="h2"
@@ -56,6 +43,48 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
               Your one-stop online shop where craftsmanship meets creativity!
             </Text>
           </CardHeader>
+        )}
+
+        <Image
+          src={
+            "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
+          }
+          alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
+          objectFit="cover"
+          maxW={{ base: "100%", sm: "100%", md: "100%", lg: "50%" }}
+        />
+        <Stack
+          padding={{
+            base: "1rem",
+            sm: "2rem",
+            md: "2.5rem",
+            lg: "3rem",
+            xl: "4rem",
+          }}
+        >
+          {isDektop && (
+            <CardHeader>
+              <Heading
+                as="h2"
+                color="gray.900"
+                textAlign="center"
+                fontWeight="extrabold"
+                letterSpacing="0"
+              >
+                Welcome to Brushella's <br />
+                Art Store
+              </Heading>
+              <Text
+                fontSize="1.13rem"
+                color="gray.800"
+                marginY="1rem"
+                textAlign="center"
+                fontWeight="bold"
+              >
+                Your one-stop online shop where craftsmanship meets creativity!
+              </Text>
+            </CardHeader>
+          )}
           <CardBody p="0">
             <Text
               fontSize="1.13rem"

@@ -2,11 +2,12 @@ import * as React from "react";
 import type { GatsbyBrowser } from "gatsby";
 import Layout from "./src/components/Layout";
 import { StoreContextProvider } from "./src/context/StoreContext";
-import "@fontsource/raleway/400.css";
-import "@fontsource/open-sans/700.css";
 import theme from "./src/theme.ts";
 import { ChakraProvider } from "@chakra-ui/react";
 import styled from "styled-components";
+import "@fontsource/raleway";
+import "@fontsource/open-sans";
+import "./src/styles/global.css";
 
 const SkipToContentLink = styled.a`
   padding: 4px;

@@ -1,9 +1,10 @@
 import React from "react";
 import * as Gatsby from "gatsby";
+import * as StoreContext from "../../context/StoreContext";
 import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
-
 const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
+const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -15,6 +16,14 @@ afterEach(() => {
 
 describe("Nav", () => {
   it("renders mobile version correctly ", async () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: false, //mobile
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
+
     useStaticQuery.mockImplementation(() => ({
       site: {
         siteMetadata: {
@@ -66,24 +75,11 @@ describe("Nav", () => {
         ],
       },
     }));
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: false,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
 
     render(<Nav />);
-
     screen.getByAltText(/Brushella title/);
-    screen.getByLabelText("send a message");
     screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByRole("button", { name: "menu" });
-
-    expect(
-      screen.queryByRole("link", { name: "commissions" })
-    ).not.toBeInTheDocument();
   });
 
   it("renders desktop version correctly", async () => {
@@ -147,7 +143,6 @@ describe("Nav", () => {
     }));
 
     render(<Nav />);
-    screen.debug();
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
@@ -163,7 +158,7 @@ describe("Nav", () => {
     screen.getByRole("link", { name: "Murals & Sign Writing" });
   });
 
-  it("renders desktop nav with no categories when they are not provided", async () => {
+  it("renders desktop navigation with no categories", async () => {
     useStaticQuery.mockImplementation(() => ({
       site: {
         siteMetadata: {
@@ -190,6 +185,18 @@ describe("Nav", () => {
   });
 
   it("renders counter text with correct label for 1 item", async () => {
-    // TODO: add 1 item to cart to recreate the shopping cart counter label
+    useStaticQuery.mockImplementation(() => ({
+      site: {
+        siteMetadata: {
+          title: null,
+        },
+      },
+      allShopifyCollection: {
+        nodes: [],
+      },
+    }));
+    useLineItemsCount.mockImplementation(() => 1);
+    render(<Nav />);
+    screen.getByRole("link", { name: "Shopping cart 1 item" });
   });
 });

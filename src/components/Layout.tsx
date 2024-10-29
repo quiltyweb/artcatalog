@@ -40,14 +40,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     >
       <GridItem
         as="nav"
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
         gap="1rem"
         color="#FFFFFF"
         bg={"blackAlpha.900"}
         area={"header"}
-        px={3}
+        px={7}
         py={3}
         width="100%"
       >
