@@ -47,6 +47,7 @@ describe("Collection Template mobile", () => {
 
   it("Navigates from home to Collection page", () => {
     cy.clickDrawerMenuOption("Home Decor");
+    cy.findByRole("link", { name: "Home" });
     cy.findByRole("heading", { name: "Home Decor" });
     cy.findByText("This is the collection description text");
     cy.findByRole("heading", { name: "Cotton Beach towel" });

@@ -140,6 +140,7 @@ describe("Collection Template mobile view", () => {
       cy.findByRole("link", { name: /all decor/i }).click();
     });
     cy.wait("@checkoutFetch");
+    cy.findByRole("link", { name: "Home" });
     cy.findByRole("heading", { name: "Home Decor" });
   });
 });

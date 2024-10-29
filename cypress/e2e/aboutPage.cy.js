@@ -42,10 +42,11 @@ describe("About page mobile", () => {
     });
   });
 
-  it("loads About page correctly", () => {
+  it.only("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByRole("link", { name: /about me/i }).click();
-    cy.findByText("About me");
+    cy.findByRole("link", { name: "Home" });
+    cy.findByRole("heading", { name: /about me/i });
     cy.findByAltText("Gabriela in her art studio painting on a large canvas");
     cy.findByText(/this is test data for bio about me page/i);
     cy.title().should("contain", "This is a test title from SiteMetadata");
@@ -68,6 +69,6 @@ describe("About page mobile", () => {
       cy.findByRole("link", { name: /about/i }).click();
     });
     cy.wait("@checkoutFetch");
-    cy.findByText("About me");
+    cy.findByRole("heading", { name: /about me/i });
   });
 });

@@ -12,11 +12,15 @@ import {
   AlertIcon,
   Box,
   Container,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "gatsby";
+import { title } from "process";
 
 const SubmitSchema = Yup.object().shape({
   fullname: Yup.string().max(100, "Too Long!").required("Name is Required"),
@@ -34,6 +38,14 @@ interface FormValues {
 
 const ContactPage: React.FunctionComponent = (): React.ReactElement => (
   <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+    <Breadcrumb mb="2.4rem">
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbItem isCurrentPage>
+        <BreadcrumbLink href="#">Contact</BreadcrumbLink>
+      </BreadcrumbItem>
+    </Breadcrumb>
     <Heading as="h2" color="teal.500" mb="2.4rem">
       Contact me
     </Heading>

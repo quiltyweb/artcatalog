@@ -55,6 +55,7 @@ describe("LegalContent Template mobile", () => {
   it("Navigates from home to Legal Content template", () => {
     cy.findByRole("link", { name: "Return and Refund Policy" }).click();
     cy.wait("@legalContent");
+    cy.findByRole("link", { name: "Home" });
     cy.findByText(/test content/);
   });
 });
