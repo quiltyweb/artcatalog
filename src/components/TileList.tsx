@@ -102,7 +102,9 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                     alt={category.alt}
                     borderRadius="sm"
                     minH={200}
-                    style={{ filter: "brightness(1.2)" }}
+                    style={{
+                      filter: "brightness(1.2)",
+                    }}
                     _hover={{
                       transform: "scale(1.03)",
                       transition: "transform .15s ease-in",
