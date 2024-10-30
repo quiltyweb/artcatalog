@@ -44,6 +44,7 @@ describe("HeroSection", () => {
       "Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
     );
     screen.getByRole("heading", { name: /Welcome to Brushella's Art Store/i });
+    screen.getByRole("link", { name: "Shop now" });
     screen.getByText(
       "Your one-stop online shop where craftsmanship meets creativity!"
     );

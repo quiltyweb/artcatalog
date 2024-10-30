@@ -77,7 +77,13 @@ const TileList: React.FunctionComponent<TileListProps> = ({
   ];
   return (
     <Container as="section" maxW="1200px" paddingBottom={"4rem"}>
-      <Heading as="h2" color="pink.800" mb="2.4rem" textAlign="left">
+      <Heading
+        id="browse-categories"
+        as="h2"
+        color="pink.800"
+        mb="2.4rem"
+        textAlign="left"
+      >
         {title || "Browse Brushella’s World"}
       </Heading>
       <SimpleGrid role="list" columns={[1, 2, 3, 4]} spacing={[4, 5, 10, 10]}>
