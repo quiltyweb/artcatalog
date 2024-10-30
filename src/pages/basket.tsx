@@ -80,7 +80,7 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
 
 const BreadcrumbMenuCart = () => {
   return (
-    <Breadcrumb mb="2.4rem">
+    <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
       <BreadcrumbItem>
         <BreadcrumbLink href="/">Home</BreadcrumbLink>
       </BreadcrumbItem>

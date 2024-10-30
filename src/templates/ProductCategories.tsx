@@ -30,7 +30,7 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
-      <Breadcrumb mb="2.4rem">
+      <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
