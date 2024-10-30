@@ -1,13 +1,13 @@
 describe("Collection Template desktop", () => {
   it("checks for accessibility violations desktop view", () => {
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "collection/collectionDecor.json",
     });
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "collection/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/decor/");
+    cy.visit("/collections/home-decor/");
     cy.wait("@checkoutCreate");
     cy.injectAxe();
     cy.checkA11y({
@@ -20,12 +20,12 @@ describe("Collection Template mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "collection/collectionDecor.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "collection/singleProduct-for-collection-template.json",
       }

@@ -152,7 +152,7 @@ describe("Home page mobile", () => {
   it("Navigates from mobile menu to static page about me", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.intercept("GET", /page-data\/about/, {
-      fixture: "about.json",
+      fixture: "about/about.json",
     }).as("aboutPage");
     cy.findByRole("link", { name: /about me/i }).click();
     cy.wait("@aboutPage");

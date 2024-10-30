@@ -4,7 +4,7 @@
             "userErrors": [],
             "checkoutUserErrors": [],
             "checkout": {
-                "id": "gid://shopify/Checkout/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
+                "id": "gid://shopify/Checkout/fake/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
                 "ready": false,
                 "requiresShipping": false,
                 "note": null,
@@ -16,7 +16,7 @@
                     "amount": "0.0",
                     "currencyCode": "AUD"
                 },
-                "webUrl": "https://brushella-dev.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
+                "webUrl": "https://brushella-fake-url.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa",
                 "orderStatusUrl": null,
                 "taxExempt": false,
                 "taxesIncluded": false,

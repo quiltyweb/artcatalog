@@ -1,6 +1,6 @@
 {
     "componentChunkName": "component---src-templates-collection-tsx",
-    "path": "/collections/decor/",
+    "path": "/collections/home-decor/",
     "result": {
         "pageContext": {
             "title": "Home Decor",
@@ -601,7 +601,7 @@
                 }
              ],
             "description": "This is the collection description text",
-            "collectionHandle": "decor"
+            "collectionHandle": "home-decor"
         },
         "serverData": null
     },

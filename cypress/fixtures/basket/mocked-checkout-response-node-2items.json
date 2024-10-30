@@ -2,7 +2,7 @@
     "data": {
         "node": {
             "__typename": "Checkout",
-            "id": "gid://shopify/Checkout/123456185c800fd7270a82da6ec59171?key=0a4833ec0256e9f38e24766323519b2a",
+            "id": "gid://shopify/Checkout/fake/123456185c800fd7270a82da6ec59171?key=0a4833ec0256e9f38e24766323519b2a",
             "ready": true,
             "requiresShipping": true,
             "note": null,

@@ -1,6 +1,6 @@
 {
     "componentChunkName":"component---src-templates-single-product-tsx",
-    "path":"/collections/decor/beach-towel/",
+    "path":"/collections/home-decor/beach-towel/",
     "result":{
        "pageContext":{
           "product":{
@@ -143,7 +143,7 @@
                 }
              ]
           },
-          "collectionHandle":"decor"
+          "collectionHandle":"home-decor"
        },
        "serverData":null
     },

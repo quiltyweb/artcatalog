@@ -3,7 +3,7 @@ describe("About page desktop", () => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept("GET", /page-data\/about/, {
-      fixture: "about.json",
+      fixture: "about/about.json",
     }).as("aboutPage");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
@@ -25,7 +25,7 @@ describe("About page mobile", () => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
     cy.intercept("GET", /page-data\/about/, {
-      fixture: "about.json",
+      fixture: "about/about.json",
     }).as("aboutPage");
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
@@ -49,7 +49,7 @@ describe("About page mobile", () => {
     cy.findByRole("heading", { name: /about me/i });
     cy.findByAltText("Gabriela in her art studio painting on a large canvas");
     cy.findByText(/this is test data for bio about me page/i);
-    cy.title().should("contain", "This is a test title from SiteMetadata");
+    cy.title().should("contain", "About Page - Meet the artist");
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: "About my products" });
       cy.findByRole("link", { name: "Commissions" });
