@@ -132,20 +132,21 @@ describe("Home page mobile", () => {
   });
 
   it("renders footer", () => {
-    cy.get("footer");
-    cy.findByText("Quick Links");
-    cy.findByRole("link", { name: "Return and Refund Policy" });
-    cy.findByRole("link", { name: "Hand Made Policy" });
-    cy.findByRole("link", { name: "Shipping Policy" });
-    cy.findByRole("link", { name: "Privacy Policy" });
-    cy.findByRole("link", { name: "Terms of Service" });
-    cy.findByRole("link", { name: "facebook" });
-    cy.findByRole("link", { name: "instagram" });
-    cy.findByRole("link", { name: "whatsApp" });
-    cy.findByRole("link", { name: /contact/i });
-    cy.findByRole("link", { name: /about me/i });
-    cy.findByText(/© 2024, Brushella Art & Decor/);
-    cy.findByRole("link", { name: /go to top/i });
+    cy.get("footer").within(() => {
+      cy.findByText("Quick Links");
+      cy.findByRole("link", { name: "Return and Refund Policy" });
+      cy.findByRole("link", { name: "Hand Made Policy" });
+      cy.findByRole("link", { name: "Shipping Policy" });
+      cy.findByRole("link", { name: "Privacy Policy" });
+      cy.findByRole("link", { name: "Terms of Service" });
+      cy.findByRole("link", { name: "facebook" });
+      cy.findByRole("link", { name: "instagram" });
+      cy.findByRole("link", { name: "whatsApp" });
+      cy.findByRole("link", { name: /contact/i });
+      cy.findByRole("link", { name: /about me/i });
+      cy.findByText(/© 2024, Brushella Art & Decor/);
+      cy.findByRole("link", { name: /go to top/i });
+    });
   });
 
   it("Navigates from mobile menu to static page about me", () => {
