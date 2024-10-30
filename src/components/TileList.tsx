@@ -30,13 +30,13 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       name: "Original Paintings",
       src: originalPaintingsCategory,
       alt: "Collage depicting products of Original Paintings category",
-      to: "/collections/originals/",
+      to: "/collections/original-paintings/",
     },
     {
       name: "Home Decor",
       src: homedecorCategory,
       alt: "Collage depicting products of Home Decor category",
-      to: "/collections/decor/",
+      to: "/collections/home-decor/",
     },
     {
       name: "Commissions",
@@ -48,7 +48,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       name: "Murals & Sign Writing",
       src: muralsAndSignWritingCategory,
       alt: "Collage depicting products of Murals & Sign Writing category",
-      to: "/collections/murals/",
+      to: "/collections/murals-and-sign-writing/",
     },
     {
       name: "Prints",
@@ -77,7 +77,13 @@ const TileList: React.FunctionComponent<TileListProps> = ({
   ];
   return (
     <Container as="section" maxW="1200px" paddingBottom={"4rem"}>
-      <Heading as="h2" color="pink.800" mb="2.4rem" textAlign="left">
+      <Heading
+        id="browse-categories"
+        as="h2"
+        color="pink.800"
+        mb="2.4rem"
+        textAlign="left"
+      >
         {title || "Browse Brushella’s World"}
       </Heading>
       <SimpleGrid role="list" columns={[1, 2, 3, 4]} spacing={[4, 5, 10, 10]}>
@@ -96,7 +102,9 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                     alt={category.alt}
                     borderRadius="sm"
                     minH={200}
-                    style={{ filter: "brightness(1.2)" }}
+                    style={{
+                      filter: "brightness(1.2)",
+                    }}
                     _hover={{
                       transform: "scale(1.03)",
                       transition: "transform .15s ease-in",

@@ -2,12 +2,12 @@ describe("Basket page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "basket/collectionDecor.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "basket/singleProduct.json",
       }
@@ -107,12 +107,12 @@ describe("Basket page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "basket/collectionDecor.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "basket/singleProduct.json",
       }
@@ -260,7 +260,7 @@ describe("Basket page mobile", () => {
 
     cy.get("@windowOpen").should(
       "be.calledWith",
-      "https://brushella-dev.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa"
+      "https://brushella-fake-url.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa"
     );
   });
 });
@@ -270,7 +270,7 @@ describe("Basket page with Quote form for mobile view", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "basket/collectionDecor.json",
     });
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
@@ -278,7 +278,7 @@ describe("Basket page with Quote form for mobile view", () => {
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "basket/singleProduct.json",
       }

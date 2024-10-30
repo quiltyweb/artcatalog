@@ -9,7 +9,50 @@ import {
   Image,
   CardHeader,
   useMediaQuery,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
+
+const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
+  return (
+    <CardHeader>
+      <Heading
+        as="h2"
+        color="gray.900"
+        textAlign="center"
+        fontWeight="extrabold"
+        letterSpacing="0"
+      >
+        Welcome to Brushella's <br />
+        Art Store
+      </Heading>
+      <Text
+        fontSize="1.13rem"
+        color="gray.800"
+        marginY="1rem"
+        textAlign="center"
+        fontWeight="bold"
+      >
+        Your one-stop online shop where craftsmanship meets creativity!
+      </Text>
+      <LinkBox
+        as="div"
+        maxW="max-content"
+        color="white"
+        backgroundColor="gray.800"
+        fontWeight="bold"
+        boxShadow="sm"
+        borderRadius="5px"
+        fontSize="1.13rem"
+        p="0.4rem 1rem"
+        margin="2rem auto 0.5rem"
+        textAlign="center"
+      >
+        <LinkOverlay href="#browse-categories">Shop now</LinkOverlay>
+      </LinkBox>
+    </CardHeader>
+  );
+};
 
 const HeroSection: React.FunctionComponent = (): React.ReactElement => {
   const [isDektop] = useMediaQuery("(min-width: 992px)");
@@ -21,29 +64,7 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         direction={{ base: "column", sm: "column", md: "column", lg: "row" }}
         overflow="hidden"
       >
-        {!isDektop && (
-          <CardHeader>
-            <Heading
-              as="h2"
-              color="gray.900"
-              textAlign="center"
-              fontWeight="extrabold"
-              letterSpacing="0"
-            >
-              Welcome to Brushella's <br />
-              Art Store
-            </Heading>
-            <Text
-              fontSize="1.13rem"
-              color="gray.800"
-              marginY="1rem"
-              textAlign="center"
-              fontWeight="bold"
-            >
-              Your one-stop online shop where craftsmanship meets creativity!
-            </Text>
-          </CardHeader>
-        )}
+        {!isDektop && <HeaderCallToAction />}
 
         <Image
           src={
@@ -62,29 +83,7 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
             xl: "4rem",
           }}
         >
-          {isDektop && (
-            <CardHeader>
-              <Heading
-                as="h2"
-                color="gray.900"
-                textAlign="center"
-                fontWeight="extrabold"
-                letterSpacing="0"
-              >
-                Welcome to Brushella's <br />
-                Art Store
-              </Heading>
-              <Text
-                fontSize="1.13rem"
-                color="gray.800"
-                marginY="1rem"
-                textAlign="center"
-                fontWeight="bold"
-              >
-                Your one-stop online shop where craftsmanship meets creativity!
-              </Text>
-            </CardHeader>
-          )}
+          {isDektop && <HeaderCallToAction />}
           <CardBody p="0">
             <Text
               fontSize="1.13rem"

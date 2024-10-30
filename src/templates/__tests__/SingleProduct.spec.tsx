@@ -157,7 +157,7 @@ describe("Single product Template", () => {
     };
 
     const mockedLocation = {
-      pathname: "/collections/decor/test-product-handle/",
+      pathname: "/collections/home-decor/test-product-handle/",
     };
 
     render(
@@ -166,15 +166,14 @@ describe("Single product Template", () => {
         pageContext={mockedPageContext}
       />
     );
-    screen.getByRole("link", { name: /home/i });
+    screen.getByRole("link", { name: "Home" });
     expect(screen.getByRole("link", { name: "Categories" })).toHaveAttribute(
       "href",
       "/collections"
     );
-    expect(screen.getByRole("link", { name: /All decor/i })).toHaveAttribute(
-      "href",
-      "/collections/decor"
-    );
+    expect(
+      screen.getByRole("link", { name: /all home-decor/i })
+    ).toHaveAttribute("href", "/collections/home-decor");
     screen.getByRole("heading", { name: "Test product name" });
     expect(screen.getAllByText("Test product name")).toHaveLength(2);
     screen.getByText("Product description goes here");

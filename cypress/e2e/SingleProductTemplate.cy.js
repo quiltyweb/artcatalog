@@ -4,7 +4,7 @@ describe("Collection Template desktop view", () => {
     cy.viewport("macbook-16");
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "singleProduct/singleProduct.json",
       }
@@ -12,7 +12,7 @@ describe("Collection Template desktop view", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
   });
 
@@ -30,7 +30,7 @@ describe("Collection Template mobile view", () => {
     cy.viewport("iphone-4");
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "singleProduct/singleProduct.json",
       }
@@ -42,7 +42,7 @@ describe("Collection Template mobile view", () => {
   });
 
   it("checks for accessibility violations for mobile view", () => {
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.injectAxe();
     cy.checkA11y({
@@ -51,10 +51,10 @@ describe("Collection Template mobile view", () => {
   });
 
   it("Renders single product page", () => {
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all decor/i });
+      cy.findByRole("link", { name: /all home-decor/i });
     });
     cy.findByRole("heading", { name: "Cotton Beach towel" });
     cy.findByText("description text for Cotton Beach towel");
@@ -77,12 +77,12 @@ describe("Collection Template mobile view", () => {
   it("Renders single product page with fallback image when feature image not provided", () => {
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "singleProduct/singleProduct-no-featured-image.json",
       }
     );
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByRole("main").within(() => {
       cy.get("img[data-testid='no-image-found']").should(
@@ -96,12 +96,12 @@ describe("Collection Template mobile view", () => {
   it("Renders single product page without select and Variations subtitle when product has only default variant", () => {
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "singleProduct/singleProduct-has-only-default-variant.json",
       }
     );
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByText(/from/i).should("not.exist");
     cy.findByText(/AUD/i);
@@ -117,27 +117,27 @@ describe("Collection Template mobile view", () => {
   it("Renders single product page without media image gallery when has no media ", () => {
     cy.intercept(
       "GET",
-      "/page-data/collections/decor/beach-towel/page-data.json",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
       {
         fixture: "singleProduct/singleProduct-with-no-media.json",
       }
     );
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Details gallery:" }).should("not.exist");
   });
 
   it("renders breadcrumb to go back to category page", () => {
-    cy.visit("/collections/decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
       cy.intercept("POST", /api\/2023-10\/graphql/, {
         fixture: "singleProduct/mocked-checkout-response-node.json",
       }).as("checkoutFetch");
-      cy.intercept("GET", "/page-data/collections/decor/page-data.json", {
+      cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
         fixture: "collection/collectionDecor.json",
       });
-      cy.findByRole("link", { name: /all decor/i }).click();
+      cy.findByRole("link", { name: /all home-decor/i }).click();
     });
     cy.wait("@checkoutFetch");
     cy.findByRole("link", { name: "Home" });

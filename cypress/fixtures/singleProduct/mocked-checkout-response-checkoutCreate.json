@@ -4,7 +4,7 @@
             "userErrors": [],
             "checkoutUserErrors": [],
             "checkout": {
-                "id": "gid://shopify/Checkout/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
+                "id": "gid://shopify/Checkout/fake/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
                 "ready": false,
                 "requiresShipping": false,
                 "note": null,
