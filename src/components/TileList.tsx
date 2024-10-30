@@ -30,13 +30,13 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       name: "Original Paintings",
       src: originalPaintingsCategory,
       alt: "Collage depicting products of Original Paintings category",
-      to: "/collections/originals/",
+      to: "/collections/original-paintings/",
     },
     {
       name: "Home Decor",
       src: homedecorCategory,
       alt: "Collage depicting products of Home Decor category",
-      to: "/collections/decor/",
+      to: "/collections/home-decor/",
     },
     {
       name: "Commissions",
@@ -48,7 +48,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       name: "Murals & Sign Writing",
       src: muralsAndSignWritingCategory,
       alt: "Collage depicting products of Murals & Sign Writing category",
-      to: "/collections/murals/",
+      to: "/collections/murals-and-sign-writing/",
     },
     {
       name: "Prints",
