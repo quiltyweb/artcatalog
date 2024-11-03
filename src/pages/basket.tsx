@@ -8,6 +8,7 @@ import {
   Container,
   Heading,
   SimpleGrid,
+  Skeleton,
   Table,
   TableCaption,
   TableContainer,
@@ -24,6 +25,7 @@ import {
   useRemoveItemFromCart,
   useCartTotals,
   useCheckout,
+  useIsCheckoutReady,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -90,8 +92,56 @@ const BreadcrumbMenuCart = () => {
     </Breadcrumb>
   );
 };
+
+const TableLoadingSkeleton = () => {
+  return (
+    <TableContainer mb="8">
+      <Table size="sm">
+        <TableCaption placement="bottom" textAlign={["left", "center"]}>
+          Shoping cart is loading...
+        </TableCaption>
+        <Thead>
+          <Tr
+            display={["flex", "table-row"]}
+            justifyContent={["space-between"]}
+          >
+            <Th display={["none", "table-cell"]}>thumbnail</Th>
+            <Th>product</Th>
+            <Th>unit price</Th>
+            <Th display={["none", "table-cell"]}>quantity</Th>
+            <Th display={["none", "table-cell"]}>actions</Th>
+            <Th display={["none", "table-cell"]}>total</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+            <Td>
+              <Skeleton flex="1" height="10" variant="pulse" />
+            </Td>
+          </Tr>
+        </Tbody>
+      </Table>
+    </TableContainer>
+  );
+};
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
+  const isCheckoutReady = useIsCheckoutReady();
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
   const cartSubtotalPrice = useCartTotals();
@@ -101,7 +151,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   });
   const handleCheckout = useCheckout();
 
-  if (cartCount === 0) {
+  if (isCheckoutReady && cartCount === 0) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
@@ -121,173 +171,178 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       <Heading as="h2" color="teal.500" mb="2.4rem">
         Shopping Cart
       </Heading>
-      <TableContainer mb="8">
-        <Table size="sm">
-          {/* TODO: add caption with totals below, when cart is PROD ready */}
-          {/* <TableCaption placement="top" textAlign={["left", "center"]}>
+
+      {!isCheckoutReady && <TableLoadingSkeleton />}
+
+      {isCheckoutReady && (
+        <TableContainer mb="8">
+          <Table size="sm">
+            {/* TODO: add caption with totals below, when cart is PROD ready */}
+            {/* <TableCaption placement="top" textAlign={["left", "center"]}>
             {cartCount === 1 &&
               `1 item in your cart. Total ${cartSubtotalPriceWithFormat}`}
             {cartCount > 1 &&
               `${cartCount} items in your cart. Total ${cartSubtotalPriceWithFormat}`}
           </TableCaption> */}
-          {/* TODO: Remove this table caption with no totals. */}
-          <TableCaption placement="bottom" textAlign={["left", "center"]}>
-            {cartCount === 1 && `1 item in your cart.`}
-            {cartCount > 1 && `${cartCount} items in your cart.`}
-          </TableCaption>
-          <Thead>
-            <Tr
-              display={["flex", "table-row"]}
-              justifyContent={["space-between"]}
-            >
-              <Th display={["none", "table-cell"]}>thumbnail</Th>
-              <Th>product</Th>
-              <Th>unit price</Th>
-              <Th display={["none", "table-cell"]}>quantity</Th>
-              <Th display={["none", "table-cell"]}>actions</Th>
-              <Th display={["none", "table-cell"]}>total</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {checkoutLineItems.map((item, index) => {
-              const variantPriceWithFormat = formatPrice({
-                currency: item.variant?.price?.currencyCode,
-                value: Number(item.variant?.price?.amount),
-              });
-
-              const lineItemTotalWithFormat = formatPrice({
-                currency: item.variant?.price.currencyCode,
-                value: Number(item.variant?.price.amount) * item.quantity,
-              });
-
-              const variantImage = {
-                ...item.variant?.image,
-                originalSrc: item.variant?.image?.src,
-              };
-
-              const image =
-                item.variant?.image &&
-                getShopifyImage({
-                  image: variantImage,
-                  layout: "constrained",
-                  crop: "contain",
-                  width: 60,
-                  height: 60,
+            {/* TODO: Remove this table caption with no totals. */}
+            <TableCaption placement="bottom" textAlign={["left", "center"]}>
+              {cartCount === 1 && `1 item in your cart.`}
+              {cartCount > 1 && `${cartCount} items in your cart.`}
+            </TableCaption>
+            <Thead>
+              <Tr
+                display={["flex", "table-row"]}
+                justifyContent={["space-between"]}
+              >
+                <Th display={["none", "table-cell"]}>thumbnail</Th>
+                <Th>product</Th>
+                <Th>unit price</Th>
+                <Th display={["none", "table-cell"]}>quantity</Th>
+                <Th display={["none", "table-cell"]}>actions</Th>
+                <Th display={["none", "table-cell"]}>total</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {checkoutLineItems.map((item, index) => {
+                const variantPriceWithFormat = formatPrice({
+                  currency: item.variant?.price?.currencyCode,
+                  value: Number(item.variant?.price?.amount),
                 });
 
-              return (
-                <Tr
-                  key={`${item.id}-item-${index}`}
-                  display={["grid", "table-row"]}
-                  gridTemplate={[
-                    `
+                const lineItemTotalWithFormat = formatPrice({
+                  currency: item.variant?.price.currencyCode,
+                  value: Number(item.variant?.price.amount) * item.quantity,
+                });
+
+                const variantImage = {
+                  ...item.variant?.image,
+                  originalSrc: item.variant?.image?.src,
+                };
+
+                const image =
+                  item.variant?.image &&
+                  getShopifyImage({
+                    image: variantImage,
+                    layout: "constrained",
+                    crop: "contain",
+                    width: 60,
+                    height: 60,
+                  });
+
+                return (
+                  <Tr
+                    key={`${item.id}-item-${index}`}
+                    display={["grid", "table-row"]}
+                    gridTemplate={[
+                      `
                       "image title title unitprice"
                       "image quantity quantity remove"
                       `,
-                  ]}
-                  gap={["0.1rem"]}
-                  marginBottom={["2rem"]}
-                >
-                  <Td gridArea={"image"}>
-                    {image ? (
-                      <GatsbyImage
-                        key={variantImage.src}
-                        image={image}
-                        alt={variantImage.altText ?? item.title}
-                        style={{
-                          borderRadius: "md",
-                          boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
-                          maxWidth: "100%",
-                          width: "60px",
-                          height: "60px",
+                    ]}
+                    gap={["0.1rem"]}
+                    marginBottom={["2rem"]}
+                  >
+                    <Td gridArea={"image"}>
+                      {image ? (
+                        <GatsbyImage
+                          key={variantImage.src}
+                          image={image}
+                          alt={variantImage.altText ?? item.title}
+                          style={{
+                            borderRadius: "md",
+                            boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
+                            maxWidth: "100%",
+                            width: "60px",
+                            height: "60px",
+                          }}
+                        />
+                      ) : (
+                        <StaticImage
+                          style={{
+                            filter: "grayscale(1)",
+                            borderRadius: "md",
+                          }}
+                          width={60}
+                          height={60}
+                          alt={item.title}
+                          src="../images/web-asset-noimg.jpg"
+                        />
+                      )}
+                    </Td>
+
+                    <Td gridArea={"title"}>
+                      <Text
+                        sx={{
+                          textWrap: "wrap",
+                          wordWrap: "normal",
+                          minWidth: "min-content",
                         }}
-                      />
-                    ) : (
-                      <StaticImage
-                        style={{
-                          filter: "grayscale(1)",
-                          borderRadius: "md",
+                      >
+                        {`${item.title} - ${item.variant?.title}`}
+                      </Text>
+                    </Td>
+
+                    <Td gridArea={"unitprice"}>
+                      <Text
+                        visibility={"hidden"}
+                        sx={{
+                          textWrap: "wrap",
+                          wordWrap: "normal",
+                          minWidth: "min-content",
                         }}
-                        width={60}
-                        height={60}
-                        alt={item.title}
-                        src="../images/web-asset-noimg.jpg"
-                      />
-                    )}
-                  </Td>
+                      >
+                        unit price: {variantPriceWithFormat}
+                      </Text>
+                    </Td>
 
-                  <Td gridArea={"title"}>
-                    <Text
-                      sx={{
-                        textWrap: "wrap",
-                        wordWrap: "normal",
-                        minWidth: "min-content",
-                      }}
-                    >
-                      {`${item.title} - ${item.variant?.title}`}
-                    </Text>
-                  </Td>
+                    <Td gridArea={"quantity"}>
+                      <Text
+                        sx={{
+                          textWrap: "wrap",
+                          wordWrap: "normal",
+                          minWidth: "min-content",
+                        }}
+                      >
+                        quantity: {item.quantity}
+                      </Text>
+                    </Td>
 
-                  <Td gridArea={"unitprice"}>
-                    <Text
-                      visibility={"hidden"}
-                      sx={{
-                        textWrap: "wrap",
-                        wordWrap: "normal",
-                        minWidth: "min-content",
-                      }}
-                    >
-                      unit price: {variantPriceWithFormat}
-                    </Text>
-                  </Td>
+                    <Td gridArea={"remove"}>
+                      <Button
+                        size="sm"
+                        onClick={() => removeItemFromCart(item.id)}
+                        aria-label={`remove item ${`${item.title} - ${item.variant?.title}`}`}
+                      >
+                        <DeleteIcon boxSize="1rem" />
+                      </Button>
+                    </Td>
 
-                  <Td gridArea={"quantity"}>
-                    <Text
-                      sx={{
-                        textWrap: "wrap",
-                        wordWrap: "normal",
-                        minWidth: "min-content",
-                      }}
-                    >
-                      quantity: {item.quantity}
-                    </Text>
-                  </Td>
+                    <Td display={["none", "table-cell"]}>
+                      <Text
+                        visibility={"hidden"}
+                        sx={{
+                          textWrap: "wrap",
+                          wordWrap: "normal",
+                          minWidth: "min-content",
+                        }}
+                      >
+                        total: {lineItemTotalWithFormat}
+                      </Text>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
 
-                  <Td gridArea={"remove"}>
-                    <Button
-                      size="sm"
-                      onClick={() => removeItemFromCart(item.id)}
-                      aria-label={`remove item ${`${item.title} - ${item.variant?.title}`}`}
-                    >
-                      <DeleteIcon boxSize="1rem" />
-                    </Button>
-                  </Td>
-
-                  <Td display={["none", "table-cell"]}>
-                    <Text
-                      visibility={"hidden"}
-                      sx={{
-                        textWrap: "wrap",
-                        wordWrap: "normal",
-                        minWidth: "min-content",
-                      }}
-                    >
-                      total: {lineItemTotalWithFormat}
-                    </Text>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </TableContainer>
       {/* TODO: COMMENTED OUT BECAUSE IS WORK IN PROGRESS, CART CHECKOUT NOT PROD READY  */}
       {/* <CartSummary
         cartSubtotalPriceWithFormat={cartSubtotalPriceWithFormat}
         handleCheckout={handleCheckout}
       /> */}
-
-      <QuoteForm checkoutLineItems={checkoutLineItems} cartCount={cartCount} />
+      {cartCount > 0 && <QuoteForm checkoutLineItems={checkoutLineItems} />}
     </Container>
   );
 };

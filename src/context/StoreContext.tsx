@@ -24,6 +24,7 @@ interface StoreContextProps {
       webUrl: ShopifyBuy.Checkout["webUrl"];
       subtotalPrice: ShopifyBuy.Checkout["subtotalPrice"];
       lineItems: Array<ShopifyBuy.CheckoutLineItem>;
+      ready: ShopifyBuy.Checkout["ready"];
     };
   };
   setStore: Dispatch<SetStateAction<StoreContextProps["store"]>>;
@@ -42,6 +43,7 @@ const initialStoreState = {
     webUrl: "",
     lineItems: [],
     subtotalPrice: { amount: 0, currencyCode: "AUD" },
+    ready: false,
   },
 };
 
@@ -58,7 +60,10 @@ const useAddItemToCart = () => {
 
   const addItemToCart = ({ variantId, quantity }: AddItemsToCartArgs) => {
     setStore((prevState) => {
-      return { ...prevState, isAdding: true };
+      return {
+        ...prevState,
+        isAdding: true,
+      };
     });
     client.checkout
       .addLineItems(checkout.id, [
@@ -94,6 +99,12 @@ const useRemoveItemFromCart = () => {
   return removeItemFromCart;
 };
 
+const useIsCheckoutReady = () => {
+  const {
+    store: { checkout },
+  } = useContext(StoreContext);
+  return checkout.ready;
+};
 const useLineItemsCount = () => {
   const {
     store: {
@@ -169,7 +180,7 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
         });
       });
     }
-  }, []);
+  }, [store.checkout.ready]);
 
   return (
     <StoreContext.Provider value={{ store, setStore }}>
@@ -187,4 +198,5 @@ export {
   useCheckoutLineItems,
   useCartTotals,
   useCheckout,
+  useIsCheckoutReady,
 };
