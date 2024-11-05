@@ -97,13 +97,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const isCheckoutReady = useIsCheckoutReady();
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
-  const cartSubtotalPrice = useCartTotals();
-
-  const cartSubtotalPriceWithFormat = formatPrice({
-    currency: cartSubtotalPrice.currencyCode,
-    value: cartSubtotalPrice.amount,
-  });
-  const handleCheckout = useCheckout();
+  const [isDektop] = useMediaQuery("(min-width: 597px)");
 
   if (!isCheckoutReady) {
     return (
@@ -130,6 +124,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       </Container>
     );
   }
+
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
       <BreadcrumbMenuCart />
@@ -142,16 +137,19 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
             {cartCount === 1 && `1 item in your cart.`}
             {cartCount > 1 && `${cartCount} items in your cart.`}
           </TableCaption>
-          <Thead>
-            <Tr>
-              <Th>thumbnail</Th>
-              <Th>product</Th>
-              <Th>unit price</Th>
-              <Th>quantity</Th>
-              <Th>Remove</Th>
-              <Th>total</Th>
-            </Tr>
-          </Thead>
+
+          {isDektop && (
+            <Thead>
+              <Tr>
+                <Th>thumbnail</Th>
+                <Th>product</Th>
+                <Th>unit price</Th>
+                <Th>quantity</Th>
+                <Th>Remove</Th>
+                <Th>total</Th>
+              </Tr>
+            </Thead>
+          )}
           <Tbody>
             {checkoutLineItems.map((item, index) => {
               const variantPriceWithFormat = formatPrice({
