@@ -86,7 +86,12 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       >
         {title || "Browse Brushella’s World"}
       </Heading>
-      <SimpleGrid role="list" columns={[1, 2, 3, 4]} spacing={[4, 5, 10, 10]}>
+      <SimpleGrid
+        role="list"
+        aria-label="browse categories"
+        columns={[1, 2, 3, 4]}
+        spacing={[4, 5, 10, 10]}
+      >
         {categories.map((category, index) => {
           return (
             <Card
