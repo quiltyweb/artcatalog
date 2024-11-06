@@ -77,7 +77,7 @@ describe("Nav", () => {
     }));
 
     render(<Nav />);
-    screen.getByAltText(/Brushella title/);
+    screen.getByLabelText(/Brushella title home/);
     screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByRole("button", { name: "menu" });
   });
@@ -146,7 +146,7 @@ describe("Nav", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.getByAltText(/Brushella title/);
+    screen.getByLabelText(/Brushella title home/);
     screen.getByRole("link", { name: "Shopping cart 0 items" });
     screen.getByRole("link", { name: "Commissions" });
     screen.getByRole("link", { name: "Original Paintings" });
@@ -161,9 +161,7 @@ describe("Nav", () => {
   it("renders desktop navigation with no categories", async () => {
     useStaticQuery.mockImplementation(() => ({
       site: {
-        siteMetadata: {
-          title: null,
-        },
+        siteMetadata: {},
       },
       allShopifyCollection: {
         nodes: [],
@@ -177,7 +175,7 @@ describe("Nav", () => {
       })),
     });
     render(<Nav />);
-    screen.getByAltText("Brushella");
+    screen.getByLabelText("Brushella home");
     screen.getByRole("link", { name: "Shopping cart 0 items" });
     expect(
       screen.queryByRole("link", { name: "Original Paintings" })
