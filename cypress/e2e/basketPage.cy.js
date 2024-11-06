@@ -75,12 +75,15 @@ describe("Basket page desktop", () => {
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
     cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
-    cy.findByRole("columnheader", { name: "unit price" });
+
     cy.findByRole("columnheader", { name: "quantity" });
-    cy.findByRole("cell", { name: /quantity: 1/i });
-    cy.findByRole("columnheader", { name: "actions" });
-    cy.findByLabelText(/remove item Cotton Beach towel - Green/i);
+    cy.findByRole("cell", { name: "1" });
+    cy.findByRole("columnheader", { name: "remove" });
+    cy.findByLabelText(/remove Cotton Beach towel - Green/i);
+
+    // TODO: add cell values to this headers:
     cy.findByRole("columnheader", { name: "total" });
+    cy.findByRole("columnheader", { name: "unit price" });
     // TODO: add table caption test when checkout is prod ready
     // cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
     // TODO: text for all the columhead values here
@@ -160,14 +163,16 @@ describe("Basket page mobile", () => {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
     cy.findByRole("button", {
-      name: "remove item Cotton Beach towel - Purple",
+      name: "remove Cotton Beach towel - Purple",
     }).click();
     cy.wait("@checkoutLineItemsRemove");
     cy.findByRole("heading", { name: "Your cart is empty." });
   });
 
   // TODO: skipping this test until checkout feature is prod ready
-  it.skip("loads Shopping bag page correctly with 3 items and a checkout button", () => {
+  // it.skip("loads Shopping bag page with checkout button", () => {});
+
+  it.skip("loads Shopping bag page correctly with 3 items", () => {
     cy.intercept("POST", /api\/2023-10\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -193,13 +198,11 @@ describe("Basket page mobile", () => {
         /this is an altText for Default Variant Title for test Jungle Tiger 2/i
       );
       cy.findByText(/Variant title test Jungle Tiger 2/i);
-      cy.findByText(/quantity: 1/i);
+      // cy.findByText(/1/i);
+      cy.findByRole("cell", { name: "1" });
       cy.findAllByText(/10.00/i).should("have.length", 3);
     });
-    cy.findAllByRole("button", { name: "remove item" }).should(
-      "have.length",
-      1
-    );
+    cy.findAllByRole("button", { name: /remove/i }).should("have.length", 1);
     // add two new items
     cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "Test Jungle Panther" }).click();
@@ -221,10 +224,7 @@ describe("Basket page mobile", () => {
       cy.findByRole("heading", { name: "summary" });
       cy.findByText(/cart total:/i);
       cy.findAllByText(/\$40.00/).should("have.length", 2);
-      cy.findAllByRole("button", { name: "remove item" }).should(
-        "have.length",
-        2
-      );
+      cy.findAllByRole("button", { name: /remove/i }).should("have.length", 2);
       cy.findByText(/taxes and/i);
       cy.findByRole("link", { name: /shipping/i });
       cy.findByRole("table", { name: "3 items in your cart. Total $40.00" });
@@ -312,12 +312,11 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.findByRole("table", { name: /1 item in your cart./i });
     cy.findByRole("table").within(() => {
       cy.findByAltText(/alt text for variant Green/i);
-      cy.findByText(/Cotton Beach towel - Green/i);
-      cy.findByText(/quantity: 1/i);
-      // cy.findAllByText(/10.00/i).should("have.length", 3);
+      cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
+      cy.findByRole("cell", { name: "1" });
     });
     cy.findAllByRole("button", {
-      name: "remove item Cotton Beach towel - Green",
+      name: "remove Cotton Beach towel - Green",
     }).should("have.length", 1);
     // add two new items
     cy.clickDrawerMenuOption("Prints");
@@ -333,8 +332,8 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
     cy.findByRole("table", { name: /3 items in your cart/i });
-    cy.findByText(/Macumba - large/i);
-    cy.findByText(/Cotton Beach towel - Green/i);
+    cy.findByRole("cell", { name: /Macumba - large/i });
+    cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
     cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");
     cy.findByRole("button", { name: /Get a Quote/i });

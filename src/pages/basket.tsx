@@ -23,7 +23,7 @@ import {
   useLineItemsCount,
   useCheckoutLineItems,
   useRemoveItemFromCart,
-  useIsCheckoutReady,
+  useIsCartLoading,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -94,12 +94,12 @@ const TableLoadingSkeleton = () => {
 
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
-  const isCheckoutReady = useIsCheckoutReady();
+  const isCartLoading = useIsCartLoading();
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
 
-  if (!isCheckoutReady) {
+  if (isCartLoading) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
@@ -110,8 +110,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       </Container>
     );
   }
-
-  if (isCheckoutReady && cartCount === 0) {
+  if (!isCartLoading && cartCount === 0) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
@@ -145,11 +144,12 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                 <Th>product</Th>
                 <Th>unit price</Th>
                 <Th>quantity</Th>
-                <Th>Remove</Th>
+                <Th>remove</Th>
                 <Th>total</Th>
               </Tr>
             </Thead>
           )}
+
           <Tbody>
             {checkoutLineItems.map((item, index) => {
               const variantPriceWithFormat = formatPrice({
@@ -194,7 +194,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
-                            // maxWidth: "100%",
                             minWidth: "20px",
                             width: "60px",
                             height: "60px",
@@ -235,7 +234,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        unit price: {variantPriceWithFormat}
+                        {variantPriceWithFormat}
                       </Text>
                     </Td>
                     <Td>
@@ -246,7 +245,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        quantity: {item.quantity}
+                        {item.quantity}
                       </Text>
                     </Td>
                     <Td>
@@ -267,7 +266,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        total: {lineItemTotalWithFormat}
+                        {lineItemTotalWithFormat}
                       </Text>
                     </Td>
                   </Tr>
@@ -335,7 +334,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        unit price: {variantPriceWithFormat}
+                        {variantPriceWithFormat}
                       </Text>
                     </Td>
                   </Tr>
@@ -349,7 +348,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        quantity: {item.quantity}
+                        {item.quantity}
                       </Text>
                     </Td>
                   </Tr>
@@ -376,7 +375,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        total: {lineItemTotalWithFormat}
+                        {lineItemTotalWithFormat}
                       </Text>
                     </Td>
                   </Tr>

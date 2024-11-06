@@ -19,6 +19,7 @@ interface StoreContextProps {
   store: {
     client: Client;
     isAdding: boolean;
+    isLoading: boolean;
     checkout: {
       id: Client.ID;
       webUrl: ShopifyBuy.Checkout["webUrl"];
@@ -38,6 +39,7 @@ type AddItemsToCartArgs = {
 const initialStoreState = {
   client: client,
   isAdding: false,
+  isLoading: false,
   checkout: {
     id: "",
     webUrl: "",
@@ -62,6 +64,7 @@ const useAddItemToCart = () => {
     setStore((prevState) => {
       return {
         ...prevState,
+        isLoading: true,
         isAdding: true,
       };
     });
@@ -74,7 +77,12 @@ const useAddItemToCart = () => {
       ])
       .then((updatedCheckout) => {
         setStore((prevState) => {
-          return { ...prevState, checkout: updatedCheckout, isAdding: false };
+          return {
+            ...prevState,
+            isLoading: false,
+            isAdding: false,
+            checkout: updatedCheckout,
+          };
         });
       });
   };
@@ -88,15 +96,25 @@ const useRemoveItemFromCart = () => {
   } = useContext(StoreContext);
 
   const removeItemFromCart = (itemId: string) => {
+    setStore((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
     client.checkout
       .removeLineItems(checkout.id, [itemId])
       .then((updatedCheckout) => {
         setStore((prevState) => {
-          return { ...prevState, checkout: updatedCheckout };
+          return { ...prevState, isLoading: false, checkout: updatedCheckout };
         });
       });
   };
   return removeItemFromCart;
+};
+
+const useIsCartLoading = () => {
+  const {
+    store: { isLoading },
+  } = useContext(StoreContext);
+  return isLoading;
 };
 
 const useIsCheckoutReady = () => {
@@ -105,6 +123,7 @@ const useIsCheckoutReady = () => {
   } = useContext(StoreContext);
   return checkout.ready;
 };
+
 const useLineItemsCount = () => {
   const {
     store: {
@@ -152,6 +171,10 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
       ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
       : null;
 
+    setStore((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+
     if (existingCheckoutId) {
       client.checkout
         .fetch(existingCheckoutId)
@@ -160,8 +183,9 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
             if (isBrowser) {
               localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
             }
+
             setStore((prevState) => {
-              return { ...prevState, checkout };
+              return { ...prevState, isLoading: false, checkout };
             });
 
             return;
@@ -171,16 +195,20 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
           localStorage.remove(SHOPIFY_CHECKOUT_STORAGE_KEY);
         });
     } else {
+      setStore((prevState) => {
+        return { ...prevState, isLoading: true };
+      });
+
       client.checkout.create().then((checkout) => {
         if (isBrowser) {
           localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
         }
         setStore((prevState) => {
-          return { ...prevState, checkout };
+          return { ...prevState, isLoading: false, checkout };
         });
       });
     }
-  }, [store.checkout.ready]);
+  }, []);
 
   return (
     <StoreContext.Provider value={{ store, setStore }}>
@@ -198,5 +226,6 @@ export {
   useCheckoutLineItems,
   useCartTotals,
   useCheckout,
+  useIsCartLoading,
   useIsCheckoutReady,
 };

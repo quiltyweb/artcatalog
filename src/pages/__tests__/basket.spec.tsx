@@ -5,7 +5,7 @@ import BasketPage from "../basket";
 import * as StoreContext from "../../context/StoreContext";
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 const useCheckoutLineItems = jest.spyOn(StoreContext, "useCheckoutLineItems");
-const useIsCheckoutReady = jest.spyOn(StoreContext, "useIsCheckoutReady");
+const useIsCartLoading = jest.spyOn(StoreContext, "useIsCartLoading");
 import fetchMock from "jest-fetch-mock";
 
 describe("BasketPage", () => {
@@ -19,14 +19,15 @@ describe("BasketPage", () => {
   });
 
   it("renders Basket page layout correctly with 1 item", () => {
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
         id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "Cotton Beach towel",
+        title: "Product Title",
         variant: {
           id: "gid://shopify/ProductVariant/44161708556496",
-          title: "Original",
+          title: "Variant Title",
           price: {
             amount: "0.0",
             currencyCode: "AUD",
@@ -71,7 +72,6 @@ describe("BasketPage", () => {
         discountAllocations: [],
       },
     ]);
-    useIsCheckoutReady.mockImplementation(() => true);
 
     render(<BasketPage />);
 
@@ -87,7 +87,7 @@ describe("BasketPage", () => {
     screen.getByRole("heading", { name: "Quotation form" });
   });
 
-  it("renders all visible table headers for desktop", () => {
+  it("renders all visible table headers with its values on each table cell", () => {
     Object.defineProperty(window, "matchMedia", {
       value: jest.fn(() => ({
         matches: true, //desktop
@@ -95,15 +95,15 @@ describe("BasketPage", () => {
         removeListener: jest.fn(),
       })),
     });
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
         id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "Cotton Beach towel",
+        title: "Product Title",
         variant: {
           id: "gid://shopify/ProductVariant/44161708556496",
-          title: "Original",
+          title: "Variant Title",
           price: {
             amount: "0.0",
             currencyCode: "AUD",
@@ -120,7 +120,7 @@ describe("BasketPage", () => {
           image: {
             id: "gid://shopify/ProductImage/12344556677",
             src: "https://fake.shopify.com/s/files/fake/1/fake.jpg",
-            altText: null,
+            altText: "alt text for variant image",
             width: 715,
             height: 1077,
           },
@@ -140,10 +140,10 @@ describe("BasketPage", () => {
           },
           product: {
             id: "gid://shopify/Product/123123123",
-            handle: "beach-towel",
+            handle: "product-title",
           },
         },
-        quantity: 1,
+        quantity: 30,
         customAttributes: [],
         discountAllocations: [],
       },
@@ -151,42 +151,49 @@ describe("BasketPage", () => {
 
     render(<BasketPage />);
     screen.getByRole("columnheader", { name: /thumbnail/i });
+    screen.getByAltText("alt text for variant image");
     screen.getByRole("columnheader", { name: /product/i });
+    screen.getByText("Product Title - Variant Title");
     screen.getByRole("columnheader", { name: /quantity/i });
-    screen.getByRole("columnheader", { name: /unit price/i });
+    screen.findByRole("cell", { name: "30" });
     screen.getByRole("columnheader", { name: /remove/i });
+    screen.getByRole("button", {
+      name: "remove Product Title - Variant Title",
+    });
+    // TODO: add cell values to these headers:
+    screen.getByRole("columnheader", { name: /unit price/i });
     screen.getByRole("columnheader", { name: /total/i });
   });
 
   it("renders cart table with loading caption", () => {
-    useIsCheckoutReady.mockImplementation(() => false);
+    useIsCartLoading.mockImplementation(() => true);
     render(<BasketPage />);
     screen.getByRole("table", { name: "Shoping cart is loading..." });
   });
 
   it("renders page with empty cart message", () => {
     useLineItemsCount.mockImplementation(() => 0);
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Your cart is empty." });
   });
 
   it("renders table with correct caption title for one item", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     render(<BasketPage />);
     screen.getAllByRole("table", { name: "1 item in your cart." });
   });
 
   it("renders table with correct caption title with more than 1 item", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 2);
     render(<BasketPage />);
     screen.getAllByRole("table", { name: "2 items in your cart." });
   });
 
   it("renders product variant image", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -244,7 +251,7 @@ describe("BasketPage", () => {
   });
 
   it("renders static decorative no image", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -299,7 +306,7 @@ describe("BasketPage", () => {
   });
 
   it("renders product title and variant title", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -347,11 +354,11 @@ describe("BasketPage", () => {
       },
     ]);
     render(<BasketPage />);
-    screen.getByText("product title - variant title");
+    screen.findByRole("cell", { name: "product title - variant title" });
   });
 
   it("renders only product title when variant title has 'Default Title'", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -399,11 +406,11 @@ describe("BasketPage", () => {
       },
     ]);
     render(<BasketPage />);
-    screen.getByText("product title");
+    screen.findByRole("cell", { name: "product title" });
   });
 
   it("renders aria labellyby for icon button remove", () => {
-    useIsCheckoutReady.mockImplementation(() => true);
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -457,6 +464,7 @@ describe("BasketPage", () => {
   });
 
   it("renders quote form when cart count is greater than zero items", () => {
+    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Quotation form" });
