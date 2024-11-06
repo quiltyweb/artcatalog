@@ -125,9 +125,7 @@ describe("Home page mobile", () => {
       cy.findByRole("link", { name: /Wearable Art/i });
       cy.findByRole("link", { name: /Stickers/i });
       cy.findByRole("link", { name: /Murals & Sign Writing/i });
-      cy.findByAltText(
-        "Collage depicting products of Original Paintings category"
-      );
+      cy.findByAltText("Products of Original Paintings category.");
     });
   });
 

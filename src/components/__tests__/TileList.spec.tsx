@@ -22,9 +22,7 @@ describe("TileList", () => {
     screen.getByText("Wearable Art");
     screen.getByText("Stickers");
     screen.getByText("Murals & Sign Writing");
-    screen.getByAltText(
-      "Collage depicting products of Original Paintings category"
-    );
+    screen.getByAltText("Products of Original Paintings category.");
   });
   it("renders correctly with custom title", async () => {
     render(<TileList title="my title" />);
