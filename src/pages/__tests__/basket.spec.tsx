@@ -176,6 +176,7 @@ describe("BasketPage", () => {
     useIsCartLoading.mockImplementation(() => false);
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Your cart is empty." });
+    screen.getByRole("link", { name: "Shop now" });
   });
 
   it("renders table with correct caption title for one item", () => {

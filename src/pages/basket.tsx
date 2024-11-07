@@ -7,6 +7,8 @@ import {
   Container,
   Divider,
   Heading,
+  LinkBox,
+  LinkOverlay,
   Skeleton,
   Table,
   TableCaption,
@@ -31,6 +33,7 @@ import { getShopifyImage } from "gatsby-source-shopify";
 import { formatPrice } from "../utils/formatPrice";
 import { DeleteIcon } from "@chakra-ui/icons";
 import QuoteForm from "../components/QuoteForm";
+import CallToActionButton from "../components/CallToActionButton";
 
 const BreadcrumbMenuCart = () => {
   return (
@@ -120,6 +123,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
         <Heading as="h3" size="md" fontWeight="normal">
           Your cart is empty.
         </Heading>
+        <CallToActionButton title="Shop now" link="/collections" />
       </Container>
     );
   }
