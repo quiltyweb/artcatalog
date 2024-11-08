@@ -29,49 +29,49 @@ const TileList: React.FunctionComponent<TileListProps> = ({
     {
       name: "Original Paintings",
       src: originalPaintingsCategory,
-      alt: "Collage depicting products of Original Paintings category",
+      alt: "Products of Original Paintings category.",
       to: "/collections/original-paintings/",
     },
     {
       name: "Home Decor",
       src: homedecorCategory,
-      alt: "Collage depicting products of Home Decor category",
+      alt: "Products of Home Decor category.",
       to: "/collections/home-decor/",
     },
     {
       name: "Commissions",
       src: commisionsCategory,
-      alt: "Collage depicting products of Commissions category",
+      alt: "Products of Commissions category.",
       to: "/collections/commissions/",
     },
     {
       name: "Murals & Sign Writing",
       src: muralsAndSignWritingCategory,
-      alt: "Collage depicting products of Murals & Sign Writing category",
+      alt: "Products of Murals & Sign Writing category.",
       to: "/collections/murals-and-sign-writing/",
     },
     {
       name: "Prints",
       src: prints,
-      alt: "Collage depicting products of Prints category",
+      alt: "Products of Prints category.",
       to: "/collections/prints/",
     },
     {
       name: "Resin & Pigment Art",
       src: resinAndPigmentsArtCategory,
-      alt: "Collage depicting products of Resin & Pigment Art category",
+      alt: "Products of Resin & Pigment Art category.",
       to: "/collections/resin-and-pigment-art/",
     },
     {
       name: "Wearable Art",
       src: wearableArtCategory,
-      alt: "Collage depicting products of Wearable Art category",
+      alt: "Products of Wearable Art category.",
       to: "/collections/wearable-art/",
     },
     {
       name: "Stickers",
       src: stickersCategory,
-      alt: "Collage depicting products of Stickers category",
+      alt: "Products of Stickers category.",
       to: "/collections/stickers/",
     },
   ];
@@ -86,7 +86,12 @@ const TileList: React.FunctionComponent<TileListProps> = ({
       >
         {title || "Browse Brushella’s World"}
       </Heading>
-      <SimpleGrid role="list" columns={[1, 2, 3, 4]} spacing={[4, 5, 10, 10]}>
+      <SimpleGrid
+        role="list"
+        aria-label="browse categories"
+        columns={[1, 2, 3, 4]}
+        spacing={[4, 5, 10, 10]}
+      >
         {categories.map((category, index) => {
           return (
             <Card

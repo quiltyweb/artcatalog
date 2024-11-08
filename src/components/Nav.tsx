@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
-import Logo from "../images/svg/brushella-black-bg.svg";
+import LogoSVG from "../images/svg/brushella-black-bg.svg";
 
 import { useLineItemsCount } from "../context/StoreContext";
 import ResponsiveMenu from "./ResponsiveMenu";
@@ -50,10 +50,13 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Flex gap="4" alignItems="center" justify="space-between">
       <Link as={GatsbyLink} to="/" marginEnd="auto">
-        <Logo
+        <LogoSVG
           id="top-logo"
-          aria-label={site?.siteMetadata?.title || "Brushella"}
-          alt={site?.siteMetadata?.title || "Brushella"}
+          aria-label={
+            site?.siteMetadata?.title
+              ? `${site?.siteMetadata?.title} home`
+              : "Brushella home"
+          }
           style={{
             maxWidth: "60",
             maxHeight: "60",

@@ -27,11 +27,9 @@ interface FormValues {
 
 type QuoteFormProps = {
   checkoutLineItems: Array<ShopifyBuy.CheckoutLineItem>;
-  cartCount: number;
 };
 const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
   checkoutLineItems,
-  cartCount,
 }): React.ReactElement => {
   const getItemsFromBasket = (): string => {
     const cartForMessage = checkoutLineItems.map((item) => {
@@ -45,113 +43,111 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
       <Heading as="h3" size="sm" color="teal.500">
         Quotation form
       </Heading>
-      {cartCount >= 1 && (
-        <Formik
-          initialValues={{
-            fullname: "",
-            email: "",
-            message: getItemsFromBasket(),
-          }}
-          validationSchema={SubmitSchema}
-          onSubmit={async (
-            { fullname, email, message }: FormValues,
-            { setStatus }
-          ) => {
-            const res = await fetch(
-              "https://www.formbackend.com/f/a89f490517ad6461",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-                body: JSON.stringify({ fullname, email, message }),
-              }
-            );
-
-            if (!res.ok) {
-              setStatus({
-                sent: false,
-                message:
-                  "There was an error sending your quote. Please try again later.",
-              });
-            } else {
-              if (res.status === 200) {
-                setStatus({
-                  sent: true,
-                  message: `Your quote was sent succesfully with the following items: ${message}`,
-                });
-              }
+      <Formik
+        initialValues={{
+          fullname: "",
+          email: "",
+          message: getItemsFromBasket(),
+        }}
+        validationSchema={SubmitSchema}
+        onSubmit={async (
+          { fullname, email, message }: FormValues,
+          { setStatus }
+        ) => {
+          const res = await fetch(
+            "https://www.formbackend.com/f/a89f490517ad6461",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({ fullname, email, message }),
             }
-          }}
-        >
-          {(props) => {
-            return (
-              <>
-                {props.status && props.status.sent && (
-                  <Alert status="success" id="bag-status-success">
-                    <AlertIcon />
-                    {props.status.message}
-                  </Alert>
-                )}
-                {props.status && !props.status.sent && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    {props.status.message}
-                  </Alert>
-                )}
+          );
 
-                {!props.status && (
-                  <Form data-testid="quote-contact-form">
-                    <Field name="fullname" type="text">
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.fullname && form.touched.fullname
-                          }
-                          mb={8}
-                        >
-                          <FormLabel>Full Name</FormLabel>
-                          <Input {...field} />
-                          <FormErrorMessage>
-                            <ErrorMessage name="fullname" />
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
+          if (!res.ok) {
+            setStatus({
+              sent: false,
+              message:
+                "There was an error sending your quote. Please try again later.",
+            });
+          } else {
+            if (res.status === 200) {
+              setStatus({
+                sent: true,
+                message: `Your quote was sent succesfully with the following items: ${message}`,
+              });
+            }
+          }
+        }}
+      >
+        {(props) => {
+          return (
+            <>
+              {props.status && props.status.sent && (
+                <Alert status="success" id="bag-status-success">
+                  <AlertIcon />
+                  {props.status.message}
+                </Alert>
+              )}
+              {props.status && !props.status.sent && (
+                <Alert status="error">
+                  <AlertIcon />
+                  {props.status.message}
+                </Alert>
+              )}
 
-                    <Field name="email" type="email">
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.email && form.touched.email}
-                          mb={8}
-                        >
-                          <FormLabel>Email address</FormLabel>
-                          <Input {...field} />
-                          <FormErrorMessage>
-                            <ErrorMessage name="email" />
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
+              {!props.status && (
+                <Form data-testid="quote-contact-form">
+                  <Field name="fullname" type="text">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.fullname && form.touched.fullname
+                        }
+                        mb={8}
+                      >
+                        <FormLabel>Full Name</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>
+                          <ErrorMessage name="fullname" />
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                    <Button
-                      isLoading={props.isSubmitting}
-                      mt={4}
-                      backgroundColor="#86548A"
-                      color="#ffffff"
-                      colorScheme="teal"
-                      type="submit"
-                    >
-                      Get a Quote
-                    </Button>
-                  </Form>
-                )}
-              </>
-            );
-          }}
-        </Formik>
-      )}
+                  <Field name="email" type="email">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                        mb={8}
+                      >
+                        <FormLabel>Email address</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>
+                          <ErrorMessage name="email" />
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Button
+                    isLoading={props.isSubmitting}
+                    mt={4}
+                    backgroundColor="#86548A"
+                    color="#ffffff"
+                    colorScheme="teal"
+                    type="submit"
+                  >
+                    Get a Quote
+                  </Button>
+                </Form>
+              )}
+            </>
+          );
+        }}
+      </Formik>
     </>
   );
 };

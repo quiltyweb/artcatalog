@@ -12,6 +12,7 @@ import {
   LinkBox,
   LinkOverlay,
 } from "@chakra-ui/react";
+import CallToActionButton from "./CallToActionButton";
 
 const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
   return (
@@ -35,21 +36,7 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
       >
         Your one-stop online shop where craftsmanship meets creativity!
       </Text>
-      <LinkBox
-        as="div"
-        maxW="max-content"
-        color="white"
-        backgroundColor="gray.800"
-        fontWeight="bold"
-        boxShadow="sm"
-        borderRadius="5px"
-        fontSize="1.13rem"
-        p="0.4rem 1rem"
-        margin="2rem auto 0.5rem"
-        textAlign="center"
-      >
-        <LinkOverlay href="#browse-categories">Shop now</LinkOverlay>
-      </LinkBox>
+      <CallToActionButton title="Shop now" link="#browse-categories" />
     </CardHeader>
   );
 };

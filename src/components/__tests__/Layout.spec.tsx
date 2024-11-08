@@ -121,7 +121,7 @@ describe("Layout", () => {
 
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
-    within(Nav).getByAltText("Site Title");
+    within(Nav).getByLabelText("Site Title home");
     within(Nav).getByRole("button", { name: "menu" });
     screen.getByText("some content children");
     const Footer = await screen.findByRole("contentinfo");
@@ -153,7 +153,7 @@ describe("Layout", () => {
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
     screen.getByRole("link", { name: "Shopping cart 0 items" });
-    screen.getByAltText("Site Title");
+    screen.getByLabelText("Site Title home");
     const desktopMenu = await screen.findByRole("navigation");
     within(desktopMenu).getByRole("link", { name: "Commissions" });
     within(desktopMenu).getByRole("link", { name: "Original Paintings" });

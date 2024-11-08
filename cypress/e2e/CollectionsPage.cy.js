@@ -39,9 +39,17 @@ describe("Collections Page mobile", () => {
 
   it("loads collections page correctly", () => {
     cy.findByRole("link", { name: "Home" });
-    cy.findByRole("link", { name: "Home" });
     cy.findAllByText("All Categories").should("have.length", 2);
     cy.findByRole("heading", { name: "All Categories" });
     cy.findByText("Original Paintings");
+    cy.findAllByRole("img").should("have.length", 8);
+  });
+
+  it("goes to a category", () => {
+    cy.findByRole("link", { name: /Original Paintings/i }).click();
+    cy.findByRole("link", { name: "Home" });
+    cy.findByRole("link", { name: "Categories" });
+    cy.findAllByText("Original Paintings").should("have.length", 2);
+    cy.findByRole("heading", { name: "Original Paintings" });
   });
 });
