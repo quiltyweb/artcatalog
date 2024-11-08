@@ -316,7 +316,7 @@ describe("Collection page Template", () => {
     screen.getByRole("link", { name: "Categories" });
   });
 
-  it("renders placeholder image", () => {
+  it("renders placeholder image when featured image is not provided", () => {
     const mockedPageContext = {
       title: "This is the collection title",
       products: [
@@ -361,5 +361,70 @@ describe("Collection page Template", () => {
       "../images/web-asset-noimg.jpg"
     );
     screen.getByRole("heading", { name: "Test product name" });
+  });
+
+  it("renders placeholder image when featured image has no alt text", () => {
+    const mockedPageContext = {
+      title: "This is the collection title",
+      products: [
+        {
+          id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+          title: "Test product name",
+          handle: "test-product-handle",
+          description: "Product description goes here",
+          priceRangeV2: {
+            minVariantPrice: {
+              amount: 10.0,
+              currencyCode: "AUD",
+            },
+            maxVariantPrice: {
+              amount: 20.0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: {
+            altText: null,
+            gatsbyImageData: {
+              images: {
+                sources: [
+                  {
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                    type: "image/webp",
+                  },
+                ],
+                fallback: {
+                  src: mockedImageURL,
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                },
+              },
+              layout: "constrained",
+              width: 500,
+              height: 1111,
+            },
+          },
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [],
+          mediaCount: 1,
+          media: [],
+          options: [
+            {
+              shopifyId: "gid://shopify/ProductOption/1234543212345",
+              name: "Color",
+              values: ["red"],
+            },
+          ],
+        },
+      ],
+      description: "This is the Collection description text",
+      collectionHandle: "this-is-the-collection-handle",
+    };
+    render(<Collection pageContext={mockedPageContext} />);
+    expect(screen.queryByRole("img")).toHaveAttribute(
+      "src",
+      "../images/web-asset-noimg.jpg"
+    );
   });
 });

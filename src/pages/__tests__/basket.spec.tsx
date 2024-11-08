@@ -251,7 +251,7 @@ describe("BasketPage", () => {
     screen.getByAltText("this is alt text for product variant item");
   });
 
-  it("renders static decorative no image", () => {
+  it("renders placeholder fallback image when variant alt text is not provided", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
@@ -269,12 +269,73 @@ describe("BasketPage", () => {
             amount: "0.0",
             currencyCode: "AUD",
           },
+
           weight: 500,
           available: true,
           sku: "",
           compareAtPrice: null,
           compareAtPriceV2: null,
+          image: {
+            id: "gid://shopify/ProductImage/12344556677",
+            src: "https://fake.shopify.com/s/files/fake/1/fake.jpg",
+            altText: null,
+            width: 715,
+            height: 1077,
+          },
+          selectedOptions: [
+            {
+              name: "Color",
+              value: "Original",
+            },
+          ],
+          unitPrice: null,
+          unitPriceMeasurement: {
+            measuredType: null,
+            quantityUnit: null,
+            quantityValue: 0,
+            referenceUnit: null,
+            referenceValue: 0,
+          },
+          product: {
+            id: "gid://shopify/Product/123123123",
+            handle: "beach-towel",
+          },
+        },
+        quantity: 1,
+        customAttributes: [],
+        discountAllocations: [],
+      },
+    ]);
+    render(<BasketPage />);
+    expect(screen.queryByTestId("no-image")).toHaveAttribute(
+      "src",
+      "../images/web-asset-noimg.jpg"
+    );
+  });
+  it("renders static decorative no image", () => {
+    useIsCartLoading.mockImplementation(() => false);
+    useLineItemsCount.mockImplementation(() => 1);
+    useCheckoutLineItems.mockImplementation((): any => [
+      {
+        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
+        title: "Cotton Beach towel",
+        variant: {
           image: null,
+          id: "gid://shopify/ProductVariant/44161708556496",
+          title: "Original",
+          price: {
+            amount: "0.0",
+            currencyCode: "AUD",
+          },
+          priceV2: {
+            amount: "0.0",
+            currencyCode: "AUD",
+          },
+          weight: 500,
+          available: true,
+          sku: "",
+          compareAtPrice: null,
+          compareAtPriceV2: null,
           selectedOptions: [
             {
               name: "Color",
