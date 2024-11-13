@@ -15,17 +15,20 @@ describe("ProductCategories Template", () => {
     const mockedPageContext = {
       title: "test title",
       content: "testing content",
+      handle: "test-handle",
     };
 
     render(<ProductCategories pageContext={mockedPageContext} />);
     screen.getByRole("heading", { name: "test title" });
     screen.getByText("testing content");
     screen.getByRole("link", { name: /home/i });
-    screen.getByRole("link", { name: /about/i });
-    expect(screen.getAllByText("test title")).toHaveLength(2);
-    expect(screen.getByRole("link", { name: /about/i })).toHaveAttribute(
+    screen.getByRole("link", { name: /all categories/i });
+    expect(screen.getByRole("link", { name: /test title/i })).toHaveAttribute(
       "href",
-      "/about"
+      "/collections/test-handle"
     );
+    screen.getByText(/Learn more about test title/i);
+    screen.getByRole("heading", { name: /test title/i });
+    screen.getByText("testing content");
   });
 });
