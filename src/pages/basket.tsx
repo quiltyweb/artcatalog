@@ -23,6 +23,7 @@ import {
   useCheckoutLineItems,
   useRemoveItemFromCart,
   useIsCartLoading,
+  useCartTotals,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -98,6 +99,11 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
+  const cartSubtotalPrice = useCartTotals();
+  const cartSubtotalPriceWithFormat = formatPrice({
+    currency: cartSubtotalPrice.currencyCode,
+    value: cartSubtotalPrice.amount,
+  });
 
   if (isCartLoading) {
     return (
@@ -134,8 +140,10 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       <TableContainer mb="8">
         <Table size="sm" variant="simple">
           <TableCaption placement="bottom" textAlign={["left", "center"]}>
-            {cartCount === 1 && `1 item in your cart.`}
-            {cartCount > 1 && `${cartCount} items in your cart.`}
+            {cartCount === 1 &&
+              `1 item in your cart. Total is ${cartSubtotalPrice.currencyCode} ${cartSubtotalPriceWithFormat}.`}
+            {cartCount > 1 &&
+              `${cartCount} items in your cart. Total is ${cartSubtotalPrice.currencyCode} ${cartSubtotalPriceWithFormat}.`}
           </TableCaption>
 
           {isDektop && (

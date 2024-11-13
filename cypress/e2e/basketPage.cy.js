@@ -71,7 +71,9 @@ describe("desktop view basket page", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", { name: "1 item in your cart." });
+    cy.findByRole("table", {
+      name: "1 item in your cart. Total is AUD $11.00.",
+    });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
     cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
@@ -84,8 +86,6 @@ describe("desktop view basket page", () => {
     cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
     cy.findAllByRole("cell", { name: "$11.00" }).should("have.length", 2);
-
-    // cy.findByRole("table", { name: "1 item in your cart. Total $11.00" });
   });
 
   it("loads quote form when cart has products in it", () => {
@@ -156,8 +156,9 @@ describe("mobile view basket page", () => {
     cy.reload();
     cy.wait("@checkoutFetch");
 
-    cy.findByRole("table", { name: "1 item in your cart." });
-    // cy.findByRole("table", { name: "1 item in your cart. Total $23.00" });
+    cy.findByRole("table", {
+      name: "1 item in your cart. Total is AUD $11.00.",
+    });
     cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
@@ -171,9 +172,7 @@ describe("mobile view basket page", () => {
 
   it("loads Shopping bag page correctly with 3 items", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
-
     cy.findByRole("heading", { name: "Your cart is empty." });
-
     cy.clickDrawerMenuOption("Home Decor");
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
     cy.findByRole("heading", { name: "Cotton Beach towel" });
@@ -187,7 +186,9 @@ describe("mobile view basket page", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", { name: "1 item in your cart." });
+    cy.findByRole("table", {
+      name: "1 item in your cart. Total is AUD $11.00.",
+    });
     cy.findByRole("table").within(() => {
       cy.findByRole("rowheader", { name: /thumbnail/i });
       cy.findByAltText(/alt text for variant Green/i);
@@ -215,11 +216,14 @@ describe("mobile view basket page", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
-    cy.findByRole("table", { name: /3 items in your cart/ });
     cy.findByText(/macumba - large/i);
     cy.findByRole("button", { name: /remove Macumba - large/i });
     cy.findByRole("cell", { name: /\$50.00/i });
     cy.findByRole("cell", { name: /\$100.00/i });
+    cy.findByRole("table", {
+      name: "3 items in your cart. Total is AUD $111.00.",
+    });
+
     // cy.findByRole("main").within(() => {
     //   cy.get("h3").scrollIntoView();
     //   cy.findByRole("heading", { name: "summary" });
@@ -313,7 +317,9 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", { name: /1 item in your cart./i });
+    cy.findByRole("table", {
+      name: "1 item in your cart. Total is AUD $11.00.",
+    });
     cy.findByRole("table").within(() => {
       cy.findByAltText(/alt text for variant Green/i);
       cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
@@ -335,7 +341,9 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
-    cy.findByRole("table", { name: /3 items in your cart/i });
+    cy.findByRole("table", {
+      name: "3 items in your cart. Total is AUD $111.00.",
+    });
     cy.findByRole("cell", { name: /Macumba - large/i });
     cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
     cy.findByLabelText("Full Name");

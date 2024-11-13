@@ -6,6 +6,7 @@ import * as StoreContext from "../../context/StoreContext";
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 const useCheckoutLineItems = jest.spyOn(StoreContext, "useCheckoutLineItems");
 const useIsCartLoading = jest.spyOn(StoreContext, "useIsCartLoading");
+const useCartTotals = jest.spyOn(StoreContext, "useCartTotals");
 import fetchMock from "jest-fetch-mock";
 
 describe("BasketPage", () => {
@@ -72,7 +73,6 @@ describe("BasketPage", () => {
         discountAllocations: [],
       },
     ]);
-
     render(<BasketPage />);
 
     within(screen.getByRole("navigation", { name: "breadcrumb" })).getByRole(
@@ -184,15 +184,23 @@ describe("BasketPage", () => {
   it("renders table with correct caption title for one item", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
+    useCartTotals.mockImplementation(() => ({
+      amount: 30.0,
+      currencyCode: "AUD",
+    }));
     render(<BasketPage />);
-    screen.getAllByRole("table", { name: "1 item in your cart." });
+    screen.getByRole("table", {
+      name: "1 item in your cart. Total is AUD $30.00.",
+    });
   });
 
   it("renders table with correct caption title with more than 1 item", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 2);
     render(<BasketPage />);
-    screen.getAllByRole("table", { name: "2 items in your cart." });
+    screen.getByRole("table", {
+      name: "2 items in your cart. Total is AUD $30.00.",
+    });
   });
 
   it("renders product variant image", () => {
