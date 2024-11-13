@@ -4,7 +4,7 @@ describe("Collection Template desktop", () => {
     cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "collection/collectionDecor.json",
     });
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "collection/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/home-decor/");
@@ -30,7 +30,7 @@ describe("Collection Template mobile", () => {
         fixture: "collection/singleProduct-for-collection-template.json",
       }
     );
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "collection/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
@@ -48,6 +48,7 @@ describe("Collection Template mobile", () => {
   it("Navigates from home to Collection page", () => {
     cy.clickDrawerMenuOption("Home Decor");
     cy.findByRole("link", { name: "Home" });
+    cy.findAllByRole("link", { name: "All Categories" });
     cy.findByRole("heading", { name: "Home Decor" });
     cy.findByText("This is the collection description text");
     cy.findByRole("heading", { name: "Cotton Beach towel" });
@@ -57,6 +58,7 @@ describe("Collection Template mobile", () => {
     cy.findByText(/AUD/i);
     cy.findByText(/\$10/i);
     cy.findAllByText(/view details/i).should("have.length", "2");
+    cy.findByRole("link", { name: "Learn more about Home Decor" });
   });
 
   it("Navigates from Collection page to single product view", () => {

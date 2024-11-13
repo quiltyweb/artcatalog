@@ -313,7 +313,7 @@ describe("Collection page Template", () => {
     screen.getByText("This is the Collection description text");
     screen.getByText("There are no products available.");
     screen.getByRole("link", { name: "Home" });
-    screen.getByRole("link", { name: "Categories" });
+    screen.getByRole("link", { name: "All Categories" });
   });
 
   it("renders placeholder image when featured image is not provided", () => {
@@ -426,5 +426,46 @@ describe("Collection page Template", () => {
       "src",
       "../images/web-asset-noimg.jpg"
     );
+  });
+
+  it("renders link to learn more about the category", () => {
+    const mockedPageContext = {
+      title: "Collection title",
+      products: [
+        {
+          id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+          title: "Test product name",
+          handle: "test-product-handle",
+          description: "Product description goes here",
+          priceRangeV2: {
+            minVariantPrice: {
+              amount: 10.0,
+              currencyCode: "AUD",
+            },
+            maxVariantPrice: {
+              amount: 20.0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: null,
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [],
+          mediaCount: 1,
+          media: [],
+          options: [
+            {
+              shopifyId: "gid://shopify/ProductOption/1234543212345",
+              name: "Color",
+              values: ["red"],
+            },
+          ],
+        },
+      ],
+      description: "This is the Collection description text",
+      collectionHandle: "this-is-the-collection-handle",
+    };
+    render(<Collection pageContext={mockedPageContext} />);
+    screen.getByRole("link", { name: "Learn more about Collection title" });
   });
 });
