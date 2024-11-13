@@ -29,11 +29,11 @@ describe("BasketPage", () => {
           id: "gid://shopify/ProductVariant/44161708556496",
           title: "Variant Title",
           price: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           priceV2: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           weight: 500,
@@ -105,11 +105,11 @@ describe("BasketPage", () => {
           id: "gid://shopify/ProductVariant/44161708556496",
           title: "Variant Title",
           price: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           priceV2: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           weight: 500,
@@ -143,7 +143,7 @@ describe("BasketPage", () => {
             handle: "product-title",
           },
         },
-        quantity: 30,
+        quantity: 3,
         customAttributes: [],
         discountAllocations: [],
       },
@@ -155,14 +155,16 @@ describe("BasketPage", () => {
     screen.getByRole("columnheader", { name: /product/i });
     screen.getByText("Product Title - Variant Title");
     screen.getByRole("columnheader", { name: /quantity/i });
-    screen.findByRole("cell", { name: "30" });
+    screen.getByRole("cell", { name: "3" });
     screen.getByRole("columnheader", { name: /remove/i });
     screen.getByRole("button", {
       name: "remove Product Title - Variant Title",
     });
     // TODO: add cell values to these headers:
-    screen.getByRole("columnheader", { name: /unit price/i });
+    screen.getByRole("columnheader", { name: /price/i });
+    screen.getByRole("cell", { name: "$5.00" });
     screen.getByRole("columnheader", { name: /total/i });
+    screen.getByRole("cell", { name: "$15.00" });
   });
 
   it("renders cart table with loading caption", () => {
@@ -312,6 +314,7 @@ describe("BasketPage", () => {
       "../images/web-asset-noimg.jpg"
     );
   });
+
   it("renders static decorative no image", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
@@ -534,4 +537,9 @@ describe("BasketPage", () => {
     screen.getByLabelText("Email address");
     screen.getByRole("button", { name: "Get a Quote" });
   });
+
+  // TODO:
+  // it("renders loading table before creating a new cart", () => {})
+  // it("renders loading table when fetching a cart", () => {})
+  // it("renders loading table when removing an item", () => {})
 });

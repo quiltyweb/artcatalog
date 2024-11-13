@@ -143,7 +143,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
               <Tr>
                 <Th>thumbnail</Th>
                 <Th>product</Th>
-                <Th>unit price</Th>
+                <Th>price</Th>
                 <Th>quantity</Th>
                 <Th>remove</Th>
                 <Th>total</Th>
@@ -228,7 +228,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     </Td>
                     <Td>
                       <Text
-                        visibility={"hidden"}
                         sx={{
                           textWrap: "wrap",
                           wordWrap: "normal",
@@ -260,7 +259,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     </Td>
                     <Td>
                       <Text
-                        visibility={"hidden"}
                         sx={{
                           textWrap: "wrap",
                           wordWrap: "normal",
@@ -327,7 +325,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     <Th scope="row">unit price</Th>
                     <Td>
                       <Text
-                        visibility={"hidden"}
                         sx={{
                           textWrap: "wrap",
                           wordWrap: "normal",
@@ -368,7 +365,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     <Th scope="row">total</Th>
                     <Td>
                       <Text
-                        visibility={"hidden"}
                         sx={{
                           textWrap: "wrap",
                           wordWrap: "normal",
