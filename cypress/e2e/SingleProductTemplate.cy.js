@@ -9,7 +9,7 @@ describe("Collection Template desktop view", () => {
         fixture: "singleProduct/singleProduct.json",
       }
     );
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/home-decor/beach-towel/");
@@ -36,7 +36,7 @@ describe("Collection Template mobile view", () => {
       }
     );
 
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
   });
@@ -131,7 +131,7 @@ describe("Collection Template mobile view", () => {
     cy.visit("/collections/home-decor/beach-towel/");
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.intercept("POST", /api\/2023-10\/graphql/, {
+      cy.intercept("POST", /api\/2024-04\/graphql/, {
         fixture: "singleProduct/mocked-checkout-response-node.json",
       }).as("checkoutFetch");
       cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
