@@ -7,17 +7,9 @@ import {
   SimpleGrid,
   Stack,
   Text,
-  Image,
 } from "@chakra-ui/react";
-import { Link } from "gatsby";
-import commisionsCategory from "../images/homepage-categories/commissions.jpg";
-import homedecorCategory from "../images/homepage-categories/home-decor.jpg";
-import muralsAndSignWritingCategory from "../images/homepage-categories/murals-and-sign-writing.jpg";
-import originalPaintingsCategory from "../images/homepage-categories/original-paintings.jpg";
-import resinAndPigmentsArtCategory from "../images/homepage-categories/resin-and-pigments-art.jpg";
-import stickersCategory from "../images/homepage-categories/stickers.jpg";
-import wearableArtCategory from "../images/homepage-categories/wearable-art.jpg";
-import prints from "../images/homepage-categories/prints.jpg";
+import { graphql, Link, useStaticQuery } from "gatsby";
+import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
 
 type TileListProps = {
   title?: string;
@@ -25,56 +17,27 @@ type TileListProps = {
 const TileList: React.FunctionComponent<TileListProps> = ({
   title,
 }): React.ReactElement => {
-  const categories = [
-    {
-      name: "Original Paintings",
-      src: originalPaintingsCategory,
-      alt: "Products of Original Paintings category.",
-      to: "/collections/original-paintings/",
-    },
-    {
-      name: "Home Decor",
-      src: homedecorCategory,
-      alt: "Products of Home Decor category.",
-      to: "/collections/home-decor/",
-    },
-    {
-      name: "Commissions",
-      src: commisionsCategory,
-      alt: "Products of Commissions category.",
-      to: "/collections/commissions/",
-    },
-    {
-      name: "Murals & Sign Writing",
-      src: muralsAndSignWritingCategory,
-      alt: "Products of Murals & Sign Writing category.",
-      to: "/collections/murals-and-sign-writing/",
-    },
-    {
-      name: "Prints",
-      src: prints,
-      alt: "Products of Prints category.",
-      to: "/collections/prints/",
-    },
-    {
-      name: "Resin & Pigment Art",
-      src: resinAndPigmentsArtCategory,
-      alt: "Products of Resin & Pigment Art category.",
-      to: "/collections/resin-and-pigment-art/",
-    },
-    {
-      name: "Wearable Art",
-      src: wearableArtCategory,
-      alt: "Products of Wearable Art category.",
-      to: "/collections/wearable-art/",
-    },
-    {
-      name: "Stickers",
-      src: stickersCategory,
-      alt: "Products of Stickers category.",
-      to: "/collections/stickers/",
-    },
-  ];
+  const { allShopifyCollection } =
+    useStaticQuery<Queries.CollectionsTilesQuery>(graphql`
+      query CollectionsTiles {
+        allShopifyCollection {
+          nodes {
+            id
+            title
+            handle
+            image {
+              altText
+              gatsbyImageData(
+                width: 500
+                layout: CONSTRAINED
+                placeholder: BLURRED
+              )
+            }
+          }
+        }
+      }
+    `);
+
   return (
     <Container as="section" maxW="1200px" paddingBottom={"4rem"}>
       <Heading
@@ -92,29 +55,45 @@ const TileList: React.FunctionComponent<TileListProps> = ({
         columns={[1, 2, 3, 4]}
         spacing={[4, 5, 10, 10]}
       >
-        {categories.map((category, index) => {
+        {allShopifyCollection.nodes.map((category, index) => {
+          const collectionImageFound =
+            category.image && getImage(category.image);
+
           return (
             <Card
-              key={category.name + index}
+              key={category.title + index}
               role="listitem"
               maxW="sm"
               variant="unstyled"
+              _hover={{
+                transform: "scale(1.03)",
+                transition: "transform .15s ease-in",
+              }}
             >
               <CardBody>
-                <Link to={category.to}>
-                  <Image
-                    src={category.src}
-                    alt={category.alt}
-                    borderRadius="sm"
-                    minH={200}
-                    style={{
-                      filter: "brightness(1.2)",
-                    }}
-                    _hover={{
-                      transform: "scale(1.03)",
-                      transition: "transform .15s ease-in",
-                    }}
-                  />
+                <Link to={`/collections/${category.handle}/`}>
+                  {collectionImageFound ? (
+                    <GatsbyImage
+                      image={collectionImageFound}
+                      alt={
+                        category.image?.altText ||
+                        `Products of ${category.title} category.`
+                      }
+                      style={{
+                        filter: "brightness(1.2)",
+                      }}
+                    />
+                  ) : (
+                    <StaticImage
+                      style={{
+                        filter: "grayscale(1)",
+                        minHeight: "300px",
+                        maxHeight: "300px",
+                      }}
+                      alt=""
+                      src="../images/web-asset-noimg.jpg"
+                    />
+                  )}
                   <Stack mt="2" spacing="3">
                     <Text
                       size="md"
@@ -122,7 +101,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                       fontWeight="semibold"
                       fontSize="1.13rem"
                     >
-                      {category.name}
+                      {category.title}
                     </Text>
                   </Stack>
                 </Link>
