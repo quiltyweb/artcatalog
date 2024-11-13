@@ -85,6 +85,9 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           <ListItem key={"about-page"} p="0 1rem 1rem 0">
             <FooterLink to="/about">about me</FooterLink>
           </ListItem>
+          <ListItem key={"all-products"} p="0 1rem 1rem 0">
+            <FooterLink to="/collections">All Categories</FooterLink>
+          </ListItem>
         </UnorderedList>
       </Box>
       <Box p="4">

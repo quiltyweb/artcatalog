@@ -67,7 +67,7 @@ describe("Footer", () => {
     screen.getByRole("link", { name: "Terms of Service" });
     screen.getByRole("link", { name: /contact/i });
     screen.getByRole("link", { name: /about me/i });
-
+    screen.getByRole("link", { name: /All Categories/i });
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
     screen.getByTestId("whatsApp");
