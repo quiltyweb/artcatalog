@@ -22,7 +22,7 @@ describe("Basket page desktop", () => {
   });
 
   it("checks for accessibility violations on desktop view", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -35,7 +35,7 @@ describe("Basket page desktop", () => {
   });
 
   it("loads empty Shopping bag correctly", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -51,7 +51,7 @@ describe("Basket page desktop", () => {
   });
 
   it("loads shopping cart with 1 item on desktop view", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -65,7 +65,7 @@ describe("Basket page desktop", () => {
     cy.findByText("Option Required");
     cy.get("select").select("Green");
     cy.findByRole("heading", { name: /Green/i });
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -90,14 +90,14 @@ describe("Basket page desktop", () => {
   });
 
   it("loads quote form when cart has products in it", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-node.json",
     }).as("checkoutFetch");
     cy.reload();
@@ -127,7 +127,7 @@ describe("Basket page mobile", () => {
         fixture: "basket/singleProduct2.json",
       }
     );
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -151,7 +151,7 @@ describe("Basket page mobile", () => {
 
   it("deletes an item from the shopping bag", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-node.json",
     }).as("checkoutFetch");
     cy.reload();
@@ -159,7 +159,7 @@ describe("Basket page mobile", () => {
     cy.findByRole("table", { name: "1 item in your cart." });
     // TODO: add this below when checkout cart is prod ready
     // cy.findByRole("table", { name: "1 item in your cart. Total $23.00" });
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
     cy.findByRole("button", {
@@ -173,7 +173,7 @@ describe("Basket page mobile", () => {
   // it.skip("loads Shopping bag page with checkout button", () => {});
 
   it.skip("loads Shopping bag page correctly with 3 items", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -182,7 +182,7 @@ describe("Basket page mobile", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -208,7 +208,7 @@ describe("Basket page mobile", () => {
     cy.findByRole("heading", { name: "Test Jungle Panther" }).click();
     cy.get("#quantity-increment").click();
     cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture:
         "basket/mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
     }).as("checkoutLineItemsAddTwoItems");
@@ -237,7 +237,7 @@ describe("Basket page mobile", () => {
 
   // TODO: skipping this test until checkout feature is prod ready
   it.skip("opens a new window with shoppify checkout page", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -245,7 +245,7 @@ describe("Basket page mobile", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -290,7 +290,7 @@ describe("Basket page with Quote form for mobile view", () => {
         fixture: "basket/singleProduct2.json",
       }
     );
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -303,7 +303,7 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.clickDrawerMenuOption("Home Decor");
     cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
     cy.get("select").select("Green");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
@@ -324,7 +324,7 @@ describe("Basket page with Quote form for mobile view", () => {
     cy.get("select").select("large");
     cy.get("#quantity-increment").click();
     cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture:
         "basket/mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
     }).as("checkoutLineItemsAddTwoItems");
@@ -340,7 +340,7 @@ describe("Basket page with Quote form for mobile view", () => {
   });
 
   it("render user errors in quote form correctly when submit with no data", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-node.json",
     }).as("checkoutFetch");
     cy.reload();
@@ -352,7 +352,7 @@ describe("Basket page with Quote form for mobile view", () => {
   });
 
   it("sends quote correctly with 1 item", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-node-2items",
     }).as("checkoutFetch");
     cy.reload();
@@ -373,7 +373,7 @@ describe("Basket page with Quote form for mobile view", () => {
   });
 
   it("renders error message when quote failed to be sent", () => {
-    cy.intercept("POST", /api\/2023-10\/graphql/, {
+    cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-node.json",
     }).as("checkoutFetch");
     cy.reload();

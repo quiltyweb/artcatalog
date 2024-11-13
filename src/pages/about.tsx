@@ -8,13 +8,12 @@ import {
   Container,
   Heading,
   SimpleGrid,
-  Tag,
   Text,
 } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 
 const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
-  data: { storefrontshopify, adminshopify },
+  data: { storefrontshopify },
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
@@ -46,32 +45,6 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           width={500}
         />
       </SimpleGrid>
-      <Heading as="h3" color="teal.500" mb="2.4rem">
-        About my products
-      </Heading>
-      <SimpleGrid
-        columns={[1, 1, 2, 3]}
-        justifyItems="center"
-        gap={4}
-        pl="5"
-        pr="5"
-      >
-        {adminshopify?.metaobjects.nodes[0].fields.map((item, i) => (
-          <Tag
-            size="lg"
-            key={i}
-            borderRadius="md"
-            variant="solid"
-            backgroundColor="pink.800"
-            color="white"
-            textTransform="capitalize"
-          >
-            <Link key={item.key} to={`/product-categories/${item.key}`}>
-              {item.definition.name}
-            </Link>
-          </Tag>
-        ))}
-      </SimpleGrid>
     </Container>
   );
 };
@@ -90,18 +63,6 @@ export const Head = (props: HeadProps<any>) => {
 
 export const query = graphql`
   query AboutPage {
-    adminshopify {
-      metaobjects(first: 10, type: "product_categories") {
-        nodes {
-          fields {
-            definition {
-              name
-            }
-            key
-          }
-        }
-      }
-    }
     storefrontshopify {
       page(handle: "meet-the-artist") {
         title

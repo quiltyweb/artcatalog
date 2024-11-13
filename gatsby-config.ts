@@ -19,7 +19,7 @@ const config: GatsbyConfig = {
       resolve: "gatsby-plugin-image",
       options: {
         defaults: {
-          placeholder: "dominantColor",
+          placeholder: "blurred",
         },
       },
     },

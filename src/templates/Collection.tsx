@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -39,7 +40,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/collections">Categories</BreadcrumbLink>
+          <BreadcrumbLink href="/collections">All Categories</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href="#">{title}</BreadcrumbLink>
@@ -54,8 +55,8 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           mb="2.4rem"
           lineHeight={7}
           fontWeight={"medium"}
-          id="contact-form-description"
-          data-testid="contact-form-description"
+          id="collection-description"
+          data-testid="collection-description"
           wordBreak="normal"
         >
           {description}
@@ -63,7 +64,12 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       )}
 
       {products && products.length !== 0 ? (
-        <SimpleGrid columns={[1, 2, 3, 4]} spacing="6" justifyItems="center">
+        <SimpleGrid
+          columns={[1, 2, 3, 4]}
+          spacing="6"
+          justifyItems="center"
+          mb="2.4rem"
+        >
           {products.map(
             ({
               id,
@@ -172,8 +178,19 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           )}
         </SimpleGrid>
       ) : (
-        <Text textAlign="center">There are no products available.</Text>
+        <Text textAlign="center" mb="2.4rem">
+          There are no products available.
+        </Text>
       )}
+      <Box textAlign="center" mb="2.4rem">
+        <Link
+          key={collectionHandle}
+          to={`/product-categories/${collectionHandle}`}
+          style={{ textDecoration: "underline" }}
+        >
+          Learn more about {title}
+        </Link>
+      </Box>
     </Container>
   );
 };

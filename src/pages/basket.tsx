@@ -5,10 +5,7 @@ import {
   BreadcrumbLink,
   Button,
   Container,
-  Divider,
   Heading,
-  LinkBox,
-  LinkOverlay,
   Skeleton,
   Table,
   TableCaption,
@@ -291,7 +288,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
-                            // maxWidth: "100%",
                             minWidth: "20px",
                             width: "60px",
                             height: "60px",

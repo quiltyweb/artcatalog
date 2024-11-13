@@ -37,7 +37,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
             }
             featuredImage {
               altText
-              gatsbyImageData(width: 500, layout: CONSTRAINED)
+              gatsbyImageData(
+                width: 500
+                layout: CONSTRAINED
+                placeholder: BLURRED
+              )
             }
             hasOnlyDefaultVariant
             totalVariants
@@ -56,7 +60,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
                 altText
                 height
                 width
-                gatsbyImageData(width: 500, layout: CONSTRAINED)
+                gatsbyImageData(
+                  width: 500
+                  layout: CONSTRAINED
+                  placeholder: BLURRED
+                )
                 originalSrc
                 transformedSrc
               }
@@ -73,7 +81,12 @@ export const createPages: GatsbyNode["createPages"] = async ({
                   altText
                   height
                   width
-                  gatsbyImageData(height: 82, width: 82, aspectRatio: 1)
+                  gatsbyImageData(
+                    height: 82
+                    width: 82
+                    aspectRatio: 1
+                    placeholder: BLURRED
+                  )
                   originalSrc
                   transformedSrc
                 }
@@ -168,13 +181,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
     field: Queries.AdminContentIntoPagesQuery["adminshopify"]["metaobjectDefinitions"]["nodes"][0]["metaobjects"]["nodes"][0]["fields"][0]
   ) => {
     const pathRoot = `/${kebabCase(type)}`;
+    const fieldKey = `${kebabCase(field.key)}`;
     const componentName = upperFirst(camelCase(type));
     createPage({
-      path: `${pathRoot}/${field.key}`,
+      path: `${pathRoot}/${fieldKey}`,
       component: path.resolve(`./src/templates/${componentName}.tsx`),
       context: {
         title: field.definition.name,
         content: field.value,
+        handle: fieldKey,
       },
     });
   };

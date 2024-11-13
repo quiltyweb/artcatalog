@@ -22,11 +22,12 @@ type ProductCategoriesProps = {
   pageContext: {
     title: string;
     content: string | RichTextNode;
+    handle: string;
   };
 };
 
 const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
-  pageContext: { title, content },
+  pageContext: { title, content, handle },
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
@@ -36,11 +37,17 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
         </BreadcrumbItem>
 
         <BreadcrumbItem>
-          <BreadcrumbLink href="/about">About</BreadcrumbLink>
+          <BreadcrumbLink href="/collections">All Categories</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <BreadcrumbLink href={`/collections/${handle}`}>
+            {title}
+          </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">{title}</BreadcrumbLink>
+          <BreadcrumbLink href="#">Learn more about {title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">

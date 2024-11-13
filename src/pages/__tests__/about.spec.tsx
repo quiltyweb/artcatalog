@@ -13,64 +13,6 @@ afterEach(() => {
 describe("AboutPage", () => {
   it("renders correctly", () => {
     const aboutPageMockedData = {
-      adminshopify: {
-        metaobjects: {
-          nodes: [
-            {
-              fields: [
-                {
-                  definition: {
-                    name: "commissions",
-                  },
-                  key: "commissions",
-                },
-                {
-                  definition: {
-                    name: "originals",
-                  },
-                  key: "original_artworks",
-                },
-                {
-                  definition: {
-                    name: "prints",
-                  },
-                  key: "archival_fine_art_prints",
-                },
-                {
-                  definition: {
-                    name: "resin and pigment art",
-                  },
-                  key: "resin_and_pigment_art",
-                },
-                {
-                  definition: {
-                    name: "decor",
-                  },
-                  key: "home_and_decor",
-                },
-                {
-                  definition: {
-                    name: "wearable art",
-                  },
-                  key: "wearable_art",
-                },
-                {
-                  definition: {
-                    name: "stickers",
-                  },
-                  key: "stickers",
-                },
-                {
-                  definition: {
-                    name: "murals",
-                  },
-                  key: "murals",
-                },
-              ],
-            },
-          ],
-        },
-      },
       storefrontshopify: {
         page: {
           title: "About me",
@@ -95,13 +37,5 @@ describe("AboutPage", () => {
       name: "About me",
     });
     screen.getByText("this is test data for bio about me page");
-    screen.getByRole("link", { name: "commissions" });
-    screen.getByRole("link", { name: "originals" });
-    screen.getByRole("link", { name: "prints" });
-    screen.getByRole("link", { name: "resin and pigment art" });
-    screen.getByRole("link", { name: "decor" });
-    screen.getByRole("link", { name: "wearable art" });
-    screen.getByRole("link", { name: "stickers" });
-    screen.getByRole("link", { name: "murals" });
   });
 });
