@@ -190,7 +190,7 @@ describe("BasketPage", () => {
     }));
     render(<BasketPage />);
     screen.getByRole("table", {
-      name: "1 item in your cart. Total is AUD $30.00.",
+      name: "1 item in your cart. Subtotal is $30.00 AUD.",
     });
   });
 
@@ -199,7 +199,7 @@ describe("BasketPage", () => {
     useLineItemsCount.mockImplementation(() => 2);
     render(<BasketPage />);
     screen.getByRole("table", {
-      name: "2 items in your cart. Total is AUD $30.00.",
+      name: "2 items in your cart. Subtotal is $30.00 AUD.",
     });
   });
 

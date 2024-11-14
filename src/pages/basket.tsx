@@ -141,9 +141,9 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
         <Table size="sm" variant="simple">
           <TableCaption placement="bottom" textAlign={["left", "center"]}>
             {cartCount === 1 &&
-              `1 item in your cart. Total is ${cartSubtotalPrice.currencyCode} ${cartSubtotalPriceWithFormat}.`}
+              `1 item in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${cartSubtotalPrice.currencyCode}.`}
             {cartCount > 1 &&
-              `${cartCount} items in your cart. Total is ${cartSubtotalPrice.currencyCode} ${cartSubtotalPriceWithFormat}.`}
+              `${cartCount} items in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${cartSubtotalPrice.currencyCode}.`}
           </TableCaption>
 
           {isDektop && (

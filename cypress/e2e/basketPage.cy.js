@@ -72,7 +72,7 @@ describe("desktop view basket page", () => {
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Total is AUD $11.00.",
+      name: "1 item in your cart. Subtotal is $11.00 AUD.",
     });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
@@ -157,7 +157,7 @@ describe("mobile view basket page", () => {
     cy.wait("@checkoutFetch");
 
     cy.findByRole("table", {
-      name: "1 item in your cart. Total is AUD $11.00.",
+      name: "1 item in your cart. Subtotal is $11.00 AUD.",
     });
     cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsRemove.json",
@@ -187,7 +187,7 @@ describe("mobile view basket page", () => {
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Total is AUD $11.00.",
+      name: "1 item in your cart. Subtotal is $11.00 AUD.",
     });
     cy.findByRole("table").within(() => {
       cy.findByRole("rowheader", { name: /thumbnail/i });
@@ -221,7 +221,7 @@ describe("mobile view basket page", () => {
     cy.findByRole("cell", { name: /\$50.00/i });
     cy.findByRole("cell", { name: /\$100.00/i });
     cy.findByRole("table", {
-      name: "3 items in your cart. Total is AUD $111.00.",
+      name: "3 items in your cart. Subtotal is $111.00 AUD.",
     });
 
     // cy.findByRole("main").within(() => {
@@ -232,7 +232,6 @@ describe("mobile view basket page", () => {
     //   cy.findAllByRole("button", { name: /remove/i }).should("have.length", 2);
     //   cy.findByText(/taxes and/i);
     //   cy.findByRole("link", { name: /shipping/i });
-    //   cy.findByRole("table", { name: "3 items in your cart. Total $40.00" });
     //   cy.findByText(/taxes and /i);
     //   cy.findByRole("link", { name: /shipping/i });
     //   cy.findByText("calculated at check out");
@@ -256,7 +255,9 @@ describe("mobile view basket page", () => {
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", { name: "1 item in your cart. Total $10.00" });
+    cy.findByRole("table", {
+      name: "1 item in your cart. Subtotal is $10.00 AUD.",
+    });
 
     cy.window().then((win) => {
       cy.stub(win, "open").as("windowOpen");
@@ -318,7 +319,7 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Total is AUD $11.00.",
+      name: "1 item in your cart. Subtotal is $11.00 AUD.",
     });
     cy.findByRole("table").within(() => {
       cy.findByAltText(/alt text for variant Green/i);
@@ -342,7 +343,7 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.wait("@checkoutLineItemsAddTwoItems");
     cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
     cy.findByRole("table", {
-      name: "3 items in your cart. Total is AUD $111.00.",
+      name: "3 items in your cart. Subtotal is $111.00 AUD.",
     });
     cy.findByRole("cell", { name: /Macumba - large/i });
     cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
