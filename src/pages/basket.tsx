@@ -109,7 +109,12 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   currency,
 }) => {
   return (
-    <Box py={6} display="grid" justifyContent="end">
+    <Box
+      data-testid="summary-section"
+      py={6}
+      display="grid"
+      justifyContent="end"
+    >
       <Heading as="h3" size="sm">
         summary
       </Heading>

@@ -94,6 +94,7 @@ describe("desktop view basket page", () => {
       cy.findByText(/taxes and/i);
       cy.findByRole("link", { name: /shipping/i });
       cy.findByText(/calculated at check out/i);
+      cy.findByRole("button", { name: /check out/i });
     });
   });
 
@@ -232,32 +233,13 @@ describe("mobile view basket page", () => {
     cy.findByRole("table", {
       name: "3 items in your cart. Subtotal is $111.00 AUD.",
     });
-
-    // cy.findByRole("main").within(() => {
-    //   cy.get("h3").scrollIntoView();
-    //   cy.findByRole("heading", { name: "summary" });
-    //   cy.findByText(/cart total:/i);
-    //   cy.findAllByText(/\$40.00/).should("have.length", 2);
-    //   cy.findAllByRole("button", { name: /remove/i }).should("have.length", 2);
-    //   cy.findByText(/taxes and/i);
-    //   cy.findByRole("link", { name: /shipping/i });
-    //   cy.findByText(/taxes and /i);
-    //   cy.findByRole("link", { name: /shipping/i });
-    //   cy.findByText("calculated at check out");
-    //   cy.findByRole("button", { name: "check out" });
-    // });
   });
 
-  // TODO: skipping this test until checkout feature is prod ready
-  it.skip("opens a new window with shoppify checkout page", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
+  it("opens a new window with shoppify checkout page", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Prints");
-    cy.findByRole("heading", { name: "test Jungle Tiger 2" }).click();
+    cy.clickDrawerMenuOption("Home Decor");
+    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
+    cy.get("select").select("Green");
     cy.intercept("POST", /api\/2024-04\/graphql/, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
@@ -265,22 +247,19 @@ describe("mobile view basket page", () => {
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $10.00 AUD.",
+      name: "1 item in your cart. Subtotal is $11.00 AUD.",
     });
-
     cy.window().then((win) => {
       cy.stub(win, "open").as("windowOpen");
     });
-    cy.findByRole("button", { name: "check out" }).click();
+    cy.get('[data-testid="summary-section"]').scrollIntoView();
+    cy.findByRole("button", { name: /check out/i }).click();
 
     cy.get("@windowOpen").should(
       "be.calledWith",
-      "https://brushella-fake-url.myshopify.com/58698924240/checkouts/e3e56dff7098bd74dbb88ebdcac92fa4?key=a1f028daadc606b0bddddd5b653b54aa"
+      "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd"
     );
   });
-
-  // TODO: skipping this test until checkout feature is prod ready
-  // it.skip("loads Shopping bag page with checkout button", () => {});
 });
 
 // TODO: remove this describe when checkout feature is PROD ready
