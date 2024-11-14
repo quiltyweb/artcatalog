@@ -1,11 +1,13 @@
 import * as React from "react";
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
   Container,
   Heading,
+  SimpleGrid,
   Skeleton,
   Table,
   TableCaption,
@@ -24,6 +26,7 @@ import {
   useRemoveItemFromCart,
   useIsCartLoading,
   useCartTotals,
+  useCheckout,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -32,6 +35,7 @@ import { formatPrice } from "../utils/formatPrice";
 import { DeleteIcon } from "@chakra-ui/icons";
 import QuoteForm from "../components/QuoteForm";
 import CallToActionButton from "../components/CallToActionButton";
+import { Link } from "gatsby";
 
 const BreadcrumbMenuCart = () => {
   return (
@@ -93,6 +97,55 @@ const TableLoadingSkeleton = () => {
   );
 };
 
+type CartSummaryProps = {
+  cartSubtotalPriceWithFormat: string;
+  currency: string;
+  handleCheckout: () => void;
+};
+
+const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
+  cartSubtotalPriceWithFormat,
+  handleCheckout,
+  currency,
+}) => {
+  return (
+    <Box py={6} display="grid" justifyContent="end">
+      <Heading as="h3" size="sm">
+        summary
+      </Heading>
+
+      <SimpleGrid columns={2} spacing={2}>
+        <Box>Subtotal:</Box>
+        <Box>
+          {cartSubtotalPriceWithFormat} {currency}
+        </Box>
+        <Box>
+          Taxes and{" "}
+          <Link
+            to="/legal-content/shipping-policy/"
+            style={{ textDecoration: "underline" }}
+          >
+            shipping
+          </Link>
+          :
+        </Box>
+        <Box>calculated at check out</Box>
+      </SimpleGrid>
+
+      <Button
+        mt={4}
+        backgroundColor="#86548A"
+        color="#ffffff"
+        colorScheme="teal"
+        type="button"
+        onClick={handleCheckout}
+      >
+        Check out
+      </Button>
+    </Box>
+  );
+};
+
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
   const isCartLoading = useIsCartLoading();
@@ -104,6 +157,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     currency: cartSubtotalPrice.currencyCode,
     value: cartSubtotalPrice.amount,
   });
+  const handleCheckout = useCheckout();
 
   if (isCartLoading) {
     return (
@@ -116,6 +170,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       </Container>
     );
   }
+
   if (!isCartLoading && cartCount === 0) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
@@ -389,6 +444,13 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <CartSummary
+        cartSubtotalPriceWithFormat={cartSubtotalPriceWithFormat}
+        handleCheckout={handleCheckout}
+        currency={cartSubtotalPrice.currencyCode}
+      />
+
       {cartCount > 0 && <QuoteForm checkoutLineItems={checkoutLineItems} />}
     </Container>
   );

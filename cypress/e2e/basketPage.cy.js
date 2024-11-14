@@ -86,6 +86,15 @@ describe("desktop view basket page", () => {
     cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
     cy.findAllByRole("cell", { name: "$11.00" }).should("have.length", 2);
+
+    cy.findByRole("main").within(() => {
+      cy.findByRole("heading", { name: /summary/i });
+      cy.findByText("Subtotal:");
+      cy.findByText("$11.00 AUD");
+      cy.findByText(/taxes and/i);
+      cy.findByRole("link", { name: /shipping/i });
+      cy.findByText(/calculated at check out/i);
+    });
   });
 
   it("loads quote form when cart has products in it", () => {
