@@ -1,6 +1,13 @@
 import * as React from "react";
 import Footer from "./Footer";
-import { Grid, GridItem } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import Nav from "./Nav";
 import styled from "styled-components";
 
@@ -29,7 +36,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     <Grid
       gridTemplateRows={"auto"}
       gridTemplateColumns={"1fr 1fr 1fr 1fr "}
-      templateAreas={`"header header header header"
+      templateAreas={`"banner banner banner banner"
+                      "header header header header"
                       "main main main main"
                       "footer footer footer footer"`}
       gridAutoFlow="row"
@@ -38,6 +46,15 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       fontWeight="normal"
       justifyItems="center"
     >
+      <GridItem gap="1rem" area={"banner"} width="100%">
+        <Alert status="info" flexDir={["column", "row"]}>
+          <AlertIcon />
+          <AlertTitle>Brushella.art is under construction.</AlertTitle>
+          <AlertDescription>
+            This store can’t accept payments right now.
+          </AlertDescription>
+        </Alert>
+      </GridItem>
       <GridItem
         as="nav"
         gap="1rem"

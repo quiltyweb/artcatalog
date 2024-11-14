@@ -19,6 +19,7 @@ const SkipToContentLink = styled.a`
   height: 30px;
   transform: translateY(-100%);
   transition: transform 0.3s;
+  z-index: 9999;
 
   &:focus {
     transform: translateY(0%);
