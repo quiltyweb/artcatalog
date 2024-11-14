@@ -47,6 +47,13 @@ describe("Home page mobile", () => {
     cy.wait("@checkoutCreate");
   });
 
+  it("renders top store alert", () => {
+    cy.findByRole("alert").within(() => {
+      cy.findByText(/Brushella.art is under construction./i);
+      cy.findByText(/This store can’t accept payments right now./i);
+    });
+  });
+
   it("Has no detectable accessibility violations", () => {
     cy.injectAxe();
     cy.checkA11y(null, {

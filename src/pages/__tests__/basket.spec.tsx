@@ -6,6 +6,7 @@ import * as StoreContext from "../../context/StoreContext";
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 const useCheckoutLineItems = jest.spyOn(StoreContext, "useCheckoutLineItems");
 const useIsCartLoading = jest.spyOn(StoreContext, "useIsCartLoading");
+const useCartTotals = jest.spyOn(StoreContext, "useCartTotals");
 import fetchMock from "jest-fetch-mock";
 
 describe("BasketPage", () => {
@@ -29,11 +30,11 @@ describe("BasketPage", () => {
           id: "gid://shopify/ProductVariant/44161708556496",
           title: "Variant Title",
           price: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           priceV2: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           weight: 500,
@@ -72,7 +73,6 @@ describe("BasketPage", () => {
         discountAllocations: [],
       },
     ]);
-
     render(<BasketPage />);
 
     within(screen.getByRole("navigation", { name: "breadcrumb" })).getByRole(
@@ -105,11 +105,11 @@ describe("BasketPage", () => {
           id: "gid://shopify/ProductVariant/44161708556496",
           title: "Variant Title",
           price: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           priceV2: {
-            amount: "0.0",
+            amount: "5.0",
             currencyCode: "AUD",
           },
           weight: 500,
@@ -143,7 +143,7 @@ describe("BasketPage", () => {
             handle: "product-title",
           },
         },
-        quantity: 30,
+        quantity: 3,
         customAttributes: [],
         discountAllocations: [],
       },
@@ -155,14 +155,16 @@ describe("BasketPage", () => {
     screen.getByRole("columnheader", { name: /product/i });
     screen.getByText("Product Title - Variant Title");
     screen.getByRole("columnheader", { name: /quantity/i });
-    screen.findByRole("cell", { name: "30" });
+    screen.getByRole("cell", { name: "3" });
     screen.getByRole("columnheader", { name: /remove/i });
     screen.getByRole("button", {
       name: "remove Product Title - Variant Title",
     });
     // TODO: add cell values to these headers:
-    screen.getByRole("columnheader", { name: /unit price/i });
+    screen.getByRole("columnheader", { name: /price/i });
+    screen.getByRole("cell", { name: "$5.00" });
     screen.getByRole("columnheader", { name: /total/i });
+    screen.getByRole("cell", { name: "$15.00" });
   });
 
   it("renders cart table with loading caption", () => {
@@ -182,15 +184,23 @@ describe("BasketPage", () => {
   it("renders table with correct caption title for one item", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
+    useCartTotals.mockImplementation(() => ({
+      amount: 30.0,
+      currencyCode: "AUD",
+    }));
     render(<BasketPage />);
-    screen.getAllByRole("table", { name: "1 item in your cart." });
+    screen.getByRole("table", {
+      name: "1 item in your cart. Subtotal is $30.00 AUD.",
+    });
   });
 
   it("renders table with correct caption title with more than 1 item", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 2);
     render(<BasketPage />);
-    screen.getAllByRole("table", { name: "2 items in your cart." });
+    screen.getByRole("table", {
+      name: "2 items in your cart. Subtotal is $30.00 AUD.",
+    });
   });
 
   it("renders product variant image", () => {
@@ -312,6 +322,7 @@ describe("BasketPage", () => {
       "../images/web-asset-noimg.jpg"
     );
   });
+
   it("renders static decorative no image", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
@@ -525,6 +536,78 @@ describe("BasketPage", () => {
     });
   });
 
+  it("renders summary", () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: jest.fn(() => ({
+        matches: true, //desktop
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      })),
+    });
+    useIsCartLoading.mockImplementation(() => false);
+    useLineItemsCount.mockImplementation(() => 1);
+    useCheckoutLineItems.mockImplementation((): any => [
+      {
+        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
+        title: "Product Title",
+        variant: {
+          id: "gid://shopify/ProductVariant/44161708556496",
+          title: "Variant Title",
+          price: {
+            amount: "5.0",
+            currencyCode: "AUD",
+          },
+          priceV2: {
+            amount: "5.0",
+            currencyCode: "AUD",
+          },
+          weight: 500,
+          available: true,
+          sku: "",
+          compareAtPrice: null,
+          compareAtPriceV2: null,
+          image: {
+            id: "gid://shopify/ProductImage/12344556677",
+            src: "https://fake.shopify.com/s/files/fake/1/fake.jpg",
+            altText: "alt text for variant image",
+            width: 715,
+            height: 1077,
+          },
+          selectedOptions: [
+            {
+              name: "Color",
+              value: "Original",
+            },
+          ],
+          unitPrice: null,
+          unitPriceMeasurement: {
+            measuredType: null,
+            quantityUnit: null,
+            quantityValue: 0,
+            referenceUnit: null,
+            referenceValue: 0,
+          },
+          product: {
+            id: "gid://shopify/Product/123123123",
+            handle: "product-title",
+          },
+        },
+        quantity: 3,
+        customAttributes: [],
+        discountAllocations: [],
+      },
+    ]);
+
+    render(<BasketPage />);
+    screen.getByRole("heading", { name: /summary/i });
+    screen.getByText("Subtotal:");
+    screen.getByText("$30.00 AUD");
+    screen.getByText(/taxes and/i);
+    screen.getByRole("link", { name: /shipping/i });
+    screen.getByText(/calculated at check out/i);
+    screen.getByRole("button", { name: /check out/i });
+  });
+
   it("renders quote form when cart count is greater than zero items", () => {
     useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
@@ -534,4 +617,9 @@ describe("BasketPage", () => {
     screen.getByLabelText("Email address");
     screen.getByRole("button", { name: "Get a Quote" });
   });
+
+  // TODO:
+  // it("renders loading table before creating a new cart", () => {})
+  // it("renders loading table when fetching a cart", () => {})
+  // it("renders loading table when removing an item", () => {})
 });
