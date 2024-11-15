@@ -11,7 +11,7 @@ const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 
 const client = Client.buildClient({
   apiVersion: "2024-04",
-  domain: `${process.env.GATSBY_SHOPIFY_STORE_URL}`,
+  domain: `${process.env.GATSBY_CUSTOM_DOMAIN_SHOPIFY_STORE_URL}`,
   storefrontAccessToken: `${process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD}`,
 });
 
