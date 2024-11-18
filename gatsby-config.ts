@@ -35,8 +35,8 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-shopify`,
       options: {
-        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
-        storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
+        storeUrl: process.env.GATSBY_SHOPIFY_ADMIN_URL,
+        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD, //TODO: check if this pwd works
         shopifyConnections: ["orders", "collections", "locations"],
       },
     },
@@ -45,7 +45,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "AdminShopify",
         fieldName: "adminshopify",
-        url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/admin/api/2024-10/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_ADMIN_URL}/admin/api/2024-10/graphql.json`,
         headers: {
           "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         },
@@ -56,7 +56,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "StoreFrontShopify",
         fieldName: "storefrontshopify",
-        url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/2024-10/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_STOREFRONT_URL}/api/2024-10/graphql.json`,
         headers: {
           "X-Shopify-Storefront-Access-Token":
             process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
