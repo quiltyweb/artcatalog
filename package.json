@@ -59,7 +59,7 @@
     "gatsby-plugin-styled-components": "^6.10.0",
     "gatsby-source-filesystem": "^5.11.0",
     "gatsby-source-graphql": "^5.13.0",
-    "gatsby-source-shopify": "^8.13.2",
+    "gatsby-source-shopify": "^8.14.0",
     "gatsby-transformer-sharp": "^5.11.0",
     "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21",
