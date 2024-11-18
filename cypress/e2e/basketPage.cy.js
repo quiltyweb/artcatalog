@@ -122,6 +122,9 @@ describe("mobile view basket page", () => {
     cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
       fixture: "basket/collectionDecor.json",
     });
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "basket/collectionPrints.json",
+    });
     cy.intercept(
       "GET",
       "/page-data/collections/home-decor/beach-towel/page-data.json",
