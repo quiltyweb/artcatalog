@@ -35,8 +35,9 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-shopify`,
       options: {
-        storeUrl: process.env.GATSBY_SHOPIFY_ADMIN_URL,
-        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD, //TODO: check if this pwd works
+        storeUrl: process.env.GATSBY_SHOPIFY_STOREFRONT_URL,
+        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
+        salesChannel: process.env.SHOPIFY_APP_ID,
         shopifyConnections: ["orders", "collections", "locations"],
       },
     },
