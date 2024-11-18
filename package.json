@@ -50,7 +50,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "gatsby": "^5.10.0",
-    "gatsby-core-utils": "^4.10.0",    
+    "gatsby-core-utils": "^4.10.0",
     "gatsby-plugin-gatsby-cloud": "^5.0.0",
     "gatsby-plugin-image": "^3.10.0",
     "gatsby-plugin-manifest": "^5.11.0",

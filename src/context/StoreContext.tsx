@@ -7,11 +7,11 @@ import React, {
 } from "react";
 import ShopifyBuy from "shopify-buy";
 import Client from "shopify-buy";
-const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
+const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 
 const client = Client.buildClient({
   apiVersion: "2024-04",
-  domain: `${process.env.GATSBY_SHOPIFY_STORE_URL}`,
+  domain: `${process.env.GATSBY_SHOPIFY_STOREFRONT_URL}`,
   storefrontAccessToken: `${process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD}`,
 });
 
@@ -168,7 +168,7 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const isBrowser = typeof window !== undefined;
     const existingCheckoutId = isBrowser
-      ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
+      ? localStorage.getItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY)
       : null;
 
     setStore((prevState) => {
@@ -181,7 +181,10 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
         .then((checkout) => {
           if (!checkout.completedAt) {
             if (isBrowser) {
-              localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
+              localStorage.setItem(
+                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+                checkout.id
+              );
             }
 
             setStore((prevState) => {
@@ -192,7 +195,7 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
           }
         })
         .catch((e) => {
-          localStorage.remove(SHOPIFY_CHECKOUT_STORAGE_KEY);
+          localStorage.remove(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
         });
     } else {
       setStore((prevState) => {
@@ -201,7 +204,7 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       client.checkout.create().then((checkout) => {
         if (isBrowser) {
-          localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
+          localStorage.setItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY, checkout.id);
         }
         setStore((prevState) => {
           return { ...prevState, isLoading: false, checkout };
