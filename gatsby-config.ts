@@ -76,6 +76,11 @@ const config: GatsbyConfig = {
   graphqlTypegen: true,
 };
 // eslint-disable-next-line no-console
-console.log("config >>>>", config);
+console.log("options", {
+  storeUrl: "brushella-dev.myshopify.com",
+  password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
+  salesChannel: process.env.GATSBY_SHOPIFY_APP_ID,
+  shopifyConnections: ["collections"],
+});
 
 export default config;
