@@ -75,5 +75,7 @@ const config: GatsbyConfig = {
   ],
   graphqlTypegen: true,
 };
+// eslint-disable-next-line no-console
+console.log("config >>>>", config);
 
 export default config;
