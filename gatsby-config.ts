@@ -5,6 +5,9 @@ dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+// eslint-disable-next-line no-console
+console.log(process.env.NODE_ENV, process.env);
+
 const config: GatsbyConfig = {
   siteMetadata: {
     title: "Brushella",
