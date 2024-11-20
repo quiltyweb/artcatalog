@@ -7,11 +7,6 @@ import React, {
 } from "react";
 import ShopifyBuy from "shopify-buy";
 import Client from "shopify-buy";
-import dotenv from "dotenv";
-
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
 
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 
