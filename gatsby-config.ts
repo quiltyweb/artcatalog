@@ -37,7 +37,7 @@ const config: GatsbyConfig = {
       options: {
         storeUrl: process.env.GATSBY_SHOPIFY_ADMIN_URL,
         password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
-        salesChannel: process.env.SHOPIFY_APP_ID,
+        salesChannel: process.env.GATSBY_SHOPIFY_APP_ID,
         shopifyConnections: ["collections"],
       },
     },
