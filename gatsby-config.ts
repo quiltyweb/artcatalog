@@ -35,8 +35,8 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-shopify`,
       options: {
-        storeUrl: "brushella-dev.myshopify.com",
         password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
+        storeUrl: "brushella-dev.myshopify.com",
         salesChannel: process.env.GATSBY_SHOPIFY_APP_ID,
         shopifyConnections: ["collections"],
       },
@@ -83,6 +83,6 @@ console.log("options >>>", {
   shopifyConnections: ["collections"],
 });
 // eslint-disable-next-line no-console
-console.log(">>> brushella-dev.myshopify.com");
+console.log(">>> brushella-dev .myshopify .com");
 
 export default config;
