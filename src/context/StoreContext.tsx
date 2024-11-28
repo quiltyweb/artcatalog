@@ -12,7 +12,7 @@ const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 
 const client = Client.buildClient({
   apiVersion: "2024-04",
-  domain: process.env.GATSBY_SHOPIFY_STOREFRONT_URL || "",
+  domain: "brushellashop.myshopify.com",
   storefrontAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD || "",
 });
 
