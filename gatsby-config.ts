@@ -35,9 +35,8 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-shopify",
       options: {
-        storeUrl: "brushella-dev.myshopify.com",
+        storeUrl: "brushellashop.myshopify.com",
         password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
-        salesChannel: "brushella_app",
         shopifyConnections: ["collections"],
       },
     },
