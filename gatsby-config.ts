@@ -33,15 +33,6 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: "gatsby-source-shopify",
-      options: {
-        storeUrl: "brushella-dev.myshopify.com",
-        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
-        salesChannel: "brushella_app",
-        shopifyConnections: ["collections"],
-      },
-    },
-    {
       resolve: "gatsby-source-graphql",
       options: {
         typeName: "AdminShopify",
@@ -70,6 +61,14 @@ const config: GatsbyConfig = {
         rule: {
           include: /svg/,
         },
+      },
+    },
+    {
+      resolve: "gatsby-source-shopify",
+      options: {
+        storeUrl: "brushellashop.myshopify.com",
+        password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
+        shopifyConnections: ["collections"],
       },
     },
   ],
