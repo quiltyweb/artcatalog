@@ -4,7 +4,7 @@ describe("LegalContent Template desktop", () => {
     cy.viewport("macbook-16");
     cy.intercept(
       "GET",
-      "/page-data/legal-content/return_and_refund_policy/page-data.json",
+      "/page-data/legal-content/return-and-refund-policy/page-data.json",
       {
         fixture: "footer/legalContent.json",
       }
@@ -31,7 +31,7 @@ describe("LegalContent Template mobile", () => {
     cy.viewport("iphone-4");
     cy.intercept(
       "GET",
-      "/page-data/legal-content/return_and_refund_policy/page-data.json",
+      "/page-data/legal-content/return-and-refund-policy/page-data.json",
       {
         fixture: "footer/legalContent.json",
       }
