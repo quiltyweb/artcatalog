@@ -11,6 +11,7 @@ import {
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Link as GatsbyLink, graphql, useStaticQuery } from "gatsby";
 import styled from "styled-components";
+import { kebabCase } from "lodash";
 
 const FooterLink = styled(GatsbyLink)`
   text-decoration: none;
@@ -72,13 +73,17 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           textTransform="capitalize"
         >
           {legalContent.nodes &&
-            legalContent.nodes[0].fields.map((item) => (
-              <ListItem key={item.key} p="0 1rem 1rem 0">
-                <FooterLink to={`/legal-content/${item.key}`}>
-                  {item.definition.name}
-                </FooterLink>
-              </ListItem>
-            ))}
+            legalContent.nodes[0].fields.map((item) => {
+              const fieldKey = `${kebabCase(item.key)}`;
+
+              return (
+                <ListItem key={item.key} p="0 1rem 1rem 0">
+                  <FooterLink to={`/legal-content/${fieldKey}`}>
+                    {item.definition.name}
+                  </FooterLink>
+                </ListItem>
+              );
+            })}
           <ListItem key={"contact-page"} p="0 1rem 1rem 0">
             <FooterLink to="/contact">contact me</FooterLink>
           </ListItem>

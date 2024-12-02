@@ -59,6 +59,7 @@ export const Head = (props: any) => {
   return (
     <SEO
       pageTitle={`${props.pageContext.title} - Legal Information Page`}
+      siteTitle="Brushella"
       description="Legal and shipping Information about our products"
     />
   );
