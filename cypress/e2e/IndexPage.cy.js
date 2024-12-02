@@ -65,7 +65,7 @@ describe("Home page mobile", () => {
   it("Navigates from home page to legal content template", () => {
     cy.intercept(
       "GET",
-      /page-data\/legal-content\/return_and_refund_policy\/page-data/,
+      /page-data\/legal-content\/return-and-refund-policy\/page-data/,
       {
         fixture: "footer/legalContent.json",
       }
