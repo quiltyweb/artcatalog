@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import "@testing-library/jest-dom/extend-expect";
+import "cross-fetch/polyfill";
 
 global.matchMedia =
   global.matchMedia ||
