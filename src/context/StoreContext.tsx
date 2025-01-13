@@ -7,8 +7,14 @@ import React, {
 } from "react";
 import ShopifyBuy from "shopify-buy";
 import Client from "shopify-buy";
-
+import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
+
+const storefrontClient = createStorefrontApiClient({
+  storeDomain: "brushellashop.myshopify.com",
+  apiVersion: "2024-04",
+  publicAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
+});
 
 const client = Client.buildClient({
   apiVersion: "2024-04",
