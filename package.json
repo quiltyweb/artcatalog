@@ -40,6 +40,7 @@
     "@fontsource/open-sans": "^5.0.22",
     "@fontsource/raleway": "^5.0.16",
     "@novatize-mattheri/shopify-richtext-renderer": "^0.0.14",
+    "@shopify/storefront-api-client": "^1.0.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
