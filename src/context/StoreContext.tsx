@@ -5,220 +5,243 @@ import React, {
   SetStateAction,
   useEffect,
 } from "react";
-import ShopifyBuy from "shopify-buy";
-import Client from "shopify-buy";
+import gql from "graphql-tag";
+import { print } from "graphql";
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
+import type {
+  Cart,
+  Maybe,
+  Mutation,
+  QueryRoot,
+} from "@shopify/hydrogen-react/storefront-api-types";
+import { formatPrice } from "../utils/formatPrice";
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 
-const storefrontClient = createStorefrontApiClient({
+const clientV2 = createStorefrontApiClient({
   storeDomain: "brushellashop.myshopify.com",
-  apiVersion: "2024-04",
+  apiVersion: "2025-01",
   publicAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
 });
 
-const client = Client.buildClient({
-  apiVersion: "2024-04",
-  domain: "brushellashop.myshopify.com",
-  storefrontAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD || "",
-});
+// ***********************
+// TYPES:
+// ***********************
+interface StoreStateType {
+  client: typeof clientV2;
+  isLoading: boolean;
+  cart?: Maybe<Cart>;
+}
 
-interface StoreContextProps {
+interface StoreContextType {
   store: {
-    client: Client;
-    isAdding: boolean;
+    client: typeof clientV2;
     isLoading: boolean;
-    checkout: {
-      id: Client.ID;
-      webUrl: ShopifyBuy.Checkout["webUrl"];
-      subtotalPrice: ShopifyBuy.Checkout["subtotalPrice"];
-      lineItems: Array<ShopifyBuy.CheckoutLineItem>;
-      ready: ShopifyBuy.Checkout["ready"];
-    };
+    cart?: Maybe<Cart>;
   };
-  setStore: Dispatch<SetStateAction<StoreContextProps["store"]>>;
+  setStore: Dispatch<SetStateAction<StoreStateType>>;
 }
 
 type AddItemsToCartArgs = {
-  variantId: ShopifyBuy.ID;
-  quantity: number;
+  variantId: Cart["lines"]["nodes"]["0"]["merchandise"]["id"];
+  quantity: Cart["lines"]["nodes"]["0"]["quantity"];
 };
 
-const initialStoreState = {
-  client: client,
-  isAdding: false,
+// ***********************
+// QUERIES AND MUTATIONS:
+// ***********************
+
+export const cartFieldsFragment = gql`
+  fragment CartFields on Cart {
+    id
+    createdAt
+    updatedAt
+    checkoutUrl
+    cost {
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+      subtotalAmountEstimated
+      totalAmount {
+        amount
+        currencyCode
+      }
+      totalAmountEstimated
+    }
+    totalQuantity
+    lines(first: 10) {
+      nodes {
+        id
+        quantity
+        merchandise {
+          __typename
+          ... on ProductVariant {
+            id
+            title
+            image {
+              id
+              url
+              altText
+              height
+              width
+            }
+            price {
+              amount
+              currencyCode
+            }
+            unitPrice {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const cartQuery = gql`
+  ${cartFieldsFragment}
+  query Cart($id: ID!) {
+    cart(id: $id) {
+      ...CartFields
+    }
+  }
+`;
+
+const createCartMutation = gql`
+  ${cartFieldsFragment}
+  mutation CreateCart($cartInput: CartInput) {
+    cartCreate(input: $cartInput) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        message
+        code
+        field
+      }
+    }
+  }
+`;
+
+const cartLinesAddMutation = gql`
+  ${cartFieldsFragment}
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+    cartLinesAdd(cartId: $cartId, lines: $lines) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const cartLinesRemoveMutation = gql`
+  ${cartFieldsFragment}
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+// ********************************
+
+const storeDefaultValues = {
+  client: clientV2,
   isLoading: false,
-  checkout: {
-    id: "",
-    webUrl: "",
-    lineItems: [],
-    subtotalPrice: { amount: 0, currencyCode: "AUD" },
-    ready: false,
-  },
 };
 
-const StoreContext = React.createContext<StoreContextProps>({
-  store: initialStoreState,
+const StoreContext = React.createContext<StoreContextType>({
+  store: storeDefaultValues,
   setStore: () => null,
 });
 
-const useAddItemToCart = () => {
-  const {
-    store: { client, checkout },
-    setStore,
-  } = useContext(StoreContext);
+const StoreApp = ({ children }: { children: React.ReactNode }) => {
+  const [store, setStore] = useState<StoreStateType>(storeDefaultValues);
 
-  const addItemToCart = ({ variantId, quantity }: AddItemsToCartArgs) => {
-    setStore((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true,
-        isAdding: true,
-      };
-    });
-    client.checkout
-      .addLineItems(checkout.id, [
-        {
-          variantId,
-          quantity,
-        },
-      ])
-      .then((updatedCheckout) => {
-        setStore((prevState) => {
-          return {
-            ...prevState,
-            isLoading: false,
-            isAdding: false,
-            checkout: updatedCheckout,
-          };
-        });
-      });
-  };
-  return addItemToCart;
-};
-
-const useRemoveItemFromCart = () => {
-  const {
-    store: { client, checkout },
-    setStore,
-  } = useContext(StoreContext);
-
-  const removeItemFromCart = (itemId: string) => {
-    setStore((prevState) => {
-      return { ...prevState, isLoading: true };
-    });
-    client.checkout
-      .removeLineItems(checkout.id, [itemId])
-      .then((updatedCheckout) => {
-        setStore((prevState) => {
-          return { ...prevState, isLoading: false, checkout: updatedCheckout };
-        });
-      });
-  };
-  return removeItemFromCart;
-};
-
-const useIsCartLoading = () => {
-  const {
-    store: { isLoading },
-  } = useContext(StoreContext);
-  return isLoading;
-};
-
-const useIsCheckoutReady = () => {
-  const {
-    store: { checkout },
-  } = useContext(StoreContext);
-  return checkout.ready;
-};
-
-const useLineItemsCount = () => {
-  const {
-    store: {
-      checkout: { lineItems },
-    },
-  } = useContext(StoreContext);
-
-  const lineItemsCount = lineItems.reduce((total, currentItem) => {
-    return total + currentItem.quantity;
-  }, 0);
-  return lineItemsCount;
-};
-
-const useCheckoutLineItems = () => {
-  const {
-    store: { checkout },
-  } = useContext(StoreContext);
-  return checkout.lineItems;
-};
-
-const useCartTotals = () => {
-  const {
-    store: { checkout },
-  } = useContext(StoreContext);
-
-  return checkout.subtotalPrice;
-};
-
-const useCheckout = () => {
-  const {
-    store: { checkout },
-  } = useContext(StoreContext);
-  return () => {
-    window.open(checkout.webUrl);
-  };
-};
-
-const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [store, setStore] =
-    useState<StoreContextProps["store"]>(initialStoreState);
+  const existingCheckoutId = localStorage.getItem(
+    SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY
+  );
 
   useEffect(() => {
-    const isBrowser = typeof window !== undefined;
-    const existingCheckoutId = isBrowser
-      ? localStorage.getItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY)
-      : null;
-
-    setStore((prevState) => {
-      return { ...prevState, isLoading: true };
-    });
-
     if (existingCheckoutId) {
-      client.checkout
-        .fetch(existingCheckoutId)
-        .then((checkout) => {
-          if (!checkout.completedAt) {
-            if (isBrowser) {
-              localStorage.setItem(
-                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-                checkout.id
-              );
-            }
-
-            setStore((prevState) => {
-              return { ...prevState, isLoading: false, checkout };
-            });
-
-            return;
-          }
-        })
-        .catch((e) => {
-          localStorage.remove(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
-        });
-    } else {
+      // retrieve existing cart
       setStore((prevState) => {
         return { ...prevState, isLoading: true };
       });
 
-      client.checkout.create().then((checkout) => {
-        if (isBrowser) {
-          localStorage.setItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY, checkout.id);
-        }
-        setStore((prevState) => {
-          return { ...prevState, isLoading: false, checkout };
+      store.client
+        .request(print(cartQuery), {
+          variables: {
+            id: existingCheckoutId,
+          },
+        })
+        .then(({ data }) => {
+          if (data && data.cart) {
+            console.log("retrieve then >>> data >>>>>", data);
+
+            localStorage.setItem(
+              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+              data.cart.id
+            );
+            setStore((prevState) => {
+              console.log("retrieving existing ... returning state >>>", {
+                ...prevState,
+                isLoading: false,
+                cart: { ...data.cart },
+              });
+
+              return {
+                ...prevState,
+                isLoading: false,
+                cart: { ...data.cart },
+              };
+            });
+          }
         });
+    }
+
+    if (!existingCheckoutId) {
+      setStore((prevState) => {
+        return { ...prevState, isLoading: true };
       });
+      store.client
+        .request<Mutation>(print(createCartMutation), {
+          variables: {
+            input: {},
+          },
+        })
+        .then(({ data }) => {
+          if (data && data.cartCreate && data.cartCreate.cart) {
+            localStorage.setItem(
+              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+              data.cartCreate.cart.id
+            );
+            setStore((prevState) => {
+              return {
+                ...prevState,
+                isLoading: false,
+                cart: data.cartCreate?.cart,
+              };
+            });
+          }
+        });
     }
   }, []);
+
+  if (store.isLoading) {
+    return <>loading ...loading...</>;
+  }
 
   return (
     <StoreContext.Provider value={{ store, setStore }}>
@@ -227,15 +250,136 @@ const StoreContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+function useAddItemToCart() {
+  const {
+    store: { client, cart },
+    setStore,
+  } = useContext(StoreContext);
+
+  const addItemToCart = ({ variantId, quantity }: AddItemsToCartArgs) => {
+    setStore((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true,
+      };
+    });
+
+    //add the new item.
+    client
+      .request(print(cartLinesAddMutation), {
+        variables: {
+          cartId: cart?.id,
+          lines: [
+            {
+              merchandiseId: variantId,
+              quantity: quantity,
+            },
+          ],
+        },
+      })
+      .then(({ data }) => {
+        setStore((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          cart: data.cartLinesAdd.cart,
+        }));
+      });
+  };
+  return addItemToCart;
+}
+
+const useCheckoutLineItems = () => {
+  const {
+    store: { cart },
+  } = useContext(StoreContext);
+  if (!cart) {
+    return [];
+  }
+  return cart.lines.nodes;
+};
+
+const useCartTotals = () => {
+  const {
+    store: { cart },
+  } = useContext(StoreContext);
+  if (!cart?.cost) {
+    return;
+  }
+  const currencyCode = cart.cost.subtotalAmount?.currencyCode ?? "xxx";
+  const cartSubtotalPriceWithFormat = formatPrice({
+    currency: cart.cost.subtotalAmount.currencyCode,
+    value: parseFloat(cart.cost.subtotalAmount.amount),
+  });
+
+  return { currencyCode, cartSubtotalPriceWithFormat };
+};
+
+const useCheckout = () => {
+  const {
+    store: { cart },
+  } = useContext(StoreContext);
+  return () => {
+    window.open(cart?.checkoutUrl);
+  };
+};
+
+// TODO: update this function
+const useRemoveItemFromCart = () => {
+  const {
+    store: { client, cart },
+    setStore,
+  } = useContext(StoreContext);
+
+  const removeItemFromCart = (itemId: string) => {
+    setStore((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+    // client.checkout
+    //   .removeLineItems(checkout.id, [itemId])
+    //   .then((updatedCheckout) => {
+    //     setStore((prevState) => {
+    //       return { ...prevState, isLoading: false, checkout: updatedCheckout };
+    //     });
+    //   });
+  };
+  return removeItemFromCart;
+};
+
+// TODO: update this function
+const useLineItemsCount = () => {
+  const {
+    store: { cart },
+  } = useContext(StoreContext);
+  if (!cart) {
+    return 0;
+  }
+  const lineItemsCount = cart?.lines.nodes.reduce((prevValue, currentItem) => {
+    return prevValue + currentItem.quantity;
+  }, 0);
+
+  return lineItemsCount;
+};
+
+//  TODO: add operation: updateItemToCart
+// function useUpdateItemToCart() {
+//   const updateItemToCart = () => null;
+//   return updateItemToCart;
+// }
+
+// const useIsCheckoutReady = () => {
+//   const {
+//     store: { cart },
+//   } = useContext(StoreContext);
+//   return cart.ready;
+// };
+
 export {
   StoreContext,
-  StoreContextProvider,
+  StoreApp,
   useLineItemsCount,
   useAddItemToCart,
   useRemoveItemFromCart,
   useCheckoutLineItems,
   useCartTotals,
   useCheckout,
-  useIsCartLoading,
-  useIsCheckoutReady,
 };

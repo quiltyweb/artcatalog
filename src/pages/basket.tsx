@@ -24,18 +24,18 @@ import {
   useLineItemsCount,
   useCheckoutLineItems,
   useRemoveItemFromCart,
-  useIsCartLoading,
   useCartTotals,
   useCheckout,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
 import { getShopifyImage } from "gatsby-source-shopify";
-import { formatPrice } from "../utils/formatPrice";
+
 import { DeleteIcon } from "@chakra-ui/icons";
 import QuoteForm from "../components/QuoteForm";
 import CallToActionButton from "../components/CallToActionButton";
 import { Link } from "gatsby";
+// import { formatPrice } from "../utils/formatPrice";
 
 const BreadcrumbMenuCart = () => {
   return (
@@ -153,18 +153,14 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
 
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
-  const isCartLoading = useIsCartLoading();
+
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
-  const cartSubtotalPrice = useCartTotals();
-  const cartSubtotalPriceWithFormat = formatPrice({
-    currency: cartSubtotalPrice.currencyCode,
-    value: cartSubtotalPrice.amount,
-  });
+  const cartTotals = useCartTotals();
   const handleCheckout = useCheckout();
 
-  if (isCartLoading) {
+  if (!checkoutLineItems.length) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
@@ -176,7 +172,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     );
   }
 
-  if (!isCartLoading && cartCount === 0) {
+  if (cartCount === 0) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
@@ -199,11 +195,20 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       </Heading>
       <TableContainer mb="8">
         <Table size="sm" variant="simple">
-          <TableCaption placement="bottom" textAlign={["left", "center"]}>
+          {/* <TableCaption placement="bottom" textAlign={["left", "center"]}>
             {cartCount === 1 &&
-              `1 item in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${cartSubtotalPrice.currencyCode}.`}
+              `1 item in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${currencyCode}.`}
             {cartCount > 1 &&
-              `${cartCount} items in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${cartSubtotalPrice.currencyCode}.`}
+              `${cartCount} items in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${currencyCode}.`}
+          </TableCaption> */}
+          <TableCaption placement="bottom" textAlign={["left", "center"]}>
+            {!cartTotals && "There are no items in your cart"}
+            {cartTotals &&
+              cartCount === 1 &&
+              `1 item in your cart. Subtotal is ${cartTotals.cartSubtotalPriceWithFormat} ${cartTotals.currencyCode}.`}
+            {cartTotals &&
+              cartCount > 1 &&
+              `${cartCount} items in your cart. Subtotal is ${cartTotals.cartSubtotalPriceWithFormat} ${cartTotals.currencyCode}.`}
           </TableCaption>
 
           {isDektop && (
@@ -221,23 +226,27 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
           <Tbody>
             {checkoutLineItems.map((item, index) => {
-              const variantPriceWithFormat = formatPrice({
-                currency: item.variant?.price?.currencyCode,
-                value: Number(item.variant?.price?.amount),
-              });
+              // const variantPriceWithFormat = formatPrice({
+              //   currency: item.merchandise.price.currencyCode,
+              //   value: Number(item.merchandise.price.amount),
+              // });
 
-              const lineItemTotalWithFormat = formatPrice({
-                currency: item.variant?.price.currencyCode,
-                value: Number(item.variant?.price.amount) * item.quantity,
-              });
+              const variantPriceWithFormat = 0;
+
+              // const lineItemTotalWithFormat = formatPrice({
+              //   currency: item.merchandise.price.currencyCode,
+              //   value: Number(item.merchandise.price.amount) * item.quantity,
+              // });
+
+              const lineItemTotalWithFormat = 0;
 
               const variantImageWithSrc = {
-                ...item.variant?.image,
-                originalSrc: item.variant?.image?.src,
+                ...item.merchandise.image,
+                originalSrc: item.merchandise.image?.src,
               };
 
               const variantImage =
-                item.variant?.image &&
+                item.merchandise.image &&
                 getShopifyImage({
                   image: variantImageWithSrc,
                   layout: "constrained",
@@ -246,10 +255,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                   height: 60,
                 });
 
-              const productTitle =
-                item.variant?.title !== "Default Title"
-                  ? `${item.title} - ${item.variant?.title}`
-                  : `${item.title}`;
+              const productTitle = item.merchandise.title;
 
               if (isDektop) {
                 return (
@@ -257,7 +263,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     <Td gridArea={"image"}>
                       {variantImage && variantImageWithSrc.altText ? (
                         <GatsbyImage
-                          key={`${item.id}-${item.title}`}
+                          key={`${item.id}-${item.merchandise.title}`}
                           image={variantImage}
                           alt={variantImageWithSrc.altText}
                           style={{
@@ -348,7 +354,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                     <Td gridArea={"image"}>
                       {variantImage && variantImageWithSrc.altText ? (
                         <GatsbyImage
-                          key={`${item.id}-${item.title}`}
+                          key={`${item.id}-${item.merchandise.title}`}
                           image={variantImage}
                           alt={variantImageWithSrc.altText}
                           style={{
@@ -450,13 +456,17 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
         </Table>
       </TableContainer>
 
-      <CartSummary
-        cartSubtotalPriceWithFormat={cartSubtotalPriceWithFormat}
-        handleCheckout={handleCheckout}
-        currency={cartSubtotalPrice.currencyCode}
-      />
+      {cartTotals && (
+        <CartSummary
+          cartSubtotalPriceWithFormat={cartTotals.cartSubtotalPriceWithFormat}
+          handleCheckout={handleCheckout}
+          currency={cartTotals.currencyCode}
+        />
+      )}
 
-      {cartCount > 0 && <QuoteForm checkoutLineItems={checkoutLineItems} />}
+      {cartTotals && cartCount > 0 && (
+        <QuoteForm checkoutLineItems={checkoutLineItems} />
+      )}
     </Container>
   );
 };

@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { GatsbyBrowser } from "gatsby";
 import Layout from "./src/components/Layout";
-import { StoreContextProvider } from "./src/context/StoreContext";
+import { StoreApp } from "./src/context/StoreContext";
 import theme from "./src/theme.ts";
 import { ChakraProvider } from "@chakra-ui/react";
 import styled from "styled-components";
@@ -34,8 +34,8 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
     <div>
       <SkipToContentLink href="#main">Skip to content</SkipToContentLink>
     </div>
-    <StoreContextProvider>
+    <StoreApp>
       <Layout {...props}>{element}</Layout>
-    </StoreContextProvider>
+    </StoreApp>
   </ChakraProvider>
 );

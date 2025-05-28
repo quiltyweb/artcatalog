@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -30,7 +30,7 @@ import {
   FormikProps,
   ErrorMessage,
 } from "formik";
-import { useAddItemToCart } from "../context/StoreContext";
+import { StoreContext, useAddItemToCart } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
@@ -50,6 +50,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
+  const {
+    store: { cart },
+  } = useContext(StoreContext);
+  console.log("cart  from ProductCard component>>>", cart);
 
   const featuredImage = getImage(product.featuredImage);
 

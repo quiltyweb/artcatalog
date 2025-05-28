@@ -11,8 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import ShopifyBuy from "shopify-buy";
-
+import type { Cart } from "@shopify/hydrogen-react/storefront-api-types";
 const SubmitSchema = Yup.object().shape({
   fullname: Yup.string().max(100, "Too Long!").required("Name is Required"),
   email: Yup.string().email("Invalid email").required("Email is Required"),
@@ -26,14 +25,14 @@ interface FormValues {
 }
 
 type QuoteFormProps = {
-  checkoutLineItems: Array<ShopifyBuy.CheckoutLineItem>;
+  checkoutLineItems: Cart["lines"]["nodes"];
 };
 const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
   checkoutLineItems,
 }): React.ReactElement => {
   const getItemsFromBasket = (): string => {
     const cartForMessage = checkoutLineItems.map((item) => {
-      return `${item.quantity} ${item.title} ${item.variant?.title}`;
+      return `${item.quantity} ${item.merchandise.title}`;
     });
     return cartForMessage.join(", ");
   };
@@ -101,6 +100,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
               {!props.status && (
                 <Form data-testid="quote-contact-form">
                   <Field name="fullname" type="text">
+                    {/* TODO: assign type to field, form */}
                     {({ field, form }: any) => (
                       <FormControl
                         isInvalid={
@@ -118,6 +118,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
                   </Field>
 
                   <Field name="email" type="email">
+                    {/* TODO: assign type to field, form */}
                     {({ field, form }: any) => (
                       <FormControl
                         isInvalid={form.errors.email && form.touched.email}
