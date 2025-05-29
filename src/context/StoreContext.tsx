@@ -181,30 +181,19 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
       });
 
       store.client
-        .request(print(cartQuery), {
+        .request<Cart>(print(cartQuery), {
           variables: {
             id: existingCheckoutId,
           },
         })
         .then(({ data }) => {
-          if (data && data.cart) {
-            console.log("retrieve then >>> data >>>>>", data);
-
-            localStorage.setItem(
-              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-              data.cart.id
-            );
+          if (data && data.id) {
+            localStorage.setItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY, data.id);
             setStore((prevState) => {
-              console.log("retrieving existing ... returning state >>>", {
-                ...prevState,
-                isLoading: false,
-                cart: { ...data.cart },
-              });
-
               return {
                 ...prevState,
                 isLoading: false,
-                cart: { ...data.cart },
+                cart: { ...data },
               };
             });
           }
@@ -266,7 +255,7 @@ function useAddItemToCart() {
 
     //add the new item.
     client
-      .request(print(cartLinesAddMutation), {
+      .request<Mutation>(print(cartLinesAddMutation), {
         variables: {
           cartId: cart?.id,
           lines: [
@@ -281,7 +270,7 @@ function useAddItemToCart() {
         setStore((prevState) => ({
           ...prevState,
           isLoading: false,
-          cart: data.cartLinesAdd.cart,
+          cart: data?.cartLinesAdd?.cart,
         }));
       });
   };
@@ -318,12 +307,14 @@ const useCheckout = () => {
   const {
     store: { cart },
   } = useContext(StoreContext);
+  if (!cart) {
+    return;
+  }
   return () => {
     window.open(cart?.checkoutUrl);
   };
 };
 
-// TODO: update this function
 const useRemoveItemFromCart = () => {
   const {
     store: { client, cart },
@@ -334,18 +325,31 @@ const useRemoveItemFromCart = () => {
     setStore((prevState) => {
       return { ...prevState, isLoading: true };
     });
-    // client.checkout
-    //   .removeLineItems(checkout.id, [itemId])
-    //   .then((updatedCheckout) => {
-    //     setStore((prevState) => {
-    //       return { ...prevState, isLoading: false, checkout: updatedCheckout };
-    //     });
-    //   });
+
+    client
+      .request<Mutation>(print(cartLinesRemoveMutation), {
+        variables: {
+          cartId: cart?.id,
+          lines: [
+            {
+              itemId,
+            },
+          ],
+        },
+      })
+      .then(({ data }) => {
+        setStore((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            cart: data?.cartLinesRemove?.cart,
+          };
+        });
+      });
   };
   return removeItemFromCart;
 };
 
-// TODO: update this function
 const useLineItemsCount = () => {
   const {
     store: { cart },
@@ -353,25 +357,18 @@ const useLineItemsCount = () => {
   if (!cart) {
     return 0;
   }
-  const lineItemsCount = cart?.lines.nodes.reduce((prevValue, currentItem) => {
+  const lineItemsCount = cart.lines.nodes.reduce((prevValue, currentItem) => {
     return prevValue + currentItem.quantity;
   }, 0);
 
   return lineItemsCount;
 };
 
-//  TODO: add operation: updateItemToCart
-// function useUpdateItemToCart() {
-//   const updateItemToCart = () => null;
+//  TODO: add operation: cartLinesUpdate
+// function useCartLinesUpdate() {
+//   const cartLinesUpdate = () => null;
 //   return updateItemToCart;
 // }
-
-// const useIsCheckoutReady = () => {
-//   const {
-//     store: { cart },
-//   } = useContext(StoreContext);
-//   return cart.ready;
-// };
 
 export {
   StoreContext,
