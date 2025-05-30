@@ -51,9 +51,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
   const {
-    store: { cart },
+    store: { isLoading },
   } = useContext(StoreContext);
-  console.log("cart  from ProductCard component>>>", cart);
 
   const featuredImage = getImage(product.featuredImage);
 
@@ -264,6 +263,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Add to shopping bag
                   </Button>
+                  {isLoading && <p>loading...loading</p>}
                 </Form>
               </CardBody>
             </Container>

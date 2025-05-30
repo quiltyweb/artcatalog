@@ -181,19 +181,22 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
       });
 
       store.client
-        .request<Cart>(print(cartQuery), {
+        .request(print(cartQuery), {
           variables: {
             id: existingCheckoutId,
           },
         })
         .then(({ data }) => {
-          if (data && data.id) {
-            localStorage.setItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY, data.id);
+          if (data && data.cart) {
+            localStorage.setItem(
+              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+              data.cart.id
+            );
             setStore((prevState) => {
               return {
                 ...prevState,
                 isLoading: false,
-                cart: { ...data },
+                cart: { ...data.cart },
               };
             });
           }
@@ -228,10 +231,6 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  if (store.isLoading) {
-    return <>loading ...loading...</>;
-  }
-
   return (
     <StoreContext.Provider value={{ store, setStore }}>
       {children}
@@ -245,6 +244,7 @@ function useAddItemToCart() {
     setStore,
   } = useContext(StoreContext);
 
+  const store = useContext(StoreContext);
   const addItemToCart = ({ variantId, quantity }: AddItemsToCartArgs) => {
     setStore((prevState) => {
       return {
