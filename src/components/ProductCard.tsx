@@ -30,7 +30,11 @@ import {
   FormikProps,
   ErrorMessage,
 } from "formik";
-import { StoreContext, useAddItemToCart } from "../context/StoreContext";
+import {
+  StoreContext,
+  useAddItemToCart,
+  useCartLinesUpdate,
+} from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
@@ -50,8 +54,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
+  const updateItemsToCart = useCartLinesUpdate();
   const {
-    store: { isLoading },
+    store: { isLoading, cart },
   } = useContext(StoreContext);
 
   const featuredImage = getImage(product.featuredImage);
@@ -90,6 +95,18 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
         if (!selectedVariant) {
           throw Error;
+        }
+
+        const cartLineItem = cart?.lines.nodes.find((item) => {
+          return item.merchandise.id === selectedVariant.shopifyId;
+        });
+
+        if (cartLineItem) {
+          updateItemsToCart({
+            lines: [{ id: cartLineItem.id, quantity: values.quantity }],
+          });
+          setSubmitting(false);
+          return;
         }
 
         addItemToCart({

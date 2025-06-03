@@ -10,6 +10,7 @@ import { print } from "graphql";
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import type {
   Cart,
+  CartLineUpdateInput,
   Maybe,
   Mutation,
   QueryRoot,
@@ -46,6 +47,9 @@ type AddItemsToCartArgs = {
   quantity: Cart["lines"]["nodes"]["0"]["quantity"];
 };
 
+type UpdateItemsToCartArgs = {
+  lines: Array<CartLineUpdateInput>;
+};
 // ***********************
 // QUERIES AND MUTATIONS:
 // ***********************
@@ -140,6 +144,21 @@ const cartLinesAddMutation = gql`
   }
 `;
 
+const cartLinesUpdateMutation = gql`
+  ${cartFieldsFragment}
+  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 const cartLinesRemoveMutation = gql`
   ${cartFieldsFragment}
   mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
@@ -156,18 +175,18 @@ const cartLinesRemoveMutation = gql`
 `;
 // ********************************
 
-const storeDefaultValues = {
+const storeInitialValues = {
   client: clientV2,
   isLoading: false,
 };
 
 const StoreContext = React.createContext<StoreContextType>({
-  store: storeDefaultValues,
+  store: storeInitialValues,
   setStore: () => null,
 });
 
 const StoreApp = ({ children }: { children: React.ReactNode }) => {
-  const [store, setStore] = useState<StoreStateType>(storeDefaultValues);
+  const [store, setStore] = useState<StoreStateType>(storeInitialValues);
 
   const existingCheckoutId = localStorage.getItem(
     SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY
@@ -277,6 +296,46 @@ function useAddItemToCart() {
   return addItemToCart;
 }
 
+function useCartLinesUpdate() {
+  const {
+    store: { client, cart },
+    setStore,
+  } = useContext(StoreContext);
+
+  const updateItemsToCart = ({ lines }: UpdateItemsToCartArgs) => {
+    console.log("updateItemsToCart variables >>>", {
+      cartId: cart?.id,
+      lines: lines,
+    });
+    setStore((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true,
+      };
+    });
+
+    client
+      .request<Mutation>(print(cartLinesUpdateMutation), {
+        variables: {
+          cartId: cart?.id,
+          lines: lines,
+        },
+      })
+      .then(({ data }) => {
+        console.log("data >>>", data);
+
+        setStore((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            cart: data?.cartLinesUpdate?.cart,
+          };
+        });
+      });
+  };
+  return updateItemsToCart;
+}
+
 const useCheckoutLineItems = () => {
   const {
     store: { cart },
@@ -330,11 +389,7 @@ const useRemoveItemFromCart = () => {
       .request<Mutation>(print(cartLinesRemoveMutation), {
         variables: {
           cartId: cart?.id,
-          lines: [
-            {
-              itemId,
-            },
-          ],
+          lineIds: [itemId],
         },
       })
       .then(({ data }) => {
@@ -364,17 +419,12 @@ const useLineItemsCount = () => {
   return lineItemsCount;
 };
 
-//  TODO: add operation: cartLinesUpdate
-// function useCartLinesUpdate() {
-//   const cartLinesUpdate = () => null;
-//   return updateItemToCart;
-// }
-
 export {
   StoreContext,
   StoreApp,
   useLineItemsCount,
   useAddItemToCart,
+  useCartLinesUpdate,
   useRemoveItemFromCart,
   useCheckoutLineItems,
   useCartTotals,
