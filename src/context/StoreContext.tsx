@@ -440,11 +440,7 @@ const useLineItemsCount = () => {
   if (!cart) {
     return 0;
   }
-  const lineItemsCount = cart.lines.nodes.reduce((prevValue, currentItem) => {
-    return prevValue + currentItem.quantity;
-  }, 0);
-
-  return lineItemsCount;
+  return cart.totalQuantity;
 };
 
 export {
