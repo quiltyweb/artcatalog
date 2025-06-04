@@ -7,7 +7,10 @@ import React, {
 } from "react";
 import gql from "graphql-tag";
 import { print } from "graphql";
-import { createStorefrontApiClient } from "@shopify/storefront-api-client";
+import {
+  ClientResponse,
+  createStorefrontApiClient,
+} from "@shopify/storefront-api-client";
 import type {
   Cart,
   CartLineUpdateInput,
@@ -30,6 +33,7 @@ const clientV2 = createStorefrontApiClient({
 interface StoreStateType {
   client: typeof clientV2;
   isLoading: boolean;
+  hasError: boolean;
   cart?: Maybe<Cart>;
 }
 
@@ -37,6 +41,7 @@ interface StoreContextType {
   store: {
     client: typeof clientV2;
     isLoading: boolean;
+    hasError: boolean;
     cart?: Maybe<Cart>;
   };
   setStore: Dispatch<SetStateAction<StoreStateType>>;
@@ -137,8 +142,9 @@ const cartLinesAddMutation = gql`
         ...CartFields
       }
       userErrors {
-        field
         message
+        code
+        field
       }
     }
   }
@@ -152,8 +158,9 @@ const cartLinesUpdateMutation = gql`
         ...CartFields
       }
       userErrors {
-        field
         message
+        code
+        field
       }
     }
   }
@@ -167,8 +174,9 @@ const cartLinesRemoveMutation = gql`
         ...CartFields
       }
       userErrors {
-        field
         message
+        code
+        field
       }
     }
   }
@@ -178,6 +186,7 @@ const cartLinesRemoveMutation = gql`
 const storeInitialValues = {
   client: clientV2,
   isLoading: false,
+  hasError: false,
 };
 
 const StoreContext = React.createContext<StoreContextType>({
@@ -200,12 +209,19 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
       });
 
       store.client
-        .request(print(cartQuery), {
+        .request<QueryRoot>(print(cartQuery), {
           variables: {
             id: existingCheckoutId,
           },
         })
-        .then(({ data }) => {
+        .then(({ data, errors }) => {
+          if (errors) {
+            setStore((prevState) => {
+              return { ...prevState, isLoading: false, hasError: true };
+            });
+            return;
+          }
+
           if (data && data.cart) {
             localStorage.setItem(
               SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
@@ -215,7 +231,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
               return {
                 ...prevState,
                 isLoading: false,
-                cart: { ...data.cart },
+                cart: data.cart,
               };
             });
           }
@@ -232,7 +248,13 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
             input: {},
           },
         })
-        .then(({ data }) => {
+        .then(({ data, errors }) => {
+          if (errors) {
+            setStore((prevState) => {
+              return { ...prevState, isLoading: false, hasError: true };
+            });
+            return;
+          }
           if (data && data.cartCreate && data.cartCreate.cart) {
             localStorage.setItem(
               SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
@@ -285,7 +307,13 @@ function useAddItemToCart() {
           ],
         },
       })
-      .then(({ data }) => {
+      .then(({ data, errors }) => {
+        if (errors) {
+          setStore((prevState) => {
+            return { ...prevState, isLoading: false, hasError: true };
+          });
+          return;
+        }
         setStore((prevState) => ({
           ...prevState,
           isLoading: false,
@@ -303,10 +331,6 @@ function useCartLinesUpdate() {
   } = useContext(StoreContext);
 
   const updateItemsToCart = ({ lines }: UpdateItemsToCartArgs) => {
-    console.log("updateItemsToCart variables >>>", {
-      cartId: cart?.id,
-      lines: lines,
-    });
     setStore((prevState) => {
       return {
         ...prevState,
@@ -321,9 +345,13 @@ function useCartLinesUpdate() {
           lines: lines,
         },
       })
-      .then(({ data }) => {
-        console.log("data >>>", data);
-
+      .then(({ data, errors }) => {
+        if (errors) {
+          setStore((prevState) => {
+            return { ...prevState, isLoading: false, hasError: true };
+          });
+          return;
+        }
         setStore((prevState) => {
           return {
             ...prevState,
@@ -362,7 +390,7 @@ const useCartTotals = () => {
   return { currencyCode, cartSubtotalPriceWithFormat };
 };
 
-const useCheckout = () => {
+const useCheckoutUrl = () => {
   const {
     store: { cart },
   } = useContext(StoreContext);
@@ -428,5 +456,5 @@ export {
   useRemoveItemFromCart,
   useCheckoutLineItems,
   useCartTotals,
-  useCheckout,
+  useCheckoutUrl,
 };

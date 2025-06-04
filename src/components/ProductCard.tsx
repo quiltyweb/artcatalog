@@ -56,7 +56,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   const addItemToCart = useAddItemToCart();
   const updateItemsToCart = useCartLinesUpdate();
   const {
-    store: { isLoading, cart },
+    store: { isLoading, cart, hasError },
   } = useContext(StoreContext);
 
   const featuredImage = getImage(product.featuredImage);
@@ -280,7 +280,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Add to shopping bag
                   </Button>
-                  {isLoading && <p>loading...loading</p>}
+                  {hasError && <p>An error occurred, try again later.</p>}
                 </Form>
               </CardBody>
             </Container>

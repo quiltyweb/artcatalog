@@ -25,7 +25,7 @@ import {
   useCheckoutLineItems,
   useRemoveItemFromCart,
   useCartTotals,
-  useCheckout,
+  useCheckoutUrl,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -158,7 +158,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const removeItemFromCart = useRemoveItemFromCart();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
   const cartTotals = useCartTotals();
-  const handleCheckout = useCheckout();
+  const handleCheckout = useCheckoutUrl();
 
   if (!checkoutLineItems.length) {
     return (
