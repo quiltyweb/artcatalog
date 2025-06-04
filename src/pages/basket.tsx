@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Breadcrumb,
@@ -26,11 +26,11 @@ import {
   useRemoveItemFromCart,
   useCartTotals,
   useCheckoutUrl,
+  StoreContext,
 } from "../context/StoreContext";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
 import { getShopifyImage } from "gatsby-source-shopify";
-
 import { DeleteIcon } from "@chakra-ui/icons";
 import QuoteForm from "../components/QuoteForm";
 import CallToActionButton from "../components/CallToActionButton";
@@ -153,14 +153,15 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
 
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
-
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
-  const [isDektop] = useMediaQuery("(min-width: 597px)");
   const cartTotals = useCartTotals();
   const handleCheckout = useCheckoutUrl();
-
-  if (!checkoutLineItems.length) {
+  const [isDektop] = useMediaQuery("(min-width: 597px)");
+  const {
+    store: { isLoading },
+  } = useContext(StoreContext);
+  if (isLoading) {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
