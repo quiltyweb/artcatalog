@@ -100,13 +100,13 @@ const TableLoadingSkeleton = () => {
 type CartSummaryProps = {
   cartSubtotalPriceWithFormat: string;
   currency: string;
-  handleCheckout: () => void;
+  handleCheckout?: () => void;
 };
 
 const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   cartSubtotalPriceWithFormat,
-  handleCheckout,
   currency,
+  handleCheckout,
 }) => {
   return (
     <Box
@@ -156,7 +156,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const checkoutLineItems = useCheckoutLineItems();
   const removeItemFromCart = useRemoveItemFromCart();
   const cartTotals = useCartTotals();
-  const handleCheckout = useCheckoutUrl();
+  const openCheckoutUrl = useCheckoutUrl();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
   const {
     store: { isLoading },
@@ -460,7 +460,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       {cartTotals && (
         <CartSummary
           cartSubtotalPriceWithFormat={cartTotals.cartSubtotalPriceWithFormat}
-          handleCheckout={handleCheckout}
+          handleCheckout={openCheckoutUrl}
           currency={cartTotals.currencyCode}
         />
       )}

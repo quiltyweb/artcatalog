@@ -397,9 +397,10 @@ const useCheckoutUrl = () => {
   if (!cart) {
     return;
   }
-  return () => {
-    window.open(cart?.checkoutUrl);
+  const openCheckoutUrl = () => {
+    window.open(cart.checkoutUrl);
   };
+  return openCheckoutUrl;
 };
 
 const useRemoveItemFromCart = () => {
