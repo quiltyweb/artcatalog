@@ -7,10 +7,7 @@ import React, {
 } from "react";
 import gql from "graphql-tag";
 import { print } from "graphql";
-import {
-  ClientResponse,
-  createStorefrontApiClient,
-} from "@shopify/storefront-api-client";
+import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import type {
   Cart,
   CartLineUpdateInput,
@@ -130,6 +127,11 @@ const createCartMutation = gql`
         code
         field
       }
+      warnings {
+        code
+        target
+        message
+      }
     }
   }
 `;
@@ -145,6 +147,11 @@ const cartLinesAddMutation = gql`
         message
         code
         field
+      }
+      warnings {
+        code
+        target
+        message
       }
     }
   }
@@ -162,6 +169,11 @@ const cartLinesUpdateMutation = gql`
         code
         field
       }
+      warnings {
+        code
+        target
+        message
+      }
     }
   }
 `;
@@ -177,6 +189,11 @@ const cartLinesRemoveMutation = gql`
         message
         code
         field
+      }
+      warnings {
+        code
+        target
+        message
       }
     }
   }
