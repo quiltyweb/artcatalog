@@ -47,7 +47,7 @@ describe("About page mobile", () => {
     cy.findByRole("link", { name: /about me/i }).click();
     cy.findByRole("link", { name: "Home" });
     cy.findByRole("heading", { name: /about me/i });
-    cy.findByAltText("Gabriela in her art studio painting on a large canvas");
+    cy.findByAltText("Gabriela painting on a large canvas in her art studio");
     cy.findByText(/this is test data for bio about me page/i);
     cy.title().should("contain", "About Page - Meet the artist");
   });
