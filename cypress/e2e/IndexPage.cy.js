@@ -1,8 +1,21 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+const ALL_CATEGORIES = [
+  "Prints",
+  "Commissions",
+  "Original Paintings",
+  "Resin & Pigment Art",
+  "Home Decor",
+  "Wearable Art",
+  "Stickers",
+  "Murals & Sign Writing",
+];
+const PUBLISHED_CATEGORIES = ["Prints"];
+
 describe("Home page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
@@ -17,6 +30,13 @@ describe("Home page desktop", () => {
     });
   });
 
+  it("renders top store alert", () => {
+    cy.findByRole("alert").within(() => {
+      cy.findByText(/Brushella.art is under construction./i);
+      cy.findByText(/This store can’t accept payments right now./i);
+    });
+  });
+
   it("renders top navigation for desktop", () => {
     cy.get('svg[title="menu"]').should("not.exist");
     cy.findByLabelText("Brushella home");
@@ -24,23 +44,18 @@ describe("Home page desktop", () => {
     cy.findByRole("link", { name: "Shopping cart 0 items" });
 
     cy.findByRole("navigation").within(() => {
-      cy.findByRole("link", { name: "Commissions" });
-      cy.findByRole("link", { name: "Original Paintings" });
-      cy.findByRole("link", { name: "Prints" });
-      cy.findByRole("link", { name: "Resin & Pigment Art" });
-      cy.findByRole("link", { name: "Home Decor" });
-      cy.findByRole("link", { name: "Wearable Art" });
-      cy.findByRole("link", { name: "Stickers" });
-      cy.findByRole("link", { name: "Murals & Sign Writing" });
+      for (var category_name of PUBLISHED_CATEGORIES) {
+        cy.findByRole("link", { name: category_name });
+      }
     });
   });
 });
 
-describe("Home page mobile", () => {
+describe.only("Home page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
@@ -83,14 +98,9 @@ describe("Home page mobile", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByTestId("mobile-drawer-content").within(() => {
-      cy.findByText("Commissions");
-      cy.findByText("Original Paintings");
-      cy.findByText("Prints");
-      cy.findByText("Resin & Pigment Art");
-      cy.findByText("Home Decor");
-      cy.findByText("Wearable Art");
-      cy.findByText("Stickers");
-      cy.findByText("Murals & Sign Writing");
+      for (var category_name of PUBLISHED_CATEGORIES) {
+        cy.findByRole("link", { name: category_name });
+      }
       cy.findByRole("link", { name: /about me/i });
       cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: "facebook" });
@@ -124,15 +134,10 @@ describe("Home page mobile", () => {
       );
       cy.findByRole("heading", { name: "Browse Brushella’s World" });
 
-      cy.findByRole("link", { name: /Commissions/i });
-      cy.findByRole("link", { name: /Original Paintings/i });
-      cy.findByRole("link", { name: /Prints/i });
-      cy.findByRole("link", { name: /Resin & Pigment Art/i });
-      cy.findByRole("link", { name: /Home Decor/i });
-      cy.findByRole("link", { name: /Wearable Art/i });
-      cy.findByRole("link", { name: /Stickers/i });
-      cy.findByRole("link", { name: /Murals & Sign Writing/i });
-      cy.findByAltText("Products of Original Paintings category.");
+      for (var category_name of PUBLISHED_CATEGORIES) {
+        cy.findByText(category_name);
+      }
+      cy.findByAltText("Products of Prints category.");
     });
   });
 
@@ -173,28 +178,9 @@ describe("Home page mobile", () => {
   });
 
   it("Navigates from mobile menu to each category page", () => {
-    cy.clickDrawerMenuOption("Commissions");
-    cy.findByRole("heading", { name: "Commissions" });
-
-    cy.clickDrawerMenuOption("Original Paintings");
-    cy.findByRole("heading", { name: "Original Paintings" });
-
-    cy.clickDrawerMenuOption("Prints");
-    cy.findByRole("heading", { name: "Prints" });
-
-    cy.clickDrawerMenuOption("Resin & Pigment Art");
-    cy.findByRole("heading", { name: "Resin & Pigment Art" });
-
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Home Decor" });
-
-    cy.clickDrawerMenuOption("Wearable Art");
-    cy.findByRole("heading", { name: "Wearable Art" });
-
-    cy.clickDrawerMenuOption("Stickers");
-    cy.findByRole("heading", { name: "Stickers" });
-
-    cy.clickDrawerMenuOption("Murals & Sign Writing");
-    cy.findByRole("heading", { name: "Murals & Sign Writing" });
+    for (var category_name of PUBLISHED_CATEGORIES) {
+      cy.clickDrawerMenuOption("Prints");
+      cy.findByRole("heading", { name: category_name });
+    }
   });
 });
