@@ -1,3 +1,5 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+
 describe("About page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
@@ -5,7 +7,7 @@ describe("About page desktop", () => {
     cy.intercept("GET", /page-data\/about/, {
       fixture: "about/about.json",
     }).as("aboutPage");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/about");
@@ -27,7 +29,7 @@ describe("About page mobile", () => {
     cy.intercept("GET", /page-data\/about/, {
       fixture: "about/about.json",
     }).as("aboutPage");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/about");
