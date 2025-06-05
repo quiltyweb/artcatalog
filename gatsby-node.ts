@@ -13,7 +13,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   const COLLECTIONS_AND_PRODUCTS_DATA = gql`
     query CollectionsAndProductsIntoPages {
-      allShopifyCollection {
+      allShopifyCollection(filter: { handle: { eq: "prints" } }) {
         nodes {
           id
           title
@@ -199,6 +199,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
     ?.forEach(({ type, metaobjects }) => {
       metaobjects.nodes.forEach(({ fields }) => {
         fields.forEach((field) => {
+          if (type === "product_categories" && field.key !== "prints") {
+            return;
+          }
           createPageFromField(type, field);
         });
       });

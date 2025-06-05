@@ -24,7 +24,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             title
           }
         }
-        allShopifyCollection {
+        allShopifyCollection(filter: { handle: { eq: "prints" } }) {
           nodes {
             id
             title
