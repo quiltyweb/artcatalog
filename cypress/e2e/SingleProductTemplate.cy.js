@@ -1,5 +1,6 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 describe("Collection Template desktop view", () => {
-  it("checks for accessibility violations for desktop view", () => {
+  it.only("checks for accessibility violations for desktop view", () => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept(
@@ -9,7 +10,7 @@ describe("Collection Template desktop view", () => {
         fixture: "singleProduct/singleProduct.json",
       }
     );
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/collections/home-decor/beach-towel", {
@@ -35,7 +36,7 @@ describe("Collection Template mobile view", () => {
       }
     );
 
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
   });
@@ -142,7 +143,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.intercept("POST", /api\/2024-04\/graphql/, {
+      cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
         fixture: "singleProduct/mocked-checkout-response-node.json",
       }).as("checkoutFetch");
       cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {

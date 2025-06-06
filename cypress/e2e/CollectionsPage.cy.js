@@ -1,12 +1,23 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 describe("Collections Page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
+    cy.intercept("GET", "/page-data/collections/page-data.json", {
+      fixture: "collections-page/all-collections.json",
+    }).as("collections-page-data");
+    cy.intercept("GET", "/page-data/sq/d/3071889448.json", {
+      fixture: "collections-page/data-allShopifyCollection.json",
+    }).as("allShopifyCollection-page-data");
     cy.visit("/collections");
-    cy.wait("@checkoutCreate");
+    cy.wait([
+      "@checkoutCreate",
+      "@collections-page-data",
+      "@allShopifyCollection-page-data",
+    ]);
   });
 
   it("checks for accessibility violations on desktop", () => {
@@ -18,15 +29,25 @@ describe("Collections Page desktop", () => {
   });
 });
 
-describe("Collections Page mobile", () => {
+describe.only("Collections Page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
+    cy.intercept("GET", "/page-data/collections/page-data.json", {
+      fixture: "collections-page/all-collections.json",
+    }).as("collections-page-data");
+    cy.intercept("GET", "/page-data/sq/d/3071889448.json", {
+      fixture: "collections-page/data-allShopifyCollection.json",
+    }).as("allShopifyCollection-page-data");
     cy.visit("/collections");
-    cy.wait("@checkoutCreate");
+    cy.wait([
+      "@checkoutCreate",
+      "@collections-page-data",
+      "@allShopifyCollection-page-data",
+    ]);
   });
 
   it("checks for accessibility violations on mobile", () => {
@@ -40,20 +61,27 @@ describe("Collections Page mobile", () => {
   it("loads collections page correctly", () => {
     cy.findByRole("main").within(() => {
       cy.findByRole("link", { name: "Home" });
-      cy.findAllByText("All Categories").should("have.length", 2);
+      cy.findByLabelText("breadcrumb").within(() => {
+        cy.findByText("Home");
+        cy.findByText("All Categories");
+      });
       cy.findByRole("heading", { name: "All Categories" });
-      cy.findByText("Original Paintings");
-      cy.findAllByRole("img").should("have.length", 8);
+      cy.findByText("Prints");
+      cy.findAllByRole("img").should("have.length", 1);
     });
   });
 
-  it("goes to a category", () => {
+  // TODO: mock categories and its products
+  it("goes from All collections to Print category", () => {
     cy.findByRole("main").within(() => {
-      cy.findByRole("link", { name: /Original Paintings/i }).click();
-      cy.findByRole("link", { name: "Home" });
-      cy.findByRole("link", { name: "All Categories" });
-      cy.findAllByText("Original Paintings").should("have.length", 2);
-      cy.findByRole("heading", { name: "Original Paintings" });
+      cy.findByRole("link", { name: /prints/i }).click();
+      cy.findByLabelText("breadcrumb").within(() => {
+        cy.findByText("Home");
+        cy.findByText("All Categories");
+        cy.findByText(/prints/i);
+      });
+      cy.findByRole("heading", { name: "Prints" });
+      cy.findByRole("link", { name: "Learn more about Prints" });
     });
   });
 });

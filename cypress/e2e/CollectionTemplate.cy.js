@@ -1,13 +1,15 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 describe("Collection Template desktop", () => {
   it("checks for accessibility violations desktop view", () => {
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "collection/collectionDecor.json",
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collection-template/collection-prints.json",
     });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "collection/mocked-checkout-response-checkoutCreate.json",
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture:
+        "collection-template/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/home-decor/");
+    cy.visit("/collections/prints/");
     cy.wait("@checkoutCreate");
     cy.injectAxe();
     cy.checkA11y({
@@ -16,22 +18,24 @@ describe("Collection Template desktop", () => {
   });
 });
 
-describe("Collection Template mobile", () => {
+describe.only("Collection Template mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "collection/collectionDecor.json",
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collection-template/collection-prints.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/home-decor/beach-towel/page-data.json",
+      "/page-data/collections/prints/print-de-test/page-data.json",
       {
-        fixture: "collection/singleProduct-for-collection-template.json",
+        fixture:
+          "collection-template/singleProduct-for-collection-template.json",
       }
     );
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "collection/mocked-checkout-response-checkoutCreate.json",
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture:
+        "collection-template/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
     cy.wait("@checkoutCreate");

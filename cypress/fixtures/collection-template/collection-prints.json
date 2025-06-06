@@ -1,0 +1,18 @@
+{
+    "componentChunkName": "component---src-templates-collection-tsx",
+    "path": "/collections/prints/",
+    "result": {
+        "pageContext": {
+            "title": "Prints",
+            "products": [],
+            "description": "All my original paintings go through a professional artwork scanning and colour correction process to adjust the colours to be as close as possible to the original painting. Each one of these prints, regardless of the size and design, are printed on Canson 310 GSM photo rag paper, or premium Canvas - Chromata LYVE Canvas- 450gsm using 12 pigments colour inks.",
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "1353110752",
+        "3273930684"
+    ],
+    "slicesMap": {}
+}
