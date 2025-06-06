@@ -18,7 +18,7 @@ describe("Collection Template desktop", () => {
   });
 });
 
-describe.only("Collection Template mobile", () => {
+describe("Collection Template mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
@@ -27,7 +27,7 @@ describe.only("Collection Template mobile", () => {
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/prints/print-de-test/page-data.json",
+      "/collections/prints/test-print-not-for-sale/page-data.json",
       {
         fixture:
           "collection-template/singleProduct-for-collection-template.json",
@@ -42,37 +42,31 @@ describe.only("Collection Template mobile", () => {
   });
 
   it("checks for accessibility violations mobile view", () => {
-    cy.clickDrawerMenuOption("Home Decor");
+    cy.clickDrawerMenuOption("Prints");
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
     });
   });
 
-  it("Navigates from home to Collection page", () => {
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("link", { name: "Home" });
-    cy.findAllByRole("link", { name: "All Categories" });
-    cy.findByRole("heading", { name: "Home Decor" });
-    cy.findByText("This is the collection description text");
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
-    cy.findByAltText(/alt text for Cotton Beach towel/i);
-    cy.findAllByText("$0").should("have.length", "0");
-    cy.findByText(/from/i);
-    cy.findByText(/AUD/i);
-    cy.findByText(/\$10/i);
-    cy.findAllByText(/view details/i).should("have.length", "2");
-    cy.findByRole("link", { name: "Learn more about Home Decor" });
+  it("Navigates from home page to Collection page", () => {
+    cy.clickDrawerMenuOption("Prints");
+    cy.findByLabelText("breadcrumb").within(() => {
+      cy.findByText("Home");
+      cy.findByText("All Categories");
+      cy.findByText(/prints/i);
+    });
+    cy.findByRole("heading", { name: "Prints" });
   });
 
   it("Navigates from Collection page to single product view", () => {
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Home Decor" });
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
-    cy.findByAltText(/alt text for Cotton Beach towel/i);
-    cy.findByText("description text for Cotton Beach towel");
-    cy.findByLabelText(/color/i);
+    cy.clickDrawerMenuOption("Prints");
+    cy.findByRole("heading", { name: "Prints" });
+    cy.findByRole("heading", { name: "test print (not for sale)" }).click();
+    cy.findByRole("heading", { name: "test print (not for sale)" });
+    cy.findByText("description for test print (not for sale)");
+    cy.findByText(/AUD/i);
+    cy.findByText(/\$0.00/i);
     cy.findByLabelText(/quantity/i);
     cy.findByRole("button", { name: "Add to shopping bag" });
   });

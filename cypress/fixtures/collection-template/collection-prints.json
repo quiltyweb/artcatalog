@@ -4,7 +4,54 @@
     "result": {
         "pageContext": {
             "title": "Prints",
-            "products": [],
+            "products": [
+                {
+                    "id": "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+                    "title": "test print (not for sale)",
+                    "handle": "test-print-not-for-sale",
+                    "description": "description for test print (not for sale)",
+                    "priceRangeV2": {
+                        "minVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        },
+                        "maxVariantPrice": {
+                            "amount": 0,
+                            "currencyCode": "AUD"
+                        }
+                    },
+                    "featuredImage": null,
+                    "hasOnlyDefaultVariant": true,
+                    "totalVariants": 1,
+                    "variants": [
+                        {
+                            "shopifyId": "gid://shopify/ProductVariant/44599125082320",
+                            "displayName": "test print (not for sale) - Default Title",
+                            "title": "Default Title",
+                            "price": 0,
+                            "inventoryQuantity": 3,
+                            "selectedOptions": [
+                                {
+                                    "name": "Title",
+                                    "value": "Default Title"
+                                }
+                            ],
+                            "image": null
+                        }
+                    ],
+                    "mediaCount": 0,
+                    "media": [],
+                    "options": [
+                        {
+                            "shopifyId": "gid://shopify/ProductOption/10521014239440",
+                            "name": "Title",
+                            "values": [
+                                "Default Title"
+                            ]
+                        }
+                    ]
+                }
+            ],
             "description": "All my original paintings go through a professional artwork scanning and colour correction process to adjust the colours to be as close as possible to the original painting. Each one of these prints, regardless of the size and design, are printed on Canson 310 GSM photo rag paper, or premium Canvas - Chromata LYVE Canvas- 450gsm using 12 pigments colour inks.",
             "collectionHandle": "prints"
         },
