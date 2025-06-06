@@ -71,17 +71,21 @@ describe.only("Collections Page mobile", () => {
     });
   });
 
-  // TODO: mock categories and its products
   it("goes from All collections to Print category", () => {
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collections-page/data-collections-print.json",
+    }).as("collections/prints/page-data");
     cy.findByRole("main").within(() => {
       cy.findByRole("link", { name: /prints/i }).click();
-      cy.findByLabelText("breadcrumb").within(() => {
-        cy.findByText("Home");
-        cy.findByText("All Categories");
-        cy.findByText(/prints/i);
-      });
       cy.findByRole("heading", { name: "Prints" });
+      cy.findByText("Mock data for Print Category description.");
+      cy.findByText("There are no products available.");
       cy.findByRole("link", { name: "Learn more about Prints" });
+    });
+    cy.findByLabelText("breadcrumb").within(() => {
+      cy.findByText("Home");
+      cy.findByText("All Categories");
+      cy.findByText(/prints/i);
     });
   });
 });
