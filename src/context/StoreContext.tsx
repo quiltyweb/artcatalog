@@ -84,6 +84,9 @@ export const cartFieldsFragment = gql`
           ... on ProductVariant {
             id
             title
+            product {
+              title
+            }
             image {
               id
               url
