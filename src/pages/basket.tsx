@@ -7,6 +7,7 @@ import {
   Button,
   Container,
   Heading,
+  Img,
   SimpleGrid,
   Skeleton,
   Table,
@@ -28,7 +29,7 @@ import {
   useCheckoutUrl,
   StoreContext,
 } from "../context/StoreContext";
-import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
+import { StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
 import { getShopifyImage } from "gatsby-source-shopify";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -241,32 +242,17 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
               const lineItemTotalWithFormat = 0;
 
-              const variantImageWithSrc = {
-                ...item.merchandise.image,
-                originalSrc: item.merchandise.image?.src,
-              };
-
-              const variantImage =
-                item.merchandise.image &&
-                getShopifyImage({
-                  image: variantImageWithSrc,
-                  layout: "constrained",
-                  crop: "contain",
-                  width: 60,
-                  height: 60,
-                });
-
-              const productTitle = item.merchandise.title;
+              const productTitle = `${item.merchandise.product.title} - ${item.merchandise.title}`;
 
               if (isDektop) {
                 return (
                   <Tr key={`${item.id}-item-${index}`} marginBottom={["2rem"]}>
                     <Td gridArea={"image"}>
-                      {variantImage && variantImageWithSrc.altText ? (
-                        <GatsbyImage
+                      {item.merchandise.image?.altText ? (
+                        <Img
+                          src={item.merchandise.image.url}
+                          alt={item.merchandise.image.altText}
                           key={`${item.id}-${item.merchandise.title}`}
-                          image={variantImage}
-                          alt={variantImageWithSrc.altText}
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
@@ -278,6 +264,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                       ) : (
                         <StaticImage
                           data-testid="no-image"
+                          key={`no-image-${item.id}-${item.merchandise.title}`}
                           style={{
                             filter: "grayscale(1)",
                             borderRadius: "md",
@@ -353,11 +340,11 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                   <Tr backgroundColor="gray.200">
                     <Th scope="row">thumbnail</Th>
                     <Td gridArea={"image"}>
-                      {variantImage && variantImageWithSrc.altText ? (
-                        <GatsbyImage
+                      {item.merchandise.image?.altText ? (
+                        <Img
                           key={`${item.id}-${item.merchandise.title}`}
-                          image={variantImage}
-                          alt={variantImageWithSrc.altText}
+                          src={item.merchandise.image.url}
+                          alt={item.merchandise.image.altText}
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
@@ -369,6 +356,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                       ) : (
                         <StaticImage
                           data-testid="no-image"
+                          key={`no-image-${item.id}-${item.merchandise.title}`}
                           style={{
                             filter: "grayscale(1)",
                             borderRadius: "md",
