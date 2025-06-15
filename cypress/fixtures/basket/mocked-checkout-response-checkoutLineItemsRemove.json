@@ -1,78 +1,55 @@
 {
     "data": {
-        "checkoutLineItemsRemove": {
-            "userErrors": [],
-            "checkoutUserErrors": [],
-            "checkout": {
-                "id": "gid://shopify/Checkout/fake/12345dff7098bd74dbb88ebdcac92fa4?key=123458daadc606b0bddddd5b653b54aa",
-                "ready": false,
-                "requiresShipping": false,
-                "note": null,
-                "paymentDue": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "paymentDueV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "webUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
-                "orderStatusUrl": null,
-                "taxExempt": false,
-                "taxesIncluded": false,
-                "currencyCode": "AUD",
-                "totalTax": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalTaxV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "lineItemsSubtotalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPriceV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPriceV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "completedAt": null,
-                "createdAt": "2024-07-30T04:32:17Z",
-                "updatedAt": "2024-07-30T05:32:46Z",
-                "email": null,
-                "discountApplications": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+        "cartLinesRemove": {
+            "cart": {
+                "id": "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw?key=2ada3a16b633f034a475df52eb812722",
+                "createdAt": "2025-06-11T10:26:18Z",
+                "updatedAt": "2025-06-15T11:20:41Z",
+                "checkoutUrl": "https://brushellashop.myshopify.com/cart/c/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw?key=2ada3a16b633f034a475df52eb812722",
+                "cost": {
+                    "subtotalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": []
-                },
-                "appliedGiftCards": [],
-                "shippingAddress": null,
-                "shippingLine": null,
-                "customAttributes": [],
-                "order": null,
-                "lineItems": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+                    "subtotalAmountEstimated": true,
+                    "totalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": []
+                    "totalAmountEstimated": true
+                },
+                "totalQuantity": 1,
+                "lines": {
+                    "nodes": [
+                        {
+                            "id": "gid://shopify/CartLine/d0b2854e-521f-46ec-8875-f43f42ab0ac1?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw",
+                            "quantity": 1,
+                            "merchandise": {
+                                "__typename": "ProductVariant",
+                                "id": "gid://shopify/ProductVariant/44600453005520",
+                                "title": "Wood",
+                                "product": {
+                                    "title": "test print (not for sale)"
+                                },
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/41952637255888",
+                                    "url": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
+                                    "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                    "height": 1358,
+                                    "width": 2560
+                                },
+                                "price": {
+                                    "amount": "0.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "unitPrice": null
+                            }
+                        }
+                    ]
                 }
-            }
+            },
+            "userErrors": [],
+            "warnings": []
         }
     }
 }

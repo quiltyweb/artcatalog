@@ -39,7 +39,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
 
   return (
     <>
-      <Heading as="h3" size="sm" color="teal.500">
+      <Heading as="h3" size="sm" color="teal.600">
         Quotation form
       </Heading>
       <Formik
