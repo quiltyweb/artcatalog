@@ -71,20 +71,16 @@ describe("desktop view basket page", () => {
     });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
-
     cy.findByRole("cell", { name: /test print \(not for sale\) \- Wood/i });
-
     cy.findByRole("columnheader", { name: "quantity" });
     cy.findByRole("cell", { name: "1" });
     cy.findByRole("columnheader", { name: "remove" });
     cy.findByRole("button", {
       name: /remove test print \(not for sale\) \- Wood/i,
     });
-
     cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
     cy.findAllByRole("cell", { name: "$0.00" }).should("have.length", 2);
-
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: /summary/i });
       cy.findByText("Subtotal:");
@@ -105,9 +101,10 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-checkout-response-node.json",
-    }).as("checkoutFetch");
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
     cy.reload();
+    cy.findByRole("table", { name: /2 items in your cart/ });
     cy.findByRole("heading", { name: "Quotation form" });
     cy.findByRole("button", { name: /Get a Quote/i });
   });
