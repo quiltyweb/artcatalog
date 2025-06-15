@@ -1,143 +1,61 @@
 {
-   "componentChunkName": "component---src-templates-single-product-tsx",
-   "path": "/collections/prints/macumba/",
-   "result": {
-       "pageContext": {
-           "product": {
-               "id": "12345-9274-5164-9a65-a75d3f7f7238",
-               "title": "Macumba",
-               "handle": "macumba",
-              "description":"description text for Macumba poster print",
-               "priceRangeV2": {
-                   "minVariantPrice": {
-                       "amount": 50,
-                       "currencyCode": "AUD"
-                   },
-                   "maxVariantPrice": {
-                       "amount": 50,
-                       "currencyCode": "AUD"
-                   }
-               },
-               "featuredImage": {
-                   "altText": "alt text of featured image for Macumba poster print",
-                   "gatsbyImageData": {
-                       "images": {
-                           "sources": [
-                               {
-                                   "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                   "sizes": "(min-width: 500px) 500px, 100vw",
-                                   "type": "image/webp"
-                               }
-                           ],
-                           "fallback": {
-                               "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "sizes": "(min-width: 500px) 500px, 100vw"
-                           }
-                       },
-                       "layout": "constrained",
-                       "width": 500,
-                       "height": 667
-                   }
-               },
-               "hasOnlyDefaultVariant": false,
-               "totalVariants": 1,
-               "variants": [
-                   {
-                       "shopifyId": "gid://shopify/ProductVariant/44198259884240",
-                       "displayName": "Macumba - large",
-                       "title": "large",
-                       "price": 50,
-                       "inventoryQuantity": 2,
-                       "selectedOptions": [
-                           {
-                               "name": "Size",
-                               "value": "large"
-                           }
-                       ],
-                       "image": {
-                           "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                           "altText": null,
-                           "height": 1355,
-                           "width": 1016,
-                           "gatsbyImageData": {
-                               "images": {
-                                   "sources": [
-                                       {
-                                           "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                           "sizes": "(min-width: 500px) 500px, 100vw",
-                                           "type": "image/webp"
-                                       }
-                                   ],
-                                   "fallback": {
-                                       "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                       "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                       "sizes": "(min-width: 500px) 500px, 100vw"
-                                   }
-                               },
-                               "layout": "constrained",
-                               "width": 500,
-                               "height": 667
-                           },
-                           "originalSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                           "transformedSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                       }
-                   }
-               ],
-               "mediaCount": 4,
-               "media": [
-                   {
-                       "id": "58d76c4b-8732-5c17-9edf-13fadc046b5c",
-                       "alt": "",
-                       "mediaContentType": "IMAGE",
-                       "preview": {
-                           "status": "READY",
-                           "image": {
-                               "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "altText": "",
-                               "height": 1355,
-                               "width": 1016,
-                               "gatsbyImageData": {
-                                   "images": {
-                                       "sources": [
-                                           {
-                                               "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                               "sizes": "(min-width: 82px) 82px, 100vw",
-                                               "type": "image/webp"
-                                           }
-                                       ],
-                                       "fallback": {
-                                           "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                           "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                           "sizes": "(min-width: 82px) 82px, 100vw"
-                                       }
-                                   },
-                                   "layout": "constrained",
-                                   "width": 82,
-                                   "height": 82
-                               },
-                               "originalSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "transformedSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                           }
-                       }
-                   }                
-               ],
-               "options": [
-                   {
-                       "shopifyId": "gid://shopify/ProductOption/12345008496848",
-                       "name": "Size",
-                       "values": [
-                           "large"
-                       ]
-                   }
-               ]
-           },
-           "collectionHandle": "prints"
-       },
-       "serverData": null
-   },
-   "staticQueryHashes": [
-       "3466113349"
-   ],
-   "slicesMap": {}
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/prints/test-print-not-for-sale/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+                "title": "test print (not for sale)",
+                "handle": "test-print-not-for-sale",
+                "description": "description for test print (not for sale)",
+                "priceRangeV2": {
+                    "minVariantPrice": {
+                        "amount": 0,
+                        "currencyCode": "AUD"
+                    },
+                    "maxVariantPrice": {
+                        "amount": 0,
+                        "currencyCode": "AUD"
+                    }
+                },
+                "featuredImage": null,
+                "hasOnlyDefaultVariant": true,
+                "totalVariants": 1,
+                "variants": [
+                    {
+                        "shopifyId": "gid://shopify/FakeProductVariant/1234544599125082320",
+                        "displayName": "test print (not for sale) - Default Title",
+                        "title": "Default Title",
+                        "price": 0,
+                        "inventoryQuantity": 3,
+                        "selectedOptions": [
+                            {
+                                "name": "Title",
+                                "value": "Default Title"
+                            }
+                        ],
+                        "image": null
+                    }
+                ],
+                "mediaCount": 0,
+                "media": [],
+                "options": [
+                    {
+                        "shopifyId": "gid://shopify/FakeProductOption/10521342345014239440",
+                        "name": "Title",
+                        "values": [
+                            "Default Title"
+                        ]
+                    }
+                ]
+            },
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "1353110752",
+        "3273930684"
+    ],
+    "slicesMap": {}
 }

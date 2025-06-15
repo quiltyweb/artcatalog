@@ -36,7 +36,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import QuoteForm from "../components/QuoteForm";
 import CallToActionButton from "../components/CallToActionButton";
 import { Link } from "gatsby";
-// import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../utils/formatPrice";
 
 const BreadcrumbMenuCart = () => {
   return (
@@ -197,12 +197,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
       </Heading>
       <TableContainer mb="8">
         <Table size="sm" variant="simple">
-          {/* <TableCaption placement="bottom" textAlign={["left", "center"]}>
-            {cartCount === 1 &&
-              `1 item in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${currencyCode}.`}
-            {cartCount > 1 &&
-              `${cartCount} items in your cart. Subtotal is ${cartSubtotalPriceWithFormat} ${currencyCode}.`}
-          </TableCaption> */}
           <TableCaption placement="bottom" textAlign={["left", "center"]}>
             {!cartTotals && "There are no items in your cart"}
             {cartTotals &&
@@ -228,19 +222,15 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
           <Tbody>
             {checkoutLineItems.map((item, index) => {
-              // const variantPriceWithFormat = formatPrice({
-              //   currency: item.merchandise.price.currencyCode,
-              //   value: Number(item.merchandise.price.amount),
-              // });
+              const variantPriceWithFormat = formatPrice({
+                currency: item.merchandise.price.currencyCode,
+                value: Number(item.merchandise.price.amount),
+              });
 
-              const variantPriceWithFormat = 0;
-
-              // const lineItemTotalWithFormat = formatPrice({
-              //   currency: item.merchandise.price.currencyCode,
-              //   value: Number(item.merchandise.price.amount) * item.quantity,
-              // });
-
-              const lineItemTotalWithFormat = 0;
+              const lineItemTotalWithFormat = formatPrice({
+                currency: item.merchandise.price.currencyCode,
+                value: Number(item.merchandise.price.amount) * item.quantity,
+              });
 
               const productTitle = `${item.merchandise.product.title} - ${item.merchandise.title}`;
 
