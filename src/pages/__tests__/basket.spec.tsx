@@ -5,9 +5,10 @@ import BasketPage from "../basket";
 import * as StoreContext from "../../context/StoreContext";
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 const useCheckoutLineItems = jest.spyOn(StoreContext, "useCheckoutLineItems");
-const useIsCartLoading = jest.spyOn(StoreContext, "useIsCartLoading");
 const useCartTotals = jest.spyOn(StoreContext, "useCartTotals");
+const UseIsCartLoading = jest.spyOn(StoreContext, "UseIsCartLoading");
 import fetchMock from "jest-fetch-mock";
+jest.mock("@shopify/storefront-api-client");
 
 describe("BasketPage", () => {
   beforeEach(() => {
@@ -20,57 +21,36 @@ describe("BasketPage", () => {
   });
 
   it("renders Basket page layout correctly with 1 item", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
+    UseIsCartLoading.mockImplementation(() => false);
+    useCartTotals.mockImplementation(() => ({
+      currencyCode: "AUD",
+      cartSubtotalPriceWithFormat: "$0.00",
+    }));
     useCheckoutLineItems.mockImplementation((): any => [
       {
-        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "Product Title",
-        variant: {
-          id: "gid://shopify/ProductVariant/44161708556496",
-          title: "Variant Title",
-          price: {
-            amount: "5.0",
-            currencyCode: "AUD",
-          },
-          priceV2: {
-            amount: "5.0",
-            currencyCode: "AUD",
-          },
-          weight: 500,
-          available: true,
-          sku: "",
-          compareAtPrice: null,
-          compareAtPriceV2: null,
-          image: {
-            id: "gid://shopify/ProductImage/12344556677",
-            src: "https://fake.shopify.com/s/files/fake/1/fake.jpg",
-            altText: null,
-            width: 715,
-            height: 1077,
-          },
-          selectedOptions: [
-            {
-              name: "Color",
-              value: "Original",
-            },
-          ],
-          unitPrice: null,
-          unitPriceMeasurement: {
-            measuredType: null,
-            quantityUnit: null,
-            quantityValue: 0,
-            referenceUnit: null,
-            referenceValue: 0,
-          },
-          product: {
-            id: "gid://shopify/Product/123123123",
-            handle: "beach-towel",
-          },
-        },
+        id: "gid://shopify/CartLine/daa3b170-7d6e-4297-b74a-d452609b00e7?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWFJEREdLOE1OQlYyUzVWRkdaSERGWQ",
         quantity: 1,
-        customAttributes: [],
-        discountAllocations: [],
+        merchandise: {
+          __typename: "ProductVariant",
+          id: "gid://shopify/ProductVariant/44600452972752",
+          title: "Variant Title",
+          product: {
+            title: "Product Title",
+          },
+          image: {
+            id: "gid://shopify/ProductImage/41952637255888",
+            url: "https://cdn.shopsdsdsdsdify.com/s/files/1/0586/9892/4240/files/test.jpg?v=1dsdsdsdsdds749380160",
+            altText: null,
+            height: 1358,
+            width: 2560,
+          },
+          price: {
+            amount: "0.0",
+            currencyCode: "AUD",
+          },
+          unitPrice: null,
+        },
       },
     ]);
     render(<BasketPage />);
@@ -95,7 +75,7 @@ describe("BasketPage", () => {
         removeListener: jest.fn(),
       })),
     });
-    useIsCartLoading.mockImplementation(() => false);
+
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -175,14 +155,13 @@ describe("BasketPage", () => {
 
   it("renders page with empty cart message", () => {
     useLineItemsCount.mockImplementation(() => 0);
-    useIsCartLoading.mockImplementation(() => false);
+
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Your cart is empty." });
     screen.getByRole("link", { name: "Shop now" });
   });
 
   it("renders table with correct caption title for one item", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCartTotals.mockImplementation(() => ({
       amount: 30.0,
@@ -195,7 +174,6 @@ describe("BasketPage", () => {
   });
 
   it("renders table with correct caption title with more than 1 item", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 2);
     render(<BasketPage />);
     screen.getByRole("table", {
@@ -204,7 +182,6 @@ describe("BasketPage", () => {
   });
 
   it("renders product variant image", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -262,7 +239,6 @@ describe("BasketPage", () => {
   });
 
   it("renders placeholder fallback image when variant alt text is not provided", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -324,7 +300,6 @@ describe("BasketPage", () => {
   });
 
   it("renders static decorative no image", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -379,7 +354,6 @@ describe("BasketPage", () => {
   });
 
   it("renders product title and variant title", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -431,7 +405,6 @@ describe("BasketPage", () => {
   });
 
   it("renders only product title when variant title has 'Default Title'", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -483,7 +456,6 @@ describe("BasketPage", () => {
   });
 
   it("renders aria labellyby for icon button remove", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -544,7 +516,7 @@ describe("BasketPage", () => {
         removeListener: jest.fn(),
       })),
     });
-    useIsCartLoading.mockImplementation(() => false);
+
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -609,7 +581,6 @@ describe("BasketPage", () => {
   });
 
   it("renders quote form when cart count is greater than zero items", () => {
-    useIsCartLoading.mockImplementation(() => false);
     useLineItemsCount.mockImplementation(() => 1);
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Quotation form" });
