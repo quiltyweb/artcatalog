@@ -38,6 +38,7 @@ import {
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
+import { CartLine } from "@shopify/hydrogen-react/storefront-api-types";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -97,13 +98,14 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           throw Error;
         }
 
-        const cartLineItem = cart?.lines.nodes.find((item) => {
-          return item.merchandise.id === selectedVariant.shopifyId;
-        });
+        const foundCartLineItem = cart?.lines.nodes.find(
+          (item) => item.merchandise.id === selectedVariant.shopifyId
+        );
 
-        if (cartLineItem) {
+        if (foundCartLineItem) {
+          const updatedQuantity = foundCartLineItem.quantity + values.quantity;
           updateItemsToCart({
-            lines: [{ id: cartLineItem.id, quantity: values.quantity }],
+            lines: [{ id: foundCartLineItem.id, quantity: updatedQuantity }],
           });
           setSubmitting(false);
           return;

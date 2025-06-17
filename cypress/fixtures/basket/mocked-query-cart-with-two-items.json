@@ -4,7 +4,7 @@
             "id": "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw?key=2ada3a16b633f034a475df52eb812722",
             "createdAt": "2025-06-11T10:26:18Z",
             "updatedAt": "2025-06-14T08:36:49Z",
-            "checkoutUrl": "https://brushellashop.myshopify.com/cart/c/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw?key=2ada3a16b633f034a475df52eb812722",
+            "checkoutUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
             "cost": {
                 "subtotalAmount": {
                     "amount": "0.0",
@@ -25,7 +25,7 @@
                         "quantity": 1,
                         "merchandise": {
                             "__typename": "ProductVariant",
-                            "id": "gid://shopify/ProductVariant/44600452972752",
+                            "id": "gid://shopify/ProductVariant/12312344600452972752",
                             "title": "Plastic",
                             "product": {
                                 "title": "test print (not for sale)"
@@ -49,7 +49,7 @@
                         "quantity": 1,
                         "merchandise": {
                             "__typename": "ProductVariant",
-                            "id": "gid://shopify/ProductVariant/44600453005520",
+                            "id": "gid://shopify/ProductVariant/12312300453005520",
                             "title": "Wood",
                             "product": {
                                 "title": "test print (not for sale)"

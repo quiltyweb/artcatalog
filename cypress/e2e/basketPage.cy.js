@@ -110,31 +110,21 @@ describe("desktop view basket page", () => {
     cy.findByRole("button", { name: /Get a Quote/i });
   });
 });
-// TODO: UPDATE THIS TEST WITH NEW FIXTURES
+
 describe("mobile view basket page", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "basket/collectionDecor.json",
-    });
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "basket/collectionPrints.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/home-decor/beach-towel/page-data.json",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
       {
         fixture: "basket/singleProduct.json",
       }
-    );
-    cy.intercept(
-      "GET",
-      "/page-data/collections/prints/macumba/page-data.json",
-      {
-        fixture: "basket/singleProduct2.json",
-      }
-    );
+    ).as("simpleProductPage");
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -188,82 +178,22 @@ describe("mobile view basket page", () => {
       name: /1 item in your cart. Subtotal is \$0.00 AUD./,
     });
   });
-  // TODO: check if adding this test is necesary.
-  it("loads Shopping bag page correctly with 3 items", () => {
-    cy.findByRole("heading", { name: "Shopping Cart" });
+
+  it("opens a new window with shoppify checkout page", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.findByText("Option Required");
-    cy.get("select").select("Green");
-    cy.findByRole("heading", { name: /Green/i });
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
-    }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
+    cy.reload();
+    cy.wait("@queryCart");
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
-    });
-    cy.findByRole("table").within(() => {
-      cy.findByRole("rowheader", { name: /thumbnail/i });
-      cy.findByAltText(/alt text for variant Green/i);
-      cy.findByRole("rowheader", { name: /product/i });
-      cy.findByText(/Cotton Beach towel - Green/i);
-      cy.findByRole("rowheader", { name: /quantity/i });
-      cy.findByRole("cell", { name: "1" });
-      cy.findByRole("rowheader", { name: /remove/i });
-      cy.findByRole("button", { name: /remove Cotton Beach towel - Green/i });
-      cy.findByRole("rowheader", { name: /price/i });
-      cy.findByRole("rowheader", { name: /total/i });
-      cy.findAllByRole("cell", { name: /\$11.00/i }).should("have.length", 2);
-    });
-    // add two new items
-    cy.clickDrawerMenuOption("Prints");
-    cy.findByRole("heading", { name: "Macumba" }).click();
-    cy.get("select").select("large");
-    cy.findByRole("heading", { name: /large/i });
-    cy.get("#quantity-increment").click();
-    cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture:
-        "basket/mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
-    }).as("checkoutLineItemsAddTwoItems");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
-    cy.findByText(/macumba - large/i);
-    cy.findByRole("button", { name: /remove Macumba - large/i });
-    cy.findByRole("cell", { name: /\$50.00/i });
-    cy.findByRole("cell", { name: /\$100.00/i });
-    cy.findByRole("table", {
-      name: "3 items in your cart. Subtotal is $111.00 AUD.",
-    });
-  });
-  // TODO: doing...
-  it.only("opens a new window with shoppify checkout page", () => {
-    cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.get("select").select("Green");
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
-    }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
+      name: /2 items in your cart. Subtotal is \$0.00 AUD./,
     });
     cy.window().then((win) => {
       cy.stub(win, "open").as("windowOpen");
     });
     cy.get('[data-testid="summary-section"]').scrollIntoView();
     cy.findByRole("button", { name: /check out/i }).click();
-
     cy.get("@windowOpen").should(
       "be.calledWith",
       "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd"

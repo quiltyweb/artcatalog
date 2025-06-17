@@ -344,6 +344,14 @@ function useAddItemToCart() {
   return addItemToCart;
 }
 
+// look if item is in cart
+// if true:  call cartLinesAddMutation and add existing qty + qty  OF THE ARGS item
+// if false:  call cartLinesAddMutation and add qty to the argument
+
+// const itemFound = cart?.lines.nodes.find((item, index) => {
+//   item.merchandise.product.id === variantId;
+// });
+
 function useCartLinesUpdate() {
   const {
     store: { client, cart },
