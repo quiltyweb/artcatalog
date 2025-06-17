@@ -261,51 +261,32 @@ describe("BasketPage", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
-        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "product title",
-        variant: {
-          id: "gid://shopify/ProductVariant/44161708556496",
-          title: "variant title",
+        id: "gid://shopify/CartLine/daa3b170-7d6e-4297-b74a-d452609b00e7?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWFJEREdLOE1OQlYyUzVWRkdaSERGWQ",
+        quantity: 1,
+        merchandise: {
+          __typename: "ProductVariant",
+          id: "gid://shopify/ProductVariant/44600452972752",
+          title: "Variant Title",
+          product: {
+            title: "Product Title",
+          },
+          image: {
+            id: "gid://shopify/ProductImage/41952637255888",
+            url: "https://cdn.shopsdsdsdsdify.com/s/files/1/0586/9892/4240/files/test.jpg?v=1dsdsdsdsdds749380160",
+            altText: null,
+            height: 1358,
+            width: 2560,
+          },
           price: {
             amount: "0.0",
             currencyCode: "AUD",
           },
-          priceV2: {
-            amount: "0.0",
-            currencyCode: "AUD",
-          },
-          weight: 500,
-          available: true,
-          sku: "",
-          compareAtPrice: null,
-          compareAtPriceV2: null,
-          image: null,
-          selectedOptions: [
-            {
-              name: "Color",
-              value: "Original",
-            },
-          ],
           unitPrice: null,
-          unitPriceMeasurement: {
-            measuredType: null,
-            quantityUnit: null,
-            quantityValue: 0,
-            referenceUnit: null,
-            referenceValue: 0,
-          },
-          product: {
-            id: "gid://shopify/Product/123123123",
-            handle: "beach-towel",
-          },
         },
-        quantity: 1,
-        customAttributes: [],
-        discountAllocations: [],
       },
     ]);
     render(<BasketPage />);
-    screen.findByRole("cell", { name: "product title - variant title" });
+    screen.findByRole("cell", { name: "Product title - Variant title" });
   });
 
   it("renders only product title when variant title has 'Default Title'", () => {
