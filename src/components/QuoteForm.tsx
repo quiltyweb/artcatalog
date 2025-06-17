@@ -32,7 +32,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
 }): React.ReactElement => {
   const getItemsFromBasket = (): string => {
     const cartForMessage = checkoutLineItems.map((item) => {
-      return `${item.quantity} ${item.merchandise.title}`;
+      return `${item.quantity} ${item.merchandise.product.title} - ${item.merchandise.title}`;
     });
     return cartForMessage.join(", ");
   };
