@@ -228,51 +228,26 @@ describe("BasketPage", () => {
     );
   });
 
-  it("renders static decorative no image", () => {
+  it("renders static decorative no image when merchandise image is not provided", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
-        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "Cotton Beach towel",
-        variant: {
+        id: "gid://shopify/CartLine/daa3b170-7d6e-4297-b74a-d452609b00e7?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWFJEREdLOE1OQlYyUzVWRkdaSERGWQ",
+        quantity: 1,
+        merchandise: {
+          __typename: "ProductVariant",
+          id: "gid://shopify/ProductVariant/44600452972752",
+          title: "Variant Title",
+          product: {
+            title: "Product Title",
+          },
           image: null,
-          id: "gid://shopify/ProductVariant/44161708556496",
-          title: "Original",
           price: {
             amount: "0.0",
             currencyCode: "AUD",
           },
-          priceV2: {
-            amount: "0.0",
-            currencyCode: "AUD",
-          },
-          weight: 500,
-          available: true,
-          sku: "",
-          compareAtPrice: null,
-          compareAtPriceV2: null,
-          selectedOptions: [
-            {
-              name: "Color",
-              value: "Original",
-            },
-          ],
           unitPrice: null,
-          unitPriceMeasurement: {
-            measuredType: null,
-            quantityUnit: null,
-            quantityValue: 0,
-            referenceUnit: null,
-            referenceValue: 0,
-          },
-          product: {
-            id: "gid://shopify/Product/123123123",
-            handle: "beach-towel",
-          },
         },
-        quantity: 1,
-        customAttributes: [],
-        discountAllocations: [],
       },
     ]);
     render(<BasketPage />);
