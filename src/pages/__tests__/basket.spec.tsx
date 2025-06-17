@@ -76,56 +76,31 @@ describe("BasketPage", () => {
       })),
     });
 
-    useLineItemsCount.mockImplementation(() => 1);
+    useLineItemsCount.mockImplementation(() => 3);
     useCheckoutLineItems.mockImplementation((): any => [
       {
-        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "Product Title",
-        variant: {
-          id: "gid://shopify/ProductVariant/44161708556496",
+        id: "gid://shopify/CartLine/d624dsdsdsdsd2f90-d068-4833-b6f5-557e99c4dab2?cart=Z2NwLWFzaWEfake-cart",
+        quantity: 3,
+        merchandise: {
+          __typename: "ProductVariant",
+          id: "gid://shopify/ProductVadsdsdsdriant/44600452972752",
           title: "Variant Title",
+          product: {
+            title: "Product Title",
+          },
+          image: {
+            id: "gid://shopify/ProductImage/41952637255888",
+            url: "https://cdn.fafsdasfake23233fsdf.com/s/files/1/0586/9892/4240/files/test.jpg?v=1749380160",
+            altText: "alt text for variant image",
+            height: 1358,
+            width: 2560,
+          },
           price: {
             amount: "5.0",
             currencyCode: "AUD",
           },
-          priceV2: {
-            amount: "5.0",
-            currencyCode: "AUD",
-          },
-          weight: 500,
-          available: true,
-          sku: "",
-          compareAtPrice: null,
-          compareAtPriceV2: null,
-          image: {
-            id: "gid://shopify/ProductImage/12344556677",
-            src: "https://fake.shopify.com/s/files/fake/1/fake.jpg",
-            altText: "alt text for variant image",
-            width: 715,
-            height: 1077,
-          },
-          selectedOptions: [
-            {
-              name: "Color",
-              value: "Original",
-            },
-          ],
           unitPrice: null,
-          unitPriceMeasurement: {
-            measuredType: null,
-            quantityUnit: null,
-            quantityValue: 0,
-            referenceUnit: null,
-            referenceValue: 0,
-          },
-          product: {
-            id: "gid://shopify/Product/123123123",
-            handle: "product-title",
-          },
         },
-        quantity: 3,
-        customAttributes: [],
-        discountAllocations: [],
       },
     ]);
 

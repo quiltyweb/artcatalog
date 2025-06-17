@@ -70,7 +70,7 @@ const TableLoadingSkeleton = () => {
             <Th display={["none", "table-cell"]}>total</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody key="table-body-shopping-cart-loading">
           <Tr>
             <Td>
               <Skeleton flex="1" height="10" variant="pulse" />
@@ -218,7 +218,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
             </Thead>
           )}
 
-          <Tbody>
+          <Tbody key="table-body-shopping-cart">
             {checkoutLineItems.map((item, index) => {
               const variantPriceWithFormat = formatPrice({
                 currency: item.merchandise.price.currencyCode,
@@ -322,7 +322,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                 );
               }
 
-              // mobile
+              // mobile first render
               return (
                 <>
                   <Tr backgroundColor="gray.200">
