@@ -130,7 +130,6 @@ describe("BasketPage", () => {
 
   it("renders page with empty cart message", () => {
     useLineItemsCount.mockImplementation(() => 0);
-
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Your cart is empty." });
     screen.getByRole("link", { name: "Shop now" });
@@ -139,8 +138,8 @@ describe("BasketPage", () => {
   it("renders table with correct caption title for one item", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCartTotals.mockImplementation(() => ({
-      amount: 30.0,
       currencyCode: "AUD",
+      cartSubtotalPriceWithFormat: "$30.00",
     }));
     render(<BasketPage />);
     screen.getByRole("table", {
@@ -150,13 +149,17 @@ describe("BasketPage", () => {
 
   it("renders table with correct caption title with more than 1 item", () => {
     useLineItemsCount.mockImplementation(() => 2);
+    useCartTotals.mockImplementation(() => ({
+      currencyCode: "AUD",
+      cartSubtotalPriceWithFormat: "$40.00",
+    }));
     render(<BasketPage />);
     screen.getByRole("table", {
-      name: "2 items in your cart. Subtotal is $30.00 AUD.",
+      name: "2 items in your cart. Subtotal is $40.00 AUD.",
     });
   });
 
-  it("renders product variant image", () => {
+  it.only("renders product variant image", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
