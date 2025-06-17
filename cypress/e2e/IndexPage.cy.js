@@ -9,7 +9,7 @@ const ALL_CATEGORIES = [
   "Stickers",
   "Murals & Sign Writing",
 ];
-const PUBLISHED_CATEGORIES = ["Prints"];
+const PUBLISHED_CATEGORIES = ["Prints", "Original Paintings"];
 
 describe("Home page desktop", () => {
   beforeEach(() => {
