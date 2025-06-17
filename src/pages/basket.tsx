@@ -27,7 +27,7 @@ import {
   useRemoveItemFromCart,
   useCartTotals,
   useCheckoutUrl,
-  UseIsCartLoading,
+  useIsCartLoading,
 } from "../context/StoreContext";
 import { StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -157,7 +157,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const removeItemFromCart = useRemoveItemFromCart();
   const cartTotals = useCartTotals();
   const openCheckoutUrl = useCheckoutUrl();
-  const isCartLoading = UseIsCartLoading();
+  const isCartLoading = useIsCartLoading();
   const [isDektop] = useMediaQuery("(min-width: 597px)");
 
   if (isCartLoading) {

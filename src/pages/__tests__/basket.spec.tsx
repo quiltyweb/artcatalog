@@ -6,7 +6,7 @@ import * as StoreContext from "../../context/StoreContext";
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
 const useCheckoutLineItems = jest.spyOn(StoreContext, "useCheckoutLineItems");
 const useCartTotals = jest.spyOn(StoreContext, "useCartTotals");
-const UseIsCartLoading = jest.spyOn(StoreContext, "UseIsCartLoading");
+const useIsCartLoading = jest.spyOn(StoreContext, "useIsCartLoading");
 import fetchMock from "jest-fetch-mock";
 jest.mock("@shopify/storefront-api-client");
 
@@ -22,7 +22,7 @@ describe("BasketPage", () => {
 
   it("renders Basket page layout correctly with 1 item", () => {
     useLineItemsCount.mockImplementation(() => 1);
-    UseIsCartLoading.mockImplementation(() => false);
+    useIsCartLoading.mockImplementation(() => false);
     useCartTotals.mockImplementation(() => ({
       currencyCode: "AUD",
       cartSubtotalPriceWithFormat: "$0.00",

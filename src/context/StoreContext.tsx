@@ -471,7 +471,7 @@ const useLineItemsCount = () => {
   }
   return cart.totalQuantity;
 };
-const UseIsCartLoading = () => {
+const useIsCartLoading = () => {
   const {
     store: { isLoading },
   } = useContext(StoreContext);
@@ -489,5 +489,5 @@ export {
   useCheckoutLineItems,
   useCartTotals,
   useCheckoutUrl,
-  UseIsCartLoading,
+  useIsCartLoading,
 };
