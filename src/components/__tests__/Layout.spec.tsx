@@ -3,10 +3,14 @@ import { within } from "@testing-library/dom";
 import { render, screen } from "@testing-library/react";
 import Layout from "../Layout";
 import * as Gatsby from "gatsby";
+import * as StoreContext from "../../context/StoreContext";
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
+const useLineItemsCount = jest.spyOn(StoreContext, `useLineItemsCount`);
+jest.mock("@shopify/storefront-api-client");
 
 beforeEach(() => {
   jest.clearAllMocks();
+  useLineItemsCount.mockImplementation(() => 0);
 });
 
 afterEach(() => {
