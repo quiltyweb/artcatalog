@@ -319,47 +319,22 @@ describe("BasketPage", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
-        id: "gid://shopify/CheckoutLineItem/12345?checkout=123456",
-        title: "product title",
-        variant: {
-          id: "gid://shopify/ProductVariant/44161708556496",
+        id: "gid://shopify/CartLine/d022405f-df58-4fb1-a336-0170e37ac654?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWVBFNks4WEVYMFpGMFowN1NUUU5OMA",
+        quantity: 0,
+        merchandise: {
+          __typename: "ProductVariant",
+          id: "gid://shopify/ProductVariant/44611069346000",
           title: "variant title",
+          product: {
+            title: "product title",
+          },
+          image: null,
           price: {
             amount: "0.0",
             currencyCode: "AUD",
           },
-          priceV2: {
-            amount: "0.0",
-            currencyCode: "AUD",
-          },
-          weight: 500,
-          available: true,
-          sku: "",
-          compareAtPrice: null,
-          compareAtPriceV2: null,
-          image: null,
-          selectedOptions: [
-            {
-              name: "Color",
-              value: "Original",
-            },
-          ],
           unitPrice: null,
-          unitPriceMeasurement: {
-            measuredType: null,
-            quantityUnit: null,
-            quantityValue: 0,
-            referenceUnit: null,
-            referenceValue: 0,
-          },
-          product: {
-            id: "gid://shopify/Product/123123123",
-            handle: "beach-towel",
-          },
         },
-        quantity: 1,
-        customAttributes: [],
-        discountAllocations: [],
       },
     ]);
     render(<BasketPage />);
