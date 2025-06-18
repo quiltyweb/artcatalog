@@ -14,6 +14,7 @@ describe("BasketPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     fetchMock.resetMocks();
+    useIsCartLoading.mockImplementation(() => false);
   });
 
   afterEach(() => {
