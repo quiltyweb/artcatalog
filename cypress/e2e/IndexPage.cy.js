@@ -51,7 +51,7 @@ describe("Home page desktop", () => {
   });
 });
 
-describe.only("Home page mobile", () => {
+describe("Home page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
@@ -179,7 +179,7 @@ describe.only("Home page mobile", () => {
 
   it("Navigates from mobile menu to each category page", () => {
     for (var category_name of PUBLISHED_CATEGORIES) {
-      cy.clickDrawerMenuOption("Prints");
+      cy.clickDrawerMenuOption(category_name);
       cy.findByRole("heading", { name: category_name });
     }
   });
