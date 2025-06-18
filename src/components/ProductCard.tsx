@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -31,14 +31,14 @@ import {
   ErrorMessage,
 } from "formik";
 import {
-  StoreContext,
   useAddItemToCart,
   useCartLinesUpdate,
+  useCheckoutLineItems,
+  useHasError,
 } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
-import { CartLine } from "@shopify/hydrogen-react/storefront-api-types";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -55,10 +55,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
+  const checkoutLineItems = useCheckoutLineItems();
   const updateItemsToCart = useCartLinesUpdate();
-  const {
-    store: { isLoading, cart, hasError },
-  } = useContext(StoreContext);
+  const hasError = useHasError();
 
   const featuredImage = getImage(product.featuredImage);
 
@@ -98,7 +97,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           throw Error;
         }
 
-        const foundCartLineItem = cart?.lines.nodes.find(
+        const foundCartLineItem = checkoutLineItems.find(
           (item) => item.merchandise.id === selectedVariant.shopifyId
         );
 

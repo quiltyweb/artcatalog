@@ -471,12 +471,21 @@ const useLineItemsCount = () => {
   }
   return cart.totalQuantity;
 };
+
 const useIsCartLoading = () => {
   const {
     store: { isLoading },
   } = useContext(StoreContext);
 
   return isLoading;
+};
+
+const useHasError = () => {
+  const {
+    store: { hasError },
+  } = useContext(StoreContext);
+
+  return hasError;
 };
 
 export {
@@ -490,4 +499,5 @@ export {
   useCartTotals,
   useCheckoutUrl,
   useIsCartLoading,
+  useHasError,
 };
