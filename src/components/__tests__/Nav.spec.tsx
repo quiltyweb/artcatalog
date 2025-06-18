@@ -5,9 +5,11 @@ import { render, screen } from "@testing-library/react";
 import Nav from "../Nav";
 const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
 const useLineItemsCount = jest.spyOn(StoreContext, "useLineItemsCount");
+jest.mock("@shopify/storefront-api-client");
 
 beforeEach(() => {
   jest.clearAllMocks();
+  useLineItemsCount.mockImplementation(() => 0);
 });
 
 afterEach(() => {

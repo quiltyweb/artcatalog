@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import * as Gatsby from "gatsby";
 import SingleProduct from "../SingleProduct";
+jest.mock("@shopify/storefront-api-client");
 
 beforeEach(() => {
   jest.clearAllMocks();
