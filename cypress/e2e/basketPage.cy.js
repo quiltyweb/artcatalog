@@ -1,11 +1,9 @@
 const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+const REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST = /page-data\/sq\/d/;
 describe("desktop view basket page", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    // cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-    //   fixture: "basket/collectionDecor.json",
-    // });
     cy.intercept(
       "GET",
       "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
@@ -52,7 +50,20 @@ describe("desktop view basket page", () => {
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collection-template/collection-prints.json",
+    });
+    cy.intercept("GET", REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST, {
+      fixture: "collections-page/page-data.json",
+    }).as("pageData");
     cy.findByRole("link", { name: "Prints" }).click();
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
+      {
+        fixture: "basket/singleProduct.json",
+      }
+    ).as("simpleProductPage");
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByText("description for test print (not for sale)");

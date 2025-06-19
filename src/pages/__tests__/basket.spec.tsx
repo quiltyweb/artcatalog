@@ -116,7 +116,6 @@ describe("BasketPage", () => {
     screen.getByRole("button", {
       name: "remove Product Title - Variant Title",
     });
-    // TODO: add cell values to these headers:
     screen.getByRole("columnheader", { name: /price/i });
     screen.getByRole("cell", { name: "$5.00" });
     screen.getByRole("columnheader", { name: /total/i });

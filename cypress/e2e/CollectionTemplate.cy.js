@@ -27,7 +27,7 @@ describe("Collection Template mobile", () => {
     });
     cy.intercept(
       "GET",
-      "/collections/prints/test-print-not-for-sale/page-data.json",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
       {
         fixture:
           "collection-template/singleProduct-for-collection-template.json",
@@ -62,6 +62,14 @@ describe("Collection Template mobile", () => {
   it("Navigates from Collection page to single product view", () => {
     cy.clickDrawerMenuOption("Prints");
     cy.findByRole("heading", { name: "Prints" });
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
+      {
+        fixture:
+          "collection-template/singleProduct-for-collection-template.json",
+      }
+    );
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByText("description for test print (not for sale)");
