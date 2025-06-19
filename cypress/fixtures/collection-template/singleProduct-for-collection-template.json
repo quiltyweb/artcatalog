@@ -23,7 +23,7 @@
                 "totalVariants": 1,
                 "variants": [
                     {
-                        "shopifyId": "gid://shopify/FakeProductVariant/1234544599125082320",
+                        "shopifyId": "gid://shopify/ProductVariant/44599125082320",
                         "displayName": "test print (not for sale) - Default Title",
                         "title": "Default Title",
                         "price": 0,
@@ -41,7 +41,7 @@
                 "media": [],
                 "options": [
                     {
-                        "shopifyId": "gid://shopify/FakeProductOption/10521342345014239440",
+                        "shopifyId": "gid://shopify/ProductOption/10521014239440",
                         "name": "Title",
                         "values": [
                             "Default Title"

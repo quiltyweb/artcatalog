@@ -1,5 +1,6 @@
 module.exports = {
   testEnvironment: `jsdom`,
+  injectGlobals: true,
   setupFilesAfterEnv: ["<rootDir>/setup-test-env.js"],
   transform: {
     "^.+\\.[jt]sx?$": "<rootDir>/jest-preprocess.js",

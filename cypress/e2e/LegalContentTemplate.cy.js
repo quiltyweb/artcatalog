@@ -1,3 +1,4 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 describe("LegalContent Template desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
@@ -9,7 +10,7 @@ describe("LegalContent Template desktop", () => {
         fixture: "footer/legalContent.json",
       }
     ).as("legalContent");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");
@@ -36,7 +37,7 @@ describe("LegalContent Template mobile", () => {
         fixture: "footer/legalContent.json",
       }
     ).as("legalContent");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/");

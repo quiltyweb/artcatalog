@@ -13,7 +13,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   const COLLECTIONS_AND_PRODUCTS_DATA = gql`
     query CollectionsAndProductsIntoPages {
-      allShopifyCollection {
+      allShopifyCollection(
+        filter: { handle: { in: ["prints", "original-paintings"] } }
+      ) {
         nodes {
           id
           title

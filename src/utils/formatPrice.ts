@@ -1,10 +1,13 @@
 type formatPriceType = {
-  currency?: string;
+  currency: string;
   value: number;
 };
-export const formatPrice = ({ currency, value }: formatPriceType): string =>
-  Intl.NumberFormat("en-AU", {
+export const formatPrice = ({
+  currency = "AUD",
+  value,
+}: formatPriceType): string =>
+  new Intl.NumberFormat("en-AU", {
     currency,
-    minimumFractionDigits: 2,
     style: "currency",
+    minimumFractionDigits: 2,
   }).format(value);

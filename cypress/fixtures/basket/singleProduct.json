@@ -1,262 +1,139 @@
 {
-    "componentChunkName":"component---src-templates-single-product-tsx",
-    "path":"/collections/home-decor/beach-towel/",
-    "result":{
-       "pageContext":{
-          "product":{
-             "id":"e493b892-fe46-58e5-9f77-6ce96a7b9eaa",
-             "title":"Cotton Beach towel",
-             "handle":"beach-towel",
-             "description":"description text for Cotton Beach towel",
-             "priceRangeV2":{
-                "minVariantPrice":{
-                   "amount":10,
-                   "currencyCode":"AUD"
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/prints/test-print-not-for-sale/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+                "title": "test print (not for sale)",
+                "handle": "test-print-not-for-sale",
+                "description": "description for test print (not for sale)",
+                "priceRangeV2": {
+                    "minVariantPrice": {
+                        "amount": 0,
+                        "currencyCode": "AUD"
+                    },
+                    "maxVariantPrice": {
+                        "amount": 0,
+                        "currencyCode": "AUD"
+                    }
                 },
-                "maxVariantPrice":{
-                   "amount":13,
-                   "currencyCode":"AUD"
-                }
-             },
-             "featuredImage":{
-                "altText":"alt text of featured image for Cotton Beach towel",
-                "gatsbyImageData":{
-                   "images":{
-                      "sources":[
-                         {
-                            "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                            "sizes":"(min-width: 500px) 500px, 100vw",
-                            "type":"image/webp"
-                         }
-                      ],
-                      "fallback":{
-                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "sizes":"(min-width: 500px) 500px, 100vw"
-                      }
-                   },
-                   "layout":"constrained",
-                   "width":500,
-                   "height":667
-                }
-             },
-             "hasOnlyDefaultVariant":false,
-             "totalVariants":3,
-             "variants":[
-                {
-                   "shopifyId":"gid://shopify/ProductVariant/44161708556496",
-                   "displayName":"Cotton Beach towel - Original",
-                   "title":"Original",
-                   "price":10,
-                   "inventoryQuantity":1,
-                   "selectedOptions":[
-                      {
-                         "name":"Color",
-                         "value":"Original"
-                      }
-                   ],
-                   "image":{
-                      "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "altText":"Original variant alt text",
-                      "height":1077,
-                      "width":715,
-                      "gatsbyImageData":{
-                         "images":{
-                            "sources":[
-                               {
-                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "sizes":"(min-width: 500px) 500px, 100vw",
-                                  "type":"image/webp"
-                               }
+                "featuredImage": {
+                    "altText": "test black panther in a jungle with plants and flowers painted in acrylics. ",
+                    "gatsbyImageData": {
+                        "images": {
+                            "sources": [
+                                {
+                                    "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                    "sizes": "(min-width: 500px) 500px, 100vw",
+                                    "type": "image/webp"
+                                }
                             ],
-                            "fallback":{
-                               "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "sizes":"(min-width: 500px) 500px, 100vw"
+                            "fallback": {
+                                "src": "https://cdn.fake-image-for-brushella.art/fake-image-fallback.jpg",
+                                "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                "sizes": "(min-width: 500px) 500px, 100vw"
                             }
-                         },
-                         "layout":"constrained",
-                         "width":500,
-                         "height":753
-                      },
-                      "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                   }
+                        },
+                        "layout": "constrained",
+                        "placeholder": {
+                            "fallback": "data:image/png;base64,/9j/4QC8RXhpZgAASUkqAAgAAAAGAB"
+                        },
+                        "width": 500,
+                        "height": 265
+                    }
                 },
-                {
-                   "shopifyId":"gid://shopify/ProductVariant/44161708589264",
-                   "displayName":"Cotton Beach towel - Green",
-                   "title":"Green",
-                   "price":11,
-                   "inventoryQuantity":2,
-                   "selectedOptions":[
-                      {
-                         "name":"Color",
-                         "value":"Green"
-                      }
-                   ],
-                   "image":{
-                      "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "altText":"Green variant alt text",
-                      "height":1077,
-                      "width":715,
-                      "gatsbyImageData":{
-                         "images":{
-                            "sources":[
-                               {
-                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "sizes":"(min-width: 500px) 500px, 100vw",
-                                  "type":"image/webp"
-                               }
-                            ],
-                            "fallback":{
-                               "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "sizes":"(min-width: 500px) 500px, 100vw"
+                "hasOnlyDefaultVariant": false,
+                "totalVariants": 2,
+                "variants": [
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/44600452972752",
+                        "displayName": "test print (not for sale) - Plastic",
+                        "title": "Plastic",
+                        "price": 0,
+                        "inventoryQuantity": 3,
+                        "selectedOptions": [
+                            {
+                                "name": "Artwork frame material",
+                                "value": "Plastic"
                             }
-                         },
-                         "layout":"constrained",
-                         "width":500,
-                         "height":753
-                      },
-                      "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                   }
-                },
-                {
-                   "shopifyId":"gid://shopify/ProductVariant/44161708622032",
-                   "displayName":"Cotton Beach towel - Pink",
-                   "title":"Pink",
-                   "price":13,
-                   "inventoryQuantity":3,
-                   "selectedOptions":[
-                      {
-                         "name":"Color",
-                         "value":"Pink"
-                      }
-                   ],
-                   "image":{
-                      "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "altText":"Pink variant alt text",
-                      "height":1077,
-                      "width":715,
-                      "gatsbyImageData":{
-                         "images":{
-                            "sources":[
-                               {
-                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "sizes":"(min-width: 500px) 500px, 100vw",
-                                  "type":"image/webp"
-                               }
-                            ],
-                            "fallback":{
-                               "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                               "sizes":"(min-width: 500px) 500px, 100vw"
+                        ],
+                        "image": null
+                    },
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/44600453005520",
+                        "displayName": "test print (not for sale) - Wood",
+                        "title": "Wood",
+                        "price": 0,
+                        "inventoryQuantity": 1,
+                        "selectedOptions": [
+                            {
+                                "name": "Artwork frame material",
+                                "value": "Wood"
                             }
-                         },
-                         "layout":"constrained",
-                         "width":500,
-                         "height":753
-                      },
-                      "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                      "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                   }
-                }
-             ],
-             "mediaCount":2,
-             "media":[
-                {
-                   "id":"ee82ea3a-d654-5c4f-8cee-b406fee2c44e",
-                   "alt":"",
-                   "mediaContentType":"IMAGE",
-                   "preview":{
-                      "status":"READY",
-                      "image":{
-                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "altText":"alt text for media 1",
-                         "height":4608,
-                         "width":3456,
-                         "gatsbyImageData":{
-                            "images":{
-                               "sources":[
-                                  {
-                                     "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                     "sizes":"(min-width: 82px) 82px, 100vw",
-                                     "type":"image/webp"
-                                  }
-                               ],
-                               "fallback":{
-                                  "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "sizes":"(min-width: 82px) 82px, 100vw"
-                               }
-                            },
-                            "layout":"constrained",
-                            "width":82,
-                            "height":82
-                         },
-                         "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                      }
-                   }
-                },
-                {
-                   "id":"1d892257-6640-5e18-afe1-24b20bf11d96",
-                   "alt":"",
-                   "mediaContentType":"IMAGE",
-                   "preview":{
-                      "status":"READY",
-                      "image":{
-                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "altText":"alt text for media 2",
-                         "height":1077,
-                         "width":715,
-                         "gatsbyImageData":{
-                            "images":{
-                               "sources":[
-                                  {
-                                     "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                     "sizes":"(min-width: 82px) 82px, 100vw",
-                                     "type":"image/webp"
-                                  }
-                               ],
-                               "fallback":{
-                                  "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                  "sizes":"(min-width: 82px) 82px, 100vw"
-                               }
-                            },
-                            "layout":"constrained",
-                            "width":82,
-                            "height":82
-                         },
-                         "originalSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                         "transformedSrc":"https://cdn.fake-image-for-brushella.art/fake-image.jpg"
-                      }
-                   }
-                }               
-             ],
-             "options":[
-                {
-                   "shopifyId":"gid://shopify/ProductOption/10332548366544",
-                   "name":"Color",
-                   "values":[
-                      "Original",
-                      "Green",
-                      "Pink"
-                   ]
-                }
-             ]
-          },
-          "collectionHandle":"home-decor"
-       },
-       "serverData":null
+                        ],
+                        "image": null
+                    }
+                ],
+                "mediaCount": 1,
+                "media": [
+                    {
+                        "id": "af34e9e8-ad0e-55ce-8f86-4a84ba152884",
+                        "alt": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                "height": 1358,
+                                "width": 2560,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                            "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "data:image/png;base64,/9j/4QC8RXhpZgAASUkqAAgAAAAGABIBAwABAAAAAQAAABoBBQABAAAAVgAAABsBBQABAAAAXgAAACgBAwABAAAAAgAAABMCAwABAAAAAQAAAGmHBAABAAAAZgAAAAAAAABIAAAAAQAAAEgAAAABAAAABgAAkAcABAAAADAyMTABkQcABAAAAAECAwAAoAcABAAAADAxMDABoAMAAQAAAP//AAACoAQAAQAAABQAAAADoAQAAQAAABQAAAAAAAAA/+IBuElDQ19QUk9GSUxFAAEBAAABqGxjbXMCEAAAbW50clJHQiBYWVogB9wAAQAZAAMAKQA5YWNzcEFQUEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1sY21zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJZGVzYwAAAPAAAABfY3BydAAAAUwAAAAMd3RwdAAAAVgAAAAUclhZWgAAAWwAAAAUZ1hZWgAAAYAAAAAUYlhZWgAAAZQAAAAUclRSQwAAAQwAAABAZ1RSQwAAAQwAAABAYlRSQwAAAQwAAABAZGVzYwAAAAAAAAAFYzJjaQAAAAAAAAAAAAAAAGN1cnYAAAAAAAAAGgAAAMsByQNjBZIIawv2ED8VURs0IfEpkDIYO5JGBVF3Xe1rcHoFibGafKxpv33Tw+kw//90ZXh0AAAAAENDMABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z//bAEMABQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/bAEMBBQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/CABEIABQAFAMBEQACEQEDEQH/xAAYAAEBAAMAAAAAAAAAAAAAAAAGBAIFCP/EABgBAAMBAQAAAAAAAAAAAAAAAAEDBQQG/9oADAMBAAIQAxAAAADm81NzjlUKUb1VGQiUDLivq105JNnO/wD/xAAmEAACAQMDAgcBAAAAAAAAAAABAgMEERIABSETMRQiQVFxgZGh/9oACAEBAAE/AJq87jIFll8zMS7H+D6A1TUySpmzEqhBya3I9D+6ndo3xj6zCwvgFIB9jc99bVR1FSyoYRnGcWuLKAOLk6jgmo6YvP02AY5heb3Hl57fWqGq26OAeKoxK7HINmVNrdiAPfVYkdONraGMRid3EirexIU2PzxrYl6/i6aU5whlXAgEWB+NbokcFbKkcaqt+1u3pr//xAAhEQACAgEDBQEAAAAAAAAAAAABAgMRAAQSIRMxQVFhIv/aAAgBAgEBPwDSCLTMo2Wig0PZzU6gxTqEUKZQwFHj6MoNyxW/OPIkY3Fu/jIdaS0sI6SnYWDN3FiuPeDSgRxMXX9ruottrkjyfmaiIK8yli21VIJq+c6atMGqmWwCPuSQhyGMj2QCec//xAAkEQACAgEEAgEFAAAAAAAAAAABAgMRBAASITEFFFEGImFxcv/aAAgBAwEBPwAyLkRpCWG4t9xPXGs+FIJoI06kFrfZI705SRrLLfAN2efxWo8eUlG2i1aq/nX1BjLLPDknLJZJEiaGq2qTZIPx86TJEjSiOGRlRyu5bo1zxWhkM8SybFBMmwgXRG275PevGP7mV5v2UWVYGVI1YWABryEYhy5lgYwx7mpE4UUa4v8AWv/Z"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                                "transformedSrc": "https://cdn.fake-image-for-brushella.art/fake-image.jpg"
+                            }
+                        }
+                    }
+                ],
+                "options": [
+                    {
+                        "shopifyId": "gid://shopify/ProductOption/10343443521378914512",
+                        "name": "Artwork frame material",
+                        "values": [
+                            "Plastic",
+                            "Wood"
+                        ]
+                    }
+                ]
+            },
+            "collectionHandle": "prints"
+        },
+        "serverData": null
     },
-    "staticQueryHashes":[
-       "3466113349"
+    "staticQueryHashes": [
+        "1353110752",
+        "3273930684"
     ],
-    "slicesMap":{
-       
-    }
- }
+    "slicesMap": {}
+}

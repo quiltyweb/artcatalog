@@ -1,0 +1,14 @@
+{
+    "componentChunkName": "component---src-pages-collections-tsx",
+    "path": "/collections/",
+    "result": {
+        "pageContext": {},
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "1353110752",
+        "3071889448",
+        "3273930684"
+    ],
+    "slicesMap": {}
+}

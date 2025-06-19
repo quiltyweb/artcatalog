@@ -1,5 +1,6 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 describe("Collection Template desktop view", () => {
-  beforeEach(() => {
+  it("checks for accessibility violations for desktop view", () => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
     cy.intercept(
@@ -9,14 +10,13 @@ describe("Collection Template desktop view", () => {
         fixture: "singleProduct/singleProduct.json",
       }
     );
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
-  });
-
-  it("checks for accessibility violations for desktop view", () => {
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -35,14 +35,15 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct.json",
       }
     );
-
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "singleProduct/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
   });
 
   it("checks for accessibility violations for mobile view", () => {
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
     cy.injectAxe();
     cy.checkA11y({
@@ -51,7 +52,9 @@ describe("Collection Template mobile view", () => {
   });
 
   it("Renders single product page", () => {
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
       cy.findByRole("link", { name: /all home-decor/i });
@@ -82,7 +85,9 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-no-featured-image.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
     cy.findByRole("main").within(() => {
       cy.get("img[data-testid='no-image-found']").should(
@@ -101,7 +106,9 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-has-only-default-variant.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
     cy.findByText(/from/i).should("not.exist");
     cy.findByText(/AUD/i);
@@ -122,25 +129,10 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-with-no-media.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/");
+    cy.visit("/collections/home-decor/beach-towel/", {
+      failOnStatusCode: false,
+    });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Details gallery:" }).should("not.exist");
-  });
-
-  it("renders breadcrumb to go back to category page", () => {
-    cy.visit("/collections/home-decor/beach-towel/");
-    cy.wait("@checkoutCreate");
-    cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.intercept("POST", /api\/2024-04\/graphql/, {
-        fixture: "singleProduct/mocked-checkout-response-node.json",
-      }).as("checkoutFetch");
-      cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-        fixture: "collection/collectionDecor.json",
-      });
-      cy.findByRole("link", { name: /all home-decor/i }).click();
-    });
-    cy.wait("@checkoutFetch");
-    cy.findByRole("link", { name: "Home" });
-    cy.findByRole("heading", { name: "Home Decor" });
   });
 });

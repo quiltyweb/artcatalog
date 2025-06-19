@@ -1,0 +1,75 @@
+{
+    "data": {
+        "cart": {
+            "id": "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw?key=2ada3a16b633f034a475df52eb812722",
+            "createdAt": "2025-06-11T10:26:18Z",
+            "updatedAt": "2025-06-14T08:36:49Z",
+            "checkoutUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
+            "cost": {
+                "subtotalAmount": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "subtotalAmountEstimated": true,
+                "totalAmount": {
+                    "amount": "0.0",
+                    "currencyCode": "AUD"
+                },
+                "totalAmountEstimated": true
+            },
+            "totalQuantity": 2,
+            "lines": {
+                "nodes": [
+                    {
+                        "id": "gid://shopify/CartLine/6a9ea6d7-b9de-406b-822f-2d745e07aad8?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw",
+                        "quantity": 1,
+                        "merchandise": {
+                            "__typename": "ProductVariant",
+                            "id": "gid://shopify/ProductVariant/12312344600452972752",
+                            "title": "Plastic",
+                            "product": {
+                                "title": "test print (not for sale)"
+                            },
+                            "image": {
+                                "id": "gid://shopify/ProductImage/41952637255888",
+                                "url": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
+                                "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                "height": 1358,
+                                "width": 2560
+                            },
+                            "price": {
+                                "amount": "0.0",
+                                "currencyCode": "AUD"
+                            },
+                            "unitPrice": null
+                        }
+                    },
+                    {
+                        "id": "gid://shopify/CartLine/d0b2854e-521f-46ec-8875-f43f42ab0ac1?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYRjhERkU1S1IyUENXRTNXWkVaUUYwNw",
+                        "quantity": 1,
+                        "merchandise": {
+                            "__typename": "ProductVariant",
+                            "id": "gid://shopify/ProductVariant/12312300453005520",
+                            "title": "Wood",
+                            "product": {
+                                "title": "test print (not for sale)"
+                            },
+                            "image": {
+                                "id": "gid://shopify/ProductImage/41952637255888",
+                                "url": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
+                                "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                "height": 1358,
+                                "width": 2560
+                            },
+                            "price": {
+                                "amount": "0.0",
+                                "currencyCode": "AUD"
+                            },
+                            "unitPrice": null
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

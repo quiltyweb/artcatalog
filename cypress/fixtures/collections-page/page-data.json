@@ -1,0 +1,113 @@
+{
+  "data": {
+    "site": {
+      "siteMetadata": {
+        "title": "Brushella TEST"
+      }
+    },
+    "adminshopify": {
+      "legalContent": {
+        "nodes": [
+          {
+            "fields": [
+              {
+                "key": "return_and_refund_policy",
+                "definition": {
+                  "name": "Return and Refund Policy"
+                }
+              },
+              {
+                "key": "hand_made_policy",
+                "definition": {
+                  "name": "Hand Made Policy"
+                }
+              },
+              {
+                "key": "shipping_policy",
+                "definition": {
+                  "name": "Shipping Policy"
+                }
+              },
+              {
+                "key": "privacy_policy",
+                "definition": {
+                  "name": "Privacy Policy"
+                }
+              },
+              {
+                "key": "terms_of_service",
+                "definition": {
+                  "name": "Terms of Service"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "allShopifyCollection": {
+      "nodes": [
+        {
+          "id": "bd4e6e5b-a663-5e00-becb-b4a63d4c7ec6",
+          "title": "Prints",
+          "handle": "prints",
+          "image": {
+            "altText": null,
+            "gatsbyImageData": {
+              "images": {
+                "sources": [
+                  {
+                    "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                    "sizes": "(min-width: 500px) 500px, 100vw",
+                    "type": "image/webp"
+                  }
+                ],
+                "fallback": {
+                  "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                  "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                  "sizes": "(min-width: 500px) 500px, 100vw"
+                }
+              },
+              "layout": "constrained",
+              "placeholder": {
+                "fallback": "data:image/png;base64,dsdsdsd"
+              },
+              "width": 500,
+              "height": 500
+            }
+          }
+        },
+        {
+          "id": "ab94a31f-8fc3-5e3c-b0cf-5a16c873d647",
+          "title": "Original Paintings",
+          "handle": "original-paintings",
+          "image": {
+            "altText": null,
+            "gatsbyImageData": {
+              "images": {
+                "sources": [
+                  {
+                    "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                    "sizes": "(min-width: 500px) 500px, 100vw",
+                    "type": "image/webp"
+                  }
+                ],
+                "fallback": {
+                  "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                  "srcSet": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                  "sizes": "(min-width: 500px) 500px, 100vw"
+                }
+              },
+              "layout": "constrained",
+              "placeholder": {
+                "fallback": "data:image/png;base64,dsdsdsd"
+              },
+              "width": 500,
+              "height": 500
+            }
+          }
+        }
+      ]
+    }
+  }
+}

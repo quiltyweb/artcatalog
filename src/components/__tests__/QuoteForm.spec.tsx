@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import QuoteForm from "../QuoteForm";
+jest.mock("@shopify/storefront-api-client");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -24,53 +25,31 @@ describe("QuoteForm", () => {
     const mockedQuoteFormProps = {
       checkoutLineItems: [
         {
-          id: "gid://shopify/CheckoutLineItem/123452598842400?checkout=12345e9ea3bd1b87c3b785542ee6a6d4",
-          title: "Macumba",
-          variant: {
-            id: "gid://shopify/ProductVariant/12345259884240",
-            title: "Default Variant Title",
+          id: "gid://shopify/CartLine/daa3b170-7d6e-4297-b74a-d452609b00e7?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWFJEREdLOE1OQlYyUzVWRkdaSERGWQ",
+          quantity: 1,
+          merchandise: {
+            __typename: "ProductVariant",
+            id: "gid://shopify/ProductVariant/44600452972752",
+            title: "Variant Title",
+            product: {
+              title: "Product Title",
+            },
+            image: {
+              id: "gid://shopify/ProductImage/41952637255888",
+              url: "https://cdn.shopsdsdsdsdify.com/s/files/1/0586/9892/4240/files/test.jpg?v=1dsdsdsdsdds749380160",
+              altText: null,
+              height: 1358,
+              width: 2560,
+            },
             price: {
               amount: "0.0",
               currencyCode: "AUD",
             },
-            priceV2: {
+            unitPrice: {
               amount: "0.0",
               currencyCode: "AUD",
             },
-            weight: 100,
-            available: true,
-            sku: "",
-            compareAtPrice: null,
-            compareAtPriceV2: null,
-            image: {
-              id: "gid://shopify/ProductImage/39268632559824",
-              src: mockedImageURL,
-              altText: null,
-              width: 1016,
-              height: 1355,
-            },
-            selectedOptions: [
-              {
-                name: "Title",
-                value: "Default Title",
-              },
-            ],
-            unitPrice: null,
-            unitPriceMeasurement: {
-              measuredType: null,
-              quantityUnit: null,
-              quantityValue: 0,
-              referenceUnit: null,
-              referenceValue: 0,
-            },
-            product: {
-              id: "gid://shopify/Product/1234597788880",
-              handle: "macumba",
-            },
           },
-          quantity: 1,
-          customAttributes: [],
-          discountAllocations: [],
         },
       ],
       cartCount: 1,

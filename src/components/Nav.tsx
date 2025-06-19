@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import LogoSVG from "../images/svg/brushella-black-bg.svg";
-
 import { useLineItemsCount } from "../context/StoreContext";
 import ResponsiveMenu from "./ResponsiveMenu";
 import { FaShoppingBag } from "react-icons/fa";
@@ -24,7 +23,9 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
             title
           }
         }
-        allShopifyCollection {
+        allShopifyCollection(
+          filter: { handle: { in: ["prints", "original-paintings"] } }
+        ) {
           nodes {
             id
             title

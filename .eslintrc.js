@@ -10,6 +10,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:cypress/recommended",
+    "plugin:react-hooks/recommended-legacy",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -35,7 +36,11 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       processor: "@graphql-eslint/graphql",
       parser: "@typescript-eslint/parser",
-      extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+      extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended-legacy",
+      ],
       env: {
         es6: true,
       },

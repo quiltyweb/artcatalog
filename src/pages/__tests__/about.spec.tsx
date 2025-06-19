@@ -30,7 +30,7 @@ describe("AboutPage", () => {
     };
     render(<AboutPage data={aboutPageMockedData} />);
     screen.getByAltText(
-      "Gabriela in her art studio painting on a large canvas"
+      "Gabriela painting on a large canvas in her art studio"
     );
     screen.getByRole("link", { name: "Home" });
     screen.getByRole("heading", {

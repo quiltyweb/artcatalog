@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -30,7 +30,12 @@ import {
   FormikProps,
   ErrorMessage,
 } from "formik";
-import { useAddItemToCart } from "../context/StoreContext";
+import {
+  useAddItemToCart,
+  useCartLinesUpdate,
+  useCheckoutLineItems,
+  useHasError,
+} from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
@@ -50,6 +55,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
   const addItemToCart = useAddItemToCart();
+  const checkoutLineItems = useCheckoutLineItems();
+  const updateItemsToCart = useCartLinesUpdate();
+  const hasError = useHasError();
 
   const featuredImage = getImage(product.featuredImage);
 
@@ -87,6 +95,19 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
         if (!selectedVariant) {
           throw Error;
+        }
+
+        const foundCartLineItem = checkoutLineItems.find(
+          (item) => item.merchandise.id === selectedVariant.shopifyId
+        );
+
+        if (foundCartLineItem) {
+          const updatedQuantity = foundCartLineItem.quantity + values.quantity;
+          updateItemsToCart({
+            lines: [{ id: foundCartLineItem.id, quantity: updatedQuantity }],
+          });
+          setSubmitting(false);
+          return;
         }
 
         addItemToCart({
@@ -260,6 +281,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Add to shopping bag
                   </Button>
+                  {hasError && <p>An error occurred, try again later.</p>}
                 </Form>
               </CardBody>
             </Container>

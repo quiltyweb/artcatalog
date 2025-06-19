@@ -40,7 +40,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           style={{
             borderRadius: "md",
           }}
-          alt="Gabriela in her art studio painting on a large canvas"
+          alt="Gabriela painting on a large canvas in her art studio"
           src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           width={500}
         />

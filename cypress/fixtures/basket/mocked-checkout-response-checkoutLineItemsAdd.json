@@ -1,131 +1,55 @@
 {
     "data": {
-        "checkoutLineItemsAdd": {
-            "userErrors": [],
-            "checkoutUserErrors": [],
-            "checkout": {
-                "id": "gid://shopify/Checkout/fake/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
-                "ready": false,
-                "requiresShipping": true,
-                "note": null,
-                "paymentDue": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "paymentDueV2": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "webUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
-                "orderStatusUrl": null,
-                "taxExempt": false,
-                "taxesIncluded": false,
-                "currencyCode": "AUD",
-                "totalTax": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalTaxV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "lineItemsSubtotalPrice": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPrice": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPriceV2": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPrice": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPriceV2": {
-                    "amount": "11.0",
-                    "currencyCode": "AUD"
-                },
-                "completedAt": null,
-                "createdAt": "2024-08-27T03:13:56Z",
-                "updatedAt": "2024-09-17T05:10:03Z",
-                "email": null,
-                "discountApplications": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+        "cartLinesAdd": {
+            "cart": {
+                "id": "gid://shopify/Cart/fakeCart123456789Z2NwLWFzaWEtc291dGhlYXN0MTowMUpXWVk1SkdaWURDOFRFWFZNWjRSU1AwWA?key=fakecb20e260f94beb0fafe2451dcb15b64b",
+                "createdAt": "2025-06-08T11:11:06Z",
+                "updatedAt": "2025-06-10T01:09:46Z",
+                "checkoutUrl": "https://fake.myshopifyfake.com/cart/c/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpXWVk1SkdaWURDOFRFWFZNWjRSU1AwWA?key=cb20e260f94beb0fafe2451dcb15b64bfake",
+                "cost": {
+                    "subtotalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": []
-                },
-                "appliedGiftCards": [],
-                "shippingAddress": null,
-                "shippingLine": null,
-                "customAttributes": [],
-                "order": null,
-                "lineItems": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+                    "subtotalAmountEstimated": true,
+                    "totalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": [
+                    "totalAmountEstimated": true
+                },
+                "totalQuantity": 1,
+                "lines": {
+                    "nodes": [
                         {
-                            "cursor": "eyJsYXN0X2lkIjo0NDE2MTcwODU4OTI2NDAsImxhc3RfdmFsdWUiOjQ0MTYxNzA4NTg5MjY0MH0=",
-                            "node": {
-                                "id": "gid://shopify/CheckoutLineItem/441617085892640?checkout=123458d38a38eac6e1f1374d648ecd93",
-                                "title": "Cotton Beach towel",
-                                "variant": {
-                                    "id": "gid://shopify/ProductVariant/44161708589264",
-                                    "title": "Green",
-                                    "price": {
-                                        "amount": "11.0",
-                                        "currencyCode": "AUD"
-                                    },
-                                    "priceV2": {
-                                        "amount": "11.0",
-                                        "currencyCode": "AUD"
-                                    },
-                                    "weight": 0.0,
-                                    "available": true,
-                                    "sku": "",
-                                    "compareAtPrice": null,
-                                    "compareAtPriceV2": null,
-                                    "image": {
-                                        "id": "gid://shopify/ProductImage/12345759612624",
-                                        "src": "https://cdn.fake-image-for-brushella.art/fake-image.jpg",
-                                        "altText": "alt text for variant Green",
-                                        "width": 715,
-                                        "height": 1077
-                                    },
-                                    "selectedOptions": [
-                                        {
-                                            "name": "Color",
-                                            "value": "Green"
-                                        }
-                                    ],
-                                    "unitPrice": null,
-                                    "unitPriceMeasurement": {
-                                        "measuredType": null,
-                                        "quantityUnit": null,
-                                        "quantityValue": 0.0,
-                                        "referenceUnit": null,
-                                        "referenceValue": 0
-                                    },
-                                    "product": {
-                                        "id": "gid://shopify/Product/1234576316624",
-                                        "handle": "beach-towel"
-                                    }
+                            "id": "gid://shopify/CartLine/12343212431a5763-8f79-4c17-989e-fake-34324432cb51723ab4fd?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYN0tTQlpIOTIxVEhNRTM5SkdIMzRDUg",
+                            "quantity": 1,
+                            "merchandise": {
+                                "__typename": "ProductVariant",
+                                "id": "gid://shopify/ProductVariant/12343242444600453005520",
+                                "title": "Wood",
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/41952637255888",
+                                    "url": "https://cdn.fakeshopify.com/s/files/1/323232320586/9892/4240/files/black_panther.jpg?v=1749380160",
+                                    "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                    "height": 1358,
+                                    "width": 2560
                                 },
-                                "quantity": 1,
-                                "customAttributes": [],
-                                "discountAllocations": []
+                                "price": {
+                                    "amount": "0.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "unitPrice": null,
+                                "product":{
+                                    "title": "test print (not for sale)"
+                                }
                             }
-                        }
+                        }                    
                     ]
                 }
-            }
+            },
+            "userErrors": [],
+            "warnings": []
         }
     }
 }

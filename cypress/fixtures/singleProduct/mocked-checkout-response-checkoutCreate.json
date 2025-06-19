@@ -1,78 +1,30 @@
 {
     "data": {
-        "checkoutCreate": {
-            "userErrors": [],
-            "checkoutUserErrors": [],
-            "checkout": {
-                "id": "gid://shopify/Checkout/fake/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
-                "ready": false,
-                "requiresShipping": false,
-                "note": null,
-                "paymentDue": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "paymentDueV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "webUrl": "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd",
-                "orderStatusUrl": null,
-                "taxExempt": false,
-                "taxesIncluded": false,
-                "currencyCode": "AUD",
-                "totalTax": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalTaxV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "lineItemsSubtotalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "subtotalPriceV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPrice": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "totalPriceV2": {
-                    "amount": "0.0",
-                    "currencyCode": "AUD"
-                },
-                "completedAt": null,
-                "createdAt": "2024-09-16T11:10:14Z",
-                "updatedAt": "2024-09-16T11:10:14Z",
-                "email": null,
-                "discountApplications": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+        "cartCreate": {
+            "cart": {
+                "id": "gid://shopify/Cart/fakeCart123456789Z2NwLWFzaWEtc291dGhlYXN0MTowMUpXWVk1SkdaWURDOFRFWFZNWjRSU1AwWA?key=fakecb20e260f94beb0fafe2451dcb15b64b",
+                "createdAt": "2025-06-05T02:19:22Z",
+                "updatedAt": "2025-06-05T02:19:22Z",
+                "checkoutUrl": "https://fake.myshopifyfake.com/cart/c/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpXWVk1SkdaWURDOFRFWFZNWjRSU1AwWA?key=cb20e260f94beb0fafe2451dcb15b64bfake",
+                "cost": {
+                    "subtotalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": []
-                },
-                "appliedGiftCards": [],
-                "shippingAddress": null,
-                "shippingLine": null,
-                "customAttributes": [],
-                "order": null,
-                "lineItems": {
-                    "pageInfo": {
-                        "hasNextPage": false,
-                        "hasPreviousPage": false
+                    "subtotalAmountEstimated": true,
+                    "totalAmount": {
+                        "amount": "0.0",
+                        "currencyCode": "AUD"
                     },
-                    "edges": []
+                    "totalAmountEstimated": true
+                },
+                "totalQuantity": 0,
+                "lines": {
+                    "nodes": []
                 }
-            }
+            },
+            "userErrors": [],
+            "warnings": []
         }
     }
 }

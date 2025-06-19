@@ -2,11 +2,7 @@ describe("contact Page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
     cy.visit("/contact");
-    cy.wait("@checkoutCreate");
   });
 
   it("checks for accessibility violations on desktop", () => {
@@ -22,11 +18,7 @@ describe("contact Page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
     cy.visit("/contact");
-    cy.wait("@checkoutCreate");
   });
 
   it("checks for accessibility violations on mobile", () => {

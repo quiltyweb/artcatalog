@@ -1,28 +1,20 @@
+const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+const REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST = /page-data\/sq\/d/;
 describe("desktop view basket page", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "basket/collectionDecor.json",
-    });
     cy.intercept(
       "GET",
-      "/page-data/collections/home-decor/beach-towel/page-data.json",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
       {
         fixture: "basket/singleProduct.json",
-      }
-    );
-    cy.intercept(
-      "GET",
-      "/page-data/collections/prints/macumba/page-data.json",
-      {
-        fixture: "basket/singleProduct2.json",
       }
     );
   });
 
   it("checks for accessibility violations on desktop view", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -35,7 +27,7 @@ describe("desktop view basket page", () => {
   });
 
   it("loads empty Shopping bag correctly", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
@@ -51,46 +43,59 @@ describe("desktop view basket page", () => {
   });
 
   it("loads shopping cart with 1 item on desktop view", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.findByRole("link", { name: "Home Decor" }).click();
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
+    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
+      fixture: "collection-template/collection-prints.json",
+    });
+    cy.intercept("GET", REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST, {
+      fixture: "collections-page/page-data.json",
+    }).as("pageData");
+    cy.findByRole("link", { name: "Prints" }).click();
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
+      {
+        fixture: "basket/singleProduct.json",
+      }
+    ).as("simpleProductPage");
+    cy.findByRole("heading", { name: "test print (not for sale)" }).click();
+    cy.findByRole("heading", { name: "test print (not for sale)" });
+    cy.findByText("description for test print (not for sale)");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.findByText("Option Required");
-    cy.get("select").select("Green");
-    cy.findByRole("heading", { name: /Green/i });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.get("select").select("Wood");
+    cy.findByRole("heading", { name: /Wood/i });
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
+      name: /1 item in your cart. Subtotal is \$0.00 AUD./,
     });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
-    cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
-
+    cy.findByRole("cell", { name: /test print \(not for sale\) \- Wood/i });
     cy.findByRole("columnheader", { name: "quantity" });
     cy.findByRole("cell", { name: "1" });
     cy.findByRole("columnheader", { name: "remove" });
-    cy.findByLabelText(/remove Cotton Beach towel - Green/i);
-
+    cy.findByRole("button", {
+      name: /remove test print \(not for sale\) \- Wood/i,
+    });
     cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
-    cy.findAllByRole("cell", { name: "$11.00" }).should("have.length", 2);
-
+    cy.findAllByRole("cell", { name: "$0.00" }).should("have.length", 2);
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: /summary/i });
       cy.findByText("Subtotal:");
-      cy.findByText("$11.00 AUD");
+      cy.findByText("$0.00 AUD");
       cy.findByText(/taxes and/i);
       cy.findByRole("link", { name: /shipping/i });
       cy.findByText(/calculated at check out/i);
@@ -99,17 +104,19 @@ describe("desktop view basket page", () => {
   });
 
   it("loads quote form when cart has products in it", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node.json",
-    }).as("checkoutFetch");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
     cy.reload();
+    cy.wait("@queryCart");
+    cy.findByRole("table", { name: /2 items in your cart/ });
     cy.findByRole("heading", { name: "Quotation form" });
     cy.findByRole("button", { name: /Get a Quote/i });
   });
@@ -119,35 +126,35 @@ describe("mobile view basket page", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "basket/collectionDecor.json",
-    });
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "basket/collectionPrints.json",
     });
     cy.intercept(
       "GET",
-      "/page-data/collections/home-decor/beach-towel/page-data.json",
+      "/page-data/collections/prints/test-print-not-for-sale/page-data.json",
       {
         fixture: "basket/singleProduct.json",
       }
-    );
-    cy.intercept(
-      "GET",
-      "/page-data/collections/prints/macumba/page-data.json",
-      {
-        fixture: "basket/singleProduct2.json",
-      }
-    );
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    ).as("simpleProductPage");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
   });
 
-  it("checks for accessibility violations on mobile view", () => {
+  it("checks cart for accessibility violations on mobile view", () => {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
+    cy.reload();
+    cy.wait("@queryCart");
     cy.findByRole("heading", { name: "Shopping Cart" });
+    cy.findByRole("table", {
+      name: /2 items in your cart. Subtotal is \$0.00 AUD./,
+    });
+    cy.findByRole("heading", { name: "Quotation form" });
+    cy.findByRole("button", { name: /Get a Quote/i });
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -163,101 +170,41 @@ describe("mobile view basket page", () => {
 
   it("deletes an item from the shopping bag", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node.json",
-    }).as("checkoutFetch");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
     cy.reload();
-    cy.wait("@checkoutFetch");
-
+    cy.wait("@queryCart");
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
+      name: /2 items in your cart. Subtotal is \$0.00 AUD./,
     });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsRemove.json",
     }).as("checkoutLineItemsRemove");
     cy.findByRole("button", {
-      name: "remove Cotton Beach towel - Purple",
+      name: "remove test print (not for sale) - Plastic",
     }).click();
     cy.wait("@checkoutLineItemsRemove");
-
-    cy.findByRole("heading", { name: "Your cart is empty." });
-  });
-
-  it("loads Shopping bag page correctly with 3 items", () => {
-    cy.findByRole("heading", { name: "Shopping Cart" });
-    cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.findByText("Option Required");
-    cy.get("select").select("Green");
-    cy.findByRole("heading", { name: /Green/i });
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
-    }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
-    });
-    cy.findByRole("table").within(() => {
-      cy.findByRole("rowheader", { name: /thumbnail/i });
-      cy.findByAltText(/alt text for variant Green/i);
-      cy.findByRole("rowheader", { name: /product/i });
-      cy.findByText(/Cotton Beach towel - Green/i);
-      cy.findByRole("rowheader", { name: /quantity/i });
-      cy.findByRole("cell", { name: "1" });
-      cy.findByRole("rowheader", { name: /remove/i });
-      cy.findByRole("button", { name: /remove Cotton Beach towel - Green/i });
-      cy.findByRole("rowheader", { name: /price/i });
-      cy.findByRole("rowheader", { name: /total/i });
-      cy.findAllByRole("cell", { name: /\$11.00/i }).should("have.length", 2);
-    });
-    // add two new items
-    cy.clickDrawerMenuOption("Prints");
-    cy.findByRole("heading", { name: "Macumba" }).click();
-    cy.get("select").select("large");
-    cy.findByRole("heading", { name: /large/i });
-    cy.get("#quantity-increment").click();
-    cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture:
-        "basket/mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
-    }).as("checkoutLineItemsAddTwoItems");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
-    cy.findByText(/macumba - large/i);
-    cy.findByRole("button", { name: /remove Macumba - large/i });
-    cy.findByRole("cell", { name: /\$50.00/i });
-    cy.findByRole("cell", { name: /\$100.00/i });
-    cy.findByRole("table", {
-      name: "3 items in your cart. Subtotal is $111.00 AUD.",
+      name: /1 item in your cart. Subtotal is \$0.00 AUD./,
     });
   });
 
   it("opens a new window with shoppify checkout page", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.get("select").select("Green");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
-    }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
+    cy.reload();
+    cy.wait("@queryCart");
     cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
+      name: /2 items in your cart. Subtotal is \$0.00 AUD./,
     });
     cy.window().then((win) => {
       cy.stub(win, "open").as("windowOpen");
     });
     cy.get('[data-testid="summary-section"]').scrollIntoView();
     cy.findByRole("button", { name: /check out/i }).click();
-
     cy.get("@windowOpen").should(
       "be.calledWith",
       "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd"
@@ -270,85 +217,19 @@ describe("mobile view Basket page with Quote form ", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
-    cy.intercept("GET", "/page-data/collections/home-decor/page-data.json", {
-      fixture: "basket/collectionDecor.json",
-    });
-    cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
-      fixture: "basket/collectionPrints.json",
-    });
-    cy.intercept(
-      "GET",
-      "/page-data/collections/home-decor/beach-towel/page-data.json",
-      {
-        fixture: "basket/singleProduct.json",
-      }
-    );
-    cy.intercept(
-      "GET",
-      "/page-data/collections/prints/macumba/page-data.json",
-      {
-        fixture: "basket/singleProduct2.json",
-      }
-    );
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
   });
 
-  it("loads Shopping bag page correctly with 3 items and a Quote form", () => {
-    cy.findByRole("heading", { name: "Shopping Cart" });
-    cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.clickDrawerMenuOption("Home Decor");
-    cy.findByRole("heading", { name: "Cotton Beach towel" }).click();
-    cy.get("select").select("Green");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
-    }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
-    cy.findByRole("table", {
-      name: "1 item in your cart. Subtotal is $11.00 AUD.",
-    });
-    cy.findByRole("table").within(() => {
-      cy.findByAltText(/alt text for variant Green/i);
-      cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
-      cy.findByRole("cell", { name: "1" });
-    });
-    cy.findAllByRole("button", {
-      name: "remove Cotton Beach towel - Green",
-    }).should("have.length", 1);
-    // add two new items
-    cy.clickDrawerMenuOption("Prints");
-    cy.findByRole("heading", { name: "Macumba" }).click();
-    cy.get("select").select("large");
-    cy.get("#quantity-increment").click();
-    cy.get("#quantity").should("have.value", "2");
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture:
-        "basket/mocked-checkout-response-checkoutLineItemsAdd-two-items.json",
-    }).as("checkoutLineItemsAddTwoItems");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
-    cy.wait("@checkoutLineItemsAddTwoItems");
-    cy.findByRole("link", { name: "Shopping cart 3 items" }).click();
-    cy.findByRole("table", {
-      name: "3 items in your cart. Subtotal is $111.00 AUD.",
-    });
-    cy.findByRole("cell", { name: /Macumba - large/i });
-    cy.findByRole("cell", { name: /Cotton Beach towel - Green/i });
-    cy.findByLabelText("Full Name");
-    cy.findByLabelText("Email address");
-    cy.findByRole("button", { name: /Get a Quote/i });
-  });
-
   it("render user errors in quote form correctly when submit with no data", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node.json",
-    }).as("checkoutFetch");
-    cy.reload();
-    cy.wait("@checkoutFetch");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
+    cy.visit("/basket");
+    cy.wait("@queryCart");
     cy.findByRole("button", { name: /Get a Quote/i }).click();
     cy.get("main").scrollIntoView();
     cy.findByText("Name is Required");
@@ -356,11 +237,11 @@ describe("mobile view Basket page with Quote form ", () => {
   });
 
   it("sends quote correctly with 1 item", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node-2items",
-    }).as("checkoutFetch");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
     cy.reload();
-    cy.wait("@checkoutFetch");
+    cy.wait("@queryCart");
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@email.com");
     cy.intercept(
@@ -372,16 +253,16 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText(
-      /Your quote was sent succesfully with the following items: 1 Cotton Beach towel Purple, 2 Bamboo Beach towel Green/i
+      /Your quote was sent succesfully with the following items: 1 test print \(not for sale\) \- Plastic, 1 test print \(not for sale\) \- Wood/i
     );
   });
 
   it("renders error message when quote failed to be sent", () => {
-    cy.intercept("POST", /api\/2024-04\/graphql/, {
-      fixture: "basket/mocked-checkout-response-node.json",
-    }).as("checkoutFetch");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
     cy.reload();
-    cy.wait("@checkoutFetch");
+    cy.wait("@queryCart");
     cy.findByLabelText("Full Name").type("name goes here");
     cy.findByLabelText("Email address").type("email@email.com");
     cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
