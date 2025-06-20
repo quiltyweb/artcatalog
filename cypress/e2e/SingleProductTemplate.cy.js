@@ -135,4 +135,24 @@ describe("Collection Template mobile view", () => {
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Details gallery:" }).should("not.exist");
   });
+
+  it("Renders single product page with sold out tag and disabled button", () => {
+    cy.intercept(
+      "GET",
+      "/page-data/collections/original-paintings/test-title-handle/page-data.json",
+      {
+        fixture: "singleProduct/singleProduct-soldout.json",
+      }
+    );
+    cy.visit("collections/original-paintings/test-title-handle/", {
+      failOnStatusCode: false,
+    });
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", {
+      name: /test title Original Acrylic Painting Sold out/i,
+    });
+    cy.findByRole("button", {
+      name: /Sold out/i,
+    }).should("have.attr", "disabled");
+  });
 });

@@ -27,6 +27,8 @@ export const createPages: GatsbyNode["createPages"] = async ({
             title
             handle
             description
+            status
+            hasOutOfStockVariants
             priceRangeV2 {
               minVariantPrice {
                 amount
@@ -53,6 +55,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
               title
               price
               inventoryQuantity
+              availableForSale
               selectedOptions {
                 name
                 value
