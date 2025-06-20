@@ -1,0 +1,64 @@
+{
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/original-paintings/test-title-handle/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "2552b8f2-7da0-5106-95f6-8c8bf90be9dc",
+                "title": "test title Original Acrylic Painting",
+                "handle": "test-title-handle",
+                "description": "Medium: Acrylic painting",
+                "status": "ACTIVE",
+                "hasOutOfStockVariants": true,
+                "priceRangeV2": {
+                    "minVariantPrice": {
+                        "amount": 6000,
+                        "currencyCode": "AUD"
+                    },
+                    "maxVariantPrice": {
+                        "amount": 6000,
+                        "currencyCode": "AUD"
+                    }
+                },
+                "featuredImage": null,
+                "hasOnlyDefaultVariant": true,
+                "totalVariants": 1,
+                "variants": [
+                    {
+                        "shopifyId": "gid://shopiasdsdfy/ProdudsdsctVariant/4436dsdsdsd2595729616",
+                        "displayName": "test title Original Acrylic Painting - Default Title",
+                        "title": "Default Title",
+                        "price": 6000,
+                        "inventoryQuantity": 0,
+                        "availableForSale": false,
+                        "selectedOptions": [
+                            {
+                                "name": "Title",
+                                "value": "Default Title"
+                            }
+                        ],
+                        "image": null
+                    }
+                ],
+                "mediaCount": 0,
+                "media": [],
+                "options": [
+                    {
+                        "shopifyId": "gid://shopdsdsify/PrdsdsdoductOption/1042ccxcxc433436976010448",
+                        "name": "Title",
+                        "values": [
+                            "Default Title"
+                        ]
+                    }
+                ]
+            },
+            "collectionHandle": "original-paintings"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "120334346310145",
+        "135343434110752"
+    ],
+    "slicesMap": {}
+}
