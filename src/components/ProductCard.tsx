@@ -20,6 +20,7 @@ import {
   Flex,
   Image,
   Container,
+  Badge,
 } from "@chakra-ui/react";
 import {
   Formik,
@@ -138,7 +139,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             props.values.product.priceRangeV2.maxVariantPrice.currencyCode,
           value: variantFound?.price ?? 0,
         });
-
+        const isSoldOut =
+          variantFound &&
+          (!variantFound.availableForSale ||
+            variantFound.inventoryQuantity === 0);
         return (
           <Card
             key={`${product.id}-single-view`}
@@ -154,9 +158,19 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   lineHeight="normal"
                   minH="80px"
                 >
-                  {product.title}
-                  <br />
-                  {!product.hasOnlyDefaultVariant && `${props.values.variant}`}
+                  {product.title} <br />
+                  {!product.hasOnlyDefaultVariant && `${props.values.variant} `}
+                  {isSoldOut && (
+                    <Badge
+                      variant="solid"
+                      size="md"
+                      color="#ffffff"
+                      backgroundColor="black"
+                      padding={1}
+                    >
+                      Sold out
+                    </Badge>
+                  )}
                 </Heading>
                 <Text wordBreak={"normal"} mb="2.4rem">
                   {product.description}
@@ -276,10 +290,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     padding="6"
                     my="4"
                     isLoading={props.isSubmitting}
-                    isDisabled={props.isSubmitting}
+                    isDisabled={props.isSubmitting || isSoldOut}
                     aria-disabled={props.isSubmitting}
                   >
-                    Add to shopping bag
+                    {isSoldOut ? "Sold out" : "Add to shopping bag"}
                   </Button>
                   {hasError && <p>An error occurred, try again later.</p>}
                 </Form>
