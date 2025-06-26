@@ -60,9 +60,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   const updateItemsToCart = useCartLinesUpdate();
   const hasError = useHasError();
 
+  //TODO:
+  // Set component state (not context) to render warning/errors from the submit add product to cart.
+
   const featuredImage = getImage(product.featuredImage);
 
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
+  const isProductPlublishedToStoreApp = product.publishedAt !== null;
 
   const initialValues: ProductCardFormValues = {
     id: product.id,
@@ -169,6 +173,17 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       padding={1}
                     >
                       Sold out
+                    </Badge>
+                  )}
+                  {!isProductPlublishedToStoreApp && (
+                    <Badge
+                      variant="solid"
+                      size="md"
+                      color="#ffffff"
+                      backgroundColor="black"
+                      padding={1}
+                    >
+                      Item unavailable
                     </Badge>
                   )}
                 </Heading>
@@ -290,12 +305,17 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     padding="6"
                     my="4"
                     isLoading={props.isSubmitting}
-                    isDisabled={props.isSubmitting || isSoldOut}
+                    isDisabled={
+                      props.isSubmitting || isSoldOut || !isProductPlublished
+                    }
                     aria-disabled={props.isSubmitting}
                   >
-                    {isSoldOut ? "Sold out" : "Add to shopping bag"}
+                    Add to shopping bag
                   </Button>
-                  {hasError && <p>An error occurred, try again later.</p>}
+                  {/* TODO: add a notification for a11y  */}
+                  {hasError && (
+                    <p>An error occurred, please try again later.</p>
+                  )}
                 </Form>
               </CardBody>
             </Container>

@@ -574,7 +574,7 @@ describe("ProductCard", () => {
     expect(fallbackImage).toHaveAttribute("alt", "");
   });
 
-  it("renders sold out tag next to the product variant title when stock is cero", async () => {
+  it("renders add to cart button with a disabled state and a sold out Badge when stock is zero", async () => {
     const mockedShopifyProductSoldOutData = {
       product: {
         id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
@@ -633,10 +633,15 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    expect(screen.getAllByText("Sold out")).toHaveLength(2);
+
+    expect(screen.getAllByText("Sold out")).toHaveLength(1);
+
+    expect(
+      screen.getByRole("button", { name: "Add to shopping bag" })
+    ).toBeDisabled();
   });
 
-  it("renders add to cart with a disabled state when stock is cero", async () => {
+  it("renders add to cart button with a disabled state and an item unavailable Badge when product is rendered but not published", async () => {
     const mockedShopifyProductSoldOutData = {
       product: {
         id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
@@ -686,6 +691,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        publishedAt: null,
       },
       collectionHandle: "prints",
     };
@@ -695,6 +701,9 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    expect(screen.getByRole("button", { name: "Sold out" })).toBeDisabled();
+    expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
+    expect(
+      screen.getByRole("button", { name: "Add to shopping bag" })
+    ).toBeDisabled();
   });
 });
