@@ -306,7 +306,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     my="4"
                     isLoading={props.isSubmitting}
                     isDisabled={
-                      props.isSubmitting || isSoldOut || !isProductPlublished
+                      props.isSubmitting ||
+                      isSoldOut ||
+                      !isProductPlublishedToStoreApp
                     }
                     aria-disabled={props.isSubmitting}
                   >
