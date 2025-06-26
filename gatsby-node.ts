@@ -14,7 +14,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
   const COLLECTIONS_AND_PRODUCTS_DATA = gql`
     query CollectionsAndProductsIntoPages {
       allShopifyCollection(
-        filter: { handle: { in: ["prints", "original-paintings"] } }
+        filter: {
+          handle: { in: ["prints", "original-paintings"] }
+          products: { elemMatch: { status: { eq: ACTIVE } } }
+        }
       ) {
         nodes {
           id
@@ -27,6 +30,8 @@ export const createPages: GatsbyNode["createPages"] = async ({
             title
             handle
             description
+            status
+            hasOutOfStockVariants
             priceRangeV2 {
               minVariantPrice {
                 amount
@@ -53,6 +58,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
               title
               price
               inventoryQuantity
+              availableForSale
               selectedOptions {
                 name
                 value
@@ -99,11 +105,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
               name
               values
             }
+            publishedAt
           }
         }
       }
     }
   `;
+
   const collectionsAndProductsResult =
     await graphql<Queries.CollectionsAndProductsIntoPagesQuery>(
       print(COLLECTIONS_AND_PRODUCTS_DATA)

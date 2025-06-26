@@ -1,23 +1,22 @@
 {
     "componentChunkName": "component---src-templates-single-product-tsx",
-    "path": "/collections/prints/test-print-not-for-sale/",
+    "path": "/collections/original-paintings/test-title-handle/",
     "result": {
         "pageContext": {
             "product": {
-                "id": "f1ac9d71-4ace-5da4-b914-f2278aee6443",
-                "title": "test print (not for sale)",
-                "handle": "test-print-not-for-sale",
-                "description": "description for test print (not for sale)",
+                "id": "2552b8f2-7da0-5106-95f6-8c8bf90be9dc",
+                "title": "test title Original Acrylic Painting",
+                "handle": "test-title-handle",
+                "description": "Medium: Acrylic painting",
                 "status": "ACTIVE",
-                "hasOutOfStockVariants": false,
-                "publishedAt": "dsdssdds",
+                "hasOutOfStockVariants": true,
                 "priceRangeV2": {
                     "minVariantPrice": {
-                        "amount": 0,
+                        "amount": 6000,
                         "currencyCode": "AUD"
                     },
                     "maxVariantPrice": {
-                        "amount": 0,
+                        "amount": 6000,
                         "currencyCode": "AUD"
                     }
                 },
@@ -26,12 +25,12 @@
                 "totalVariants": 1,
                 "variants": [
                     {
-                        "shopifyId": "gid://shopify/ProductVariant/44599125082320",
-                        "displayName": "test print (not for sale) - Default Title",
+                        "shopifyId": "gid://shopiasdsdfy/ProdudsdsctVariant/4436dsdsdsd2595729616",
+                        "displayName": "test title Original Acrylic Painting - Default Title",
                         "title": "Default Title",
-                        "price": 0,
-                        "inventoryQuantity": 3,                        
-                        "availableForSale": true,
+                        "price": 6000,
+                        "inventoryQuantity": 0,
+                        "availableForSale": false,
                         "selectedOptions": [
                             {
                                 "name": "Title",
@@ -45,7 +44,7 @@
                 "media": [],
                 "options": [
                     {
-                        "shopifyId": "gid://shopify/ProductOption/10521014239440",
+                        "shopifyId": "gid://shopdsdsify/PrdsdsdoductOption/1042ccxcxc433436976010448",
                         "name": "Title",
                         "values": [
                             "Default Title"
@@ -53,13 +52,13 @@
                     }
                 ]
             },
-            "collectionHandle": "prints"
+            "collectionHandle": "original-paintings"
         },
         "serverData": null
     },
     "staticQueryHashes": [
-        "1353110752",
-        "3273930684"
+        "120334346310145",
+        "135343434110752"
     ],
     "slicesMap": {}
 }

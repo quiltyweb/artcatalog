@@ -573,4 +573,137 @@ describe("ProductCard", () => {
     const fallbackImage = screen.getByTestId("no-image-found");
     expect(fallbackImage).toHaveAttribute("alt", "");
   });
+
+  it("renders add to cart button with a disabled state and a sold out Badge when stock is zero", async () => {
+    const mockedShopifyProductSoldOutData = {
+      product: {
+        id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
+        title: '"Prana" Original Acrylic Painting (SOLD)',
+        handle: "prana-original-acrylic-painting",
+        description: 'test description"',
+        status: "ACTIVE",
+        hasOutOfStockVariants: true,
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: null,
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId:
+              "gid://shopdsdsify/PrdsdoductVariant/443dssdsdsdsd62595795152",
+            displayName:
+              '"Prana" Original Acrylic Painting (SOLD) - Default Title',
+            title: "Default Title",
+            price: 6000,
+            inventoryQuantity: 0,
+            availableForSale: false,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopdsdsify/ProducdsdstOption/104dsds26976043216",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+      },
+      collectionHandle: "prints",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductSoldOutData.product}
+        collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
+      />
+    );
+
+    expect(screen.getAllByText("Sold out")).toHaveLength(1);
+
+    expect(
+      screen.getByRole("button", { name: "Add to shopping bag" })
+    ).toBeDisabled();
+  });
+
+  it("renders add to cart button with a disabled state and an item unavailable Badge when product is rendered but not published", async () => {
+    const mockedShopifyProductSoldOutData = {
+      product: {
+        id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
+        title: '"Prana" Original Acrylic Painting (SOLD)',
+        handle: "prana-original-acrylic-painting",
+        description: 'test description"',
+        status: "ACTIVE",
+        hasOutOfStockVariants: true,
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: null,
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId:
+              "gid://shopdsdsify/PrdsdoductVariant/443dssdsdsdsd62595795152",
+            displayName:
+              '"Prana" Original Acrylic Painting (SOLD) - Default Title',
+            title: "Default Title",
+            price: 6000,
+            inventoryQuantity: 0,
+            availableForSale: false,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopdsdsify/ProducdsdstOption/104dsds26976043216",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+        publishedAt: null,
+      },
+      collectionHandle: "prints",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductSoldOutData.product}
+        collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
+      />
+    );
+    expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
+    expect(
+      screen.getByRole("button", { name: "Add to shopping bag" })
+    ).toBeDisabled();
+  });
 });

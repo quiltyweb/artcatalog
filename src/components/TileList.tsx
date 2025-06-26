@@ -21,7 +21,10 @@ const TileList: React.FunctionComponent<TileListProps> = ({
     useStaticQuery<Queries.CollectionsTilesQuery>(graphql`
       query CollectionsTiles {
         allShopifyCollection(
-          filter: { handle: { in: ["prints", "original-paintings"] } }
+          filter: {
+            handle: { in: ["prints", "original-paintings"] }
+            products: { elemMatch: { status: { eq: ACTIVE } } }
+          }
         ) {
           nodes {
             id

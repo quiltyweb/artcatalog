@@ -24,7 +24,10 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
           }
         }
         allShopifyCollection(
-          filter: { handle: { in: ["prints", "original-paintings"] } }
+          filter: {
+            handle: { in: ["prints", "original-paintings"] }
+            products: { elemMatch: { status: { eq: ACTIVE } } }
+          }
         ) {
           nodes {
             id
