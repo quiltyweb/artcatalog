@@ -315,7 +315,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       );
                     }}
                   </Field>
-                  <Flex>
+                  <VStack>
                     <Button
                       id="add-to-cart"
                       type="submit"
@@ -352,7 +352,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         </Text>
                       </VStack>
                     )}
-                  </Flex>
+                  </VStack>
                   {addItemToCartWarnings.length > 0 &&
                     addItemToCartWarnings.map((item) => {
                       return (
