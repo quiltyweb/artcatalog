@@ -1,0 +1,62 @@
+{
+    "data": {
+        "cartLinesAdd": {
+            "cart": {
+                "id": "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpZUDBDVDlCRkRRUVpTRzI2TjBaNzhROA?key=9b5822058f52a973c47cca9a3a9257e8",
+                "createdAt": "2025-06-26T11:36:30Z",
+                "updatedAt": "2025-07-02T08:50:21Z",
+                "checkoutUrl": "https://brushellashop.myshopify.com/cart/c/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpZUDBDVDlCRkRRUVpTRzI2TjBaNzhROA?key=9b5822058f52a973c47cca9a3a9257e8",
+                "cost": {
+                    "subtotalAmount": {
+                        "amount": "15.0",
+                        "currencyCode": "AUD"
+                    },
+                    "subtotalAmountEstimated": true,
+                    "totalAmount": {
+                        "amount": "15.0",
+                        "currencyCode": "AUD"
+                    },
+                    "totalAmountEstimated": true
+                },
+                "totalQuantity": 3,
+                "lines": {
+                    "nodes": [
+                        {
+                            "id": "gid://shopify/CartLine/2b97f9cb-8e8f-40e8-89de-7af582b6eec7?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpZUDBDVDlCRkRRUVpTRzI2TjBaNzhROA",
+                            "quantity": 3,
+                            "merchandise": {
+                                "__typename": "ProductVariant",
+                                "id": "gid://shopify/ProductVariant/44616559886544",
+                                "title": "Plastic",
+                                "product": {
+                                    "availableForSale": true,
+                                    "title": "test print 4"
+                                },
+                                "image": {
+                                    "id": "gid://shopify/ProductImage/42262159687888",
+                                    "url": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756.png?v=1750935460",
+                                    "altText": null,
+                                    "height": 452,
+                                    "width": 852
+                                },
+                                "price": {
+                                    "amount": "5.0",
+                                    "currencyCode": "AUD"
+                                },
+                                "unitPrice": null
+                            }
+                        }
+                    ]
+                }
+            },
+            "userErrors": [],
+            "warnings": [
+                {
+                    "code": "MERCHANDISE_NOT_ENOUGH_STOCK",
+                    "target": "gid://shopify/CartLine/dsdsdds",
+                    "message": "low stock"
+                }
+            ]
+        }
+    }
+}
