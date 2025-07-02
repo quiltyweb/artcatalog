@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -21,6 +21,10 @@ import {
   Image,
   Container,
   Badge,
+  Spinner,
+  VStack,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import {
   Formik,
@@ -35,7 +39,7 @@ import {
   useAddItemToCart,
   useCartLinesUpdate,
   useCheckoutLineItems,
-  useHasError,
+  useHasResponseError,
 } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
@@ -55,18 +59,24 @@ interface ProductCardFormValues {
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
-  const addItemToCart = useAddItemToCart();
   const checkoutLineItems = useCheckoutLineItems();
-  const updateItemsToCart = useCartLinesUpdate();
-  const hasError = useHasError();
-
-  //TODO:
-  // Set component state (not context) to render warning/errors from the submit add product to cart.
-
+  const {
+    addItemToCart,
+    addItemToCartLoading,
+    addItemToCartWarnings,
+    setAddItemToCartWarnings,
+  } = useAddItemToCart();
+  const {
+    updateItemsToCart,
+    updateItemsToCartLoading,
+    updateItemsToCartWarnings,
+    setUpdateItemsToCartWarnings,
+  } = useCartLinesUpdate();
+  const responseError = useHasResponseError();
   const featuredImage = getImage(product.featuredImage);
-
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   const isProductPlublishedToStoreApp = product.publishedAt !== null;
+  const [selectedVariant, setSelectedVariant] = useState("");
 
   const initialValues: ProductCardFormValues = {
     id: product.id,
@@ -80,6 +90,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     variant: Yup.string().required("Option Required"),
     quantity: Yup.number().required("Quantity Required"),
   });
+
+  useEffect(() => {
+    setAddItemToCartWarnings([]);
+    setUpdateItemsToCartWarnings([]);
+    setSelectedVariant("");
+  }, [selectedVariant]);
 
   return (
     <Formik
@@ -119,7 +135,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           variantId: selectedVariant.shopifyId,
           quantity: values.quantity,
         });
-
         setSubmitting(false);
       }}
     >
@@ -253,7 +268,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                                 id="variant"
                                 name="variant"
                                 placeholder={`Select a ${variantName}`}
-                                onChange={field.onChange}
+                                onChange={(e) => {
+                                  props.setFieldValue(
+                                    "variant",
+                                    e.target.value
+                                  );
+                                  setSelectedVariant(e.target.value);
+                                }}
                               >
                                 {values.map((value, i) => (
                                   <option key={i} value={value}>
@@ -294,29 +315,67 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       );
                     }}
                   </Field>
-                  <Button
-                    id="add-to-cart"
-                    type="submit"
-                    backgroundColor="#86548A"
-                    color="#ffffff"
-                    colorScheme="teal"
-                    fontSize="xl"
-                    width="100%"
-                    padding="6"
-                    my="4"
-                    isLoading={props.isSubmitting}
-                    isDisabled={
-                      props.isSubmitting ||
-                      isSoldOut ||
-                      !isProductPlublishedToStoreApp
-                    }
-                    aria-disabled={props.isSubmitting}
-                  >
-                    Add to shopping bag
-                  </Button>
-                  {/* TODO: add a notification for a11y  */}
-                  {hasError && (
-                    <p>An error occurred, please try again later.</p>
+                  <Flex>
+                    <Button
+                      id="add-to-cart"
+                      type="submit"
+                      backgroundColor="#86548A"
+                      color="#ffffff"
+                      colorScheme="teal"
+                      fontSize="xl"
+                      width="100%"
+                      padding="6"
+                      my="4"
+                      isLoading={props.isSubmitting}
+                      isDisabled={
+                        props.isSubmitting ||
+                        isSoldOut ||
+                        !isProductPlublishedToStoreApp
+                      }
+                      aria-disabled={props.isSubmitting}
+                    >
+                      Add to shopping bag
+                    </Button>
+                    {addItemToCartLoading && (
+                      <VStack>
+                        <Spinner color="colorPalette.600" />
+                        <Text color="colorPalette.600">
+                          Adding item to cart...
+                        </Text>
+                      </VStack>
+                    )}
+                    {updateItemsToCartLoading && (
+                      <VStack>
+                        <Spinner color="colorPalette.600" />
+                        <Text color="colorPalette.600">
+                          Updating item to cart...
+                        </Text>
+                      </VStack>
+                    )}
+                  </Flex>
+                  {addItemToCartWarnings.length > 0 &&
+                    addItemToCartWarnings.map((item) => {
+                      return (
+                        <Alert status="warning">
+                          <AlertIcon />
+                          {item.message}
+                        </Alert>
+                      );
+                    })}
+                  {updateItemsToCartWarnings.length > 0 &&
+                    updateItemsToCartWarnings.map((item) => {
+                      return (
+                        <Alert status="warning">
+                          <AlertIcon />
+                          {item.message}
+                        </Alert>
+                      );
+                    })}
+                  {responseError && (
+                    <Alert status="error">
+                      <AlertIcon />A request error occurred, please try again
+                      later.
+                    </Alert>
                   )}
                 </Form>
               </CardBody>

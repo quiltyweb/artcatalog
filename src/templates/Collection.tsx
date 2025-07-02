@@ -89,6 +89,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                   <Card
                     key={`${id}-product-item`}
                     boxShadow="md"
+                    height="100%"
                     _hover={{
                       transform: "scale(1.03)",
                       transition: "transform .15s ease-in",
