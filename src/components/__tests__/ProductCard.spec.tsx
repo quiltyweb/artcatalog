@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import ProductCard from "../ProductCard";
 jest.mock("@shopify/storefront-api-client");
 import fetchMock from "jest-fetch-mock";
+import * as StoreContext from "../../context/StoreContext";
+import fireEvent from "@testing-library/user-event";
 
 const mockedImageURL =
   "https://cdn.fake-image-for-brushella.art/fake-image.jpg";
@@ -40,23 +42,20 @@ describe("ProductCard", () => {
             images: {
               sources: [
                 {
-                  srcSet:
-                    "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_125x66_crop_center.jpg.webp?v=1749380160 125w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_250x133_crop_center.jpg.webp?v=1749380160 250w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_500x265_crop_center.jpg.webp?v=1749380160 500w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_1000x530_crop_center.jpg.webp?v=1749380160 1000w",
+                  srcSet: mockedImageURL,
                   sizes: "(min-width: 500px) 500px, 100vw",
                   type: "image/webp",
                 },
               ],
               fallback: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_500x265_crop_center.jpg?v=1749380160",
-                srcSet:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_125x66_crop_center.jpg?v=1749380160 125w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_250x133_crop_center.jpg?v=1749380160 250w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_500x265_crop_center.jpg?v=1749380160 500w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_1000x530_crop_center.jpg?v=1749380160 1000w",
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
                 sizes: "(min-width: 500px) 500px, 100vw",
               },
             },
             layout: "constrained",
             placeholder: {
-              fallback:
-                "data:image/png;base64,/9j/4QC8RXhpZgAASUkqAAgAAAAGABIBAwABAAAAAQAAABoBBQABAAAAVgAAABsBBQABAAAAXgAAACgBAwABAAAAAgAAABMCAwABAAAAAQAAAGmHBAABAAAAZgAAAAAAAABIAAAAAQAAAEgAAAABAAAABgAAkAcABAAAADAyMTABkQcABAAAAAECAwAAoAcABAAAADAxMDABoAMAAQAAAP//AAACoAQAAQAAABQAAAADoAQAAQAAAAsAAAAAAAAA/+IBuElDQ19QUk9GSUxFAAEBAAABqGxjbXMCEAAAbW50clJHQiBYWVogB9wAAQAZAAMAKQA5YWNzcEFQUEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1sY21zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJZGVzYwAAAPAAAABfY3BydAAAAUwAAAAMd3RwdAAAAVgAAAAUclhZWgAAAWwAAAAUZ1hZWgAAAYAAAAAUYlhZWgAAAZQAAAAUclRSQwAAAQwAAABAZ1RSQwAAAQwAAABAYlRSQwAAAQwAAABAZGVzYwAAAAAAAAAFYzJjaQAAAAAAAAAAAAAAAGN1cnYAAAAAAAAAGgAAAMsByQNjBZIIawv2ED8VURs0IfEpkDIYO5JGBVF3Xe1rcHoFibGafKxpv33Tw+kw//90ZXh0AAAAAENDMABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z//bAEMABQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/bAEMBBQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/CABEIAAsAFAMBEQACEQEDEQH/xAAXAAADAQAAAAAAAAAAAAAAAAADBAYH/8QAFwEBAQEBAAAAAAAAAAAAAAAABAMFAv/aAAwDAQACEAMQAAAAwE73OswkIEa2oxbx+or/xAAjEAACAQMDBAMAAAAAAAAAAAABAgMABBEFEiETMVFxQUKx/9oACAEBAAE/ANWvpG6Mtu21LhmBC4C8AdwCSM/GasrcLAhZNrE7V3ZGM+6jZYl6aOoCkj2fPFaZZ2xtgTFnbbPIMknDKMg8+KsYo7nSL4zRq5iRHQkcqxHcGpnMcjKoUDJ+oP7X/8QAIBEAAgEEAwADAAAAAAAAAAAAAQIDABEhMQQSUTJBYf/aAAgBAgEBPwBVZm7SIvZdEbHtTF53Z1kB0DGo2fo+WocfkyAOkLMp0QL6rkoqwxkDLMwOfCK+EjFSQepFwbVBPNHGqpM6rYYViBkflf/EACERAAICAQQCAwAAAAAAAAAAAAECAwQRABIhgQWRMWFx/9oACAEDAQE/AC9lJWlKLmTDHbkruIx741fkEFiDbCVRoSS5OF3D5Ho6ksFGwZUX6Y889jXjrdiWxYheTMaAFRgcd6kijtV/NvNGrtAkZiJHKkrnjvVevXlRmlrxSNuI3OiscfpB1//Z",
+              fallback: "data:image/png;base64,/9j/4QC8RXDSDSDDS",
             },
             width: 500,
             height: 265,
@@ -66,7 +65,7 @@ describe("ProductCard", () => {
         totalVariants: 1,
         variants: [
           {
-            shopifyId: "gid://shopify/ProductVariant/44600452972752",
+            shopifyId: "gid://shopify/ProductVariant/4460DSDSSDSDDS",
             displayName: "test print (not for sale) - Plastic",
             title: "Red",
             price: 0,
@@ -115,7 +114,7 @@ describe("ProductCard", () => {
             preview: {
               status: "READY",
               image: {
-                src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
+                src: mockedImageURL,
                 altText: "image media alternative text goes here",
                 height: 1358,
                 width: 2560,
@@ -123,38 +122,33 @@ describe("ProductCard", () => {
                   images: {
                     sources: [
                       {
-                        srcSet:
-                          "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_21x21_crop_center.jpg.webp?v=1749380160 21w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_41x41_crop_center.jpg.webp?v=1749380160 41w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_82x82_crop_center.jpg.webp?v=1749380160 82w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_164x164_crop_center.jpg.webp?v=1749380160 164w",
+                        srcSet: mockedImageURL,
                         sizes: "(min-width: 82px) 82px, 100vw",
                         type: "image/webp",
                       },
                     ],
                     fallback: {
-                      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_82x82_crop_center.jpg?v=1749380160",
-                      srcSet:
-                        "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_21x21_crop_center.jpg?v=1749380160 21w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_41x41_crop_center.jpg?v=1749380160 41w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_82x82_crop_center.jpg?v=1749380160 82w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_164x164_crop_center.jpg?v=1749380160 164w",
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
                       sizes: "(min-width: 82px) 82px, 100vw",
                     },
                   },
                   layout: "constrained",
                   placeholder: {
-                    fallback:
-                      "data:image/png;base64,/9j/4QC8RXhpZgAASUkqAAgAAAAGABIBAwABAAAAAQAAABoBBQABAAAAVgAAABsBBQABAAAAXgAAACgBAwABAAAAAgAAABMCAwABAAAAAQAAAGmHBAABAAAAZgAAAAAAAABIAAAAAQAAAEgAAAABAAAABgAAkAcABAAAADAyMTABkQcABAAAAAECAwAAoAcABAAAADAxMDABoAMAAQAAAP//AAACoAQAAQAAABQAAAADoAQAAQAAABQAAAAAAAAA/+IBuElDQ19QUk9GSUxFAAEBAAABqGxjbXMCEAAAbW50clJHQiBYWVogB9wAAQAZAAMAKQA5YWNzcEFQUEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1sY21zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJZGVzYwAAAPAAAABfY3BydAAAAUwAAAAMd3RwdAAAAVgAAAAUclhZWgAAAWwAAAAUZ1hZWgAAAYAAAAAUYlhZWgAAAZQAAAAUclRSQwAAAQwAAABAZ1RSQwAAAQwAAABAYlRSQwAAAQwAAABAZGVzYwAAAAAAAAAFYzJjaQAAAAAAAAAAAAAAAGN1cnYAAAAAAAAAGgAAAMsByQNjBZIIawv2ED8VURs0IfEpkDIYO5JGBVF3Xe1rcHoFibGafKxpv33Tw+kw//90ZXh0AAAAAENDMABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z//bAEMABQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/bAEMBBQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/CABEIABQAFAMBEQACEQEDEQH/xAAYAAEBAAMAAAAAAAAAAAAAAAAGBAIFCP/EABgBAAMBAQAAAAAAAAAAAAAAAAEDBQQG/9oADAMBAAIQAxAAAADm81NzjlUKUb1VGQiUDLivq105JNnO/wD/xAAmEAACAQMDAgcBAAAAAAAAAAABAgMEERIABSETMRQiQVFxgZGh/9oACAEBAAE/AJq87jIFll8zMS7H+D6A1TUySpmzEqhBya3I9D+6ndo3xj6zCwvgFIB9jc99bVR1FSyoYRnGcWuLKAOLk6jgmo6YvP02AY5heb3Hl57fWqGq26OAeKoxK7HINmVNrdiAPfVYkdONraGMRid3EirexIU2PzxrYl6/i6aU5whlXAgEWB+NbokcFbKkcaqt+1u3pr//xAAhEQACAgEDBQEAAAAAAAAAAAABAgMRAAQSIRMxQVFhIv/aAAgBAgEBPwDSCLTMo2Wig0PZzU6gxTqEUKZQwFHj6MoNyxW/OPIkY3Fu/jIdaS0sI6SnYWDN3FiuPeDSgRxMXX9ruottrkjyfmaiIK8yli21VIJq+c6atMGqmWwCPuSQhyGMj2QCec//xAAkEQACAgEEAgEFAAAAAAAAAAABAgMRBAASITEFFFEGImFxcv/aAAgBAwEBPwAyLkRpCWG4t9xPXGs+FIJoI06kFrfZI705SRrLLfAN2efxWo8eUlG2i1aq/nX1BjLLPDknLJZJEiaGq2qTZIPx86TJEjSiOGRlRyu5bo1zxWhkM8SybFBMmwgXRG275PevGP7mV5v2UWVYGVI1YWABryEYhy5lgYwx7mpE4UUa4v8AWv/Z",
+                    fallback: "data:image/png;base64,/9j/4QDDSDSD",
                   },
                   width: 82,
                   height: 82,
                 },
-                originalSrc:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
-                transformedSrc:
-                  "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther.jpg?v=1749380160",
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
               },
             },
           },
         ],
         options: [
           {
-            shopifyId: "gid://shopify/ProductOption/10521378914512",
+            shopifyId: "gid://shopify/ProductOption/105DSDSDSD",
             name: "select a Color",
             values: ["red"],
           },
@@ -226,7 +220,7 @@ describe("ProductCard", () => {
         totalVariants: 1,
         variants: [
           {
-            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            shopifyId: "gid://shopify/ProductVariant/SASASSA",
             displayName: "Test product name - Default Title",
             title: "Default Title",
             price: 12.0,
@@ -306,7 +300,7 @@ describe("ProductCard", () => {
         ],
         options: [
           {
-            shopifyId: "gid://shopify/ProductOption/12345098884816",
+            shopifyId: "gid://shopify/ProductOption/SASASAS",
             name: "Title",
             values: ["Default Title"],
           },
@@ -466,7 +460,7 @@ describe("ProductCard", () => {
         totalVariants: 1,
         variants: [
           {
-            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            shopifyId: "gid://shopify/ProductVariant/SASASAS",
             displayName: "Test product name - Default Title",
             title: "Default Title",
             price: 12.0,
@@ -538,7 +532,7 @@ describe("ProductCard", () => {
         totalVariants: 1,
         variants: [
           {
-            shopifyId: "gid://shopify/ProductVariant/12345678987654",
+            shopifyId: "gid://shopify/ProductVariant/SASASAS",
             displayName: "Test product name - Default Title",
             title: "Default Title",
             price: 12.0,
@@ -619,7 +613,7 @@ describe("ProductCard", () => {
         media: [],
         options: [
           {
-            shopifyId: "gid://shopdsdsify/ProducdsdstOption/104dsds26976043216",
+            shopifyId: "gid://shopdsdsify/ProducdsdstOption/SASASAS",
             name: "Title",
             values: ["Default Title"],
           },
@@ -642,6 +636,148 @@ describe("ProductCard", () => {
   });
 
   it("renders add to cart button with a disabled state and an item unavailable Badge when product is rendered but not published", async () => {
+    const mockedShopifyProductSoldOutData = {
+      product: {
+        id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
+        title: '"Prana" Original Acrylic Painting (SOLD)',
+        handle: "prana-original-acrylic-painting",
+        description: 'test description"',
+        status: "ACTIVE",
+        hasOutOfStockVariants: true,
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: null,
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopdsdsify/PrdsdoductVariant/SASASAS",
+            displayName:
+              '"Prana" Original Acrylic Painting (SOLD) - Default Title',
+            title: "Default Title",
+            price: 6000,
+            inventoryQuantity: 0,
+            availableForSale: false,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId:
+              "gid://shopdsdsify/ProducdsdstOption/104dsSASASSAds26976043216",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+        publishedAt: null,
+      },
+      collectionHandle: "prints",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductSoldOutData.product}
+        collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
+      />
+    );
+    expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
+    expect(
+      screen.getByRole("button", { name: "Add to shopping bag" })
+    ).toBeDisabled();
+  });
+
+  it("renders a Loading text below to Add to shopping bag button when item is adding", async () => {
+    jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+      addItemToCart: jest.fn(),
+      addItemToCartLoading: true,
+      addItemToCartWarnings: [],
+      setAddItemToCartWarnings: jest.fn(),
+    });
+    const mockedShopifyProductSoldOutData = {
+      product: {
+        id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
+        title: '"Prana" Original Acrylic Painting (SOLD)',
+        handle: "prana-original-acrylic-painting",
+        description: 'test description"',
+        status: "ACTIVE",
+        hasOutOfStockVariants: true,
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 6000,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: null,
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId:
+              "gid://shopdsdsify/PrdsdoductVariant/443dssdsdsdsd62595795152",
+            displayName:
+              '"Prana" Original Acrylic Painting (SOLD) - Default Title',
+            title: "Default Title",
+            price: 6000,
+            inventoryQuantity: 0,
+            availableForSale: false,
+            selectedOptions: [
+              {
+                name: "Title",
+                value: "Default Title",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 0,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopdsdsify/ProducdsdstOption/SASASAS",
+            name: "Title",
+            values: ["Default Title"],
+          },
+        ],
+        publishedAt: null,
+      },
+      collectionHandle: "prints",
+    };
+
+    render(
+      <ProductCard
+        product={mockedShopifyProductSoldOutData.product}
+        collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
+      />
+    );
+    screen.getByText("Adding item to cart...");
+  });
+
+  it("renders a Loading text below to Add to shopping bag button when item is updating", async () => {
+    jest.spyOn(StoreContext, "useCartLinesUpdate").mockReturnValue({
+      updateItemsToCart: jest.fn(),
+      updateItemsToCartLoading: true,
+      updateItemsToCartWarnings: [],
+      setUpdateItemsToCartWarnings: jest.fn(),
+    });
     const mockedShopifyProductSoldOutData = {
       product: {
         id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
@@ -695,15 +831,480 @@ describe("ProductCard", () => {
       },
       collectionHandle: "prints",
     };
+
     render(
       <ProductCard
         product={mockedShopifyProductSoldOutData.product}
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
-    expect(
-      screen.getByRole("button", { name: "Add to shopping bag" })
-    ).toBeDisabled();
+    screen.getByText("Updating item to cart...");
+  });
+
+  it("renders a message notifying the user about a warning in the response of adding item to cart", async () => {
+    jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+      addItemToCart: jest.fn(),
+      addItemToCartLoading: false,
+      addItemToCartWarnings: [
+        {
+          code: "MERCHANDISE_NOT_ENOUGH_STOCK",
+          target: "gid://shopify/CartLine/b409daedsds?cart=dsdsd",
+          message: "Only 3 items were added to your cart due to availability.",
+        },
+      ],
+      setAddItemToCartWarnings: jest.fn(),
+    });
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: null,
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4Q",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/446004dsdsdds",
+            displayName: "test print (not for sale) - Plastic",
+            title: "Red",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              {
+                name: "select a Color",
+                value: "red",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "af34e9e8-ad0e-55ce-8f86-4a84ba152884",
+            alt: "image media alternative text goes here",
+            mediaContentType: "IMAGE",
+            preview: {
+              status: "READY",
+              image: {
+                src: "https://cdn.shopify.com/s/files/dsdsdsdds",
+                altText: "image media alternative text goes here",
+                height: 1358,
+                width: 2560,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 82px) 82px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 82px) 82px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  placeholder: {
+                    fallback: "data:image/png;base64,/9j/dsdsdZ",
+                  },
+                  width: 82,
+                  height: 82,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+          },
+        ],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/DSDSDDS",
+            name: "select a Color",
+            values: ["red"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
+    );
+
+    screen.getByText(
+      "Only 3 items were added to your cart due to availability."
+    );
+  });
+
+  it("renders a message notifying the user about a warning in the response of updating item to cart", async () => {
+    jest.spyOn(StoreContext, "useCartLinesUpdate").mockReturnValue({
+      updateItemsToCart: jest.fn(),
+      updateItemsToCartLoading: true,
+      setUpdateItemsToCartWarnings: jest.fn(),
+      updateItemsToCartWarnings: [
+        {
+          code: "MERCHANDISE_NOT_ENOUGH_STOCK",
+          target: "gid://shopify/CartLine/b409daedsds?cart=dsdsdsd",
+          message: "Only 5 items were added to your cart due to availability.",
+        },
+      ],
+    });
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: null,
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4Q",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/446004dsdsdds",
+            displayName: "test print (not for sale) - Plastic",
+            title: "Red",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              {
+                name: "select a Color",
+                value: "red",
+              },
+            ],
+            image: {
+              src: mockedImageURL,
+              altText: "this is Alternative text for variant image",
+              height: 1077,
+              width: 715,
+              gatsbyImageData: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: mockedImageURL,
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                width: 500,
+                height: 753,
+              },
+              originalSrc: mockedImageURL,
+              transformedSrc: mockedImageURL,
+            },
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "af34e9e8-ad0e-55ce-8f86-4a84ba152884",
+            alt: "image media alternative text goes here",
+            mediaContentType: "IMAGE",
+            preview: {
+              status: "READY",
+              image: {
+                src: mockedImageURL,
+                altText: "image media alternative text goes here",
+                height: 1358,
+                width: 2560,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 82px) 82px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 82px) 82px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  placeholder: {
+                    fallback: "data:image/png;base64,/9j/dsdsdZ",
+                  },
+                  width: 82,
+                  height: 82,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+          },
+        ],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/10521378914512",
+            name: "select a Color",
+            values: ["red"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
+    );
+
+    screen.getByText(
+      "Only 5 items were added to your cart due to availability."
+    );
+  });
+
+  it("clears warning message when a variant is selected", async () => {
+    const mockFn = jest.fn();
+    jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+      addItemToCart: jest.fn(),
+      addItemToCartLoading: false,
+      addItemToCartWarnings: [
+        {
+          code: "MERCHANDISE_NOT_ENOUGH_STOCK",
+          target: "gid://shopify/CartLine/b409daedsds?cart=dsdsd",
+          message: "low stock",
+        },
+      ],
+      setAddItemToCartWarnings: mockFn,
+    });
+
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: null,
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4Q",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/446004dsdsdds",
+            displayName: "test print (not for sale) - Plastic",
+            title: "Red",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              {
+                name: "select a Color",
+                value: "red",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 1,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/323223",
+            name: "select a Color",
+            values: ["red"],
+          },
+          {
+            shopifyId: "gid://shopify/ProductOption/3ewewe23223",
+            name: "select a Color",
+            values: ["green"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
+    );
+    expect(screen.getByText("low stock")).toBeInTheDocument();
+
+    const select = screen.getByLabelText(/select a Color/i);
+
+    await fireEvent.selectOptions(select, "red");
+
+    expect(mockFn).toHaveBeenCalledWith([]);
+  });
+
+  it("renders a response message error if network response has error ", async () => {
+    jest.spyOn(StoreContext, "useHasResponseError").mockReturnValue(true);
+
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: null,
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4Q",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/446004dsdsdds",
+            displayName: "test print (not for sale) - Plastic",
+            title: "Red",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              {
+                name: "select a Color",
+                value: "red",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 1,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/323223",
+            name: "select a Color",
+            values: ["red"],
+          },
+          {
+            shopifyId: "gid://shopify/ProductOption/3ewewe23223",
+            name: "select a Color",
+            values: ["green"],
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        collectionHandle={mockedShopifyProductData.collectionHandle}
+      />
+    );
+    screen.getByText("A request error occurred, please try again later.");
   });
 });

@@ -1,0 +1,399 @@
+{
+    "componentChunkName": "component---src-templates-single-product-tsx",
+    "path": "/collections/prints/test-print-4/",
+    "result": {
+        "pageContext": {
+            "product": {
+                "id": "5070c295-8e19-5a78-8422-a769e69bb67b",
+                "title": "test print 4",
+                "handle": "test-print-4",
+                "description": "description for test print (not for sale)",
+                "status": "ACTIVE",
+                "hasOutOfStockVariants": true,
+                "priceRangeV2": {
+                    "minVariantPrice": {
+                        "amount": 5,
+                        "currencyCode": "AUD"
+                    },
+                    "maxVariantPrice": {
+                        "amount": 10,
+                        "currencyCode": "AUD"
+                    }
+                },
+                "featuredImage": {
+                    "altText": "alt text testing",
+                    "gatsbyImageData": {
+                        "images": {
+                            "sources": [
+                                {
+                                    "srcSet": "https://cdn.shopify.com/s",
+                                    "sizes": "(min-width: 500px) 500px, 100vw",
+                                    "type": "image/webp"
+                                }
+                            ],
+                            "fallback": {
+                                "src": "dsadasd sadsadsadas",
+                                "srcSet": "https://cdn.shopify.com/s",
+                                "sizes": "(min-width: 500px) 500px, 100vw"
+                            }
+                        },
+                        "layout": "constrained",
+                        "placeholder": {
+                            "fallback": "dasdasdsadasdsadas"
+                        },
+                        "width": 500,
+                        "height": 265
+                    }
+                },
+                "hasOnlyDefaultVariant": false,
+                "totalVariants": 3,
+                "variants": [
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/44616559886544",
+                        "displayName": "test print 4 - Plastic",
+                        "title": "Plastic",
+                        "price": 5,
+                        "inventoryQuantity": 3,
+                        "availableForSale": true,
+                        "selectedOptions": [
+                            {
+                                "name": "Artwork frame material",
+                                "value": "Plastic"
+                            }
+                        ],
+                        "image": {
+                            "src": "dsadasd sadsadsadas",
+                            "altText": null,
+                            "height": 452,
+                            "width": 852,
+                            "gatsbyImageData": {
+                                "images": {
+                                    "sources": [
+                                        {
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 500px) 500px, 100vw",
+                                            "type": "image/webp"
+                                        }
+                                    ],
+                                    "fallback": {
+                                        "src": "dsadasd sadsadsadas",
+                                        "srcSet": "https://cdn.shopify.com/s",
+                                        "sizes": "(min-width: 500px) 500px, 100vw"
+                                    }
+                                },
+                                "layout": "constrained",
+                                "placeholder": {
+                                    "fallback": "dasdasdsadasdsadas"
+                                },
+                                "width": 500,
+                                "height": 265
+                            },
+                            "originalSrc": "sdasdsadadsdsa",
+                            "transformedSrc": "dsdsadsad"
+                        }
+                    },
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/44616559919312",
+                        "displayName": "test print 4 - Wood",
+                        "title": "Wood",
+                        "price": 8,
+                        "inventoryQuantity": 1,
+                        "availableForSale": true,
+                        "selectedOptions": [
+                            {
+                                "name": "Artwork frame material",
+                                "value": "Wood"
+                            }
+                        ],
+                        "image": {
+                            "src": "dsadasd sadsadsadas",
+                            "altText": null,
+                            "height": 627,
+                            "width": 1181,
+                            "gatsbyImageData": {
+                                "images": {
+                                    "sources": [
+                                        {
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 500px) 500px, 100vw",
+                                            "type": "image/webp"
+                                        }
+                                    ],
+                                    "fallback": {
+                                        "src": "dsadasd sadsadsadas",
+                                        "srcSet": "https://cdn.shopify.com/s",
+                                        "sizes": "(min-width: 500px) 500px, 100vw"
+                                    }
+                                },
+                                "layout": "constrained",
+                                "placeholder": {
+                                    "fallback": "dasdasdsadasdsadas"
+                                },
+                                "width": 500,
+                                "height": 265
+                            },
+                            "originalSrc": "sdasdsadadsdsa",
+                            "transformedSrc": "dsdsadsad"
+                        }
+                    },
+                    {
+                        "shopifyId": "gid://shopify/ProductVariant/44616559952080",
+                        "displayName": "test print 4 - Metal",
+                        "title": "Metal",
+                        "price": 10,
+                        "inventoryQuantity": 0,
+                        "availableForSale": false,
+                        "selectedOptions": [
+                            {
+                                "name": "Artwork frame material",
+                                "value": "Metal"
+                            }
+                        ],
+                        "image": {
+                            "src": "dsadasd sadsadsadas",
+                            "altText": null,
+                            "height": 536,
+                            "width": 1010,
+                            "gatsbyImageData": {
+                                "images": {
+                                    "sources": [
+                                        {
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 500px) 500px, 100vw",
+                                            "type": "image/webp"
+                                        }
+                                    ],
+                                    "fallback": {
+                                        "src": "dsadasd sadsadsadas",
+                                        "srcSet": "https://cdn.shopify.com/s",
+                                        "sizes": "(min-width: 500px) 500px, 100vw"
+                                    }
+                                },
+                                "layout": "constrained",
+                                "placeholder": {
+                                    "fallback": "dasdasdsadasdsadas"
+                                },
+                                "width": 500,
+                                "height": 265
+                            },
+                            "originalSrc": "sdasdsadadsdsa",
+                            "transformedSrc": "dsdsadsad"
+                        }
+                    }
+                ],
+                "mediaCount": 5,
+                "media": [
+                    {
+                        "id": "af34e9e8-ad0e-55ce-8f86-4a84ba152884",
+                        "alt": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "dsadasd sadsadsadas",
+                                "altText": "black panther in a jungle with plants and flowers painted in acrylics. ",
+                                "height": 1358,
+                                "width": 2560,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "dsadasd sadsadsadas",
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "dasdasdsadasdsadas"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "sdasdsadadsdsa",
+                                "transformedSrc": "dsdsadsad"
+                            }
+                        }
+                    },
+                    {
+                        "id": "3a77b6e6-ffc2-5bc8-8365-871d94718ee9",
+                        "alt": "",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "dsadasd sadsadsadas",
+                                "altText": "",
+                                "height": 536,
+                                "width": 1010,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "dsadasd sadsadsadas",
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "dasdasdsadasdsadas"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "sdasdsadadsdsa",
+                                "transformedSrc": "dsdsadsad"
+                            }
+                        }
+                    },
+                    {
+                        "id": "8d9583e8-f46c-5abc-b14a-f39165cd2a25",
+                        "alt": "",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "dsadasd sadsadsadas",
+                                "altText": "",
+                                "height": 391,
+                                "width": 736,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "dsadasd sadsadsadas",
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "dasdasdsadasdsadas"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "sdasdsadadsdsa",
+                                "transformedSrc": "dsdsadsad"
+                            }
+                        }
+                    },
+                    {
+                        "id": "c5cb3f9d-c371-589c-998d-3797bb79fb8e",
+                        "alt": "",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "dsadasd sadsadsadas",
+                                "altText": "",
+                                "height": 627,
+                                "width": 1181,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "dsadasd sadsadsadas",
+                                            "srcSet": "https://cdn.shopify.com/s",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "dasdasdsadasdsadas"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "sdasdsadadsdsa",
+                                "transformedSrc": "dsdsadsad"
+                            }
+                        }
+                    },
+                    {
+                        "id": "f52214af-0a99-5c62-975d-44968bb23bd8",
+                        "alt": "",
+                        "mediaContentType": "IMAGE",
+                        "preview": {
+                            "status": "READY",
+                            "image": {
+                                "src": "dsadasd sadsadsadas",
+                                "altText": "",
+                                "height": 452,
+                                "width": 852,
+                                "gatsbyImageData": {
+                                    "images": {
+                                        "sources": [
+                                            {
+                                                "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_21x21_crop_center.png.webp?v=1750935460 21w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_41x41_crop_center.png.webp?v=1750935460 41w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_82x82_crop_center.png.webp?v=1750935460 82w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_164x164_crop_center.png.webp?v=1750935460 164w",
+                                                "sizes": "(min-width: 82px) 82px, 100vw",
+                                                "type": "image/webp"
+                                            }
+                                        ],
+                                        "fallback": {
+                                            "src": "dsadasd sadsadsadas",
+                                            "srcSet": "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_21x21_crop_center.png?v=1750935460 21w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_41x41_crop_center.png?v=1750935460 41w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_82x82_crop_center.png?v=1750935460 82w,\nhttps://cdn.shopify.com/s/files/1/0586/9892/4240/files/black_panther_28dcc1ab-6dd2-4040-b7af-1f7a465c4756_164x164_crop_center.png?v=1750935460 164w",
+                                            "sizes": "(min-width: 82px) 82px, 100vw"
+                                        }
+                                    },
+                                    "layout": "constrained",
+                                    "placeholder": {
+                                        "fallback": "dasdasdsadasdsadas"
+                                    },
+                                    "width": 82,
+                                    "height": 82
+                                },
+                                "originalSrc": "sdasdsadadsdsa",
+                                "transformedSrc": "dsdsadsad"
+                            }
+                        }
+                    }
+                ],
+                "options": [
+                    {
+                        "shopifyId": "gid://shopify/ProductOption/dsdsdsdd",
+                        "name": "Artwork frame material",
+                        "values": [
+                            "Plastic",
+                            "Wood",
+                            "Metal"
+                        ]
+                    }
+                ],
+                "publishedAt": "2025-06-26T11:13:23Z"
+            },
+            "collectionHandle": "prints"
+        },
+        "serverData": null
+    },
+    "staticQueryHashes": [
+        "13531dsdsd10752",
+        "38179dsdsd90087"
+    ],
+    "slicesMap": {}
+}

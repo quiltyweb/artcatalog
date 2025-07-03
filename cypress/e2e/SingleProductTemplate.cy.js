@@ -175,4 +175,45 @@ describe("Collection Template mobile view", () => {
       name: /Add to shopping bag/i,
     }).should("have.attr", "disabled");
   });
+
+  it("clears warning message when a variant is selected", async () => {
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-print-4/page-data.json",
+      {
+        fixture: "singleProduct/singleProduct-with-warnings-step1.json",
+      }
+    );
+    cy.visit("collections/prints/test-print-4/", {
+      failOnStatusCode: false,
+    });
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", {
+      name: /test print 4/i,
+    });
+    cy.findByLabelText(/Artwork frame material/i).select("Plastic");
+
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "singleProduct/singleProduct-with-warnings-step2.json",
+    }).as("cartLinesAdd");
+
+    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+
+    cy.findByText("low stock").should("exist");
+
+    cy.findByLabelText(/Artwork frame material/i).select("Wood");
+
+    cy.findByText("low stock").should("not.exist");
+  });
+
+  it("renders a response message error if network response has error ", () => {
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      statusCode: 500,
+    }).as("ResponseError");
+    cy.visit("collections/prints/test-print-4/", {
+      failOnStatusCode: false,
+    });
+    cy.wait("@ResponseError");
+    cy.findByText("A request error occurred, please try again later.");
+  });
 });
