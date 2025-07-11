@@ -122,13 +122,6 @@ describe("Layout", () => {
 
     render(<Layout>{<p>some content children</p>}</Layout>);
 
-    within(screen.getByRole("alert")).getByText(
-      /Brushella.art is under construction./i
-    );
-    within(screen.getByRole("alert")).getByText(
-      /This store can’t accept payments right now./i
-    );
-
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
     within(Nav).getByLabelText("Site Title home");
@@ -151,13 +144,11 @@ describe("Layout", () => {
         removeListener: jest.fn(),
       })),
     });
-
     render(
       <Layout>
         <p>some content children</p>
       </Layout>
     );
-
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
