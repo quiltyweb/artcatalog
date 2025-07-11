@@ -43,14 +43,29 @@ import { formatPrice } from "../utils/formatPrice";
 
 const BreadcrumbMenuCart = () => {
   return (
-    <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbItem isCurrentPage>
-        <BreadcrumbLink href="#">Cart</BreadcrumbLink>
-      </BreadcrumbItem>
-    </Breadcrumb>
+    <>
+      <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink href="#">Cart</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Alert
+        status="info"
+        flexDir={["column", "row"]}
+        aria-labelledby="message"
+      >
+        <AlertIcon />
+        <AlertTitle id="message">
+          Brushella.art is under construction.
+        </AlertTitle>
+        <AlertDescription>
+          This store can’t accept payments right now.
+        </AlertDescription>
+      </Alert>
+    </>
   );
 };
 
@@ -180,15 +195,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
-
-        <Alert status="info" flexDir={["column", "row"]}>
-          <AlertIcon />
-          <AlertTitle>Brushella.art is under construction.</AlertTitle>
-          <AlertDescription>
-            This store can’t accept payments right now.
-          </AlertDescription>
-        </Alert>
-
         <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
           Shopping Cart
         </Heading>
@@ -203,13 +209,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
       <BreadcrumbMenuCart />
-      <Alert status="info" flexDir={["column", "row"]}>
-        <AlertIcon />
-        <AlertTitle>Brushella.art is under construction.</AlertTitle>
-        <AlertDescription>
-          This store can’t accept payments right now.
-        </AlertDescription>
-      </Alert>
       <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
         Shopping Cart
       </Heading>
