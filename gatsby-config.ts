@@ -72,6 +72,7 @@ const config: GatsbyConfig = {
         shopifyConnections: ["collections", "locations"],
       },
     },
+    `gatsby-plugin-postcss`,
   ],
   graphqlTypegen: true,
 };
