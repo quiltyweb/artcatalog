@@ -100,3 +100,6 @@ cypress/fixtures/example.json
 
 #types
 src/gatsby-types.d.ts
+
+#settings
+.vscode/settings.json
