@@ -1,26 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-
-const ContentLink = styled.a`
-  padding: 4px;
-  font-weight: bold;
-  position: absolute;
-  background: white;
-  color: black;
-  left: 0%;
-  height: 30px;
-  transform: translateY(-100%);
-  transition: transform 0.3s;
-  z-index: 9999;
-
-  &:focus {
-    transform: translateY(0%);
-  }
-`;
 
 export const SkipToContentLink = () => (
   <div>
-    <ContentLink
+    <a
       href="#main"
       className="
       p-1
@@ -40,9 +22,8 @@ export const SkipToContentLink = () => (
       focus:ring-blue-500
     "
       tabIndex={0}
-      aria-label="Skip to main content"
     >
       Skip to main content
-    </ContentLink>
+    </a>
   </div>
 );
