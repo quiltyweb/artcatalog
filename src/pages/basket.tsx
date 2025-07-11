@@ -1,5 +1,9 @@
 import React from "react";
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -176,7 +180,16 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
-        <Heading as="h2" color="teal.500" mb="2.4rem">
+
+        <Alert status="info" flexDir={["column", "row"]}>
+          <AlertIcon />
+          <AlertTitle>Brushella.art is under construction.</AlertTitle>
+          <AlertDescription>
+            This store can’t accept payments right now.
+          </AlertDescription>
+        </Alert>
+
+        <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
           Shopping Cart
         </Heading>
         <Heading as="h3" size="md" fontWeight="normal">
@@ -190,7 +203,14 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
       <BreadcrumbMenuCart />
-      <Heading as="h2" color="teal.500" mb="2.4rem">
+      <Alert status="info" flexDir={["column", "row"]}>
+        <AlertIcon />
+        <AlertTitle>Brushella.art is under construction.</AlertTitle>
+        <AlertDescription>
+          This store can’t accept payments right now.
+        </AlertDescription>
+      </Alert>
+      <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
         Shopping Cart
       </Heading>
       <TableContainer mb="8">

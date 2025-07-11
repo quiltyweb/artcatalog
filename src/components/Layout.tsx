@@ -46,15 +46,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       fontWeight="normal"
       justifyItems="center"
     >
-      <GridItem gap="1rem" area={"banner"} width="100%">
-        <Alert status="info" flexDir={["column", "row"]}>
-          <AlertIcon />
-          <AlertTitle>Brushella.art is under construction.</AlertTitle>
-          <AlertDescription>
-            This store can’t accept payments right now.
-          </AlertDescription>
-        </Alert>
-      </GridItem>
       <GridItem
         as="nav"
         gap="1rem"
