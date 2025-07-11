@@ -72,12 +72,7 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         >
           {isDektop && <HeaderCallToAction />}
           <CardBody p="0">
-            <Text
-              fontSize="1.13rem"
-              textAlign="left"
-              lineHeight="1.7rem"
-              fontWeight="300"
-            >
+            <Text fontSize="1.13rem" textAlign="left" lineHeight="1.7rem">
               A curated collection boasts an array of charming products, all
               featuring designs sourced from Brushella's original paintings,
               that will elevate your home and lifestyle. Discover delightful tea
