@@ -19,6 +19,7 @@ type HomePageSliderProps = {
 
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => (
   <Swiper
+    id="homepage-slider-1"
     data-testid="homepage-slider-1"
     modules={[Navigation, Pagination, A11y, EffectFade]}
     pagination={{
@@ -33,10 +34,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => (
         );
       },
     }}
-    navigation={{
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    }}
+    navigation={true}
     breakpoints={{
       0: { slidesPerView: 1, spaceBetween: 0 },
       768: { slidesPerView: 3, spaceBetween: 0 },
@@ -55,40 +53,5 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => (
         />
       </SwiperSlide>
     ))}
-
-    <button
-      className="swiper-button-prev absolute top-1/2 left-2 z-10 -translate-y-1/2 p-1 bg-white/50 rounded shadow hover:bg-white"
-      aria-label="Previous slide"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-4 w-4 text-gray-800"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
-    </button>
-    <button
-      className="swiper-button-next absolute top-1/2 right-2 z-10 -translate-y-1/2 p-1 bg-white/50 rounded shadow hover:bg-white"
-      aria-label="Next slide"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-4 w-4 text-gray-800"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
   </Swiper>
 );

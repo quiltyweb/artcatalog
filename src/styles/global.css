@@ -20,8 +20,19 @@ h3,h4,h5,h6 {
   font-family: 'Source Sans 3 Variable', sans-serif!important;
   font-weight: 600!important;
 }
-
-span.swiper-pagination-bullet {
+#homepage-slider-1 .swiper-button-prev,
+#homepage-slider-1 .swiper-button-next {
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 1.5rem;
+    border-radius: 50%;
+  }
+#homepage-slider-1 .swiper-button-prev:after,
+#homepage-slider-1 .swiper-button-next:after {
+  font-size: 1.5rem!important;
+  color: #ffffff!important;
+  }
+#homepage-slider-1 span.swiper-pagination-bullet {
   width: 20px;
   height: 20px;
   text-align: center;
@@ -31,8 +42,7 @@ span.swiper-pagination-bullet {
   opacity: 1;
   background: rgba(0, 0, 0, 0.65);
 }
-
-span.swiper-pagination-bullet-active {
+#homepage-slider-1 span.swiper-pagination-bullet-active {
   color: #000000;
   background: #ffffff;
 }
