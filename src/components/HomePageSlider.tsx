@@ -6,19 +6,33 @@
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, A11y, EffectFade } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-type HomePageSliderProps = { images: string[] };
+type HomePageSliderProps = {
+  images: Array<{ src: string; altText: string }>;
+};
 
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => (
   <Swiper
-    modules={[Pagination, Navigation]}
-    pagination={{ clickable: true }}
+    data-testid="homepage-slider-1"
+    modules={[Navigation, Pagination, A11y, EffectFade]}
+    pagination={{
+      clickable: true,
+      renderBullet: function (index, className) {
+        return (
+          '<span role="button" class="' +
+          className +
+          '">' +
+          (index + 1) +
+          "</span>"
+        );
+      },
+    }}
     navigation={{
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -29,13 +43,13 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => (
     }}
     className="relative w-full bg-black/95"
     style={{ height: "calc(100vh - 84px)" }}
-    loop={true}
+    loop={false}
   >
-    {images.map((src, idx) => (
+    {images.map((item, idx) => (
       <SwiperSlide key={idx} className="h-full p-2">
         <img
-          src={src}
-          alt={`Portrait ${idx + 1}`}
+          src={item.src}
+          alt={item.altText}
           className="h-full w-full object-cover rounded"
           loading="lazy"
         />

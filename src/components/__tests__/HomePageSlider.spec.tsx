@@ -15,7 +15,33 @@ jest.mock("swiper/modules", () => ({
   Navigation: () => null,
 }));
 
-const images = ["img1.jpg", "img2.jpg", "img3.jpg"];
+// const images = ["img1.jpg", "img2.jpg", "img3.jpg"];
+const images = [
+  {
+    src: "img1.jpg",
+    altText: "testing 1",
+  },
+  {
+    src: "img2.jpg",
+    altText: "testing 2",
+  },
+  {
+    src: "img3.jpg",
+    altText: "testing 3",
+  },
+  {
+    src: "img4.jpg",
+    altText: "testing 4",
+  },
+  {
+    src: "img5.jpg",
+    altText: "testing 5",
+  },
+  {
+    src: "img6.jpg",
+    altText: "testing 6",
+  },
+];
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -47,7 +73,7 @@ describe("HomePageSlider", () => {
     render(<HomePageSlider images={images} />);
 
     images.forEach((_, index) => {
-      expect(screen.getByAltText(`Portrait ${index + 1}`)).toBeInTheDocument();
+      expect(screen.getByAltText(`testing ${index + 1}`)).toBeInTheDocument();
     });
   });
 });

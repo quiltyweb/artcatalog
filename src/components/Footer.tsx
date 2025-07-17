@@ -15,14 +15,14 @@ import { kebabCase } from "lodash";
 
 const FooterLink = styled(GatsbyLink)`
   text-decoration: none;
-  color: #585858;
+  color: #2b2b35;
   &:hover {
     color: #6591a2;
   }
 `;
 const FooterIconLink = styled.a`
   text-decoration: none;
-  color: #6591a2;
+  color: #2b2b35;
   &:hover {
     color: #585858;
   }
