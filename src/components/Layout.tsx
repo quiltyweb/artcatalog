@@ -1,15 +1,9 @@
 import * as React from "react";
 import Footer from "./Footer";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import Nav from "./Nav";
 import styled from "styled-components";
+import { useLayoutData } from "../context/LayoutContext";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -32,6 +26,7 @@ const HeaderVisuallyHidden = styled.h1`
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
+  const layoutData = useLayoutData();
   return (
     <Grid
       gridTemplateRows={"auto"}
@@ -56,7 +51,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         py={3}
         width="100%"
       >
-        <Nav />
+        <Nav
+          site={layoutData?.site}
+          allShopifyCollection={layoutData?.allShopifyCollection}
+        />
       </GridItem>
       <GridItem
         id="main"
@@ -78,7 +76,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         maxWidth="1200px"
         marginTop="6"
       >
-        <Footer />
+        <Footer legalContent={layoutData?.adminshopify.legalContent} />
       </GridItem>
     </Grid>
   );
