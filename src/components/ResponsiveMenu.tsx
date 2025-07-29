@@ -19,7 +19,7 @@ import { Link as GatsbyLink } from "gatsby";
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaBars } from "react-icons/fa";
 
 type CategoriesListMenuProps = {
-  allShopifyCollectionNodes: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
+  allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
   isDektop: boolean;
   handleClickOnClose: UseDisclosureProps["onClose"];
 };
@@ -31,7 +31,7 @@ type StaticLinksMenuProps = {
 type ResponsiveMenuProps = {
   isDektop: boolean;
   isOpen: boolean;
-  allShopifyCollectionNodes: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
+  allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
   handleClickOnOpen: () => void;
   handleClickOnClose: () => void;
 };
@@ -121,19 +121,20 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       px={5}
       textAlign={isDektop ? "center" : "left"}
     >
-      {allShopifyCollectionNodes.map((item) => (
-        <Link
-          fontSize={getResponsiveLinkFontSize()}
-          textTransform="uppercase"
-          fontWeight="bold"
-          as={GatsbyLink}
-          key={item.id}
-          to={`/collections/${item.handle}`}
-          onClick={handleClickOnClose}
-        >
-          {item.title}
-        </Link>
-      ))}
+      {allShopifyCollectionNodes &&
+        allShopifyCollectionNodes.map((item) => (
+          <Link
+            fontSize={getResponsiveLinkFontSize()}
+            textTransform="uppercase"
+            fontWeight="bold"
+            as={GatsbyLink}
+            key={item.id}
+            to={`/collections/${item.handle}`}
+            onClick={handleClickOnClose}
+          >
+            {item.title}
+          </Link>
+        ))}
     </Stack>
   );
 };

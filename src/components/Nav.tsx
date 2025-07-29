@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useStaticQuery, graphql } from "gatsby";
 import {
   Icon,
   useMediaQuery,
@@ -12,32 +11,17 @@ import { Link as GatsbyLink } from "gatsby";
 import LogoSVG from "../images/svg/brushella-black-bg.svg";
 import { useLineItemsCount } from "../context/StoreContext";
 import ResponsiveMenu from "./ResponsiveMenu";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaTruckLoading } from "react-icons/fa";
 
-const Nav: React.FunctionComponent = (): React.ReactElement => {
-  const { site, allShopifyCollection } =
-    useStaticQuery<Queries.NavigationQuery>(graphql`
-      query Navigation {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-        allShopifyCollection(
-          filter: {
-            handle: { in: ["prints", "original-paintings"] }
-            products: { elemMatch: { status: { eq: ACTIVE } } }
-          }
-        ) {
-          nodes {
-            id
-            title
-            handle
-          }
-        }
-      }
-    `);
+type NavProps = {
+  allShopifyCollection?: Queries.LayoutGlobalDataQuery["allShopifyCollection"];
+  site?: Queries.LayoutGlobalDataQuery["site"];
+};
 
+const Nav: React.FunctionComponent<NavProps> = ({
+  site,
+  allShopifyCollection,
+}): React.ReactElement => {
   const lineItemsCount = useLineItemsCount();
   const [isDektop] = useMediaQuery("(min-width: 929px)");
   const counterLabel =
@@ -51,6 +35,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
   const handleClickOnClose = () => {
     onClose();
   };
+
   return (
     <Flex gap="4" alignItems="center" justify="space-between">
       <Link as={GatsbyLink} to="/" marginEnd="auto">
@@ -58,7 +43,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
           id="top-logo"
           aria-label={
             site?.siteMetadata?.title
-              ? `${site?.siteMetadata?.title} home`
+              ? `${site.siteMetadata.title} home`
               : "Brushella home"
           }
           style={{
@@ -97,7 +82,7 @@ const Nav: React.FunctionComponent = (): React.ReactElement => {
         </Link>
         <ResponsiveMenu
           isDektop={isDektop}
-          allShopifyCollectionNodes={allShopifyCollection.nodes}
+          allShopifyCollectionNodes={allShopifyCollection?.nodes}
           isOpen={isOpen}
           handleClickOnOpen={handleClickOnOpen}
           handleClickOnClose={handleClickOnClose}
