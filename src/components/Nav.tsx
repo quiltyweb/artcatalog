@@ -11,9 +11,9 @@ import { Link as GatsbyLink } from "gatsby";
 import LogoSVG from "../images/svg/brushella-black-bg.svg";
 import { useLineItemsCount } from "../context/StoreContext";
 import ResponsiveMenu from "./ResponsiveMenu";
-import { FaShoppingBag, FaTruckLoading } from "react-icons/fa";
+import { FaShoppingBag } from "react-icons/fa";
 
-type NavProps = {
+export type NavProps = {
   allShopifyCollection?: Queries.LayoutGlobalDataQuery["allShopifyCollection"];
   site?: Queries.LayoutGlobalDataQuery["site"];
 };

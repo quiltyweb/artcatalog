@@ -1,12 +1,49 @@
 import React from "react";
-import * as Gatsby from "gatsby";
 import { render, screen, within } from "@testing-library/react";
 import Footer from "../Footer";
 
-const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
+let MOCKED_PROPS: Queries.LayoutGlobalDataQuery["adminshopify"]["legalContent"];
 
 beforeEach(() => {
   jest.clearAllMocks();
+  MOCKED_PROPS = {
+    nodes: [
+      {
+        fields: [
+          {
+            key: "return_and_refund_policy",
+            definition: {
+              name: "Return and Refund Policy",
+            },
+          },
+          {
+            key: "hand_made_policy",
+            definition: {
+              name: "Hand Made Policy",
+            },
+          },
+          {
+            key: "shipping_policy",
+            definition: {
+              name: "Shipping Policy",
+            },
+          },
+          {
+            key: "privacy_policy",
+            definition: {
+              name: "Privacy Policy",
+            },
+          },
+          {
+            key: "terms_of_service",
+            definition: {
+              name: "Terms of Service",
+            },
+          },
+        ],
+      },
+    ],
+  };
 });
 
 afterEach(() => {
@@ -15,50 +52,7 @@ afterEach(() => {
 
 describe("Footer", () => {
   it("renders correctly", () => {
-    useStaticQuery.mockImplementation(() => ({
-      adminshopify: {
-        legalContent: {
-          nodes: [
-            {
-              fields: [
-                {
-                  key: "return_and_refund_policy",
-                  definition: {
-                    name: "Return and Refund Policy",
-                  },
-                },
-                {
-                  key: "hand_made_policy",
-                  definition: {
-                    name: "Hand Made Policy",
-                  },
-                },
-                {
-                  key: "shipping_policy",
-                  definition: {
-                    name: "Shipping Policy",
-                  },
-                },
-                {
-                  key: "privacy_policy",
-                  definition: {
-                    name: "Privacy Policy",
-                  },
-                },
-                {
-                  key: "terms_of_service",
-                  definition: {
-                    name: "Terms of Service",
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      },
-    }));
-
-    render(<Footer />);
+    render(<Footer legalContent={MOCKED_PROPS} />);
     screen.getByText(/Quick Links/i);
     screen.getByRole("link", { name: "Return and Refund Policy" });
     screen.getByRole("link", { name: "Hand Made Policy" });
@@ -76,13 +70,6 @@ describe("Footer", () => {
   });
 
   it("renders no links correctly", async () => {
-    useStaticQuery.mockImplementation(() => ({
-      adminshopify: {
-        legalContent: {
-          nodes: null,
-        },
-      },
-    }));
     render(<Footer />);
 
     const footer = await screen.findByTestId("footer");

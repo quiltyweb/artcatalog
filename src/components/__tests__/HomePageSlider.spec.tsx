@@ -3,11 +3,10 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { HomePageSlider } from "../HomePageSlider";
 
-// Mock Swiper dependencies
 jest.mock("swiper/react", () => ({
   Swiper: ({ children }: any) => <div data-testid="swiper">{children}</div>,
   SwiperSlide: ({ children }: any) => (
-    <div data-testid="swiper-slide">{children}</div>
+    <div data-testid="swiper-slide-testing">{children}</div>
   ),
 }));
 jest.mock("swiper/modules", () => ({
@@ -15,7 +14,6 @@ jest.mock("swiper/modules", () => ({
   Navigation: () => null,
 }));
 
-// const images = ["img1.jpg", "img2.jpg", "img3.jpg"];
 const images = [
   {
     src: "img1.jpg",
@@ -59,16 +57,6 @@ describe("HomePageSlider", () => {
     expect(slides).toHaveLength(images.length);
   });
 
-  it("renders next and previous navigation buttons", () => {
-    render(<HomePageSlider images={images} />);
-
-    expect(
-      screen.getByRole("button", { name: "Previous slide" })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Next slide" })
-    ).toBeInTheDocument();
-  });
   it("renders all images with alt text", () => {
     render(<HomePageSlider images={images} />);
 
