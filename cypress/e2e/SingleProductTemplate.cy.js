@@ -1,4 +1,8 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
+
 describe("Collection Template desktop view", () => {
   it("checks for accessibility violations for desktop view", () => {
     cy.clearLocalStorage();
@@ -15,6 +19,9 @@ describe("Collection Template desktop view", () => {
     }).as("checkoutCreate");
     cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.injectAxe();
@@ -41,8 +48,11 @@ describe("Collection Template mobile view", () => {
   });
 
   it("checks for accessibility violations for mobile view", () => {
-    cy.visit("/collections/home-decor/beach-towel/", {
+    cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.injectAxe();
@@ -52,8 +62,11 @@ describe("Collection Template mobile view", () => {
   });
 
   it("Renders single product page", () => {
-    cy.visit("/collections/home-decor/beach-towel/", {
+    cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
@@ -85,8 +98,11 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-no-featured-image.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/", {
+    cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("main").within(() => {
@@ -106,8 +122,11 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-has-only-default-variant.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/", {
+    cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.findByText(/from/i).should("not.exist");
@@ -129,8 +148,11 @@ describe("Collection Template mobile view", () => {
         fixture: "singleProduct/singleProduct-with-no-media.json",
       }
     );
-    cy.visit("/collections/home-decor/beach-towel/", {
+    cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Details gallery:" }).should("not.exist");
@@ -146,7 +168,11 @@ describe("Collection Template mobile view", () => {
     );
     cy.visit("collections/original-paintings/test-title-handle/", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
+
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", {
       name: /test title Original Acrylic Painting Sold out/i,
@@ -166,6 +192,9 @@ describe("Collection Template mobile view", () => {
     );
     cy.visit("collections/original-paintings/test-title-handle/", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", {
@@ -187,6 +216,13 @@ describe("Collection Template mobile view", () => {
     cy.visit("collections/prints/test-print-4/", {
       failOnStatusCode: false,
     });
+
+    cy.visit("collections/prints/test-print-4/", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", {
       name: /test print 4/i,
@@ -206,12 +242,23 @@ describe("Collection Template mobile view", () => {
     cy.findByText("low stock").should("not.exist");
   });
 
-  it("renders a response message error if network response has error ", () => {
+  it.only("renders a response message error if network response has error ", () => {
+    cy.intercept(
+      "GET",
+      "/page-data/collections/prints/test-print-4/page-data.json",
+      {
+        fixture: "singleProduct/singleProduct-with-warnings-step1.json",
+      }
+    );
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       statusCode: 500,
     }).as("ResponseError");
+
     cy.visit("collections/prints/test-print-4/", {
       failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
     cy.wait("@ResponseError");
     cy.findByText("A request error occurred, please try again later.");

@@ -1,5 +1,7 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
-
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
 describe("About page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
@@ -10,7 +12,11 @@ describe("About page desktop", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/about");
+    cy.visit("/about", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
   it("checks for accessibility violations desktop view", () => {
@@ -32,7 +38,11 @@ describe("About page mobile", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/about");
+    cy.visit("/about", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
 

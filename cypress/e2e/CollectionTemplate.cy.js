@@ -1,4 +1,8 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
+
 describe("Collection Template desktop", () => {
   it("checks for accessibility violations desktop view", () => {
     cy.viewport("macbook-16");
@@ -9,7 +13,12 @@ describe("Collection Template desktop", () => {
       fixture:
         "collection-template/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/collections/prints/");
+    cy.visit("/collections/prints/", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
     cy.injectAxe();
     cy.checkA11y({
@@ -37,7 +46,11 @@ describe("Collection Template mobile", () => {
       fixture:
         "collection-template/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/");
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
 
