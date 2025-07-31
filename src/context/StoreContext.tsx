@@ -219,9 +219,9 @@ const StoreContext = React.createContext<StoreContextType>({
 const StoreApp = ({ children }: { children: React.ReactNode }) => {
   const [store, setStore] = useState<StoreStateType>(storeInitialValues);
 
-  const existingCheckoutId = localStorage.getItem(
-    SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY
-  );
+  const existingCheckoutId =
+    typeof window !== "undefined" &&
+    localStorage.getItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
 
   useEffect(() => {
     if (existingCheckoutId) {
@@ -245,10 +245,11 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
           }
 
           if (data && data.cart) {
-            localStorage.setItem(
-              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-              data.cart.id
-            );
+            typeof window !== "undefined" &&
+              localStorage.setItem(
+                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+                data.cart.id
+              );
             setStore((prevState) => {
               return {
                 ...prevState,
@@ -278,10 +279,11 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
             return;
           }
           if (data && data.cartCreate && data.cartCreate.cart) {
-            localStorage.setItem(
-              SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-              data.cartCreate.cart.id
-            );
+            typeof window !== "undefined" &&
+              localStorage.setItem(
+                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+                data.cartCreate.cart.id
+              );
             setStore((prevState) => {
               return {
                 ...prevState,
