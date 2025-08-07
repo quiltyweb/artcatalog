@@ -1,13 +1,32 @@
 import { graphql, useStaticQuery } from "gatsby";
 
 export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
+  // ############################################
   // Note: For E2E testing purposes. Do not remove.
   if (typeof window !== "undefined" && (window as any).__mockLayoutGlobalData) {
     return (window as any).__mockLayoutGlobalData;
   }
+  // ############################################
 
   const data = useStaticQuery<Queries.LayoutGlobalDataQuery>(graphql`
     query LayoutGlobalData {
+      storefrontshopify {
+        metaobjects(first: 9, type: "homepage_slider_content") {
+          nodes {
+            fields {
+              key
+              value
+              reference {
+                ... on StoreFrontShopify_MediaImage {
+                  image {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       site {
         siteMetadata {
           title

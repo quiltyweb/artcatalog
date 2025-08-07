@@ -108,7 +108,7 @@ describe("Home page mobile", () => {
     cy.get("main").within(() => {
       cy.findByTestId("homepage-slider-1").within(() => {
         cy.findAllByRole("img");
-        cy.findAllByAltText("testing");
+        cy.findAllByAltText(/testing alt text field/i);
 
         cy.findByRole("button", { name: "1" });
         cy.findByRole("button", { name: "2" });

@@ -3,37 +3,50 @@ import TileList from "../components/TileList";
 import HeroSection from "../components/HeroSection";
 import SEO from "../components/SEO";
 import { HomePageSlider } from "../components/HomePageSlider";
+import { useLayoutData } from "../context/LayoutContext";
+
+type FlattenedImage = {
+  image: string;
+  reference: {
+    image: {
+      url: string;
+    };
+  };
+  alt_text: string;
+  link: {
+    text: string;
+    url: string;
+  };
+  title: string;
+  caption: string;
+  category: string;
+};
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => {
-  const images = [
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-animal-heart-human-nature-collection.jpg?v=1751518520",
-      altText: "testing",
-    },
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-brain-human-nature-collection.jpg?v=1751518519",
-      altText: "testing",
-    },
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-lungs-human-nature-collection.jpg?v=1751518520",
-      altText: "testing",
-    },
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/print_1_A3.jpg?v=1751945325",
-      altText: "testing",
-    },
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Print_3_A3.jpg?v=1751945403",
-      altText: "testing",
-    },
-    {
-      src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Print_2_A3.jpg?v=1751945403",
-      altText: "testing",
-    },
-  ];
+  const nodes = useLayoutData()?.storefrontshopify.metaobjects.nodes;
+  const images = nodes?.map((currentItem, currentIndex, arr) => {
+    const flattenedFields = currentItem.fields.reduce(
+      (acc, field, index, arr) => {
+        if (field.key === "image" && field.reference !== null) {
+          acc[field.key] = field.value;
+          acc["reference"] = field.reference;
+          return acc;
+        }
+        if (field.key === "link") {
+          acc["link"] = JSON.parse(field.value || "#");
+          return acc;
+        }
+        acc[field.key] = field.value;
+        return acc;
+      },
+      {} as Record<string, any>
+    );
+    return { ...flattenedFields } as FlattenedImage;
+  });
+
   return (
     <>
-      <HomePageSlider images={images} />
+      {images && <HomePageSlider images={images} />}
       <HeroSection />
       <TileList />
     </>

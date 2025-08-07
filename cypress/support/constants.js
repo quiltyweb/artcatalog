@@ -1,5 +1,246 @@
 export const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
 export const MOCKED_LAYOUT_GLOBAL_DATA = {
+  storefrontshopify: {
+    metaobjects: {
+      nodes: [
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 1",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value: '"After Grief" from the Human Nature collection.',
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "original-paintings",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34402911879376",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-animal-heart-human-nature-collection.jpg?v=1751518520",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":" Human Nature collection.","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "After Grief human nature collection",
+              reference: null,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 2",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value:
+                '"A moment without thoughts" from the Human Nature collection.',
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "original-paintings",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34402911813840",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-brain-human-nature-collection.jpg?v=1751518519",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":" Human Nature collection","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "A moment without thoughts human nature collection",
+              reference: null,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 3",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value: '"Prana" from the Human Nature collection.',
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "original-paintings",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34402911846608",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-lungs-human-nature-collection.jpg?v=1751518520",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":" Human Nature collection.","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "Prana human nature collection",
+              reference: null,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 4",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value: "Leopard, Brushella.",
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "prints",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34432899055824",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/Print_2_A3.jpg?v=1751945403",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":"Jungle collection.","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "Leopard",
+              reference: null,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 5",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value: "Tucan, Brushella.",
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "prints",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34432899023056",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/Print_3_A3.jpg?v=1751945403",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":"Jungle collection","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "Tucan",
+              reference: null,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              key: "alt_text",
+              value: "testing alt text field 6",
+              reference: null,
+            },
+            {
+              key: "caption",
+              value: "Parrot, Brushella.",
+              reference: null,
+            },
+            {
+              key: "category",
+              value: "prints",
+              reference: null,
+            },
+            {
+              key: "image",
+              value: "gid://fake/MediaImage/34432890437840",
+              reference: {
+                image: {
+                  url: "https://fake.fake.fake/s/files/1/0586/9892/4240/files/print_1_A3.jpg?v=1751945325",
+                },
+              },
+            },
+            {
+              key: "link",
+              value:
+                '{"text":"Jungle collection","url":"https://www.brushella.art/"}',
+              reference: null,
+            },
+            {
+              key: "title",
+              value: "Parrot",
+              reference: null,
+            },
+          ],
+        },
+      ],
+    },
+  },
   site: {
     siteMetadata: {
       title: "Brushella",
