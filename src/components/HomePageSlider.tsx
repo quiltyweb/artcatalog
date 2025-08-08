@@ -4,7 +4,7 @@
 // • Desktop (≥ 768 px): shows **3 images per view** simultaneously.
 // • Accessible prev/next navigation arrows with icons
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y, EffectFade } from "swiper/modules";
 
@@ -34,6 +34,46 @@ type FlattenedImage = {
   category: string;
 };
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  if (!isClient) {
+    return (
+      <Swiper
+        id="homepage-slider-loader"
+        data-testid="homepage-slider-loader"
+        modules={[Navigation, Pagination, A11y, EffectFade]}
+        pagination={{
+          clickable: true,
+          renderBullet: function (index, className) {
+            return (
+              '<span role="button" class="' +
+              className +
+              '">' +
+              (index + 1) +
+              "</span>"
+            );
+          },
+        }}
+        navigation={true}
+        breakpoints={{
+          0: { slidesPerView: 1, spaceBetween: 0 },
+          768: { slidesPerView: 3, spaceBetween: 0 },
+        }}
+        className="relative w-full bg-black/95"
+        style={{ height: "calc(100vh - 84px)" }}
+        loop={false}
+      >
+        {images.map((item, idx) => (
+          <SwiperSlide
+            key={item.image}
+            className="h-full w-full p-2 bg-black/95"
+          ></SwiperSlide>
+        ))}
+      </Swiper>
+    );
+  }
   return (
     <Swiper
       id="homepage-slider-1"
