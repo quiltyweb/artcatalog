@@ -11,9 +11,12 @@ import { LayoutDataProvider } from "./src/context/LayoutContext";
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
 }) => (
-  <LayoutDataProvider>
-    <StoreApp>{element}</StoreApp>
-  </LayoutDataProvider>
+  <>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <LayoutDataProvider>
+      <StoreApp>{element}</StoreApp>
+    </LayoutDataProvider>
+  </>
 );
 
 export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
