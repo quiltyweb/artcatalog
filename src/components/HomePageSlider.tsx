@@ -43,20 +43,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
       <Swiper
         id="homepage-slider-loader"
         data-testid="homepage-slider-loader"
-        modules={[Navigation, Pagination, A11y, EffectFade]}
-        pagination={{
-          clickable: true,
-          renderBullet: function (index, className) {
-            return (
-              '<span role="button" class="' +
-              className +
-              '">' +
-              (index + 1) +
-              "</span>"
-            );
-          },
-        }}
-        navigation={true}
+        modules={[Navigation, Pagination]}
+        pagination={false}
+        navigation={false}
         breakpoints={{
           0: { slidesPerView: 1, spaceBetween: 0 },
           768: { slidesPerView: 3, spaceBetween: 0 },
