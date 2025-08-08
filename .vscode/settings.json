@@ -14,5 +14,9 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
-  }
+  },
+   "tailwindCSS.includeLanguages": {
+    "typescriptreact": "html"
+  },
+  "css.lint.unknownAtRules": "ignore"
 }

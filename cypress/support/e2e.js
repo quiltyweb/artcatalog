@@ -17,6 +17,7 @@
 import "./commands";
 import "cypress-axe";
 import "@testing-library/cypress/add-commands";
+import "cypress-plugin-tab";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

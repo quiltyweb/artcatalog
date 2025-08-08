@@ -1,6 +1,5 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import * as Gatsby from "gatsby";
 import SingleProduct from "../SingleProduct";
 jest.mock("@shopify/storefront-api-client");
 
@@ -14,15 +13,6 @@ afterEach(() => {
 
 describe("Single product Template", () => {
   it("renders correctly", () => {
-    const useStaticQuery = jest.spyOn(Gatsby, "useStaticQuery");
-    useStaticQuery.mockImplementation(() => ({
-      site: {
-        siteMetadata: {
-          title: "Site Title",
-        },
-      },
-    }));
-
     const mockedImageURL =
       "https://cdn.fake-image-for-brushella.art/fake-image.jpg";
 

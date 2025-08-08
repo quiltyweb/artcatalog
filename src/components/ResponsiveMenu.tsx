@@ -9,7 +9,6 @@ import {
   Icon,
   IconButton,
   Stack,
-  useMediaQuery,
   Box,
   HStack,
   UseDisclosureProps,
@@ -19,8 +18,7 @@ import { Link as GatsbyLink } from "gatsby";
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaBars } from "react-icons/fa";
 
 type CategoriesListMenuProps = {
-  allShopifyCollectionNodes: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
-  isDektop: boolean;
+  allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
   handleClickOnClose: UseDisclosureProps["onClose"];
 };
 
@@ -29,9 +27,8 @@ type StaticLinksMenuProps = {
 };
 
 type ResponsiveMenuProps = {
-  isDektop: boolean;
   isOpen: boolean;
-  allShopifyCollectionNodes: Queries.NavigationQuery["allShopifyCollection"]["nodes"];
+  allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
   handleClickOnOpen: () => void;
   handleClickOnClose: () => void;
 };
@@ -98,48 +95,34 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
 const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   allShopifyCollectionNodes,
   handleClickOnClose,
-  isDektop,
 }): React.ReactElement => {
-  const [isDektopSmall] = useMediaQuery(
-    "(min-width: 929px) and (max-width: 1222px)"
-  );
-  const getResponsiveLinkFontSize = () => {
-    if (isDektop) {
-      if (isDektopSmall) {
-        return "xs";
-      }
-      return "sm";
-    } else {
-      return "lg";
-    }
-  };
   return (
     <Stack
-      direction={isDektop ? "row" : "column"}
-      spacing={isDektop ? "5" : "7"}
+      direction={["row", "column"]}
+      spacing={["5", "7"]}
       align="left"
       px={5}
-      textAlign={isDektop ? "center" : "left"}
+      textAlign={["center", "left"]}
     >
-      {allShopifyCollectionNodes.map((item) => (
-        <Link
-          fontSize={getResponsiveLinkFontSize()}
-          textTransform="uppercase"
-          fontWeight="bold"
-          as={GatsbyLink}
-          key={item.id}
-          to={`/collections/${item.handle}`}
-          onClick={handleClickOnClose}
-        >
-          {item.title}
-        </Link>
-      ))}
+      {allShopifyCollectionNodes &&
+        allShopifyCollectionNodes.map((item) => (
+          <Link
+            fontSize={["xs", "sm", "lg"]}
+            textTransform="uppercase"
+            fontWeight="bold"
+            as={GatsbyLink}
+            key={item.id}
+            to={`/collections/${item.handle}`}
+            onClick={handleClickOnClose}
+          >
+            {item.title}
+          </Link>
+        ))}
     </Stack>
   );
 };
 
 const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
-  isDektop = true,
   allShopifyCollectionNodes,
   isOpen,
   handleClickOnOpen,
@@ -147,51 +130,56 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
 }): React.ReactElement => {
   return (
     <>
-      {isDektop ? (
+      <Box
+        id="desktop-list"
+        display={["none", "none", "none", "block", "block", "block", "block"]}
+      >
         <CategoriesListMenu
           allShopifyCollectionNodes={allShopifyCollectionNodes}
-          isDektop={isDektop}
           handleClickOnClose={handleClickOnClose}
         />
-      ) : (
-        <>
-          <Drawer
-            id="brushella-mobile-menu"
-            data-testid="mobile-drawer"
-            isOpen={isOpen}
-            onClose={handleClickOnClose}
-            size={"xs"}
+      </Box>
+
+      <Box
+        id="mobile-list"
+        display={["block", "block", "block", "none", "none", "none", "none"]}
+      >
+        <Drawer
+          id="brushella-mobile-menu"
+          data-testid="mobile-drawer"
+          isOpen={isOpen}
+          onClose={handleClickOnClose}
+          size={"xs"}
+        >
+          <DrawerOverlay />
+          <DrawerContent
+            data-testid="mobile-drawer-content"
+            backgroundColor="teal.600"
+            color="white"
           >
-            <DrawerOverlay />
-            <DrawerContent
-              data-testid="mobile-drawer-content"
-              backgroundColor="teal.600"
-              color="white"
-            >
-              <DrawerCloseButton />
-              <DrawerHeader width={40}></DrawerHeader>
-              <DrawerBody>
-                <CategoriesListMenu
-                  allShopifyCollectionNodes={allShopifyCollectionNodes}
-                  handleClickOnClose={handleClickOnClose}
-                  isDektop={isDektop}
-                />
-                <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
-                <SocialLinksMenu />
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
-          <IconButton
-            onClick={handleClickOnOpen}
-            aria-label="menu"
-            title="menu"
-            icon={<FaBars />}
-            backgroundColor="transparent"
-            color="#FFFFFF"
-            fontSize="30px"
-          />
-        </>
-      )}
+            <DrawerCloseButton />
+            <DrawerHeader width={40}></DrawerHeader>
+            <DrawerBody>
+              <CategoriesListMenu
+                allShopifyCollectionNodes={allShopifyCollectionNodes}
+                handleClickOnClose={handleClickOnClose}
+              />
+              <StaticLinksMenu handleClickOnClose={handleClickOnClose} />
+              <SocialLinksMenu />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </Box>
+      <IconButton
+        display={["block", "block", "block", "none", "none", "none", "none"]}
+        onClick={handleClickOnOpen}
+        aria-label="menu"
+        title="menu"
+        icon={<FaBars />}
+        backgroundColor="transparent"
+        color="#FFFFFF"
+        fontSize="30px"
+      />
     </>
   );
 };

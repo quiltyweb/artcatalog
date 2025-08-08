@@ -1,41 +1,32 @@
 import * as React from "react";
-import type { GatsbyBrowser } from "gatsby";
+import { type GatsbyBrowser } from "gatsby";
 import Layout from "./src/components/Layout";
 import { StoreApp } from "./src/context/StoreContext";
-import theme from "./src/theme.ts";
-import { ChakraProvider } from "@chakra-ui/react";
-import styled from "styled-components";
-import "@fontsource/raleway";
-import "@fontsource/open-sans";
+import { SkipToContentLink } from "./src/components/SkipToContentLink";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/source-sans-3";
 import "./src/styles/global.css";
+import { LayoutDataProvider } from "./src/context/LayoutContext";
 
-const SkipToContentLink = styled.a`
-  padding: 4px;
-  font-weight: bold;
-  position: absolute;
-  background: white;
-  color: black;
-  left: 0%;
-  height: 30px;
-  transform: translateY(-100%);
-  transition: transform 0.3s;
-  z-index: 9999;
-
-  &:focus {
-    transform: translateY(0%);
-  }
-`;
+export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
+  element,
+}) => (
+  <>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <LayoutDataProvider>
+      <StoreApp>{element}</StoreApp>
+    </LayoutDataProvider>
+  </>
+);
 
 export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
   element,
   props,
-}) => (
-  <ChakraProvider theme={theme}>
-    <div>
-      <SkipToContentLink href="#main">Skip to content</SkipToContentLink>
-    </div>
-    <StoreApp>
+}) => {
+  return (
+    <>
+      <SkipToContentLink />
       <Layout {...props}>{element}</Layout>
-    </StoreApp>
-  </ChakraProvider>
-);
+    </>
+  );
+};

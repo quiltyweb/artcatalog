@@ -428,7 +428,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
               {!product.hasOnlyDefaultVariant && (
                 <>
-                  <Heading as="h3" size="md" color="teal.500" mb="1.4rem">
+                  <Heading
+                    as="h3"
+                    size="md"
+                    fontWeight="bold"
+                    color="teal.600"
+                    mb="1.4rem"
+                  >
                     Variations:
                   </Heading>
                   <Flex
@@ -468,7 +474,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
               {product.mediaCount > 0 && (
                 <>
-                  <Heading as="h3" size="md" color="teal.500" mb="1.4rem">
+                  <Heading
+                    as="h3"
+                    size="md"
+                    fontWeight="bold"
+                    color="teal.600"
+                    mb="1.4rem"
+                  >
                     Details gallery:
                   </Heading>
                   <Flex

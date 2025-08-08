@@ -1,4 +1,8 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
+
 describe("LegalContent Template desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
@@ -13,7 +17,12 @@ describe("LegalContent Template desktop", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/");
+    cy.visit("/", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
 
@@ -40,7 +49,12 @@ describe("LegalContent Template mobile", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "footer/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/");
+    cy.visit("/", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
 

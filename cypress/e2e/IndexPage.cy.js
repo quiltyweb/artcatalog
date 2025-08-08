@@ -1,15 +1,9 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
-const ALL_CATEGORIES = [
-  "Prints",
-  "Commissions",
-  "Original Paintings",
-  "Resin & Pigment Art",
-  "Home Decor",
-  "Wearable Art",
-  "Stickers",
-  "Murals & Sign Writing",
-];
-const PUBLISHED_CATEGORIES = ["Prints", "Original Paintings"];
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
+
+const MOCKED_CATEGORIES = ["Original Paintings"];
 
 describe("Home page desktop", () => {
   beforeEach(() => {
@@ -18,7 +12,11 @@ describe("Home page desktop", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/");
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
   });
 
@@ -28,13 +26,9 @@ describe("Home page desktop", () => {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
-  });
-
-  it("renders top store alert", () => {
-    cy.findByRole("alert").within(() => {
-      cy.findByText(/Brushella.art is under construction./i);
-      cy.findByText(/This store can’t accept payments right now./i);
-    });
+    cy.get("body").tab();
+    // skip to main content hidden link:
+    cy.focused().should("have.attr", "href", "#main");
   });
 
   it("renders top navigation for desktop", () => {
@@ -44,7 +38,7 @@ describe("Home page desktop", () => {
     cy.findByRole("link", { name: "Shopping cart 0 items" });
 
     cy.findByRole("navigation").within(() => {
-      for (var category_name of PUBLISHED_CATEGORIES) {
+      for (var category_name of MOCKED_CATEGORIES) {
         cy.findByRole("link", { name: category_name });
       }
     });
@@ -58,15 +52,12 @@ describe("Home page mobile", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/");
-    cy.wait("@checkoutCreate");
-  });
-
-  it("renders top store alert", () => {
-    cy.findByRole("alert").within(() => {
-      cy.findByText(/Brushella.art is under construction./i);
-      cy.findByText(/This store can’t accept payments right now./i);
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
     });
+    cy.wait("@checkoutCreate");
   });
 
   it("Has no detectable accessibility violations", () => {
@@ -75,9 +66,13 @@ describe("Home page mobile", () => {
       runOnly: ["wcag2a", "wcag2aa"],
       includedImpacts: ["critical", "serious"],
     });
+    cy.get("body").tab();
+    // skip to main content hidden link
+    cy.focused().should("have.attr", "href", "#main");
   });
 
   it("Navigates from home page to legal content template", () => {
+    cy.findByRole("link", { name: "Return and Refund Policy" });
     cy.intercept(
       "GET",
       /page-data\/legal-content\/return-and-refund-policy\/page-data/,
@@ -98,7 +93,7 @@ describe("Home page mobile", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("button", { name: "menu" }).click();
     cy.findByTestId("mobile-drawer-content").within(() => {
-      for (var category_name of PUBLISHED_CATEGORIES) {
+      for (var category_name of MOCKED_CATEGORIES) {
         cy.findByRole("link", { name: category_name });
       }
       cy.findByRole("link", { name: /about me/i });
@@ -111,15 +106,15 @@ describe("Home page mobile", () => {
 
   it("renders content in the main area", () => {
     cy.get("main").within(() => {
-      cy.findByAltText(
-        "partial area of the print canvas called Jungle, showing one white tiger resting on a rock in a colourful jungle with trees and river in the background"
-      );
-      cy.findByRole("button", { name: "1" });
-      cy.findByRole("button", { name: "2" });
-      cy.findByRole("button", { name: "3" });
-      cy.findByRole("button", { name: "4" });
-      cy.findByRole("button", { name: "5" });
-      cy.findByRole("button", { name: "6" });
+      cy.findByTestId("homepage-slider-1").within(() => {
+        cy.findAllByRole("img");
+        cy.findAllByAltText(/testing alt text field/i);
+
+        cy.findByRole("button", { name: "1" });
+        cy.findByRole("button", { name: "2" });
+        cy.findByRole("button", { name: "3" });
+        cy.findByRole("button", { name: "4" });
+      });
 
       cy.findByAltText(
         "Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
@@ -134,7 +129,7 @@ describe("Home page mobile", () => {
       );
       cy.findByRole("heading", { name: "Browse Brushella’s World" });
 
-      for (var category_name of PUBLISHED_CATEGORIES) {
+      for (var category_name of MOCKED_CATEGORIES) {
         cy.findByText(category_name);
       }
       cy.findByAltText("Products of Prints category.");
@@ -176,11 +171,9 @@ describe("Home page mobile", () => {
     cy.findByRole("link", { name: /contact/i }).click();
     cy.findByRole("heading", { name: /contact me/i });
   });
-
+  // TODO: UPDATE this test to check on all categories.
   it("Navigates from mobile menu to each category page", () => {
-    for (var category_name of PUBLISHED_CATEGORIES) {
-      cy.clickDrawerMenuOption(category_name);
-      cy.findByRole("heading", { name: category_name });
-    }
+    cy.clickDrawerMenuOption("Original Paintings");
+    cy.findByRole("heading", { name: /Original Paintings/i });
   });
 });

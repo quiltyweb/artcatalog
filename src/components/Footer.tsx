@@ -9,44 +9,32 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { Link as GatsbyLink, graphql, useStaticQuery } from "gatsby";
+import { Link as GatsbyLink } from "gatsby";
 import styled from "styled-components";
 import { kebabCase } from "lodash";
 
+type FooterProps = {
+  legalContent?: Queries.LayoutGlobalDataQuery["adminshopify"]["legalContent"];
+};
+
 const FooterLink = styled(GatsbyLink)`
   text-decoration: none;
-  color: #585858;
+  color: #2b2b35;
   &:hover {
     color: #6591a2;
   }
 `;
 const FooterIconLink = styled.a`
   text-decoration: none;
-  color: #6591a2;
+  color: #2b2b35;
   &:hover {
     color: #585858;
   }
 `;
 
-const Footer: React.FunctionComponent = (): React.ReactElement => {
-  const {
-    adminshopify: { legalContent },
-  } = useStaticQuery<Queries.FooterQuery>(graphql`
-    query Footer {
-      adminshopify {
-        legalContent: metaobjects(first: 10, type: "legal_content") {
-          nodes {
-            fields {
-              key
-              definition {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
+const Footer: React.FunctionComponent<FooterProps> = ({
+  legalContent,
+}): React.ReactElement => {
   return (
     <Box data-testid="footer">
       <Box p="4">
@@ -72,7 +60,7 @@ const Footer: React.FunctionComponent = (): React.ReactElement => {
           fontWeight="medium"
           textTransform="capitalize"
         >
-          {legalContent.nodes &&
+          {legalContent &&
             legalContent.nodes[0].fields.map((item) => {
               const fieldKey = `${kebabCase(item.key)}`;
 

@@ -1,5 +1,9 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
 const REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST = /page-data\/sq\/d/;
+
 describe("desktop view basket page", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
@@ -26,6 +30,13 @@ describe("desktop view basket page", () => {
     });
   });
 
+  it("renders store alert below breadcrumbs", () => {
+    cy.findByRole("alert").within(() => {
+      cy.findByText(/Brushella.art is under construction./i);
+      cy.findByText(/This store can’t accept payments right now./i);
+    });
+  });
+
   it("loads empty Shopping bag correctly", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
@@ -46,16 +57,17 @@ describe("desktop view basket page", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.visit("/basket");
+    cy.visit("/basket", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.intercept("GET", "/page-data/collections/prints/page-data.json", {
       fixture: "collection-template/collection-prints.json",
     });
-    cy.intercept("GET", REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST, {
-      fixture: "collections-page/page-data.json",
-    }).as("pageData");
     cy.findByRole("link", { name: "Prints" }).click();
     cy.intercept(
       "GET",
@@ -64,6 +76,8 @@ describe("desktop view basket page", () => {
         fixture: "basket/singleProduct.json",
       }
     ).as("simpleProductPage");
+    cy.findByText("testing description for collections prints");
+    cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByText("description for test print (not for sale)");

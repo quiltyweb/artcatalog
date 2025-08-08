@@ -1,5 +1,7 @@
-const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
-const REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST = /page-data\/sq\/d/;
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+  MOCKED_LAYOUT_GLOBAL_DATA,
+} from "../support/constants";
 
 describe("Collections Page desktop", () => {
   beforeEach(() => {
@@ -8,11 +10,8 @@ describe("Collections Page desktop", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.intercept("GET", REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST, {
-      fixture: "collections-page/page-data.json",
-    }).as("pageData");
     cy.visit("/collections");
-    cy.wait(["@checkoutCreate", "@pageData"]);
+    cy.wait(["@checkoutCreate"]);
   });
 
   it("checks for accessibility violations on desktop", () => {
@@ -31,11 +30,13 @@ describe("Collections Page mobile", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
-    cy.intercept("GET", REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST, {
-      fixture: "collections-page/page-data.json",
-    }).as("pageData");
-    cy.visit("/collections");
-    cy.wait(["@checkoutCreate", "@pageData"]);
+    cy.visit("/collections/", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
+    cy.wait(["@checkoutCreate"]);
   });
 
   it("checks for accessibility violations on mobile", () => {
