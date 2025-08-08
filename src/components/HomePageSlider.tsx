@@ -61,7 +61,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
       loop={false}
     >
       {images.map((item, idx) => (
-        <SwiperSlide key={item.image} className="h-full p-2">
+        <SwiperSlide key={item.image} className="h-full w-full p-2">
           <img
             src={item.reference.image.url}
             alt={item.alt_text}
