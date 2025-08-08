@@ -575,15 +575,7 @@ afterEach(() => {
 });
 
 describe("Nav", () => {
-  it("renders mobile version correctly ", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: false, //mobile
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-
+  it("renders logo", async () => {
     render(
       <Nav
         site={MOCKED_PROPS.site}
@@ -591,41 +583,20 @@ describe("Nav", () => {
       />
     );
     screen.getByLabelText(/Brushella title home/);
-    screen.getByRole("link", { name: "Shopping cart 0 items" });
-    screen.getByRole("button", { name: "menu" });
   });
 
-  it("renders desktop version correctly", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: true,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
-
+  it("renders menu items", async () => {
     render(
       <Nav
         site={MOCKED_PROPS.site}
         allShopifyCollection={MOCKED_PROPS.allShopifyCollection}
       />
     );
-    expect(
-      screen.queryByRole("button", { name: "menu" })
-    ).not.toBeInTheDocument();
-    screen.getByLabelText(/Brushella title home/);
-    screen.getByRole("link", { name: "Shopping cart 0 items" });
+
     screen.getByRole("link", { name: "Original Paintings Testing" });
   });
 
   it("renders desktop navigation with no categories", async () => {
-    Object.defineProperty(window, "matchMedia", {
-      value: jest.fn(() => ({
-        matches: true,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
     render(<Nav />);
     screen.getByLabelText("Brushella home");
     screen.getByRole("link", { name: "Shopping cart 0 items" });

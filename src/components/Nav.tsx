@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Icon,
-  useMediaQuery,
-  Link,
-  Text,
-  Flex,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Icon, Link, Text, Flex, useDisclosure } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import LogoSVG from "../images/svg/brushella-black-bg.svg";
 import { useLineItemsCount } from "../context/StoreContext";
@@ -23,7 +16,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
   allShopifyCollection,
 }): React.ReactElement => {
   const lineItemsCount = useLineItemsCount();
-  const [isDektop] = useMediaQuery("(min-width: 929px)");
   const counterLabel =
     lineItemsCount === 1 ? `${lineItemsCount} item` : `${lineItemsCount} items`;
 
@@ -52,10 +44,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           }}
         />
       </Link>
-      <Flex
-        flexDirection={isDektop ? "row-reverse" : "row"}
-        alignItems="center"
-      >
+      <Flex flexDirection={"row"} alignItems="center">
         <Link
           as={GatsbyLink}
           to="/basket"
@@ -81,7 +70,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
           </Text>
         </Link>
         <ResponsiveMenu
-          isDektop={isDektop}
           allShopifyCollectionNodes={allShopifyCollection?.nodes}
           isOpen={isOpen}
           handleClickOnOpen={handleClickOnOpen}

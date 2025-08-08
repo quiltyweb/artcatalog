@@ -18,7 +18,7 @@ afterEach(() => {
 });
 
 describe("Layout", () => {
-  useLayoutData.mockImplementation(() => ({
+  useLayoutData.mockImplementation((): any => ({
     site: {
       siteMetadata: {
         title: "Site Title",
@@ -631,7 +631,7 @@ describe("Layout", () => {
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
     within(Nav).getByLabelText("Site Title home");
-    within(Nav).getByRole("button", { name: "menu" });
+    within(Nav).getByLabelText("menu");
     screen.getByText("some content children");
     const Footer = await screen.findByRole("contentinfo");
     within(Footer).getByRole("link", { name: "Return and Refund Policy" });
