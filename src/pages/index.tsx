@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import SEO from "../components/SEO";
 import { HomePageSlider } from "../components/HomePageSlider";
 import { useLayoutData } from "../context/LayoutContext";
+import { TileGridGallery } from "../components/TileGridGallery";
 
 type FlattenedImage = {
   image: string;
@@ -48,7 +49,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
     <>
       {images && <HomePageSlider images={images} />}
       <HeroSection />
-      <TileList />
+      <TileGridGallery />
     </>
   );
 };
