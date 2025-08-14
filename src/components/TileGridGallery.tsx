@@ -3,10 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-// import { Link } from "@chakra-ui/react";
 import { Link } from "gatsby";
-// import { Text } from "@chakra-ui/react";
-// import { Link } from "gatsby";
+import { Heading } from "@chakra-ui/react";
 // const tiles = Array.from({ length: 8 }, (_, tileIndex) => ({
 //   id: tileIndex + 1,
 //   images: Array.from(
@@ -24,29 +22,22 @@ const tiles = [
     title: "Original Paintings",
     handle: "original-paintings",
     images: [
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1750915766",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/A-moment-without-thoughts-by-Brushella-Human-Nature-Collection.jpg?v=1750915407",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/After-Grief-by-Brushella-Human-Nature-Collection.jpg?v=1750915560",
-    ],
-  },
-  {
-    id: "tile2",
-    title: "Original Paintings",
-    handle: "original-paintings",
-    images: [
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1750915766",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/A-moment-without-thoughts-by-Brushella-Human-Nature-Collection.jpg?v=1750915407",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/After-Grief-by-Brushella-Human-Nature-Collection.jpg?v=1750915560",
-    ],
-  },
-  {
-    id: "tile3",
-    title: "Original Paintings",
-    handle: "original-paintings",
-    images: [
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1750915766",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/A-moment-without-thoughts-by-Brushella-Human-Nature-Collection.jpg?v=1750915407",
-      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/After-Grief-by-Brushella-Human-Nature-Collection.jpg?v=1750915560",
+      {
+        src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection.jpg?v=1755134152",
+        alt: "'Prana' by Brushella from the Human Nature Collection.",
+      },
+      {
+        src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-a-moment-without-thoughts-human-nature-collection.jpg?v=1755134217",
+        alt: "'A moment without thoughts' by Brushella from the Human Nature Collection.",
+      },
+      {
+        src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-after-grief-human-nature-collection.jpg?v=1755134182",
+        alt: "'After Grief' by Brushella from the Human Nature Collection.",
+      },
+      {
+        src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-nirvana-gardens.jpg?v=1755134089",
+        alt: "'Nirvana Gardens' by Brushella.",
+      },
     ],
   },
 ];
@@ -54,9 +45,19 @@ const tiles = [
 export const TileGridGallery = () => {
   return (
     <div className="p-4 max-w-[1200px] mx-auto">
+      <Heading
+        id="browse-categories"
+        as="h3"
+        color="pink.800"
+        mb="2.4rem"
+        textAlign="left"
+      >
+        Browse Brushella’s World
+      </Heading>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {tiles.map((tile) => (
-          <div
+          <article
+            aria-labelledby="category-heading"
             key={tile.id}
             className="group rounded-lg overflow-hidden px-2 py-2"
             tabIndex={-1} // Make container programmatically focusable
@@ -68,22 +69,20 @@ export const TileGridGallery = () => {
                 prevEl: `.prev-${tile.id}`,
               }}
               a11y={{
-                prevSlideMessage: "Previous slide",
-                nextSlideMessage: "Next slide",
                 slideLabelMessage: "{{index}} / {{slidesLength}}",
               }}
               spaceBetween={10}
               slidesPerView={1}
-              className="w-full aspect-square relative"
+              className="w-full relative"
               loop={true}
             >
-              {tile.images.map((src, idx) => (
+              {tile.images.map((image, idx) => (
                 <SwiperSlide key={idx}>
                   <div className="flex flex-col items-center">
                     <img
-                      src={src}
-                      alt={`Tile ${tile.id} - Image ${idx + 1}`}
-                      className="w-full h-full object-cover"
+                      src={image.src}
+                      alt={image.alt}
+                      className="aspect-[3/4] object-cover h-full w-full rounded-lg"
                     />
                   </div>
                 </SwiperSlide>
@@ -112,9 +111,11 @@ export const TileGridGallery = () => {
               className="block px-2 py-2 mt-2 rounded 
              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
             >
-              <h3 className="text-lg font-bold">{tile.title}</h3>
+              <h4 id="category-heading" className="text-lg font-bold">
+                {tile.title}
+              </h4>
             </Link>
-          </div>
+          </article>
         ))}
       </div>
     </div>
