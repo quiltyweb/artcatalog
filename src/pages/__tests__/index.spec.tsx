@@ -875,14 +875,21 @@ describe("IndexPage", () => {
     }));
 
     render(<IndexPage />);
+    // homepage main slider:
     screen.queryByLabelText("Homepage main slider");
-    // alt text from Tile grid slider:
-    expect(screen.getAllByAltText("testing alt text")).toHaveLength(6);
+
+    // homepage hero Author section:
+    screen.getByRole("heading", { name: /Welcome to Brushella's Art Store/ });
+    screen.getByText(/Embrace the beauty of handmade artistry with Brushella/);
+    screen.getByRole("link", { name: "Shop now" });
+
+    // homepage mini slider Tiles:
     screen.getByRole("heading", { name: "Browse Brushella’s World" });
-    screen.getByRole("link", { name: /go to Original Paintings category/ });
+    expect(screen.getAllByAltText("testing alt text")).toHaveLength(6);
     screen.getByAltText(
       "'Prana' by Brushella from the Human Nature Collection."
     );
+    screen.getByRole("link", { name: /go to Original Paintings category/ });
   });
 
   it("renders index page without Homepage main slider when images are not available", () => {
