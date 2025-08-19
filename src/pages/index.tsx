@@ -25,7 +25,7 @@ type FlattenedImage = {
 
 const IndexPage: React.FunctionComponent = (): React.ReactElement => {
   const nodes = useLayoutData()?.storefrontshopify.metaobjects.nodes;
-  const images = nodes?.map((currentItem, currentIndex, arr) => {
+  const mainSliderImages = nodes?.map((currentItem, currentIndex, arr) => {
     const flattenedFields = currentItem.fields.reduce(
       (acc, field, index, arr) => {
         if (field.key === "image" && field.reference !== null) {
@@ -47,7 +47,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
 
   return (
     <>
-      {images && <HomePageSlider images={images} />}
+      {mainSliderImages && <HomePageSlider images={mainSliderImages} />}
       <HeroSection />
       <TileGridGallery />
     </>

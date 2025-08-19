@@ -875,18 +875,21 @@ describe("IndexPage", () => {
     }));
 
     render(<IndexPage />);
-    // alt text from slider:
-    screen.getAllByAltText("testing alt text");
-    screen.getByTestId("swiper");
-    screen.getAllByTestId("swiper-slide");
+    screen.queryByLabelText("Homepage main slider");
+    // alt text from Tile grid slider:
+    expect(screen.getAllByAltText("testing alt text")).toHaveLength(6);
     screen.getByRole("heading", { name: "Browse Brushella’s World" });
-    screen.getByText(/Original Paintings Testing/);
-    screen.getAllByAltText("alt text for testing purposes");
+    screen.getByRole("link", { name: /go to Original Paintings category/ });
+    screen.getByAltText(
+      "'Prana' by Brushella from the Human Nature Collection."
+    );
   });
 
-  it("renders index page without Homepage slider when images are not available", () => {
+  it("renders index page without Homepage main slider when images are not available", () => {
     useLayoutData.mockImplementation(() => null);
     render(<IndexPage />);
-    expect(screen.queryByTestId("swiper")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Homepage main slider")
+    ).not.toBeInTheDocument();
   });
 });
