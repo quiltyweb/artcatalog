@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 
 const tiles = [
   {
-    id: "tile1",
+    id: "mini-slider-tile-1",
     title: "Original Paintings",
     handle: "original-paintings",
     images: [
@@ -27,7 +27,7 @@ const tiles = [
       {
         src: "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-nirvana-gardens.jpg?v=1755134089",
         alt: "'Nirvana Gardens' by Brushella.",
-        href: "/collections/original-paintings/nirvana-gardens",
+        href: "/collections/original-paintings/nirvana-gardens-original-acrylic-painting",
       },
     ],
   },
