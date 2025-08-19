@@ -23,6 +23,7 @@ const CallToActionButton: React.FunctionComponent<CallToActionButtonProps> = ({
       p="0.4rem 1rem"
       margin="2rem auto 0.5rem"
       textAlign="center"
+      aria-label={title}
     >
       <LinkOverlay href={link}>{title}</LinkOverlay>
     </LinkBox>
