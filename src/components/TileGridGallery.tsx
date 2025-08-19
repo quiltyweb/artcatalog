@@ -51,14 +51,14 @@ export const TileGridGallery = () => {
           <article
             aria-label={tile.title + " slider"}
             key={tile.id}
-            className="group rounded-lg overflow-hidden px-2 py-2"
-            tabIndex={0}
+            className="group rounded-lg px-2 py-2"
           >
             <TileSliderCategory key={tile.id} tile={tile} />
+
             <Link
               to={`/collections/${tile.handle}/`}
-              className="block px-2 py-2 mt-2 rounded 
-             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+              className="block px-2 py-2 mt-1 rounded
+              focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2"
             >
               <h4
                 className="text-lg font-bold"

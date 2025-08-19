@@ -4,6 +4,7 @@ import { A11y, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Link } from "@chakra-ui/react";
 
 type TileImage = {
   src: string;
@@ -69,14 +70,20 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                 alt={image.alt}
                 className="aspect-[3/4] object-cover h-full w-full rounded-lg"
               />
-              <a
-                tabIndex={idx === activeIndex ? 0 : -1} // focusable only if active
-                href={image.href}
-                className="block px-2 py-2 mt-2 rounded 
-             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+              {/* Overlay title bar */}
+              <div
+                className="absolute bottom-0 left-0 w-full
+                     bg-black/60 text-white text-sm sm:text-base
+                     px-3 py-2 rounded-b-lg"
               >
-                <span>{image.alt}</span>
-              </a>
+                <Link
+                  tabIndex={idx === activeIndex ? 0 : -1} // focusable only if active
+                  href={image.href}
+                  className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+                >
+                  {image.alt}
+                </Link>
+              </div>
             </div>
           </SwiperSlide>
         );
