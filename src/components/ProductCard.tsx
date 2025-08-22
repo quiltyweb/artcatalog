@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -420,32 +422,36 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               )}
 
               {featuredImage && !variantFoundImage && (
-                <GatsbyImage
-                  image={featuredImage}
-                  alt={product.featuredImage?.altText || product.title}
-                  loading="eager"
-                  style={{
-                    objectFit: "cover",
-                    maxWidth: "600px",
-                    marginBottom: "1.4rem",
-                  }}
-                />
+                <Zoom>
+                  <GatsbyImage
+                    image={featuredImage}
+                    alt={product.featuredImage?.altText || product.title}
+                    loading="lazy"
+                    style={{
+                      objectFit: "cover",
+                      maxWidth: "600px",
+                      marginBottom: "1.4rem",
+                    }}
+                  />
+                </Zoom>
               )}
 
               {variantFoundImage && props.values.variant !== "" && (
-                <GatsbyImage
-                  image={variantFoundImage}
-                  alt={
-                    variantFound.image.altText ||
-                    `${props.values.variant} ${product.title}`
-                  }
-                  loading="eager"
-                  style={{
-                    objectFit: "cover",
-                    maxWidth: "600px",
-                    marginBottom: "1.4rem",
-                  }}
-                />
+                <Zoom>
+                  <GatsbyImage
+                    image={variantFoundImage}
+                    alt={
+                      variantFound.image.altText ||
+                      `${props.values.variant} ${product.title}`
+                    }
+                    loading="lazy"
+                    style={{
+                      objectFit: "cover",
+                      maxWidth: "600px",
+                      marginBottom: "1.4rem",
+                    }}
+                  />
+                </Zoom>
               )}
 
               {!product.hasOnlyDefaultVariant && (
