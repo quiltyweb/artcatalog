@@ -44,11 +44,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
             }
             featuredImage {
               altText
-              gatsbyImageData(
-                width: 500
-                layout: CONSTRAINED
-                placeholder: BLURRED
-              )
+              gatsbyImageData(placeholder: BLURRED)
             }
             hasOnlyDefaultVariant
             totalVariants
@@ -68,11 +64,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
                 altText
                 height
                 width
-                gatsbyImageData(
-                  width: 500
-                  layout: CONSTRAINED
-                  placeholder: BLURRED
-                )
+                gatsbyImageData(placeholder: BLURRED)
                 originalSrc
                 transformedSrc
               }
@@ -89,12 +81,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
                   altText
                   height
                   width
-                  gatsbyImageData(
-                    height: 82
-                    width: 82
-                    aspectRatio: 1
-                    placeholder: BLURRED
-                  )
+                  gatsbyImageData(placeholder: BLURRED)
                   originalSrc
                   transformedSrc
                 }
