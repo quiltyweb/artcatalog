@@ -106,6 +106,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
               values
             }
             publishedAt
+            metafields {
+              id
+              key
+              value
+            }
           }
         }
       }

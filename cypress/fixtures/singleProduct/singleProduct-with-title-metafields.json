@@ -18,7 +18,28 @@
                    "currencyCode":"AUD"
                 }
              },
-             "featuredImage":null,
+             "featuredImage":{
+                "altText":"alt text of featured image for Cotton Beach towel",
+                "gatsbyImageData":{
+                   "images":{
+                      "sources":[
+                         {
+                            "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                            "sizes":"(min-width: 500px) 500px, 100vw",
+                            "type":"image/webp"
+                         }
+                      ],
+                      "fallback":{
+                         "src":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "srcSet":"https://cdn.fake-image-for-brushella.art/fake-image.jpg",
+                         "sizes":"(min-width: 500px) 500px, 100vw"
+                      }
+                   },
+                   "layout":"constrained",
+                   "width":500,
+                   "height":667
+                }
+             },
              "hasOnlyDefaultVariant":false,
              "totalVariants":3,
              "variants":[
@@ -227,7 +248,18 @@
                    ]
                 }
              ],
-              "metafields":[]
+               "metafields": [
+               {
+                  "id": "c13fd219-3416-504e-9e04-31afcaf13120",
+                  "key": "title_line_1",
+                  "value": "Title Line 1"
+               },
+               {
+                  "id": "428c1c2e-3760-5285-8170-d4a299290d98",
+                  "key": "title_line_2",
+                  "value": "Subtitle Line 2"
+               }
+             ]
           },
           "collectionHandle":"home-decor"
        },
