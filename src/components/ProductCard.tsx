@@ -424,14 +424,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               {featuredImage && !variantFoundImage && (
                 <Zoom>
                   <GatsbyImage
+                    className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
                     image={featuredImage}
                     alt={product.featuredImage?.altText || product.title}
                     loading="lazy"
-                    style={{
-                      objectFit: "cover",
-                      maxWidth: "600px",
-                      marginBottom: "1.4rem",
-                    }}
                   />
                 </Zoom>
               )}
@@ -439,17 +435,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               {variantFoundImage && props.values.variant !== "" && (
                 <Zoom>
                   <GatsbyImage
+                    className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
                     image={variantFoundImage}
                     alt={
                       variantFound.image.altText ||
                       `${props.values.variant} ${product.title}`
                     }
                     loading="lazy"
-                    style={{
-                      objectFit: "cover",
-                      maxWidth: "600px",
-                      marginBottom: "1.4rem",
-                    }}
                   />
                 </Zoom>
               )}
@@ -465,13 +457,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Variations:
                   </Heading>
-                  <Flex
-                    flexDirection="row"
-                    flexWrap="wrap"
-                    justifyContent="left"
-                    maxW={"70%"}
-                    mb="1.4rem"
-                  >
+                  <Flex flexDirection={["column", "row"]} mb="1.4rem">
                     {product.variants.map((variant, index) => {
                       if (!variant.image) {
                         return;
@@ -479,20 +465,23 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       const variantImage = getImage(variant.image);
                       return (
                         variantImage && (
-                          <GatsbyImage
-                            key={index}
-                            image={variantImage}
-                            alt={
-                              variant.image.altText ||
-                              `${variant.title} ${product.title}`
-                            }
-                            loading="lazy"
-                            style={{
-                              margin: "0.5rem",
-                              width: "82px",
-                              height: "82px",
-                            }}
-                          />
+                          <Zoom>
+                            <Box
+                              key={index}
+                              className="aspect-square w-40 mx-2 my-2"
+                            >
+                              <GatsbyImage
+                                key={index}
+                                image={variantImage}
+                                alt={
+                                  variant.image.altText ||
+                                  `${variant.title} ${product.title}`
+                                }
+                                loading="lazy"
+                                className="rounded-xl my-2 mx-1 object-cover w-full h-full"
+                              />
+                            </Box>
+                          </Zoom>
                         )
                       );
                     })}
@@ -511,13 +500,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Details gallery:
                   </Heading>
-                  <Flex
-                    flexDirection="row"
-                    flexWrap="wrap"
-                    justifyContent="left"
-                    maxW={"70%"}
-                    mb="1.4rem"
-                  >
+                  <Flex flexDirection={["column", "row"]}>
                     {product.media.map((mediaItem, index) => {
                       if (mediaItem.mediaContentType !== "IMAGE") {
                         return;
@@ -527,16 +510,25 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         getImage(mediaItem?.preview?.image);
 
                       return (
+                        // TODO: make the preview image small, and then when opens in modal, fullsize
                         mediaImage && (
-                          <GatsbyImage
-                            key={index}
-                            image={mediaImage}
-                            alt={
-                              mediaItem.preview?.image.altText || product.title
-                            }
-                            loading="lazy"
-                            style={{ margin: "0.5rem" }}
-                          />
+                          <Zoom>
+                            <Box
+                              key={index}
+                              className="aspect-square w-40 mx-2 my-2"
+                            >
+                              <GatsbyImage
+                                key={index}
+                                image={mediaImage}
+                                alt={
+                                  mediaItem.preview?.image.altText ||
+                                  product.title
+                                }
+                                loading="lazy"
+                                className=" my-2 mx-1 object-cover w-full h-full"
+                              />
+                            </Box>
+                          </Zoom>
                         )
                       );
                     })}
