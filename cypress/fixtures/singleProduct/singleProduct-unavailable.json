@@ -51,6 +51,7 @@
                         ]
                     }
                 ],
+                 "metafields":[],
                 "publishedAt": null
             },
             "collectionHandle": "original-paintings"

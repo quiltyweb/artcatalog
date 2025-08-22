@@ -79,12 +79,12 @@ describe("desktop view basket page", () => {
     cy.findByText("testing description for collections prints");
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
-    cy.findByRole("heading", { name: "test print (not for sale)" });
+    cy.findByRole("heading", { name: "'test print (not for sale)'" });
     cy.findByText("description for test print (not for sale)");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.findByText("Option Required");
     cy.get("select").select("Wood");
-    cy.findByRole("heading", { name: /Wood/i });
+    cy.findAllByText(/Wood/i);
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");

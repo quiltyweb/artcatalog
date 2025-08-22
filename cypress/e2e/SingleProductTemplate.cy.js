@@ -61,6 +61,29 @@ describe("Collection Template mobile view", () => {
     });
   });
 
+  it("Renders single product page with line 1 and line 2 as title and subtitle of product", () => {
+    cy.intercept(
+      "GET",
+      "/page-data/collections/home-decor/beach-towel/page-data.json",
+      {
+        fixture: "singleProduct/singleProduct-with-title-metafields.json",
+      }
+    );
+    cy.visit("/collections/home-decor/beach-towel", {
+      failOnStatusCode: false,
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+      },
+    });
+    cy.wait("@checkoutCreate");
+    cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
+      cy.findByRole("link", { name: /all home-decor/i });
+    });
+
+    cy.findByRole("heading", { name: "'Title Line 1'" });
+    cy.findByRole("heading", { name: "Subtitle Line 2" });
+  });
+
   it("Renders single product page", () => {
     cy.visit("/collections/home-decor/beach-towel", {
       failOnStatusCode: false,
@@ -72,7 +95,9 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
       cy.findByRole("link", { name: /all home-decor/i });
     });
-    cy.findByRole("heading", { name: "Cotton Beach towel" });
+
+    // renders product title as fallback
+    cy.findByRole("heading", { name: /Cotton Beach towel/ });
     cy.findByText("description text for Cotton Beach towel");
     cy.findByAltText("alt text of featured image for Cotton Beach towel");
     cy.findByText(/from/i);
@@ -175,8 +200,9 @@ describe("Collection Template mobile view", () => {
 
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", {
-      name: /test title Original Acrylic Painting Sold out/i,
+      name: /test title Original Acrylic Painting/i,
     });
+    cy.findByText(/Sold out/);
     cy.findByRole("button", {
       name: /Add to shopping bag/i,
     }).should("have.attr", "disabled");
@@ -198,8 +224,9 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("heading", {
-      name: /test title Original Acrylic Painting Item unavailable/i,
+      name: /test title Original Acrylic Painting/i,
     });
+    cy.findByText(/item unavailable/i);
     cy.findByRole("button", {
       name: /Add to shopping bag/i,
     }).should("have.attr", "disabled");
@@ -242,7 +269,7 @@ describe("Collection Template mobile view", () => {
     cy.findByText("low stock").should("not.exist");
   });
 
-  it.only("renders a response message error if network response has error ", () => {
+  it("renders a response message error if network response has error ", () => {
     cy.intercept(
       "GET",
       "/page-data/collections/prints/test-print-4/page-data.json",
