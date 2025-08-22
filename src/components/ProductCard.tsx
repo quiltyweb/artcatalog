@@ -59,6 +59,15 @@ interface ProductCardFormValues {
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
 }): React.ReactElement => {
+  const productMainTitle =
+    product.metafields.find((field) => field.key === "title_line_1")?.value ||
+    product.title;
+
+  // If the product has a metafield for title_line_2, append it to the product name
+  const productSubTitle = product.metafields.find(
+    (field) => field.key === "title_line_2"
+  )?.value;
+
   const checkoutLineItems = useCheckoutLineItems();
   const {
     addItemToCart,
@@ -171,37 +180,50 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           >
             <Container>
               <CardBody>
-                <Heading
-                  as="h2"
-                  color="pink.800"
-                  lineHeight="normal"
-                  minH="80px"
-                >
-                  {product.title} <br />
-                  {!product.hasOnlyDefaultVariant && `${props.values.variant} `}
-                  {isSoldOut && (
-                    <Badge
-                      variant="solid"
-                      size="md"
-                      color="#ffffff"
-                      backgroundColor="black"
-                      padding={1}
-                    >
-                      Sold out
-                    </Badge>
-                  )}
-                  {!isProductPlublishedToStoreApp && (
-                    <Badge
-                      variant="solid"
-                      size="md"
-                      color="#ffffff"
-                      backgroundColor="black"
-                      padding={1}
-                    >
-                      Item unavailable
-                    </Badge>
-                  )}
+                <Heading as="h2" color="pink.800" lineHeight="normal">
+                  {`'${productMainTitle}'`}
                 </Heading>
+
+                {productSubTitle && (
+                  <Heading
+                    as="h3"
+                    fontSize="xl"
+                    color="pink.800"
+                    lineHeight="normal"
+                  >
+                    {productSubTitle}
+                  </Heading>
+                )}
+
+                {!product.hasOnlyDefaultVariant && (
+                  <Text>{props.values.variant}</Text>
+                )}
+
+                {isSoldOut && (
+                  <Badge
+                    variant="solid"
+                    size="md"
+                    color="#ffffff"
+                    backgroundColor="black"
+                    padding={1}
+                    marginTop={2}
+                    marginBottom={2}
+                  >
+                    Sold out
+                  </Badge>
+                )}
+                {!isProductPlublishedToStoreApp && (
+                  <Badge
+                    variant="solid"
+                    size="md"
+                    color="#ffffff"
+                    backgroundColor="black"
+                    padding={1}
+                  >
+                    Item unavailable
+                  </Badge>
+                )}
+
                 <Text wordBreak={"normal"} mb="2.4rem">
                   {product.description}
                 </Text>

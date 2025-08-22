@@ -19,7 +19,145 @@ afterEach(() => {
 });
 
 describe("ProductCard", () => {
-  it("renders correctly", async () => {
+  // TODO: add tests for product title and subtitle rendering
+  it("renders product main title line 1 and subtitle line 2", () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4QC8RXDSDSDDS",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [],
+        mediaCount: 1,
+        media: [],
+        options: [],
+        metafields: [
+          {
+            id: "c13fd219-3416-504e-9e04-31afcaf13120",
+            key: "title_line_1",
+            value: "Prana testing Title Line 1",
+          },
+          {
+            id: "428c1c2e-3760-5285-8170-d4a299290d98",
+            key: "title_line_2",
+            value: "Original Acrylic Painting (SOLD) testing Title Line 2",
+          },
+        ],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+    screen.getByRole("heading", { name: "'Prana testing Title Line 1'" });
+    screen.getByRole("heading", {
+      name: "Original Acrylic Painting (SOLD) testing Title Line 2",
+    });
+    expect(
+      screen.queryByRole("heading", { name: "Test product name" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders product title as fallback", () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4QC8RXDSDSDDS",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [],
+        mediaCount: 1,
+        media: [],
+        options: [],
+        metafields: [],
+      },
+      collectionHandle: "decor",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+    screen.getByRole("heading", { name: "'Test product name'" });
+    expect(
+      screen.queryByRole("heading", {
+        name: "Original Acrylic Painting (SOLD) testing Title Line 2",
+      })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "'Prana testing Title Line 1'" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders correctly with default values", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
@@ -153,11 +291,12 @@ describe("ProductCard", () => {
             values: ["red"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
-    screen.getByText("Test product name");
+    screen.getByText("'Test product name'");
     screen.getByAltText(
       "Alternative text of featured Image of product goes here..."
     );
@@ -305,6 +444,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -408,6 +548,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -503,11 +644,12 @@ describe("ProductCard", () => {
         mediaCount: 1,
         media: [],
         options: [],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
-    screen.getByText("Test product name");
+    screen.getByAltText("Test product name");
   });
 
   it("renders fallback image when featuredImage not provided", async () => {
@@ -555,6 +697,7 @@ describe("ProductCard", () => {
             values: ["red"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -618,6 +761,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "prints",
     };
@@ -686,6 +830,7 @@ describe("ProductCard", () => {
           },
         ],
         publishedAt: null,
+        metafields: [],
       },
       collectionHandle: "prints",
     };
@@ -757,6 +902,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        metafields: [],
         publishedAt: null,
       },
       collectionHandle: "prints",
@@ -828,6 +974,7 @@ describe("ProductCard", () => {
           },
         ],
         publishedAt: null,
+        metafields: [],
       },
       collectionHandle: "prints",
     };
@@ -974,6 +1121,7 @@ describe("ProductCard", () => {
             values: ["red"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -1123,6 +1271,7 @@ describe("ProductCard", () => {
             values: ["red"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -1214,6 +1363,7 @@ describe("ProductCard", () => {
             values: ["green"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -1295,6 +1445,7 @@ describe("ProductCard", () => {
             values: ["green"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };

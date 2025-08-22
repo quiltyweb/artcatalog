@@ -143,6 +143,7 @@ describe("Single product Template", () => {
             values: ["red"],
           },
         ],
+        metafields: [],
       },
       collectionHandle: "decor",
     };
@@ -165,8 +166,8 @@ describe("Single product Template", () => {
     expect(
       screen.getByRole("link", { name: /all home-decor/i })
     ).toHaveAttribute("href", "/collections/home-decor");
-    screen.getByRole("heading", { name: "Test product name" });
-    expect(screen.getAllByText("Test product name")).toHaveLength(2);
+    screen.getByRole("heading", { name: "'Test product name'" });
+    expect(screen.getAllByText(/Test product name/i)).toHaveLength(2);
     screen.getByText("Product description goes here");
     screen.getByText(/from/i);
     screen.getByText(/AUD/i);
