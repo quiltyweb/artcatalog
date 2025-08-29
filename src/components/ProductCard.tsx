@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Zoom from "react-medium-image-zoom";
+import Zoom from "./SafeZoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
