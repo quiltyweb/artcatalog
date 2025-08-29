@@ -10,6 +10,7 @@ module.exports = {
     ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ico)$": `<rootDir>/__mocks__/file-mock.js`,
     "swiper/css": `identity-obj-proxy`,
     "swiper/css/*": `identity-obj-proxy`,
+    "react-medium-image-zoom": "<rootDir>/__mocks__/react-medium-image-zoom.js",
   },
   testPathIgnorePatterns: [
     `node_modules`,

@@ -19,7 +19,6 @@ afterEach(() => {
 });
 
 describe("ProductCard", () => {
-  // TODO: add tests for product title and subtitle rendering
   it("renders product main title line 1 and subtitle line 2", () => {
     const mockedShopifyProductData = {
       product: {
