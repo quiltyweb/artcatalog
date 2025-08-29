@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
 import { defineConfig } from "cypress";
+import path from "path";
 
 export default defineConfig({
   e2e: {
