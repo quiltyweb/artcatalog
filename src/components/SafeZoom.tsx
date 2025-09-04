@@ -1,13 +1,25 @@
-// src/components/SafeZoom.tsx
 import React from "react";
+import Zoom, { UncontrolledProps } from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
-const isCypress = typeof window !== "undefined" && (window as any).Cypress;
+/**
+ * A safe wrapper for react-medium-image-zoom that
+ * 1. Disables zoom in test environments (Jest, Cypress)
+ * 2. Passes all props and children through
+ */
+type SafeZoomProps = UncontrolledProps & {
+  children: React.ReactNode;
+};
 
-let Zoom: any = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-);
-if (!isCypress) {
-  Zoom = require("react-medium-image-zoom").default;
+export default function SafeZoom({ children, ...props }: SafeZoomProps) {
+  const isTest =
+    process.env.NODE_ENV === "test" ||
+    (typeof window !== "undefined" && (window.Cypress || (window as any).jest));
+
+  if (isTest) {
+    // Render children directly in tests
+    return <>{children}</>;
+  }
+
+  return <Zoom {...props}>{children}</Zoom>;
 }
-
-export default Zoom;
