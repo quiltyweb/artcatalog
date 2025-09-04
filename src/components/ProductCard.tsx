@@ -412,7 +412,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               </CardBody>
             </Container>
             <Container p="4">
-              {!product.featuredImage?.originalSrc && !variantFoundImage && (
+              {!featuredImageDetail && !variantFoundImage && (
                 <Image
                   data-testid="no-image-found"
                   src={notFoundImage}
@@ -428,12 +428,15 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 />
               )}
 
-              {product.featuredImage?.originalSrc && !variantFoundImage && (
+              {featuredImageDetail && !variantFoundImage && (
                 <InnerImageZoom
-                  src={featuredImageDetail?.images?.fallback?.src || ""}
+                  src={featuredImageDetail.images?.fallback?.src || ""}
                   zoomSrc={product.featuredImage?.originalSrc || ""}
                   fullscreenOnMobile={true}
-                  sources={featuredImageDetail?.images?.sources}
+                  sources={featuredImageDetail.images?.sources}
+                  imgAttributes={{
+                    alt: product.featuredImage?.altText || product.title,
+                  }}
                 />
               )}
 
