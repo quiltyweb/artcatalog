@@ -44,7 +44,31 @@ export const createPages: GatsbyNode["createPages"] = async ({
             }
             featuredImage {
               altText
-              gatsbyImageData(placeholder: BLURRED)
+              originalSrc
+              # thumbnails for product cards
+              grid: gatsbyImageData(
+                layout: CONSTRAINED
+                width: 400
+                aspectRatio: 1
+                placeholder: BLURRED
+                formats: [AUTO, WEBP]
+              )
+
+              # Product detail page image
+              detail: gatsbyImageData(
+                layout: CONSTRAINED
+                width: 800
+                placeholder: BLURRED
+                formats: [AUTO, WEBP]
+              )
+
+              # Zoom base image (optimized, before swap to originalSrc)
+              zoom: gatsbyImageData(
+                layout: CONSTRAINED
+                width: 1200
+                placeholder: BLURRED
+                formats: [AUTO, WEBP]
+              )
             }
             hasOnlyDefaultVariant
             totalVariants

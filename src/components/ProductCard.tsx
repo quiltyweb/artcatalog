@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Zoom from "./SafeZoom";
+import SafeZoom from "./SafeZoom";
 import "react-medium-image-zoom/dist/styles.css";
+import "react-inner-image-zoom/lib/styles.min.css";
+import InnerImageZoom from "react-inner-image-zoom";
+
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -85,6 +88,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   } = useCartLinesUpdate();
   const responseError = useHasResponseError();
   const featuredImage = getImage(product.featuredImage);
+  const featuredImageDetail = getImage(product.featuredImage?.detail ?? null);
+
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   const isProductPlublishedToStoreApp = product.publishedAt !== null;
   const [selectedVariant, setSelectedVariant] = useState("");
@@ -169,10 +174,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             props.values.product.priceRangeV2.maxVariantPrice.currencyCode,
           value: variantFound?.price ?? 0,
         });
+
         const isSoldOut =
           variantFound &&
           (!variantFound.availableForSale ||
             variantFound.inventoryQuantity === 0);
+
         return (
           <Card
             key={`${product.id}-single-view`}
@@ -405,7 +412,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               </CardBody>
             </Container>
             <Container p="4">
-              {!featuredImage && !variantFoundImage && (
+              {!featuredImageDetail && !variantFoundImage && (
                 <Image
                   data-testid="no-image-found"
                   src={notFoundImage}
@@ -421,19 +428,20 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 />
               )}
 
-              {featuredImage && !variantFoundImage && (
-                <Zoom>
-                  <GatsbyImage
-                    className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
-                    image={featuredImage}
-                    alt={product.featuredImage?.altText || product.title}
-                    loading="lazy"
-                  />
-                </Zoom>
+              {featuredImageDetail && !variantFoundImage && (
+                <InnerImageZoom
+                  src={featuredImageDetail.images?.fallback?.src || ""}
+                  zoomSrc={product.featuredImage?.originalSrc || ""}
+                  fullscreenOnMobile={true}
+                  sources={featuredImageDetail.images?.sources}
+                  imgAttributes={{
+                    alt: product.featuredImage?.altText || product.title,
+                  }}
+                />
               )}
 
               {variantFoundImage && props.values.variant !== "" && (
-                <Zoom>
+                <SafeZoom>
                   <GatsbyImage
                     className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
                     image={variantFoundImage}
@@ -443,7 +451,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     }
                     loading="lazy"
                   />
-                </Zoom>
+                </SafeZoom>
               )}
 
               {!product.hasOnlyDefaultVariant && (
@@ -465,7 +473,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       const variantImage = getImage(variant.image);
                       return (
                         variantImage && (
-                          <Zoom>
+                          <SafeZoom>
                             <Box
                               key={index}
                               className="aspect-square w-40 mx-2 my-2"
@@ -481,7 +489,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                                 className="rounded-xl my-2 mx-1 object-cover w-full h-full"
                               />
                             </Box>
-                          </Zoom>
+                          </SafeZoom>
                         )
                       );
                     })}
@@ -512,7 +520,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       return (
                         // TODO: make the preview image small, and then when opens in modal, fullsize
                         mediaImage && (
-                          <Zoom>
+                          <SafeZoom>
                             <Box
                               key={index}
                               className="aspect-square w-40 mx-2 my-2"
@@ -528,7 +536,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                                 className=" my-2 mx-1 object-cover w-full h-full"
                               />
                             </Box>
-                          </Zoom>
+                          </SafeZoom>
                         )
                       );
                     })}
