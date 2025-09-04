@@ -144,16 +144,6 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           color="pink.800"
                           lineHeight="normal"
                         >
-                          <Text
-                            as="span"
-                            display="block"
-                            data-testid="item-price-from"
-                            fontSize="sm"
-                            fontWeight="bold"
-                            color="pink.800"
-                          >
-                            From
-                          </Text>
                           <Highlight
                             query="AUD"
                             styles={{ pr: "1", color: "#7e718a" }}
@@ -163,6 +153,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           {`$${amount}`}
                         </Text>
                       )}
+
                       <Text
                         fontSize="md"
                         textAlign="right"
