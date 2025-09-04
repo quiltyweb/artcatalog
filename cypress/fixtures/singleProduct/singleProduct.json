@@ -248,7 +248,8 @@
                    ]
                 }
              ],
-             "metafields":[]
+             "metafields":[],
+             "productType":"productType goes here"
           },
           "collectionHandle":"home-decor"
        },
