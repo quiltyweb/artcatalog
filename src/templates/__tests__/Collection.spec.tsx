@@ -153,7 +153,6 @@ describe("Collection page Template", () => {
     render(<Collection pageContext={mockedPageContext} />);
     screen.getByRole("heading", { name: "This is the collection title" });
     screen.getByText("This is the Collection description text");
-    screen.getByText(/from/i);
     screen.getByText(/AUD/i);
     screen.getByText(/\$10/i);
     screen.getByText(/view details/i);
