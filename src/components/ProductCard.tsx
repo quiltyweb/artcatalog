@@ -214,11 +214,24 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     size="md"
                     color="#ffffff"
                     backgroundColor="black"
-                    padding={1}
-                    marginTop={2}
-                    marginBottom={2}
+                    padding={2}
+                    my={4}
+                    mr={2}
                   >
                     Sold out
+                  </Badge>
+                )}
+                {product.productType && (
+                  <Badge
+                    variant="outline"
+                    size="md"
+                    color="#000000"
+                    backgroundColor="white"
+                    padding={2}
+                    my={4}
+                    mr={2}
+                  >
+                    {product.productType}
                   </Badge>
                 )}
                 {!isProductPlublishedToStoreApp && (
