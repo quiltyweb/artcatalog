@@ -348,6 +348,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                               const quantity = parseInt(val);
                               form.setFieldValue("quantity", quantity);
                             }}
+                            isDisabled={
+                              isSoldOut || !isProductPlublishedToStoreApp
+                            }
                           >
                             <NumberInputField />
                             <NumberInputStepper>

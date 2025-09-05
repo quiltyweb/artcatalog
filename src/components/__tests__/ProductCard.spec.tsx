@@ -781,7 +781,7 @@ describe("ProductCard", () => {
     screen.getByText("Human Nature Collection");
   });
 
-  it("renders add to cart button with a disabled state and a sold out Badge when stock is zero", async () => {
+  it("renders form controls with a disabled state and a sold out Badge when stock is zero", async () => {
     const mockedShopifyProductSoldOutData = {
       product: {
         id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
@@ -831,6 +831,7 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
+        publishedAt: "2025-08-19T03:23:21Z",
         metafields: [],
       },
       collectionHandle: "prints",
@@ -844,12 +845,13 @@ describe("ProductCard", () => {
 
     expect(screen.getAllByText("Sold out")).toHaveLength(1);
 
+    expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
       screen.getByRole("button", { name: "Add to shopping bag" })
     ).toBeDisabled();
   });
 
-  it("renders add to cart button with a disabled state and an item unavailable Badge when product is rendered but not published", async () => {
+  it("renders form controls with a disabled state and an item unavailable Badge when product is rendered but not published", async () => {
     const mockedShopifyProductSoldOutData = {
       product: {
         id: "5ab74d61-7854-5f4e-86fb-ae0e7b282efd",
@@ -911,6 +913,7 @@ describe("ProductCard", () => {
       />
     );
     expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
+    expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
       screen.getByRole("button", { name: "Add to shopping bag" })
     ).toBeDisabled();
