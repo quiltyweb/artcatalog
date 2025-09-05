@@ -109,11 +109,12 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
                   loading="eager"
                 />
 
-                <div className="absolute bottom-4 left-4 max-w-[80%] bg-black/60 text-white px-4 py-2 rounded-lg">
+                <div className="absolute bottom-4 left-4 max-w-[80%] bg-black/80 text-white  px-4 py-2 rounded-lg">
                   <p className="text-base leading-snug line-clamp-3">
                     <Link
                       to="/collections/original-paintings/"
-                      className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+                      className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black
+                      font-medium font-serif"
                     >
                       {item.caption}
                     </Link>
