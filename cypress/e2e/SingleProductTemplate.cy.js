@@ -185,7 +185,7 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("heading", { name: "Details gallery:" }).should("not.exist");
   });
 
-  it("Renders single product page with sold out badge and disabled button", () => {
+  it("Renders single product page with disabled form controls when product is sold out", () => {
     cy.intercept(
       "GET",
       "/page-data/collections/original-paintings/test-title-handle/page-data.json",
@@ -205,6 +205,9 @@ describe("Collection Template mobile view", () => {
       name: /test title Original Acrylic Painting/i,
     });
     cy.findByText(/Sold out/);
+    cy.findByRole("spinbutton", {
+      name: /Quantity/i,
+    }).should("have.attr", "disabled");
     cy.findByRole("button", {
       name: /Add to shopping bag/i,
     }).should("have.attr", "disabled");
