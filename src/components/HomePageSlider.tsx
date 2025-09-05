@@ -105,7 +105,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
                 <img
                   src={item.reference.image.url}
                   alt={item.alt_text}
-                  className="object-cover h-full rounded-sm"
+                  className="object-cover h-full lg:w-full rounded-sm"
                   loading="eager"
                 />
 
@@ -114,7 +114,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
                     <Link
                       to="/collections/original-paintings/"
                       className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black
-                      font-medium font-serif"
+                      font-serif font-medium mb-1 text-lg"
                     >
                       {item.caption}
                     </Link>
