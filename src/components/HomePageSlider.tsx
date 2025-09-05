@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { Link } from "gatsby";
 
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
@@ -100,12 +101,26 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
         >
           {images.map((item, idx) => (
             <SwiperSlide key={item.image} className="h-full w-full p-2">
-              <img
-                src={item.reference.image.url}
-                alt={item.alt_text}
-                className="h-full w-full object-cover rounded"
-                loading="eager"
-              />
+              <div className="flex flex-col items-center h-full w-full">
+                <img
+                  src={item.reference.image.url}
+                  alt={item.alt_text}
+                  className="object-cover h-full lg:w-full rounded-sm"
+                  loading="eager"
+                />
+
+                <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/80 text-white  px-4 py-2 rounded-lg">
+                  <p className="text-base leading-snug line-clamp-3">
+                    <Link
+                      to="/collections/original-paintings/"
+                      className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black
+                      font-serif font-medium mb-1 text-lg"
+                    >
+                      {item.caption}
+                    </Link>
+                  </p>
+                </div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
