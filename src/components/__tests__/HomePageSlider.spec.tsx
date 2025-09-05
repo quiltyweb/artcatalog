@@ -137,4 +137,19 @@ describe("HomePageSlider", () => {
       expect(screen.getByAltText(`testing ${index + 1}`)).toBeInTheDocument();
     });
   });
+
+  // TODO: make the link dynamic to the category of the image
+  it("renders all images with visible caption title as a hardcoded link to original paintings", () => {
+    render(<HomePageSlider images={MOCKED_IMAGES_PROPS} />);
+
+    MOCKED_IMAGES_PROPS.forEach((item, index) => {
+      expect(
+        screen.getByRole("link", { name: item.caption })
+      ).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: item.caption })).toHaveAttribute(
+        "href",
+        "/collections/original-paintings/"
+      );
+    });
+  });
 });
