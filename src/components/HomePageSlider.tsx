@@ -109,7 +109,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
                   loading="eager"
                 />
 
-                <div className="absolute bottom-4 left-4 max-w-[80%] bg-black/80 text-white  px-4 py-2 rounded-lg">
+                <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/80 text-white  px-4 py-2 rounded-lg">
                   <p className="text-base leading-snug line-clamp-3">
                     <Link
                       to="/collections/original-paintings/"
