@@ -3,7 +3,6 @@ import SafeZoom from "./SafeZoom";
 import "react-medium-image-zoom/dist/styles.css";
 import "react-inner-image-zoom/lib/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
-
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -49,6 +48,7 @@ import {
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
+import { Link } from "gatsby";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -249,6 +249,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   className="prose prose-lg max-w-none mb-6"
                   dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                 />
+                <Link to="/#" className="underline mb-4 block">
+                  Go to Print version of this original painting
+                </Link>
                 <Box
                   data-testid="item-price"
                   fontSize="2xl"
