@@ -8,6 +8,7 @@
              "title":"Cotton Beach towel",
              "handle":"beach-towel",
              "description":"description text for Cotton Beach towel",
+             "descriptionHtml":"description text for Cotton Beach towel in html field",
              "priceRangeV2":{
                 "minVariantPrice":{
                    "amount":10,

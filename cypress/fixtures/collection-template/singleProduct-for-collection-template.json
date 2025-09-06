@@ -8,6 +8,7 @@
                 "title": "test print (not for sale)",
                 "handle": "test-print-not-for-sale",
                 "description": "description for test print (not for sale)",
+                "descriptionHtml": "description for test print (not for sale) in html field",
                 "status": "ACTIVE",
                 "hasOutOfStockVariants": false,
                 "publishedAt": "dsdssdds",

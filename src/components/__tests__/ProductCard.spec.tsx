@@ -163,6 +163,7 @@ describe("ProductCard", () => {
         title: "Test product name",
         handle: "test-print-not-for-sale",
         description: "Product description goes here",
+        descriptionHtml: "<p>Product description html goes here<p>",
         priceRangeV2: {
           minVariantPrice: {
             amount: 10.0,
@@ -300,7 +301,7 @@ describe("ProductCard", () => {
     // screen.getByAltText(
     //   "Alternative text of featured Image of product goes here..."
     // );
-    screen.getByText("Product description goes here");
+    screen.getByText("Product description html goes here");
     screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });

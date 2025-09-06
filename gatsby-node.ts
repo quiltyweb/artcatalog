@@ -30,6 +30,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
             title
             handle
             description
+            descriptionHtml
             status
             hasOutOfStockVariants
             priceRangeV2 {

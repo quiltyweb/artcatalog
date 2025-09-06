@@ -80,7 +80,7 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "'test print (not for sale)'" });
-    cy.findByText("description for test print (not for sale)");
+    cy.findByText("description for test print (not for sale) in html field");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.findByText("Option Required");
     cy.get("select").select("Wood");

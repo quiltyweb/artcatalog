@@ -245,10 +245,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     Item unavailable
                   </Badge>
                 )}
-
-                <Text wordBreak={"normal"} mb="2.4rem">
-                  {product.description}
-                </Text>
+                <Box
+                  className="prose prose-lg max-w-none mb-6"
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                />
                 <Box
                   data-testid="item-price"
                   fontSize="2xl"
