@@ -84,8 +84,8 @@ describe("Collection Template mobile", () => {
       }
     );
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
-    cy.findByRole("heading", { name: "test print (not for sale)" });
-    cy.findByText("description for test print (not for sale)");
+    cy.findByRole("heading", { name: "'test print (not for sale)'" });
+    cy.findByText("description for test print (not for sale) in html field");
     cy.findByText(/AUD/i);
     cy.findByText(/\$0.00/i);
     cy.findByLabelText(/quantity/i);

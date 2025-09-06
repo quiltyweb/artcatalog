@@ -22,6 +22,7 @@ describe("Single product Template", () => {
         title: "Test product name",
         handle: "test-product-handle",
         description: "Product description goes here",
+        descriptionHtml: "<p>Product description html goes here<p>",
         priceRangeV2: {
           minVariantPrice: {
             amount: 10.0,
@@ -168,7 +169,7 @@ describe("Single product Template", () => {
     ).toHaveAttribute("href", "/collections/home-decor");
     screen.getByRole("heading", { name: "'Test product name'" });
     expect(screen.getAllByText(/Test product name/i)).toHaveLength(2);
-    screen.getByText("Product description goes here");
+    screen.getByText("Product description html goes here");
     screen.getByText(/from/i);
     screen.getByText(/AUD/i);
     screen.getByText(/\$10.00/i);
