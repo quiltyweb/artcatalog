@@ -62,7 +62,7 @@
     "gatsby-plugin-styled-components": "^6.10.0",
     "gatsby-source-filesystem": "^5.11.0",
     "gatsby-source-graphql": "^5.13.0",
-    "gatsby-source-shopify": "^9.0.0",
+    "gatsby-source-shopify": "^10.0.0",
     "gatsby-transformer-sharp": "^5.11.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
