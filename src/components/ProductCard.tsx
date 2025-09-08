@@ -192,7 +192,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 <Heading as="h2" color="pink.800" lineHeight="normal">
                   {`'${productMainTitle}'`}
                 </Heading>
-
                 {productSubTitle && (
                   <Heading
                     as="h3"
@@ -203,11 +202,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     {productSubTitle}
                   </Heading>
                 )}
-
                 {!product.hasOnlyDefaultVariant && (
                   <Text>{props.values.variant}</Text>
                 )}
-
                 {isSoldOut && (
                   <Badge
                     variant="solid"
@@ -249,9 +246,14 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   className="prose prose-lg max-w-none mb-6"
                   dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                 />
-                <Link to="/#" className="underline mb-4 block">
+                {/* TODO: add print handle to open specific print */}
+                <Link
+                  to={`/collections/prints`}
+                  className="underline mb-4 block"
+                >
                   Go to Print version of this original painting
                 </Link>
+
                 <Box
                   data-testid="item-price"
                   fontSize="2xl"
@@ -295,7 +297,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     </>
                   )}
                 </Box>
-
                 <Form>
                   {!product.hasOnlyDefaultVariant &&
                     product.options.length > 0 &&

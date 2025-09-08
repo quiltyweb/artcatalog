@@ -1533,7 +1533,7 @@ describe("ProductCard", () => {
     screen.getByText("A request error occurred, please try again later.");
   });
   // TODO: to be implemented
-  it("Go to Print version of original painting", async () => {
+  it("Go to Print version page of original painting", async () => {
     // Go to Print version of this original painting
     screen.getByRole("link", {
       name: "Go to Print version of original painting",

@@ -27,6 +27,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
           descriptionHtml
           products {
             id
+            shopifyId
             title
             handle
             description
@@ -124,6 +125,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
               value
             }
             productType
+            printVersion: metafield(namespace: "custom", key: "print_version") {
+              key
+              value
+            }
           }
         }
       }
@@ -156,6 +161,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
         collectionHandle: node.handle,
       },
     });
+
     node.products.map((product) => {
       createPage({
         path: `/collections/${node.handle}/${product.handle}`,
