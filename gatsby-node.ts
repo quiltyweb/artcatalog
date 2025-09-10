@@ -13,6 +13,19 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   const COLLECTIONS_AND_PRODUCTS_DATA = gql`
     query CollectionsAndProductsIntoPages {
+      allShopifyProduct(
+        filter: {
+          status: { eq: ACTIVE }
+          collections: { elemMatch: { handle: { eq: "prints" } } }
+        }
+      ) {
+        nodes {
+          shopifyId
+          title
+          handle
+        }
+      }
+
       allShopifyCollection(
         filter: {
           handle: { in: ["prints", "original-paintings"] }
@@ -27,6 +40,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
           descriptionHtml
           products {
             id
+            shopifyId
             title
             handle
             description
@@ -124,6 +138,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
               value
             }
             productType
+            printVersion: metafield(namespace: "custom", key: "print_version") {
+              key
+              value
+            }
           }
         }
       }
@@ -156,13 +174,22 @@ export const createPages: GatsbyNode["createPages"] = async ({
         collectionHandle: node.handle,
       },
     });
+
+    // TODO: look in allShopifyProduct and find printVersion GID
+
     node.products.map((product) => {
+      const printVersionGID = product.printVersion?.value;
+      const printVersionItem =
+        collectionsAndProductsResult.data?.allShopifyProduct.nodes.find(
+          (product) => product.shopifyId === printVersionGID
+        );
       createPage({
         path: `/collections/${node.handle}/${product.handle}`,
         component: path.resolve(`./src/templates/SingleProduct.tsx`),
         context: {
           product: product,
           collectionHandle: node.handle,
+          printVersion: printVersionItem,
         },
       });
     });

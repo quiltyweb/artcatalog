@@ -1532,4 +1532,87 @@ describe("ProductCard", () => {
     );
     screen.getByText("A request error occurred, please try again later.");
   });
+
+  it("Go to Print version page of original painting", async () => {
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test product name",
+        handle: "test-print-not-for-sale",
+        description: "Product description goes here",
+        priceRangeV2: {
+          minVariantPrice: {
+            amount: 10.0,
+            currencyCode: "AUD",
+          },
+          maxVariantPrice: {
+            amount: 20.0,
+            currencyCode: "AUD",
+          },
+        },
+        featuredImage: {
+          altText: "Alternative text of featured Image of product goes here...",
+          gatsbyImageData: {
+            images: null,
+            layout: "constrained",
+            placeholder: {
+              fallback: "data:image/png;base64,/9j/4Q",
+            },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: false,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/446004dsdsdds",
+            displayName: "test print (not for sale) - Plastic",
+            title: "Red",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              {
+                name: "select a Color",
+                value: "red",
+              },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 1,
+        media: [],
+        options: [
+          {
+            shopifyId: "gid://shopify/ProductOption/323223",
+            name: "select a Color",
+            values: ["red"],
+          },
+          {
+            shopifyId: "gid://shopify/ProductOption/3ewewe23223",
+            name: "select a Color",
+            values: ["green"],
+          },
+        ],
+        metafields: [],
+      },
+      collectionHandle: "decor",
+    };
+
+    const mockedPrintVersion = {
+      shopifyId: "gid://shopify/Product/123123",
+      title: '"Prana" Print',
+      handle: "prana-print",
+    };
+    render(
+      <ProductCard
+        product={mockedShopifyProductData.product}
+        printVersion={mockedPrintVersion}
+      />
+    );
+
+    screen.getByRole("link", {
+      name: "Go to Print version of this original painting",
+    });
+  });
 });

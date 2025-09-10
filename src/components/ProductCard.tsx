@@ -3,7 +3,6 @@ import SafeZoom from "./SafeZoom";
 import "react-medium-image-zoom/dist/styles.css";
 import "react-inner-image-zoom/lib/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
-
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -49,9 +48,11 @@ import {
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
+import { Link } from "gatsby";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
+  printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
 };
 
 interface ProductCardFormValues {
@@ -63,6 +64,7 @@ interface ProductCardFormValues {
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
+  printVersion,
 }): React.ReactElement => {
   const productMainTitle =
     product.metafields.find((field) => field.key === "title_line_1")?.value ||
@@ -192,7 +194,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 <Heading as="h2" color="pink.800" lineHeight="normal">
                   {`'${productMainTitle}'`}
                 </Heading>
-
                 {productSubTitle && (
                   <Heading
                     as="h3"
@@ -203,11 +204,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     {productSubTitle}
                   </Heading>
                 )}
-
                 {!product.hasOnlyDefaultVariant && (
                   <Text>{props.values.variant}</Text>
                 )}
-
                 {isSoldOut && (
                   <Badge
                     variant="solid"
@@ -249,6 +248,16 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   className="prose prose-lg max-w-none mb-6"
                   dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                 />
+                {/* TODO: add print handle to open specific print */}
+                {printVersion && (
+                  <Link
+                    to={`/collections/prints/${printVersion.handle}`}
+                    className="underline mb-4 block"
+                  >
+                    Go to Print version of this original painting
+                  </Link>
+                )}
+
                 <Box
                   data-testid="item-price"
                   fontSize="2xl"
@@ -292,7 +301,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     </>
                   )}
                 </Box>
-
                 <Form>
                   {!product.hasOnlyDefaultVariant &&
                     product.options.length > 0 &&

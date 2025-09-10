@@ -69,7 +69,7 @@ const config: GatsbyConfig = {
         storeUrl: "brushella-dev.myshopify.com",
         password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         salesChannel: process.env.GATSBY_SHOPIFY_APP_ID,
-        shopifyConnections: ["collections", "locations"],
+        shopifyConnections: ["collections"],
       },
     },
     `gatsby-plugin-postcss`,

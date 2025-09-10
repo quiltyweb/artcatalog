@@ -12,12 +12,13 @@ type SingleProductProps = {
     id: string;
     collectionHandle: string;
     product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
+    printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
   };
 };
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
-  pageContext,
+  pageContext: { product, printVersion },
 }): React.ReactElement => {
   const pathnameArray = location.pathname.split("/");
   const categoryName = pathnameArray[2];
@@ -37,10 +38,10 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">{pageContext.product.title}</BreadcrumbLink>
+          <BreadcrumbLink href="#">{product.title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <ProductCard product={pageContext.product} />
+      <ProductCard product={product} printVersion={printVersion} />
     </Container>
   );
 };
