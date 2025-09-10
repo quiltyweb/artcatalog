@@ -98,7 +98,7 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
 }): React.ReactElement => {
   return (
     <Stack
-      direction={["row", "column"]}
+      direction={["column", "column", "column", "row"]}
       spacing={["5", "7"]}
       align="left"
       px={5}
@@ -170,6 +170,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
           </DrawerContent>
         </Drawer>
       </Box>
+
       <IconButton
         display={["block", "block", "block", "none", "none", "none", "none"]}
         onClick={handleClickOnOpen}
