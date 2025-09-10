@@ -80,7 +80,9 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                 minVariantPrice: { amount, currencyCode },
               },
             }) => {
-              const featuredImageForGatbyImage = getImage(featuredImage);
+              const featuredImageForGatsbyImage = getImage(
+                featuredImage?.grid ?? null
+              );
               return (
                 <Link
                   key={handle}
@@ -96,9 +98,9 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                     }}
                   >
                     <CardBody>
-                      {featuredImageForGatbyImage && featuredImage?.altText ? (
+                      {featuredImageForGatsbyImage && featuredImage?.altText ? (
                         <GatsbyImage
-                          image={featuredImageForGatbyImage}
+                          image={featuredImageForGatsbyImage}
                           alt={featuredImage.altText}
                           style={{
                             minHeight: "300px",
