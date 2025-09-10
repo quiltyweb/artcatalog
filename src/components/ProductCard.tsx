@@ -52,6 +52,7 @@ import { Link } from "gatsby";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
+  printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
 };
 
 interface ProductCardFormValues {
@@ -63,6 +64,7 @@ interface ProductCardFormValues {
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
+  printVersion,
 }): React.ReactElement => {
   const productMainTitle =
     product.metafields.find((field) => field.key === "title_line_1")?.value ||
@@ -247,12 +249,14 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                 />
                 {/* TODO: add print handle to open specific print */}
-                <Link
-                  to={`/collections/prints`}
-                  className="underline mb-4 block"
-                >
-                  Go to Print version of this original painting
-                </Link>
+                {printVersion && (
+                  <Link
+                    to={`/collections/prints/${printVersion.handle}`}
+                    className="underline mb-4 block"
+                  >
+                    Go to Print version of this original painting
+                  </Link>
+                )}
 
                 <Box
                   data-testid="item-price"
