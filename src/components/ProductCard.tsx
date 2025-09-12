@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SafeZoom from "./SafeZoom";
-import "react-medium-image-zoom/dist/styles.css";
-import "react-inner-image-zoom/lib/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/styles.min.css";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   Box,
@@ -532,7 +531,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Details gallery:
                   </Heading>
-                  <Flex flexDirection={["column", "row"]}>
+                  <Flex flexDirection={["column", "row"]} flexWrap={"wrap"}>
                     {product.media.map((mediaItem, index) => {
                       if (mediaItem.mediaContentType !== "IMAGE") {
                         return;
@@ -542,25 +541,26 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         getImage(mediaItem?.preview?.image);
 
                       return (
-                        // TODO: make the preview image small, and then when opens in modal, fullsize
                         mediaImage && (
-                          <SafeZoom>
-                            <Box
-                              key={index}
-                              className="aspect-square w-40 mx-2 my-2"
-                            >
-                              <GatsbyImage
+                          <div className="relative inline-block m-4">
+                            <SafeZoom>
+                              <Box
                                 key={index}
-                                image={mediaImage}
-                                alt={
-                                  mediaItem.preview?.image.altText ||
-                                  product.title
-                                }
-                                loading="lazy"
-                                className=" my-2 mx-1 object-cover w-full h-full"
-                              />
-                            </Box>
-                          </SafeZoom>
+                                className="aspect-square w-40 mx-2 my-2"
+                              >
+                                <GatsbyImage
+                                  key={index}
+                                  image={mediaImage}
+                                  alt={
+                                    mediaItem.preview?.image.altText ||
+                                    product.title
+                                  }
+                                  loading="lazy"
+                                  className=" my-2 mx-1 object-cover w-full h-full"
+                                />
+                              </Box>
+                            </SafeZoom>
+                          </div>
                         )
                       );
                     })}
