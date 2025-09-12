@@ -488,7 +488,11 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   >
                     Variations:
                   </Heading>
-                  <Flex flexDirection={["column", "row"]} mb="1.4rem">
+                  <Flex
+                    flexDirection={["column", "row"]}
+                    mb="1.4rem"
+                    flexWrap={"wrap"}
+                  >
                     {product.variants.map((variant, index) => {
                       if (!variant.image) {
                         return;
@@ -496,23 +500,25 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       const variantImage = getImage(variant.image);
                       return (
                         variantImage && (
-                          <SafeZoom>
-                            <Box
-                              key={index}
-                              className="aspect-square w-40 mx-2 my-2"
-                            >
-                              <GatsbyImage
+                          <div className="relative inline-block m-4">
+                            <SafeZoom>
+                              <Box
                                 key={index}
-                                image={variantImage}
-                                alt={
-                                  variant.image.altText ||
-                                  `${variant.title} ${product.title}`
-                                }
-                                loading="lazy"
-                                className="rounded-xl my-2 mx-1 object-cover w-full h-full"
-                              />
-                            </Box>
-                          </SafeZoom>
+                                className="aspect-square w-40 mx-2 my-2"
+                              >
+                                <GatsbyImage
+                                  key={index}
+                                  image={variantImage}
+                                  alt={
+                                    variant.image.altText ||
+                                    `${variant.title} ${product.title}`
+                                  }
+                                  loading="lazy"
+                                  className="rounded-xl my-2 mx-1 object-cover w-full h-full"
+                                />
+                              </Box>
+                            </SafeZoom>
+                          </div>
                         )
                       );
                     })}
