@@ -5,9 +5,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "@chakra-ui/react";
+import { GatsbyImage } from "gatsby-plugin-image";
 
 type TileImage = {
-  src: string;
+  productTitle: string;
+  src: Record<string, unknown> | string;
   alt: string;
   href: string;
 };
@@ -71,8 +73,8 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
         return (
           <SwiperSlide key={idx} className="h-full w-full">
             <div className="flex flex-col items-center">
-              <img
-                src={image.src}
+              <GatsbyImage
+                image={image.src as any} // Type assertion since src can be string or object
                 alt={image.alt}
                 className="aspect-[3/4] object-cover h-full w-full rounded-lg"
               />
@@ -87,7 +89,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                   href={image.href}
                   className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
                 >
-                  {image.alt}
+                  {image.productTitle}
                 </Link>
               </div>
             </div>
