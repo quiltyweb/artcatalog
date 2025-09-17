@@ -15,6 +15,7 @@ import { Link } from "gatsby";
 type TileListProps = {
   title?: string;
 };
+// TODO: make this component generic to render items list as a grid of cards
 const TileList: React.FunctionComponent<TileListProps> = ({
   title,
 }): React.ReactElement => {

@@ -35,6 +35,7 @@ type FlattenedImage = {
   caption: string;
   category: string;
 };
+// TODO: render slides in order coming from CMS
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
