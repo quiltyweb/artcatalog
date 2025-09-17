@@ -13,7 +13,6 @@ export const LayoutDataProvider: React.FunctionComponent<
   // ############################################
   // Note: For E2E testing purposes. Do not remove.
   if (typeof window !== "undefined" && (window as any).__mockLayoutGlobalData) {
-    // (window as any).__mockLayoutGlobalData;
     return (
       <LayoutContext.Provider value={(window as any).__mockLayoutGlobalData}>
         {children}
@@ -101,10 +100,13 @@ export const LayoutDataProvider: React.FunctionComponent<
             }
             featuredImage {
               altText
-              gatsbyImageData(
+              originalSrc
+              gridCategorySlider: gatsbyImageData(
                 width: 500
+                height: 500
                 layout: CONSTRAINED
                 placeholder: BLURRED
+                formats: [AUTO, WEBP]
               )
             }
             hasOnlyDefaultVariant
@@ -125,13 +127,13 @@ export const LayoutDataProvider: React.FunctionComponent<
                 altText
                 height
                 width
+                originalSrc
+                transformedSrc
                 gatsbyImageData(
                   width: 500
                   layout: CONSTRAINED
                   placeholder: BLURRED
                 )
-                originalSrc
-                transformedSrc
               }
             }
             mediaCount
@@ -146,14 +148,14 @@ export const LayoutDataProvider: React.FunctionComponent<
                   altText
                   height
                   width
+                  originalSrc
+                  transformedSrc
                   gatsbyImageData(
                     height: 82
                     width: 82
                     aspectRatio: 1
                     placeholder: BLURRED
                   )
-                  originalSrc
-                  transformedSrc
                 }
               }
             }

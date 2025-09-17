@@ -387,7 +387,7 @@ describe("IndexPage", () => {
                 featuredImage: {
                   altText:
                     'The framed painting titled "Prana" depicts a pair of realistic-looking lungs surrounded by colorful flowers, insects, and snakes. The background features a gradient that transitions from light to dark green. The artist, Brushella, is holding the painting with both hands and wearing a happy expression.',
-                  gatsbyImageData: {
+                  gridCategorySlider: {
                     images: {
                       sources: [
                         {
@@ -885,11 +885,11 @@ describe("IndexPage", () => {
 
     // homepage mini slider Tiles:
     screen.getByRole("heading", { name: "Browse Brushella’s World" });
-    expect(screen.getAllByAltText("testing alt text")).toHaveLength(6);
-    screen.getByAltText(
-      "'Prana' by Brushella from the Human Nature Collection."
-    );
-    screen.getByRole("link", { name: /go to Original Paintings category/ });
+    screen.getByRole("region", { name: "Browse Brushella’s World" });
+    screen.getByRole("article", { name: "Original Paintings Testing slider" });
+    screen.getByRole("link", {
+      name: /go to Original Paintings Testing category/,
+    });
   });
 
   it("renders index page without Homepage main slider when images are not available", () => {
@@ -898,5 +898,6 @@ describe("IndexPage", () => {
     expect(
       screen.queryByLabelText("Homepage main slider")
     ).not.toBeInTheDocument();
+    screen.getByText("No categories available at the moment.");
   });
 });
