@@ -45,22 +45,28 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
       }}
     >
       {/* Custom navigation buttons */}
-      <button
-        className={`prev-${tile.id} absolute left-2 top-1/2 -translate-y-1/2 z-10 
-                  opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 
-                  transition-opacity bg-white/80 rounded-full p-1 shadow`}
-        aria-label="Previous image"
-      >
-        ‹
-      </button>
-      <button
-        className={`next-${tile.id} absolute right-2 top-1/2 -translate-y-1/2 z-10 
-                  opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 
-                  transition-opacity bg-white/80 rounded-full p-1 shadow`}
-        aria-label="Next image"
-      >
-        ›
-      </button>
+      {tile.images.length > 1 && (
+        <>
+          <button
+            className={`prev-${tile.id} absolute left-2 top-1/2 -translate-y-1/2 z-10
+                   group-focus-within:opacity-100
+                   bg-white/70 rounded-full p-2 shadow
+                   text-md font-bold`}
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          <button
+            className={`next-${tile.id} absolute right-2 top-1/2 -translate-y-1/2 z-10
+                   group-focus-within:opacity-100
+                   bg-white/70 rounded-full p-2 shadow
+                   text-md font-bold`}
+            aria-label="Next image"
+          >
+            ›
+          </button>
+        </>
+      )}
       {tile.images.map((image, idx) => {
         return (
           <SwiperSlide key={idx} className="h-full w-full">
