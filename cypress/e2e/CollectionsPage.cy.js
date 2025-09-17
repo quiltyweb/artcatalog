@@ -57,7 +57,7 @@ describe("Collections Page mobile", () => {
       cy.findByRole("heading", { name: "All Categories" });
       cy.findByText("Prints");
       cy.findByText("Original Paintings");
-      cy.findAllByRole("img").should("have.length", 2);
+      cy.findAllByRole("article").should("have.length", 2);
     });
   });
 
