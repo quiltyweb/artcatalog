@@ -1,16 +1,17 @@
 import { graphql, useStaticQuery } from "gatsby";
 import React, { createContext, useContext } from "react";
 
-const LayoutContext = createContext<Queries.LayoutGlobalDataQuery | null>(null);
-
 type LayoutDataProviderProps = {
   children: React.ReactNode;
 };
+
+const LayoutContext = createContext<Queries.LayoutGlobalDataQuery | null>(null);
 
 export const LayoutDataProvider: React.FunctionComponent<
   LayoutDataProviderProps
 > = ({ children }) => {
   // ############################################
+  // TODO: find another way to mock context for E2E tests
   // Note: For E2E testing purposes. Do not remove.
   if (typeof window !== "undefined" && (window as any).__mockLayoutGlobalData) {
     return (

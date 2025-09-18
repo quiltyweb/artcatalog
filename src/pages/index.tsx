@@ -4,6 +4,7 @@ import SEO from "../components/SEO";
 import { HomePageSlider } from "../components/HomePageSlider";
 import { useLayoutData } from "../context/LayoutContext";
 import { TileGridGallery } from "../components/TileGridGallery";
+import { useCollectionToSlider } from "../hooks/useCollectionToSlider";
 
 type FlattenedImage = {
   image: string;
@@ -45,22 +46,7 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
     return { ...flattenedFields } as FlattenedImage;
   });
 
-  const collectionsData = useLayoutData()?.allShopifyCollection.nodes;
-  // TODO: make this helper function mapCollectionToTile
-  const collectionsTiles = collectionsData?.map((collection) => ({
-    id: collection.id,
-    title: collection.title,
-    handle: collection.handle,
-    images: collection.products.map((product) => ({
-      productTitle: product.title,
-      src:
-        product.featuredImage?.gridCategorySlider ||
-        product.featuredImage?.originalSrc ||
-        "",
-      alt: product.featuredImage?.altText || product.title || "",
-      href: `/collections/${collection.handle}/${product.handle}`,
-    })),
-  }));
+  const collectionsTiles = useCollectionToSlider();
 
   return (
     <>
