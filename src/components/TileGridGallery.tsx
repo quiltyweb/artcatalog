@@ -55,7 +55,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
               focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2"
               >
                 <h4
-                  className="text-lg font-bold"
+                  className="text-xl font-bold"
                   aria-label={`go to ${tile.title} category`}
                 >
                   {tile.title}
