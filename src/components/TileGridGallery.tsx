@@ -27,7 +27,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
   return (
     <div className="p-4 max-w-[1200px] mx-auto">
       <Heading
-        id="browse-categories-title"
+        id="all-categories"
         as="h3"
         color="pink.800"
         mb="2.4rem"
@@ -37,7 +37,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
       </Heading>
 
       <section
-        aria-labelledby="browse-categories-title"
+        aria-labelledby="all-categories"
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
       >
         {!tiles && <p>No categories available at the moment.</p>}
