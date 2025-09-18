@@ -6,7 +6,7 @@ import * as StoreContext from "../../context/StoreContext";
 import * as LayoutContext from "../../context/LayoutContext";
 const useLineItemsCount = jest.spyOn(StoreContext, `useLineItemsCount`);
 jest.mock("@shopify/storefront-api-client");
-const useLayoutData = jest.spyOn(LayoutContext, `useLayoutData`);
+const useLayoutConsumer = jest.spyOn(LayoutContext, `useLayoutConsumer`);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -18,7 +18,7 @@ afterEach(() => {
 });
 
 describe("Layout", () => {
-  useLayoutData.mockImplementation((): any => ({
+  useLayoutConsumer.mockImplementation((): any => ({
     site: {
       siteMetadata: {
         title: "Site Title",

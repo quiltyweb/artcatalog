@@ -3,7 +3,7 @@ import * as Gatsby from "gatsby";
 import { render, screen } from "@testing-library/react";
 import IndexPage from "../index";
 import * as LayoutContext from "../../context/LayoutContext";
-const useLayoutData = jest.spyOn(LayoutContext, `useLayoutData`);
+const useLayoutConsumer = jest.spyOn(LayoutContext, `useLayoutConsumer`);
 
 jest.mock("swiper/react", () => ({
   Swiper: ({
@@ -34,7 +34,7 @@ afterEach(() => {
 
 describe("IndexPage", () => {
   it("renders basic index correctly", () => {
-    useLayoutData.mockImplementation(() => ({
+    useLayoutConsumer.mockImplementation(() => ({
       storefrontshopify: {
         metaobjects: {
           nodes: [
@@ -893,7 +893,7 @@ describe("IndexPage", () => {
   });
 
   it("renders index page without Homepage main slider when images are not available", () => {
-    useLayoutData.mockImplementation(() => null);
+    useLayoutConsumer.mockImplementation(() => null);
     render(<IndexPage />);
     expect(
       screen.queryByLabelText("Homepage main slider")
