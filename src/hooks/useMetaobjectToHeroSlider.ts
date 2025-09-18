@@ -1,4 +1,4 @@
-import { useLayoutData } from "../context/LayoutContext";
+import { useLayoutConsumer } from "../context/LayoutContext";
 
 type FlattenedImage = {
   image: string;
@@ -20,7 +20,7 @@ type FlattenedImage = {
 // TODO: make this helper reduceMetaobjectsToSliderItems, and change order of images based on admin setting (add order field in metafield)
 export function useMetaobjectToHeroSlider() {
   const mainSliderImages =
-    useLayoutData()?.storefrontshopify.metaobjects.nodes?.map(
+    useLayoutConsumer()?.storefrontshopify.metaobjects.nodes?.map(
       (currentItem, currentIndex, arr) => {
         const flattenedFields = currentItem.fields.reduce(
           (acc, field, index, arr) => {

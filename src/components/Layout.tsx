@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import { Grid, GridItem } from "@chakra-ui/react";
 import Nav from "./Nav";
 import styled from "styled-components";
-import { useLayoutData } from "../context/LayoutContext";
+import { useLayoutConsumer } from "../context/LayoutContext";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ const HeaderVisuallyHidden = styled.h1`
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
-  const layoutData = useLayoutData();
+  const layoutData = useLayoutConsumer();
   return (
     <Grid
       gridTemplateRows={"auto"}

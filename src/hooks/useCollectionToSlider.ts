@@ -1,7 +1,7 @@
-import { useLayoutData } from "../context/LayoutContext";
+import { useLayoutConsumer } from "../context/LayoutContext";
 
 export function useCollectionToSlider() {
-  const collectionsData = useLayoutData()?.allShopifyCollection.nodes;
+  const collectionsData = useLayoutConsumer()?.allShopifyCollection.nodes;
   const collectionsTiles = collectionsData?.map((collection) => ({
     id: collection.id,
     title: collection.title,
