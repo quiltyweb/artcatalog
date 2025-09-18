@@ -52,6 +52,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           alignItems="baseline"
           justifyContent="center"
           gap="0"
+          marginEnd={4}
           aria-labelledby="cartIcon cartCounter"
         >
           <Icon
