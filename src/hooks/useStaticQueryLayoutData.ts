@@ -1,13 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby";
 
-export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
-  // ############################################
-  // Note: For E2E testing purposes. Do not remove.
-  if (typeof window !== "undefined" && (window as any).__mockLayoutGlobalData) {
-    return (window as any).__mockLayoutGlobalData;
-  }
-  // ############################################
-
+export function useStaticQueryLayoutData() {
   const data = useStaticQuery<Queries.LayoutGlobalDataQuery>(graphql`
     query LayoutGlobalData {
       storefrontshopify {
@@ -87,10 +80,13 @@ export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
             }
             featuredImage {
               altText
-              gatsbyImageData(
+              originalSrc
+              gridCategorySlider: gatsbyImageData(
                 width: 500
+                height: 500
                 layout: CONSTRAINED
                 placeholder: BLURRED
+                formats: [AUTO, WEBP]
               )
             }
             hasOnlyDefaultVariant
@@ -111,13 +107,13 @@ export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
                 altText
                 height
                 width
+                originalSrc
+                transformedSrc
                 gatsbyImageData(
                   width: 500
                   layout: CONSTRAINED
                   placeholder: BLURRED
                 )
-                originalSrc
-                transformedSrc
               }
             }
             mediaCount
@@ -132,14 +128,14 @@ export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
                   altText
                   height
                   width
+                  originalSrc
+                  transformedSrc
                   gatsbyImageData(
                     height: 82
                     width: 82
                     aspectRatio: 1
                     placeholder: BLURRED
                   )
-                  originalSrc
-                  transformedSrc
                 }
               }
             }
@@ -156,4 +152,4 @@ export const useLayoutGlobalData = (): Queries.LayoutGlobalDataQuery => {
   `);
 
   return data;
-};
+}

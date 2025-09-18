@@ -128,10 +128,10 @@ describe("Home page mobile", () => {
         /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
       );
       cy.findByRole("heading", { name: "Browse Brushella’s World" });
-      // hardcoded link tile category:
       cy.findByRole("link", {
-        name: "'Prana' by Brushella from the Human Nature Collection.",
+        name: /"Prana" Print/i,
       });
+      cy.findByAltText("alt text for print featuredImage");
       cy.findByRole("link", { name: "go to Original Paintings category" });
     });
   });

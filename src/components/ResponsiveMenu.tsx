@@ -35,7 +35,7 @@ type ResponsiveMenuProps = {
 
 const SocialLinksMenu: React.FunctionComponent = (): React.ReactElement => {
   return (
-    <HStack spacing="1rem" pl="2" mt="8" justifyContent="left">
+    <HStack spacing="1rem" pl="0" mt="8" justifyContent="left">
       <Box>
         <a href="https://www.facebook.com/Brushella" target="_blank">
           <Icon boxSize="1rem" aria-label="facebook" as={FaFacebookF} />
@@ -65,7 +65,7 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
   handleClickOnClose,
 }): React.ReactElement => {
   return (
-    <Stack spacing="6" align="left" px={3} mt={6} direction={"column"}>
+    <Stack spacing="6" align="left" px={0} mt={6} direction={"column"}>
       <Link
         fontSize="md"
         textTransform="uppercase"
@@ -99,15 +99,16 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   return (
     <Stack
       direction={["column", "column", "column", "row"]}
-      spacing={["5", "7"]}
+      spacing={["7"]}
       align="left"
-      px={5}
-      textAlign={["center", "left"]}
+      px={0}
+      mx={0}
+      textAlign={["left"]}
     >
       {allShopifyCollectionNodes &&
         allShopifyCollectionNodes.map((item) => (
           <Link
-            fontSize={["xs", "sm", "lg"]}
+            fontSize={["md"]}
             textTransform="uppercase"
             fontWeight="bold"
             as={GatsbyLink}

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import TileList from "../TileList";
 import * as LayoutContext from "../../context/LayoutContext";
-const useLayoutData = jest.spyOn(LayoutContext, `useLayoutData`);
+const useLayoutConsumer = jest.spyOn(LayoutContext, `useLayoutConsumer`);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -14,7 +14,7 @@ afterEach(() => {
 
 describe("TileList", () => {
   it("renders correctly with fallback title and fallback alt text", async () => {
-    useLayoutData.mockImplementation(() => ({
+    useLayoutConsumer.mockImplementation(() => ({
       site: {
         siteMetadata: {
           title: "Brushella",
@@ -618,7 +618,7 @@ describe("TileList", () => {
   });
 
   it("renders correctly with alt text for each image", async () => {
-    useLayoutData.mockImplementation(() => ({
+    useLayoutConsumer.mockImplementation(() => ({
       site: {
         siteMetadata: {
           title: "Brushella",

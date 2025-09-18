@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
-import { useLayoutData } from "../context/LayoutContext";
+import { useLayoutConsumer } from "../context/LayoutContext";
 import { Link } from "gatsby";
 
 type TileListProps = {
@@ -19,7 +19,7 @@ type TileListProps = {
 const TileList: React.FunctionComponent<TileListProps> = ({
   title,
 }): React.ReactElement => {
-  const layoutData = useLayoutData();
+  const layoutData = useLayoutConsumer();
 
   return (
     <Container as="section" maxW="1200px" paddingBottom={"4rem"}>

@@ -369,7 +369,213 @@ export const MOCKED_LAYOUT_GLOBAL_DATA = {
             height: 800,
           },
         },
-        products: [],
+        products: [
+          {
+            id: "2fd0cfda-d451-5dd0-b7c4-fc6fd8b71bb6",
+            title: '"Prana" Print',
+            handle: "prana-print",
+            description:
+              "All of these prints, regardless of size and design, are printed on Canson 310 GSM photo rag paper or premium Canvas - Chromata LYVE Canvas- 450gsm, using 12-colour pigment inks. Prana \"Once upon a time and in the near future, We won't need food for us to be nurtured. Just the sun and the air, that's all the soul needs also divine Love and Prana to breathe. When the breath wanders, the mind is unsteady But when the breath is calmed, our body gets healthy. Grateful I am for all of the unknown, and for having air in my lungs and a body to call home.\"",
+            status: "ACTIVE",
+            hasOutOfStockVariants: true,
+            priceRangeV2: {
+              minVariantPrice: {
+                amount: 0,
+                currencyCode: "AUD",
+              },
+              maxVariantPrice: {
+                amount: 0,
+                currencyCode: "AUD",
+              },
+            },
+            featuredImage: {
+              altText: "alt text for print featuredImage",
+              originalSrc: "https://sddsdsddssd",
+              gridCategorySlider: {
+                images: {
+                  sources: [
+                    {
+                      srcSet: "https://dsdsdsdd",
+                      sizes: "(min-width: 500px) 500px, 100vw",
+                      type: "image/webp",
+                    },
+                  ],
+                  fallback: {
+                    src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_500x500_crop_center.jpg?v=1757292553",
+                    srcSet:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_125x125_crop_center.jpg?v=1757292553 125w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_250x250_crop_center.jpg?v=1757292553 250w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_500x500_crop_center.jpg?v=1757292553 500w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_1000x1000_crop_center.jpg?v=1757292553 1000w",
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                  },
+                },
+                layout: "constrained",
+                placeholder: {
+                  fallback: "data:image/png;base64,/",
+                },
+                width: 500,
+                height: 500,
+              },
+            },
+            hasOnlyDefaultVariant: true,
+            totalVariants: 1,
+            variants: [
+              {
+                shopifyId: "gid://shopify/ProductVariant/32232323",
+                displayName: '"Prana" Print - Default Title',
+                title: "Default Title",
+                price: 0,
+                inventoryQuantity: 0,
+                availableForSale: false,
+                selectedOptions: [
+                  {
+                    name: "Title",
+                    value: "Default Title",
+                  },
+                ],
+                image: null,
+              },
+            ],
+            mediaCount: 3,
+            media: [
+              {
+                id: "866ec459-66d6-58ec-9d75-4e55e52633dc",
+                alt: "Artistic depiction of lungs with floral and nature elements on a green background",
+                mediaContentType: "IMAGE",
+                preview: {
+                  status: "READY",
+                  image: {
+                    src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection.jpg?v=1757292553",
+                    altText:
+                      "Artistic depiction of lungs with floral and nature elements on a green background",
+                    height: 1578,
+                    width: 1200,
+                    originalSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection.jpg?v=1757292553",
+                    transformedSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection.jpg?v=1757292553",
+                    gatsbyImageData: {
+                      images: {
+                        sources: [
+                          {
+                            srcSet:
+                              "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_21x21_crop_center.jpg.webp?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_41x41_crop_center.jpg.webp?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_82x82_crop_center.jpg.webp?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_164x164_crop_center.jpg.webp?v=1757292553 164w",
+                            sizes: "(min-width: 82px) 82px, 100vw",
+                            type: "image/webp",
+                          },
+                        ],
+                        fallback: {
+                          src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_82x82_crop_center.jpg?v=1757292553",
+                          srcSet:
+                            "https://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_21x21_crop_center.jpg?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_41x41_crop_center.jpg?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_82x82_crop_center.jpg?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/asset-homepage-gabby-ugalde-prana-human-nature-collection_164x164_crop_center.jpg?v=1757292553 164w",
+                          sizes: "(min-width: 82px) 82px, 100vw",
+                        },
+                      },
+                      layout: "constrained",
+                      placeholder: {
+                        fallback: "data:image/png;base64,/",
+                      },
+                      width: 82,
+                      height: 82,
+                    },
+                  },
+                },
+              },
+              {
+                id: "cb11f265-4666-551d-857b-ca84ecc675bf",
+                alt: 'The framed painting titled "Prana" depicts a pair of realistic-looking lungs surrounded by colorful flowers, insects, and snakes. The background features a gradient that transitions from light to dark green. The artist, Brushella, is holding the painting with both hands and wearing a happy expression.',
+                mediaContentType: "IMAGE",
+                preview: {
+                  status: "READY",
+                  image: {
+                    src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1757292553",
+                    altText:
+                      'The framed painting titled "Prana" depicts a pair of realistic-looking lungs surrounded by colorful flowers, insects, and snakes. The background features a gradient that transitions from light to dark green. The artist, Brushella, is holding the painting with both hands and wearing a happy expression.',
+                    height: 1600,
+                    width: 1066,
+                    originalSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1757292553",
+                    transformedSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection.jpg?v=1757292553",
+                    gatsbyImageData: {
+                      images: {
+                        sources: [
+                          {
+                            srcSet:
+                              "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_21x21_crop_center.jpg.webp?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_41x41_crop_center.jpg.webp?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_82x82_crop_center.jpg.webp?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_164x164_crop_center.jpg.webp?v=1757292553 164w",
+                            sizes: "(min-width: 82px) 82px, 100vw",
+                            type: "image/webp",
+                          },
+                        ],
+                        fallback: {
+                          src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_82x82_crop_center.jpg?v=1757292553",
+                          srcSet:
+                            "https://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_21x21_crop_center.jpg?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_41x41_crop_center.jpg?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_82x82_crop_center.jpg?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/Prana-by-Brushella-Human-Nature-Collection_164x164_crop_center.jpg?v=1757292553 164w",
+                          sizes: "(min-width: 82px) 82px, 100vw",
+                        },
+                      },
+                      layout: "constrained",
+                      placeholder: {
+                        fallback: "data:image/png;base64,/",
+                      },
+                      width: 82,
+                      height: 82,
+                    },
+                  },
+                },
+              },
+              {
+                id: "ad684d16-58fe-5fda-8a01-1e905a03035d",
+                alt: 'The original painting titled "Prana" is displayed on the wall of a living room.',
+                mediaContentType: "IMAGE",
+                preview: {
+                  status: "READY",
+                  image: {
+                    src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella.jpg?v=1757292553",
+                    altText:
+                      'The original painting titled "Prana" is displayed on the wall of a living room.',
+                    height: 1127,
+                    width: 1024,
+                    originalSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella.jpg?v=1757292553",
+                    transformedSrc:
+                      "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella.jpg?v=1757292553",
+                    gatsbyImageData: {
+                      images: {
+                        sources: [
+                          {
+                            srcSet:
+                              "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_21x21_crop_center.jpg.webp?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_41x41_crop_center.jpg.webp?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_82x82_crop_center.jpg.webp?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_164x164_crop_center.jpg.webp?v=1757292553 164w",
+                            sizes: "(min-width: 82px) 82px, 100vw",
+                            type: "image/webp",
+                          },
+                        ],
+                        fallback: {
+                          src: "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_82x82_crop_center.jpg?v=1757292553",
+                          srcSet:
+                            "https://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_21x21_crop_center.jpg?v=1757292553 21w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_41x41_crop_center.jpg?v=1757292553 41w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_82x82_crop_center.jpg?v=1757292553 82w,\nhttps://dsdsdsdsdsdds/1/0586/9892/4240/files/prana-by-brushella_164x164_crop_center.jpg?v=1757292553 164w",
+                          sizes: "(min-width: 82px) 82px, 100vw",
+                        },
+                      },
+                      layout: "constrained",
+                      placeholder: {
+                        fallback: "data:image/png;base64,/",
+                      },
+                      width: 82,
+                      height: 82,
+                    },
+                  },
+                },
+              },
+            ],
+            options: [
+              {
+                shopifyId: "gid://shopify/ProductOption/234324243",
+                name: "Title",
+                values: ["Default Title"],
+              },
+            ],
+            publishedAt: "2025-09-08T00:49:13Z",
+          },
+        ],
       },
     ],
   },
