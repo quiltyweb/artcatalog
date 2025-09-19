@@ -40,6 +40,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
       <Box p="4">
         <hr />
         <Text
+          as={"h4"}
           id="quicklinks"
           size="lg"
           fontWeight="bold"
