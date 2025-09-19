@@ -36,7 +36,7 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
       >
         Your one-stop online shop where craftsmanship meets creativity!
       </Text>
-      <CallToActionButton title="Shop now" link="#browse-categories" />
+      <CallToActionButton title="Shop now" link="#all-categories" />
     </CardHeader>
   );
 };

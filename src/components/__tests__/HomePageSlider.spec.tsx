@@ -148,7 +148,7 @@ describe("HomePageSlider", () => {
       ).toBeInTheDocument();
       expect(screen.getByRole("link", { name: item.caption })).toHaveAttribute(
         "href",
-        "/collections/original-paintings/"
+        "https://www.brushella.art/"
       );
     });
   });
