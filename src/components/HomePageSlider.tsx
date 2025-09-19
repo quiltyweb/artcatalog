@@ -42,18 +42,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
         className="custom-swiper relative w-full bg-black/95"
         data-testid="homepage-slider-1"
         modules={[Navigation, Pagination, A11y]}
-        pagination={{
-          clickable: true,
-          renderBullet: function (index, className) {
-            return (
-              '<span role="button" class="' +
-              className +
-              '">' +
-              (index + 1) +
-              "</span>"
-            );
-          },
-        }}
+        pagination={false}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
@@ -63,24 +52,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
           768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 0 },
         }}
         style={{ height: "calc(100vh - 84px)" }}
-        loop={false}
+        loop={true}
+        watchSlidesProgress={true} // enables progress tracking
       >
-        <div>
-          <button
-            className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
-                   bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white`}
-            aria-label="Previous image"
-          />
-          <button
-            className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
-                   bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white`}
-            aria-label="Next image"
-          />
-        </div>
         {images.map((item, idx) => (
           <SwiperSlide key={idx} className="h-full w-full p-2">
             <div className="flex flex-col items-center h-full w-full">
@@ -103,6 +77,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
             </div>
           </SwiperSlide>
         ))}
+
+        <button
+          className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
+                   group-focus-within:opacity-100
+                   bg-black/70 rounded-full p-2 shadow
+                   text-lg font-bold text-white`}
+          aria-label="Previous image"
+        />
+        <button
+          className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
+                   group-focus-within:opacity-100
+                   bg-black/70 rounded-full p-2 shadow
+                   text-lg font-bold text-white`}
+          aria-label="Next image"
+        />
       </Swiper>
     </section>
   );

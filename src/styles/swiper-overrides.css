@@ -12,3 +12,15 @@
   color: #000000;
   background: #ffffff;
 }
+
+#homepage-slider-1 .swiper-slide {
+  pointer-events: none;     /* not focusable by default */
+}
+
+#homepage-slider-1 .swiper-slide.swiper-slide-visible {
+  pointer-events: auto;     /* allow interaction only for visible slides */
+}
+
+#homepage-slider-1 .swiper-slide:not(.swiper-slide-visible) {
+  visibility: hidden;       /* also removes from tab order */
+}
