@@ -1,18 +1,7 @@
-// PortraitSwiperSlider.tsx
-// React + TypeScript component: responsive Swiper slider with portrait images.
-// • Mobile (< 768 px): shows **1 image per view** (1 portrait image on each slide).
-// • Desktop (≥ 768 px): shows **3 images per view** simultaneously.
-// • Accessible prev/next navigation arrows with icons
-
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import { Link } from "gatsby";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
@@ -76,26 +65,22 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
         style={{ height: "calc(100vh - 84px)" }}
         loop={false}
       >
-        <>
+        <div>
           <button
             className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
-                   bg-white/70 rounded-full p-2 shadow
-                   text-lg font-bold`}
+                   bg-black/70 rounded-full p-2 shadow
+                   text-lg font-bold text-white`}
             aria-label="Previous image"
-          >
-            ‹
-          </button>
+          />
           <button
             className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
-                   bg-white/70 rounded-full p-2 shadow
-                   text-lg font-bold`}
+                   bg-black/70 rounded-full p-2 shadow
+                   text-lg font-bold text-white`}
             aria-label="Next image"
-          >
-            ›
-          </button>
-        </>
+          />
+        </div>
         {images.map((item, idx) => (
           <SwiperSlide key={idx} className="h-full w-full p-2">
             <div className="flex flex-col items-center h-full w-full">

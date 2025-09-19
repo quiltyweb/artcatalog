@@ -23,6 +23,11 @@ const HeaderVisuallyHidden = styled.h1`
   white-space: nowrap;
 `;
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "../styles/swiper-overrides.css";
+
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
 }): React.ReactElement => {
