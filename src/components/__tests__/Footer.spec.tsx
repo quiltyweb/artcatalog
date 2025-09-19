@@ -65,7 +65,8 @@ describe("Footer", () => {
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
     screen.getByTestId("whatsApp");
-    screen.getByText(/© 2024, Brushella Art & Decor/);
+    screen.getByText(/Brushella Art & Home décor. All rights reserved/);
+    screen.getByText(/© 202/);
     screen.getByRole("link", { name: /go to top/i });
   });
 

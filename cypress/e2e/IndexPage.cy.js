@@ -110,10 +110,8 @@ describe("Home page mobile", () => {
         cy.findAllByRole("img");
         cy.findAllByAltText(/testing alt text field/i);
 
-        cy.findByRole("button", { name: "1" });
-        cy.findByRole("button", { name: "2" });
-        cy.findByRole("button", { name: "3" });
-        cy.findByRole("button", { name: "4" });
+        cy.findByRole("button", { name: "Previous slide" });
+        cy.findByRole("button", { name: "Next slide" });
       });
 
       cy.findByAltText(

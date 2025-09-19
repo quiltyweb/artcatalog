@@ -35,12 +35,12 @@ const FooterIconLink = styled.a`
 const Footer: React.FunctionComponent<FooterProps> = ({
   legalContent,
 }): React.ReactElement => {
+  const year = new Date().getFullYear();
   return (
     <Box data-testid="footer">
-      <Box p="4">
+      <Box as="section" p="4" aria-labelledby="quicklinks">
         <hr />
         <Text
-          as={"h4"}
           id="quicklinks"
           size="lg"
           fontWeight="bold"
@@ -84,7 +84,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
           </ListItem>
         </UnorderedList>
       </Box>
-      <Box p="4">
+      <Box as="section" p="4">
         <hr />
         <HStack
           display="flex"
@@ -137,7 +137,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
             </FooterIconLink>
           </HStack>
           <Text display="flex" justifyContent="center" color="gray.600">
-            © 2024, Brushella Art & Decor
+            © {year}, Brushella Art & Home décor. All rights reserved.
           </Text>
           <Link href="#top-logo" textDecoration="underline" color="gray.600">
             Go to top
