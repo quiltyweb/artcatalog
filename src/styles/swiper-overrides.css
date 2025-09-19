@@ -1,0 +1,14 @@
+#homepage-slider-1 span.swiper-pagination-bullet {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 1rem;
+  color: #ffffff;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.65);
+}
+#homepage-slider-1 span.swiper-pagination-bullet-active {
+  color: #000000;
+  background: #ffffff;
+}
