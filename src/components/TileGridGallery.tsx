@@ -2,7 +2,6 @@ import React from "react";
 import { Heading } from "@chakra-ui/react";
 import { TileSliderCategory } from "./TileSliderCategory";
 import { Link } from "gatsby";
-import type { IGatsbyImageData } from "gatsby-plugin-image";
 
 type Tile = {
   id: string;
