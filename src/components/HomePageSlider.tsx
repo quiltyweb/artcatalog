@@ -26,13 +26,13 @@ type FlattenedImage = {
 // TODO: render slides in order coming from CMS
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
   const [isClient, setIsClient] = useState(false);
-
+  const hasInteractedRef = React.useRef(false);
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   if (!isClient) {
-    return <section>con slides available...</section>;
+    return <section>loading...</section>;
   }
 
   return (
@@ -54,6 +54,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
         style={{ height: "calc(100vh - 84px)" }}
         loop={true}
         watchSlidesProgress={true} // enables progress tracking
+        onSlideChange={(swiper) => {
+          if (!hasInteractedRef.current) {
+            hasInteractedRef.current = true;
+            return; // skip the first automatic slide change
+          }
+
+          // After slide change, move focus to the first visible slide
+          const firstVisible = swiper.slides.find((slide) =>
+            slide.classList.contains("swiper-slide-visible")
+          );
+          if (firstVisible) {
+            // link inside the slide
+            firstVisible.querySelector("a")?.focus();
+          }
+        }}
       >
         {images.map((item, idx) => (
           <SwiperSlide key={idx} className="h-full w-full p-2">
