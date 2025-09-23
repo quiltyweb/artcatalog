@@ -2,7 +2,6 @@ import React from "react";
 import { Heading } from "@chakra-ui/react";
 import { TileSliderCategory } from "./TileSliderCategory";
 import { Link } from "gatsby";
-import type { IGatsbyImageData } from "gatsby-plugin-image";
 
 type Tile = {
   id: string;
@@ -27,7 +26,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
   return (
     <div className="p-4 max-w-[1200px] mx-auto">
       <Heading
-        id="browse-categories-title"
+        id="all-categories"
         as="h3"
         color="pink.800"
         mb="2.4rem"
@@ -37,7 +36,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
       </Heading>
 
       <section
-        aria-labelledby="browse-categories-title"
+        aria-labelledby="all-categories"
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
       >
         {!tiles && <p>No categories available at the moment.</p>}
@@ -55,7 +54,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
               focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2"
               >
                 <h4
-                  className="text-lg font-bold"
+                  className="text-xl font-bold"
                   aria-label={`go to ${tile.title} category`}
                 >
                   {tile.title}

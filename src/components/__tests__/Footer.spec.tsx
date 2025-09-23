@@ -65,7 +65,8 @@ describe("Footer", () => {
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
     screen.getByTestId("whatsApp");
-    screen.getByText(/© 2024, Brushella Art & Decor/);
+    screen.getByText(/Brushella Art & Home décor. All rights reserved/);
+    screen.getByText(/© 202/);
     screen.getByRole("link", { name: /go to top/i });
   });
 
@@ -93,7 +94,10 @@ describe("Footer", () => {
     ).not.toBeInTheDocument();
     within(footer).getByRole("link", { name: /contact/i });
     within(footer).getByRole("link", { name: /about me/i });
-    within(footer).getByText(/© 2024, Brushella Art & Decor/i);
+    const year = new Date().getFullYear();
+    within(footer).getByText(
+      `© ${year}, Brushella Art & Home décor. All rights reserved.`
+    );
     within(footer).getByRole("link", { name: /Go to top/i });
     within(footer).getByLabelText("facebook");
     within(footer).getByLabelText("instagram");
