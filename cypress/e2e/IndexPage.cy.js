@@ -147,7 +147,8 @@ describe("Home page mobile", () => {
       cy.findByRole("link", { name: "whatsApp" });
       cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: /about me/i });
-      cy.findByText(/© 2024, Brushella Art & Decor/);
+      cy.findByText(/© 202/);
+      cy.findByText(/Brushella Art & Home décor. All rights reserved./);
       cy.findByRole("link", { name: /go to top/i });
     });
   });
