@@ -280,7 +280,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           }}
                           width={60}
                           height={60}
-                          alt=""
+                          alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}
@@ -372,7 +372,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           }}
                           width={60}
                           height={60}
-                          alt=""
+                          alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}

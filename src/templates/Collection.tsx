@@ -84,42 +84,42 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                 featuredImage?.grid ?? null
               );
               return (
-                <Link
-                  key={handle}
-                  to={`/collections/${collectionHandle}/${handle}`}
+                <Card
+                  key={`${id}-product-item`}
+                  boxShadow="md"
+                  height="100%"
+                  _hover={{
+                    transform: "scale(1.03)",
+                    transition: "transform .15s ease-in",
+                  }}
                 >
-                  <Card
-                    key={`${id}-product-item`}
-                    boxShadow="md"
-                    height="100%"
-                    _hover={{
-                      transform: "scale(1.03)",
-                      transition: "transform .15s ease-in",
-                    }}
-                  >
-                    <CardBody>
-                      {featuredImageForGatsbyImage && featuredImage?.altText ? (
-                        <GatsbyImage
-                          image={featuredImageForGatsbyImage}
-                          alt={featuredImage.altText}
-                          style={{
-                            minHeight: "300px",
-                            maxHeight: "300px",
-                          }}
-                        />
-                      ) : (
-                        <StaticImage
-                          style={{
-                            filter: "grayscale(1)",
-                            minHeight: "300px",
-                            maxHeight: "300px",
-                          }}
-                          alt=""
-                          src="../images/web-asset-noimg.jpg"
-                        />
-                      )}
-                      <Stack mt="6" spacing="3">
-                        <Divider color="gray.300" />
+                  <CardBody>
+                    {featuredImageForGatsbyImage && featuredImage?.altText ? (
+                      <GatsbyImage
+                        image={featuredImageForGatsbyImage}
+                        alt={featuredImage.altText}
+                        style={{
+                          minHeight: "300px",
+                          maxHeight: "300px",
+                        }}
+                      />
+                    ) : (
+                      <StaticImage
+                        style={{
+                          filter: "grayscale(1)",
+                          minHeight: "300px",
+                          maxHeight: "300px",
+                        }}
+                        alt="No image available"
+                        src="../images/web-asset-noimg.jpg"
+                      />
+                    )}
+                    <Stack mt="6" spacing="3">
+                      <Divider color="gray.300" />
+                      <Link
+                        key={handle}
+                        to={`/collections/${collectionHandle}/${handle}`}
+                      >
                         <Heading
                           as="h3"
                           size="md"
@@ -127,46 +127,47 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           fontWeight={600}
                           color={"pink.800"}
                           minH="normal"
+                          padding={"0.5rem 0"}
                         >
                           {title}
                         </Heading>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter
-                      alignItems="flex-end"
-                      display="flex"
-                      justifyContent="space-between"
-                      minH={20}
-                    >
-                      {amount !== 0 && (
-                        <Text
-                          data-testid="item-price"
-                          fontSize="xl"
-                          fontWeight="bold"
-                          color="pink.800"
-                          lineHeight="normal"
-                        >
-                          <Highlight
-                            query="AUD"
-                            styles={{ pr: "1", color: "#7e718a" }}
-                          >
-                            {currencyCode}
-                          </Highlight>
-                          {`$${amount}`}
-                        </Text>
-                      )}
-
+                      </Link>
+                    </Stack>
+                  </CardBody>
+                  <CardFooter
+                    alignItems="flex-end"
+                    display="flex"
+                    justifyContent="space-between"
+                    minH={20}
+                  >
+                    {amount !== 0 && (
                       <Text
-                        fontSize="md"
-                        textAlign="right"
-                        color={"pink.800"}
-                        marginLeft="auto"
+                        data-testid="item-price"
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="pink.800"
+                        lineHeight="normal"
                       >
-                        view details <Icon as={ArrowForwardIcon} />
+                        <Highlight
+                          query="AUD"
+                          styles={{ pr: "1", color: "#7e718a" }}
+                        >
+                          {currencyCode}
+                        </Highlight>
+                        {`$${amount}`}
                       </Text>
-                    </CardFooter>
-                  </Card>
-                </Link>
+                    )}
+
+                    <Text
+                      fontSize="md"
+                      textAlign="right"
+                      color={"pink.800"}
+                      marginLeft="auto"
+                    >
+                      view details <Icon as={ArrowForwardIcon} />
+                    </Text>
+                  </CardFooter>
+                </Card>
               );
             }
           )}

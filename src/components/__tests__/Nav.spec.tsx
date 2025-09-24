@@ -599,7 +599,7 @@ describe("Nav", () => {
   it("renders desktop navigation with no categories", async () => {
     render(<Nav />);
     screen.getByLabelText("Brushella home");
-    screen.getByRole("link", { name: "Shopping cart 0 items" });
+    screen.getByRole("link", { name: "no items in shopping cart" });
     expect(
       screen.queryByRole("link", { name: "Original Paintings Testing" })
     ).not.toBeInTheDocument();
@@ -608,6 +608,6 @@ describe("Nav", () => {
   it("renders counter text with correct label for 1 item", async () => {
     useLineItemsCount.mockImplementation(() => 1);
     render(<Nav />);
-    screen.getByRole("link", { name: "Shopping cart 1 item" });
+    screen.getByRole("link", { name: "1 item in shopping cart" });
   });
 });

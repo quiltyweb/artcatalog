@@ -353,12 +353,7 @@ describe("Collection page Template", () => {
       collectionHandle: "this-is-the-collection-handle",
     };
     render(<Collection pageContext={mockedPageContext} />);
-    const fallbackImage = screen.getByRole("img");
-    expect(fallbackImage).toHaveAttribute("alt", "");
-    expect(fallbackImage).toHaveAttribute(
-      "src",
-      "../images/web-asset-noimg.jpg"
-    );
+    screen.getByAltText("No image available");
     screen.getByRole("heading", { name: "Test product name" });
   });
 

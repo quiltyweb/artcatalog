@@ -44,7 +44,7 @@ describe("desktop view basket page", () => {
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
     cy.findByRole("link", { name: "Home" });
-    cy.findByRole("link", { name: "Shopping cart 0 items" });
+    cy.findByRole("link", { name: "no items in shopping cart" });
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
@@ -90,7 +90,7 @@ describe("desktop view basket page", () => {
     }).as("checkoutLineItemsAdd");
     cy.findByRole("button", { name: "Add to shopping bag" }).click();
     cy.wait("@checkoutLineItemsAdd");
-    cy.findByRole("link", { name: "Shopping cart 1 item" }).click();
+    cy.findByRole("link", { name: "1 item in shopping cart" }).click();
     cy.findByRole("table", {
       name: /1 item in your cart. Subtotal is \$0.00 AUD./,
     });

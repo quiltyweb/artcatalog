@@ -17,7 +17,11 @@ const Nav: React.FunctionComponent<NavProps> = ({
 }): React.ReactElement => {
   const lineItemsCount = useLineItemsCount();
   const counterLabel =
-    lineItemsCount === 1 ? `${lineItemsCount} item` : `${lineItemsCount} items`;
+    lineItemsCount === 0
+      ? `no items in shopping cart`
+      : lineItemsCount === 1
+      ? `${lineItemsCount} item in shopping cart`
+      : `${lineItemsCount} items in shopping cart`;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -53,14 +57,10 @@ const Nav: React.FunctionComponent<NavProps> = ({
           justifyContent="center"
           gap="0"
           marginEnd={4}
-          aria-labelledby="cartIcon cartCounter"
+          aria-labelledby="cartCounter"
+          aria-live="polite"
         >
-          <Icon
-            id="cartIcon"
-            aria-label="Shopping cart"
-            boxSize="1.5rem"
-            as={FaShoppingBag}
-          />
+          <Icon id="cartIcon" boxSize="1.5rem" as={FaShoppingBag} />
           <Text
             id="cartCounter"
             aria-label={counterLabel}

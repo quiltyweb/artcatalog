@@ -83,7 +83,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                             minHeight: "300px",
                             maxHeight: "300px",
                           }}
-                          alt=""
+                          alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}

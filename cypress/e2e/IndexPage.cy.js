@@ -35,7 +35,7 @@ describe("Home page desktop", () => {
     cy.get('svg[title="menu"]').should("not.exist");
     cy.findByLabelText("Brushella home");
     cy.findByRole("link", { name: "Contact me" }).should("not.exist");
-    cy.findByRole("link", { name: "Shopping cart 0 items" });
+    cy.findByRole("link", { name: "no items in shopping cart" });
 
     cy.findByRole("navigation").within(() => {
       for (var category_name of MOCKED_CATEGORIES) {

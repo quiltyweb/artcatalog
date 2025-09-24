@@ -713,8 +713,7 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductData.collectionHandle}
       />
     );
-    const fallbackImage = screen.getByTestId("no-image-found");
-    expect(fallbackImage).toHaveAttribute("alt", "");
+    screen.getByAltText("No image available");
   });
 
   it("renders a badge with the productType that the product as been assigned to", async () => {
