@@ -875,8 +875,8 @@ describe("IndexPage", () => {
     }));
 
     render(<IndexPage />);
-    // homepage main slider:
-    screen.queryByLabelText("Homepage main slider");
+    // Featured work slider:
+    screen.queryByLabelText("Featured work slider");
 
     // homepage hero Author section:
     screen.getByRole("heading", { name: /Welcome to Brushella's Art Store/ });
@@ -892,11 +892,11 @@ describe("IndexPage", () => {
     });
   });
 
-  it("renders index page without Homepage main slider when images are not available", () => {
+  it("renders index page without Featured work slider when images are not available", () => {
     useLayoutConsumer.mockImplementation(() => null);
     render(<IndexPage />);
     expect(
-      screen.queryByLabelText("Homepage main slider")
+      screen.queryByLabelText("Featured work slider")
     ).not.toBeInTheDocument();
     screen.getByText("No categories available at the moment.");
   });

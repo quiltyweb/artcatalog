@@ -33,11 +33,15 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const hasInteractedRef = React.useRef(false);
 
   return (
-    <section aria-label="Homepage main slider" className="group relative">
+    <section
+      aria-live="off"
+      aria-label="Featured work slider"
+      className="group relative"
+    >
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900">
-            <div className="sr-only">Images slider loading...</div>
+            <div className="sr-only">Featured work slider is loading</div>
           </div>
         </div>
       )}

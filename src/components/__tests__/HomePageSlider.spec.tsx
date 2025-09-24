@@ -129,7 +129,7 @@ describe("HomePageSlider", () => {
 
     expect(screen.getAllByRole("img")).toHaveLength(MOCKED_IMAGES_PROPS.length);
     expect(
-      screen.queryByText("Images slider loading...")
+      screen.queryByText("Featured work slider is loading")
     ).not.toBeInTheDocument();
   });
 
@@ -138,7 +138,9 @@ describe("HomePageSlider", () => {
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={true} />
     );
     // Loader is visible initially
-    expect(screen.getByText("Images slider loading...")).toBeInTheDocument();
+    expect(
+      screen.getByText("Featured work slider is loading")
+    ).toBeInTheDocument();
   });
 
   it("renders all images with alt text", () => {
