@@ -31,7 +31,7 @@ describe("desktop view basket page", () => {
   });
 
   it("renders store alert below breadcrumbs", () => {
-    cy.findByRole("alert").within(() => {
+    cy.findByRole("status").within(() => {
       cy.findByText(/Brushella.art is under construction./i);
       cy.findByText(/This store can’t accept payments right now./i);
     });
