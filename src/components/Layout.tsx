@@ -24,7 +24,6 @@ const HeaderVisuallyHidden = styled.h1`
 `;
 
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../styles/homePageSlider.css";
 

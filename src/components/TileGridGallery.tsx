@@ -23,10 +23,14 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
   title,
   tiles,
 }) => {
+  if (!tiles || tiles.length === 0) {
+    return <div aria-live="off">No categories available at the moment.</div>;
+  }
+
   return (
     <div className="p-4 max-w-[1200px] mx-auto">
       <Heading
-        id="all-categories"
+        id="all-categories-title"
         as="h3"
         color="pink.800"
         mb="2.4rem"
@@ -36,10 +40,10 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
       </Heading>
 
       <section
-        aria-labelledby="all-categories"
+        aria-live="off"
+        aria-labelledby="all-categories-title"
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
       >
-        {!tiles && <p>No categories available at the moment.</p>}
         {tiles &&
           tiles.map((tile) => (
             <article

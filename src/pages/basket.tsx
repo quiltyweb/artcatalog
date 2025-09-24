@@ -53,6 +53,7 @@ const BreadcrumbMenuCart = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <Alert
+        role="status"
         status="info"
         flexDir={["column", "row"]}
         aria-labelledby="message"
@@ -279,7 +280,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           }}
                           width={60}
                           height={60}
-                          alt=""
+                          alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}
@@ -371,7 +372,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           }}
                           width={60}
                           height={60}
-                          alt=""
+                          alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}

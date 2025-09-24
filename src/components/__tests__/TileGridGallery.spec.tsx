@@ -23,33 +23,33 @@ afterEach(() => {
 });
 
 describe("TileGridGallery", () => {
+  const mockedTiles = [
+    {
+      id: "mini-slider-tile-1",
+      title: "Original Paintings test title",
+      handle: "original-paintings",
+      images: [
+        {
+          src: "https://testing.test/asset-moment-without-thoughts-human-nature-collection.jpg?v=1755134217",
+          alt: "'A moment without thoughts' by Brushella from the Human Nature Collection.",
+          href: "/collections/original-paintings/a-moment-without-thoughts-original-acrylic-painting",
+        },
+      ],
+    },
+    {
+      id: "mini-slider-tile-2",
+      title: "Prints test title",
+      handle: "prints",
+      images: [
+        {
+          src: "https://testing.test/asset-rana-human-nature-collection.jpg?v=1757292553",
+          alt: "'Prana' print by Brushella from the Human Nature Collection.",
+          href: "/collections/prints/prana-print",
+        },
+      ],
+    },
+  ];
   it("renders correctly with tiles", async () => {
-    const mockedTiles = [
-      {
-        id: "mini-slider-tile-1",
-        title: "Original Paintings test title",
-        handle: "original-paintings",
-        images: [
-          {
-            src: "https://testing.test/asset-moment-without-thoughts-human-nature-collection.jpg?v=1755134217",
-            alt: "'A moment without thoughts' by Brushella from the Human Nature Collection.",
-            href: "/collections/original-paintings/a-moment-without-thoughts-original-acrylic-painting",
-          },
-        ],
-      },
-      {
-        id: "mini-slider-tile-2",
-        title: "Prints test title",
-        handle: "prints",
-        images: [
-          {
-            src: "https://testing.test/asset-rana-human-nature-collection.jpg?v=1757292553",
-            alt: "'Prana' print by Brushella from the Human Nature Collection.",
-            href: "/collections/prints/prana-print",
-          },
-        ],
-      },
-    ];
     render(<TileGridGallery tiles={mockedTiles} />);
     screen.getByRole("heading", { name: "Browse Brushella’s World" });
     screen.getByRole("region", { name: "Browse Brushella’s World" });
@@ -70,12 +70,17 @@ describe("TileGridGallery", () => {
   });
 
   it("renders title prop", async () => {
-    render(<TileGridGallery title="testing title prop" />);
+    render(<TileGridGallery tiles={mockedTiles} title="testing title prop" />);
     screen.getByRole("heading", { name: "testing title prop" });
     screen.getByRole("region", { name: "testing title prop" });
   });
 
-  it("renders tiles prop", async () => {
+  it("renders message when tiles prop is empty array", async () => {
+    render(<TileGridGallery tiles={[]} />);
+    screen.getByText("No categories available at the moment.");
+  });
+
+  it("renders message when tiles prop is undefined", async () => {
     render(<TileGridGallery />);
     screen.getByText("No categories available at the moment.");
   });

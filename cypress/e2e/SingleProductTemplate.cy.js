@@ -133,11 +133,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("main").within(() => {
-      cy.get("img[data-testid='no-image-found']").should(
-        "have.attr",
-        "alt",
-        ""
-      );
+      cy.findByAltText("No image available");
     });
   });
 

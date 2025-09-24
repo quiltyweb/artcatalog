@@ -629,7 +629,7 @@ describe("Layout", () => {
     render(<Layout>{<p>some content children</p>}</Layout>);
 
     const Nav = await screen.findByRole("navigation");
-    within(Nav).getByRole("link", { name: "Shopping cart 0 items" });
+    within(Nav).getByRole("link", { name: "no items in shopping cart" });
     within(Nav).getByLabelText("Site Title home");
     within(Nav).getByLabelText("menu");
     screen.getByText("some content children");
@@ -657,7 +657,7 @@ describe("Layout", () => {
     expect(
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
-    screen.getByRole("link", { name: "Shopping cart 0 items" });
+    screen.getByRole("link", { name: "no items in shopping cart" });
     screen.getByLabelText("Site Title home");
     const desktopMenu = await screen.findByRole("navigation");
     within(desktopMenu).getByRole("link", {

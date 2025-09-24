@@ -439,7 +439,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 <Image
                   data-testid="no-image-found"
                   src={notFoundImage}
-                  alt=""
+                  alt="No image available"
                   style={{
                     filter: "grayscale(1)",
                     width: "500px",

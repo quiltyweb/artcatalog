@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper/modules";
+import { Navigation, A11y } from "swiper/modules";
 import { Link } from "gatsby";
-
+// Slider CSS styles loaded globally in Layout
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
+  initialLoading?: boolean;
 };
 
 type FlattenedImage = {
@@ -23,49 +24,77 @@ type FlattenedImage = {
   caption: string;
   category: string;
 };
-// TODO: render slides in order coming from CMS
-export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
-  const [isClient, setIsClient] = useState(false);
-  const hasInteractedRef = React.useRef(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
-  if (!isClient) {
-    return <section>loading...</section>;
-  }
+export const HomePageSlider: React.FC<HomePageSliderProps> = ({
+  images,
+  initialLoading = true,
+}) => {
+  const [loading, setLoading] = useState(initialLoading);
+  const hasInteractedRef = React.useRef(false);
 
   return (
-    <section aria-label="Homepage main slider">
+    <section
+      aria-live="off"
+      aria-label="Featured work slider"
+      className="group relative"
+    >
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900">
+            <div className="sr-only">Featured work slider is loading</div>
+          </div>
+        </div>
+      )}
+
       <Swiper
         id="homepage-slider-1"
         className="custom-swiper relative w-full bg-black/95"
         data-testid="homepage-slider-1"
-        modules={[Navigation, Pagination, A11y]}
-        pagination={false}
+        modules={[Navigation, A11y]}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
+        spaceBetween={0}
+        slidesPerView={1} // default mobile
+        slidesPerGroup={1} // default mobile
         breakpoints={{
-          0: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 0 },
-          768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 0 },
+          540: {
+            slidesPerView: 2, // show 2 slides on desktop
+            slidesPerGroup: 2, // move 2 at a time on desktop
+          },
+
+          768: {
+            slidesPerView: 3, // show 3 slides on desktop
+            slidesPerGroup: 3, // move 3 at a time on desktop
+          },
         }}
         style={{ height: "calc(100vh - 84px)" }}
         loop={true}
+        speed={0} // instant transition
+        a11y={{
+          prevSlideMessage: "Previous slide",
+          nextSlideMessage: "Next slide",
+          slideLabelMessage: "{{index}} / {{slidesLength}}",
+        }}
+        keyboard={{
+          enabled: true,
+          onlyInViewport: true,
+        }}
         watchSlidesProgress={true} // enables progress tracking
+        onInit={() => setLoading(false)} // hide loader when initialized
         onSlideChange={(swiper) => {
+          if (window.innerWidth < 768) {
+            return;
+          }
           if (!hasInteractedRef.current) {
             hasInteractedRef.current = true;
             return; // skip the first automatic slide change
           }
-
-          // After slide change, move focus to the first visible slide
           const firstVisible = swiper.slides.find((slide) =>
             slide.classList.contains("swiper-slide-visible")
           );
           if (firstVisible) {
-            // link inside the slide
             firstVisible.querySelector("a")?.focus();
           }
         }}
