@@ -53,6 +53,7 @@ const BreadcrumbMenuCart = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <Alert
+        role="status"
         status="info"
         flexDir={["column", "row"]}
         aria-labelledby="message"
