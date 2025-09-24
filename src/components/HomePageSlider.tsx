@@ -5,6 +5,7 @@ import { Link } from "gatsby";
 // Slider CSS styles loaded globally in Layout
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
+  initialLoading?: boolean;
 };
 
 type FlattenedImage = {
@@ -24,26 +25,23 @@ type FlattenedImage = {
   category: string;
 };
 
-export const HomePageSlider: React.FC<HomePageSliderProps> = ({ images }) => {
-  const [loading, setLoading] = useState(true);
+export const HomePageSlider: React.FC<HomePageSliderProps> = ({
+  images,
+  initialLoading = true,
+}) => {
+  const [loading, setLoading] = useState(initialLoading);
   const hasInteractedRef = React.useRef(false);
 
   return (
-    <section aria-label="Homepage main slider">
+    <section aria-label="Homepage main slider" className="group relative">
       {loading && (
-        <div
-          id="homepage-slider-loading"
-          className="relative w-full bg-black/95"
-          data-testid="homepage-slider-loading"
-          style={{ height: "calc(100vh - 84px)" }}
-        >
-          <div key={"slide-loading"} className="h-full w-full p-2">
-            <div className="flex flex-col items-center justify-center h-full w-full bg-black">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900"></div>
-            </div>
+        <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900">
+            <div className="sr-only">Images slider loading...</div>
           </div>
         </div>
       )}
+
       <Swiper
         id="homepage-slider-1"
         className="custom-swiper relative w-full bg-black/95"

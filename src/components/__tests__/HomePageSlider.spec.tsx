@@ -112,7 +112,6 @@ const MOCKED_IMAGES_PROPS = [
     title: "Parrot",
   },
 ];
-// TODO: update mock
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -124,23 +123,39 @@ afterEach(() => {
 
 describe("HomePageSlider", () => {
   it("renders Swiper with correct number of slides", () => {
-    render(<HomePageSlider images={MOCKED_IMAGES_PROPS} />);
+    render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
 
-    const slides = screen.getAllByRole("img");
-    expect(slides).toHaveLength(MOCKED_IMAGES_PROPS.length);
+    expect(screen.getAllByRole("img")).toHaveLength(MOCKED_IMAGES_PROPS.length);
+    expect(
+      screen.queryByText("Images slider loading...")
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders Swiper loading state", async () => {
+    render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={true} />
+    );
+    // Loader is visible initially
+    expect(screen.getByText("Images slider loading...")).toBeInTheDocument();
   });
 
   it("renders all images with alt text", () => {
-    render(<HomePageSlider images={MOCKED_IMAGES_PROPS} />);
+    render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
 
     MOCKED_IMAGES_PROPS.forEach((_, index) => {
-      expect(screen.getByAltText(`testing ${index + 1}`)).toBeInTheDocument();
+      expect(screen.queryByAltText(`testing ${index + 1}`)).toBeInTheDocument();
     });
   });
 
   // TODO: make the link dynamic to the category of the image
   it("renders all images with visible caption title as a hardcoded link to original paintings", () => {
-    render(<HomePageSlider images={MOCKED_IMAGES_PROPS} />);
+    render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
 
     MOCKED_IMAGES_PROPS.forEach((item, index) => {
       expect(

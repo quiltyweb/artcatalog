@@ -20,3 +20,15 @@ h4,h5,h6, span {
   font-family: 'Source Sans 3 Variable', sans-serif!important;
   font-weight: 500!important;
 }
+/* screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
