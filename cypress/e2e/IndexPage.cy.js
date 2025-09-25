@@ -96,7 +96,7 @@ describe("Home page mobile", () => {
       for (var category_name of MOCKED_CATEGORIES) {
         cy.findByRole("link", { name: category_name });
       }
-      cy.findByRole("link", { name: /about me/i });
+      cy.findByRole("link", { name: /About Me/i });
       cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: "facebook" });
       cy.findByRole("link", { name: "instagram" });
@@ -146,22 +146,22 @@ describe("Home page mobile", () => {
       cy.findByRole("link", { name: "instagram" });
       cy.findByRole("link", { name: "whatsApp" });
       cy.findByRole("link", { name: /contact/i });
-      cy.findByRole("link", { name: /about me/i });
+      cy.findByRole("link", { name: /About Me/i });
       cy.findByText(/© 202/);
       cy.findByText(/Brushella Art & Home décor. All rights reserved./);
       cy.findByRole("link", { name: /go to top/i });
     });
   });
 
-  it("Navigates from mobile menu to static page about me", () => {
+  it("Navigates from mobile menu to static page About Me", () => {
     cy.findByRole("button", { name: "menu" }).click();
     cy.intercept("GET", /page-data\/about/, {
       fixture: "about/about.json",
     }).as("aboutPage");
-    cy.findByRole("link", { name: /about me/i }).click();
+    cy.findByRole("link", { name: /About Me/i }).click();
     cy.wait("@aboutPage");
     cy.findByRole("heading", {
-      name: "About me",
+      name: "About Me",
     });
   });
 

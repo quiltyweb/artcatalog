@@ -60,7 +60,7 @@ describe("Footer", () => {
     screen.getByRole("link", { name: "Privacy Policy" });
     screen.getByRole("link", { name: "Terms of Service" });
     screen.getByRole("link", { name: /contact/i });
-    screen.getByRole("link", { name: /about me/i });
+    screen.getByRole("link", { name: /About Me/i });
     screen.getByRole("link", { name: /All Categories/i });
     screen.getByTestId("facebook");
     screen.getByTestId("instagram");
@@ -93,7 +93,7 @@ describe("Footer", () => {
       within(footer).queryByRole("link", { name: "Terms of Service" })
     ).not.toBeInTheDocument();
     within(footer).getByRole("link", { name: /contact/i });
-    within(footer).getByRole("link", { name: /about me/i });
+    within(footer).getByRole("link", { name: /About Me/i });
     const year = new Date().getFullYear();
     within(footer).getByText(
       `© ${year}, Brushella Art & Home décor. All rights reserved.`

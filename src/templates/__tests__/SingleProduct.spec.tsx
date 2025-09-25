@@ -146,7 +146,7 @@ describe("Single product Template", () => {
         ],
         metafields: [],
       },
-      collectionHandle: "decor",
+      collectionHandle: "home-decor",
     };
 
     const mockedLocation = {
@@ -165,7 +165,7 @@ describe("Single product Template", () => {
       "/collections"
     );
     expect(
-      screen.getByRole("link", { name: /all home-decor/i })
+      screen.getByRole("link", { name: /all home decor products/i })
     ).toHaveAttribute("href", "/collections/home-decor");
     screen.getByRole("heading", { name: "'Test product name'" });
     expect(screen.getAllByText(/Test product name/i)).toHaveLength(2);
@@ -179,6 +179,6 @@ describe("Single product Template", () => {
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
-    screen.getByRole("button", { name: "Add to shopping bag" });
+    screen.getByRole("button", { name: "Add to shopping cart" });
   });
 });

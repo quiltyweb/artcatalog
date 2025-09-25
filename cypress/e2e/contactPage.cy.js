@@ -33,7 +33,7 @@ describe("contact Page mobile", () => {
     cy.findByRole("link", { name: "Home" });
     cy.findByRole("heading", { name: "Contact me" });
     cy.get("#contact-form-description").contains(
-      "If you have questions that you cannot find answers in the about me page or quick links section, do not hesitate to contact me via the contact form below. Please allow 3 to 5 bussiness days to answer."
+      "If you have questions that you cannot find answers in the About Me page or quick links section, do not hesitate to contact me via the contact form below. Please allow 3 to 5 bussiness days to answer."
     );
     cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");

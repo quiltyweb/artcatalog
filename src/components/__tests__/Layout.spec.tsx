@@ -632,6 +632,7 @@ describe("Layout", () => {
     within(Nav).getByRole("link", { name: "no items in shopping cart" });
     within(Nav).getByLabelText("Site Title home");
     within(Nav).getByLabelText("menu");
+    screen.getByRole("heading", { name: "Brushella, Art and Home Decor" });
     screen.getByText("some content children");
     const Footer = await screen.findByRole("contentinfo");
     within(Footer).getByRole("link", { name: "Return and Refund Policy" });
@@ -669,7 +670,7 @@ describe("Layout", () => {
     within(Footer).getByRole("link", { name: "Shipping Policy" });
     within(Footer).getByRole("link", { name: "Privacy Policy" });
     within(Footer).getByRole("link", { name: "Terms of Service" });
-    within(Footer).getByRole("link", { name: /about me/i });
+    within(Footer).getByRole("link", { name: /About Me/i });
     within(Footer).getByRole("link", { name: /contact/i });
     within(Footer).getByRole("link", { name: /go to top/i });
     expect(screen.getAllByLabelText("facebook")).toHaveLength(1);

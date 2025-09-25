@@ -9,7 +9,7 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-const HeaderVisuallyHidden = styled.h1`
+const VisuallyHiddenH1 = styled.h1`
   border: 0;
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(50%);
@@ -46,7 +46,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       justifyItems="center"
     >
       <GridItem
-        as="nav"
+        as="header"
         gap="1rem"
         color="#FFFFFF"
         bg={"blackAlpha.900"}
@@ -60,6 +60,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           allShopifyCollection={layoutData?.allShopifyCollection}
         />
       </GridItem>
+
       <GridItem
         id="main"
         as="main"
@@ -69,7 +70,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         w="100%"
         margin="0 auto"
       >
-        <HeaderVisuallyHidden>Brushella</HeaderVisuallyHidden>
+        <VisuallyHiddenH1>Brushella, Art and Home Decor</VisuallyHiddenH1>
         {children}
       </GridItem>
       <GridItem

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link, graphql, PageProps, HeadProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -22,20 +23,19 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">About me</BreadcrumbLink>
+          <BreadcrumbLink href="#">About Me</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">
-        About me
+        About Me
       </Heading>
       <SimpleGrid columns={[1, 1, 1, 2]} justifyItems="center" mb="2.4rem">
-        <Text fontSize="md">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: storefrontshopify.page?.body,
-            }}
-          />
-        </Text>
+        <Box
+          className="prose prose-lg max-w-none mb-6"
+          dangerouslySetInnerHTML={{
+            __html: storefrontshopify.page?.body || "",
+          }}
+        />
         <StaticImage
           style={{
             borderRadius: "md",
