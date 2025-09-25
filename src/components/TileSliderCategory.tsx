@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Navigation, Pagination } from "swiper/modules";
+import { A11y, Navigation } from "swiper/modules";
 import { Link } from "@chakra-ui/react";
 import { GatsbyImage } from "gatsby-plugin-image";
 
@@ -25,23 +25,20 @@ interface TileSliderCategoryProps {
 export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
   tile,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
   return (
     <Swiper
-      modules={[Navigation, A11y, Pagination]}
+      className="custom-swiper-categories w-full relative"
+      modules={[Navigation, A11y]}
       navigation={{
         nextEl: `.next-${tile.id}`,
         prevEl: `.prev-${tile.id}`,
       }}
-      pagination={false}
-      spaceBetween={10}
+      spaceBetween={0}
+      slidesPerGroup={1}
       slidesPerView={1}
-      className="w-full relative"
-      loop={false}
-      onSlideChange={(swiper) => {
-        const newIndex = swiper.activeIndex;
-        setActiveIndex(newIndex);
-      }}
+      loop={true}
+      speed={0}
+      watchSlidesProgress={true}
     >
       {/* Custom navigation buttons */}
       {tile.images.length > 1 && (
@@ -82,7 +79,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                      px-3 py-2 rounded-b-lg"
               >
                 <Link
-                  tabIndex={idx === activeIndex ? 0 : -1} // focusable only if active
+                  aria-live="polite"
                   href={image.href}
                   className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
                 >

@@ -1,26 +1,12 @@
-#homepage-slider-1 span.swiper-pagination-bullet {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 1rem;
-  color: #ffffff;
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.65);
-}
-#homepage-slider-1 span.swiper-pagination-bullet-active {
-  color: #000000;
-  background: #ffffff;
-}
-
-#homepage-slider-1 .swiper-slide {
+/* Styles for all the sliders  */
+ .swiper-slide {
   pointer-events: none;     /* not focusable by default */
 }
 
-#homepage-slider-1 .swiper-slide.swiper-slide-visible {
+ .swiper-slide.swiper-slide-visible {
   pointer-events: auto;     /* allow interaction only for visible slides */
 }
 
-#homepage-slider-1 .swiper-slide:not(.swiper-slide-visible) {
+ .swiper-slide:not(.swiper-slide-visible) {
   visibility: hidden;       /* also removes from tab order */
 }

@@ -51,7 +51,6 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
               aria-label={tile.title + " slider"}
               className="group rounded-lg px-2 py-2"
             >
-              <TileSliderCategory key={tile.id} tile={tile} />
               <Link
                 to={`/collections/${tile.handle}/`}
                 className="block px-2 py-2 mt-1 rounded
@@ -64,6 +63,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
                   {tile.title}
                 </h4>
               </Link>
+              <TileSliderCategory key={tile.id} tile={tile} />
             </article>
           ))}
       </section>
