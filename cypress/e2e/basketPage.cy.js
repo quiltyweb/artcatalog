@@ -37,7 +37,7 @@ describe("desktop view basket page", () => {
     });
   });
 
-  it("loads empty Shopping bag correctly", () => {
+  it("loads empty shopping cart correctly", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
@@ -81,14 +81,14 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "'test print (not for sale)'" });
     cy.findByText("description for test print (not for sale) in html field");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+    cy.findByRole("button", { name: "Add to shopping cart" }).click();
     cy.findByText("Option Required");
     cy.get("select").select("Wood");
     cy.findAllByText(/Wood/i);
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+    cy.findByRole("button", { name: "Add to shopping cart" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "1 item in shopping cart" }).click();
     cy.findByRole("table", {
@@ -175,14 +175,14 @@ describe("mobile view basket page", () => {
     });
   });
 
-  it("loads empty Shopping bag correctly", () => {
+  it("loads empty shopping cart correctly", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
     cy.findByRole("button", { name: "check out" }).should("not.exist");
   });
 
-  it("deletes an item from the shopping bag", () => {
+  it("deletes an item from the shopping cart", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-query-cart-with-two-items.json",

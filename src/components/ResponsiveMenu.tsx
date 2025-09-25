@@ -75,7 +75,7 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
         to="/about"
         onClick={handleClickOnClose}
       >
-        about me
+        About Me
       </Link>
       <Link
         fontSize="md"

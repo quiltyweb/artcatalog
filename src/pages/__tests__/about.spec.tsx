@@ -15,8 +15,8 @@ describe("AboutPage", () => {
     const aboutPageMockedData = {
       storefrontshopify: {
         page: {
-          title: "About me",
-          body: '<p data-mce-fragment="1"><span style="font-weight: 400;" data-mce-style="font-weight: 400;" data-mce-fragment="1">this is test data for bio about me page</span></em></p>\n<p data-mce-fragment="1"> </p>\n<p data-mce-fragment="1"> </p>',
+          title: "About Me",
+          body: '<p data-mce-fragment="1"><span style="font-weight: 400;" data-mce-style="font-weight: 400;" data-mce-fragment="1">this is test data for bio About Me page</span></em></p>\n<p data-mce-fragment="1"> </p>\n<p data-mce-fragment="1"> </p>',
         },
       },
       site: {
@@ -34,8 +34,8 @@ describe("AboutPage", () => {
     );
     screen.getByRole("link", { name: "Home" });
     screen.getByRole("heading", {
-      name: "About me",
+      name: "About Me",
     });
-    screen.getByText("this is test data for bio about me page");
+    screen.getByText("this is test data for bio About Me page");
   });
 });

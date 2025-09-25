@@ -56,11 +56,11 @@ describe("About page mobile", () => {
 
   it("loads About page correctly", () => {
     cy.findByRole("button", { name: "menu" }).click();
-    cy.findByRole("link", { name: /about me/i }).click();
+    cy.findByRole("link", { name: /About Me/i }).click();
     cy.findByRole("link", { name: "Home" });
-    cy.findByRole("heading", { name: /about me/i });
+    cy.findByRole("heading", { name: /About Me/i });
     cy.findByAltText("Gabriela painting on a large canvas in her art studio");
-    cy.findByText(/this is test data for bio about me page/i);
+    cy.findByText(/this is test data for bio About Me page/i);
     cy.title().should("contain", "About Page - Meet the artist");
   });
 });

@@ -59,7 +59,7 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
     >
       If you have questions that you cannot find answers in the{" "}
       <Link to="/about" style={{ textDecoration: "underline" }}>
-        about me page
+        About Me page
       </Link>{" "}
       or{" "}
       <a href="#quicklinks" style={{ textDecoration: "underline" }}>

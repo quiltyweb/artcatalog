@@ -18,11 +18,11 @@ type SingleProductProps = {
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
-  pageContext: { product, printVersion },
+  pageContext: { product, printVersion, collectionHandle },
 }): React.ReactElement => {
-  const pathnameArray = location.pathname.split("/");
-  const categoryName = pathnameArray[2];
-
+  const BreadcrumbLinkTitle = `All ${collectionHandle
+    .split("-")
+    .join(" ")} products`;
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
       <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
@@ -33,8 +33,8 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
           <BreadcrumbLink href="/collections">Categories</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/collections/${categoryName}`}>
-            All {categoryName}
+          <BreadcrumbLink href={`/collections/${collectionHandle}`}>
+            {BreadcrumbLinkTitle}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>

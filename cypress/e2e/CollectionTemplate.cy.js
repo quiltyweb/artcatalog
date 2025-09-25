@@ -89,6 +89,6 @@ describe("Collection Template mobile", () => {
     cy.findByText(/AUD/i);
     cy.findByText(/\$0.00/i);
     cy.findByLabelText(/quantity/i);
-    cy.findByRole("button", { name: "Add to shopping bag" });
+    cy.findByRole("button", { name: "Add to shopping cart" });
   });
 });

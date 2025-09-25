@@ -194,14 +194,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   {`'${productMainTitle}'`}
                 </Heading>
                 {productSubTitle && (
-                  <Heading
-                    as="h3"
-                    fontSize="xl"
-                    color="pink.800"
-                    lineHeight="normal"
-                  >
+                  <Text fontSize="xl" color="pink.800" lineHeight="normal">
                     {productSubTitle}
-                  </Heading>
+                  </Text>
                 )}
                 {!product.hasOnlyDefaultVariant && (
                   <Text>{props.values.variant}</Text>
@@ -388,10 +383,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       }
                       aria-disabled={props.isSubmitting}
                     >
-                      Add to shopping bag
+                      Add to shopping cart
                     </Button>
                     {addItemToCartLoading && (
-                      <VStack>
+                      <VStack role="status">
                         <Spinner color="colorPalette.600" />
                         <Text color="colorPalette.600">
                           Adding item to cart...
@@ -399,7 +394,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       </VStack>
                     )}
                     {updateItemsToCartLoading && (
-                      <VStack>
+                      <VStack role="status">
                         <Spinner color="colorPalette.600" />
                         <Text color="colorPalette.600">
                           Updating item to cart...
@@ -427,8 +422,10 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     })}
                   {responseError && (
                     <Alert status="error">
-                      <AlertIcon />A request error occurred, please try again
-                      later.
+                      <AlertIcon />
+                      We couldn’t add this item to your cart. Please try again.
+                      If the problem continues, refresh the page or contact
+                      support.
                     </Alert>
                   )}
                 </Form>

@@ -32,7 +32,7 @@ describe("ResponsiveMenu", () => {
     screen.getByRole("link", { name: "Test Collection Title" });
 
     // hardcoded:
-    screen.getByRole("link", { name: "about me" });
+    screen.getByRole("link", { name: "About Me" });
     screen.getByRole("link", { name: "contact" });
     screen.getByLabelText("facebook");
     screen.getByLabelText("whatsApp");

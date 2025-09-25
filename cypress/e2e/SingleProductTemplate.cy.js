@@ -77,11 +77,11 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home-decor/i });
+      cy.findByRole("link", { name: /all home decor products/i });
     });
 
     cy.findByRole("heading", { name: "'Title Line 1'" });
-    cy.findByRole("heading", { name: "Subtitle Line 2" });
+    cy.findByText("Subtitle Line 2");
   });
 
   it("Renders single product page", () => {
@@ -93,7 +93,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home-decor/i });
+      cy.findByRole("link", { name: /all home decor products/i });
     });
 
     // renders product title as fallback
@@ -114,7 +114,7 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("heading", { name: "Details gallery:" });
     cy.findByAltText("alt text for media 1");
     cy.findByAltText("alt text for media 2");
-    cy.findByRole("button", { name: "Add to shopping bag" });
+    cy.findByRole("button", { name: "Add to shopping cart" });
   });
 
   it("Renders single product page with fallback image when feature image not provided", () => {
@@ -205,7 +205,7 @@ describe("Collection Template mobile view", () => {
       name: /Quantity/i,
     }).should("have.attr", "disabled");
     cy.findByRole("button", {
-      name: /Add to shopping bag/i,
+      name: /Add to shopping cart/i,
     }).should("have.attr", "disabled");
   });
 
@@ -229,7 +229,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.findByText(/item unavailable/i);
     cy.findByRole("button", {
-      name: /Add to shopping bag/i,
+      name: /Add to shopping cart/i,
     }).should("have.attr", "disabled");
   });
 
@@ -261,7 +261,7 @@ describe("Collection Template mobile view", () => {
       fixture: "singleProduct/singleProduct-with-warnings-step2.json",
     }).as("cartLinesAdd");
 
-    cy.findByRole("button", { name: "Add to shopping bag" }).click();
+    cy.findByRole("button", { name: "Add to shopping cart" }).click();
 
     cy.findByText("low stock").should("exist");
 
@@ -289,6 +289,8 @@ describe("Collection Template mobile view", () => {
       },
     });
     cy.wait("@ResponseError");
-    cy.findByText("A request error occurred, please try again later.");
+    cy.findByText(
+      "We couldn’t add this item to your cart. Please try again. If the problem continues, refresh the page or contact support."
+    );
   });
 });

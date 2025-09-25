@@ -84,9 +84,7 @@ describe("ProductCard", () => {
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
     screen.getByRole("heading", { name: "'Prana testing Title Line 1'" });
-    screen.getByRole("heading", {
-      name: "Original Acrylic Painting (SOLD) testing Title Line 2",
-    });
+    screen.getByText("Original Acrylic Painting (SOLD) testing Title Line 2");
     expect(
       screen.queryByRole("heading", { name: "Test product name" })
     ).not.toBeInTheDocument();
@@ -306,7 +304,7 @@ describe("ProductCard", () => {
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
-    screen.getByRole("button", { name: "Add to shopping bag" });
+    screen.getByRole("button", { name: "Add to shopping cart" });
     screen.getByText(/from/i);
     screen.getByText(/AUD/i);
     screen.getByText(/\$10.00/i);
@@ -847,7 +845,7 @@ describe("ProductCard", () => {
 
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
-      screen.getByRole("button", { name: "Add to shopping bag" })
+      screen.getByRole("button", { name: "Add to shopping cart" })
     ).toBeDisabled();
   });
 
@@ -915,11 +913,11 @@ describe("ProductCard", () => {
     expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
-      screen.getByRole("button", { name: "Add to shopping bag" })
+      screen.getByRole("button", { name: "Add to shopping cart" })
     ).toBeDisabled();
   });
 
-  it("renders a Loading text below to Add to shopping bag button when item is adding", async () => {
+  it("renders a Loading text below to Add to shopping cart button when item is adding", async () => {
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
       addItemToCart: jest.fn(),
       addItemToCartLoading: true,
@@ -990,7 +988,7 @@ describe("ProductCard", () => {
     screen.getByText("Adding item to cart...");
   });
 
-  it("renders a Loading text below to Add to shopping bag button when item is updating", async () => {
+  it("renders a Loading text below to Add to shopping cart button when item is updating", async () => {
     jest.spyOn(StoreContext, "useCartLinesUpdate").mockReturnValue({
       updateItemsToCart: jest.fn(),
       updateItemsToCartLoading: true,
@@ -1529,7 +1527,9 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductData.collectionHandle}
       />
     );
-    screen.getByText("A request error occurred, please try again later.");
+    screen.getByText(
+      "We couldn’t add this item to your cart. Please try again. If the problem continues, refresh the page or contact support."
+    );
   });
 
   it("Go to Print version page of original painting", async () => {
