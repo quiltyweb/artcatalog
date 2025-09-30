@@ -105,6 +105,17 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       mx={0}
       textAlign={["left"]}
     >
+      <Link
+        fontSize={["md"]}
+        textTransform="uppercase"
+        fontWeight="bold"
+        as={GatsbyLink}
+        key={"item-home"}
+        to="/"
+        onClick={handleClickOnClose}
+      >
+        Home
+      </Link>
       {allShopifyCollectionNodes &&
         allShopifyCollectionNodes.map((item) => (
           <Link

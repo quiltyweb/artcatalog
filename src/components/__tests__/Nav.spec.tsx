@@ -593,6 +593,7 @@ describe("Nav", () => {
       />
     );
 
+    screen.getByRole("link", { name: "Home" });
     screen.getByRole("link", { name: "Original Paintings Testing" });
   });
 
