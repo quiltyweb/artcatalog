@@ -27,7 +27,7 @@ describe("ResponsiveMenu", () => {
       />
     );
 
-    expect(screen.queryAllByRole("link")).toHaveLength(6);
+    expect(screen.queryAllByRole("link")).toHaveLength(7);
     // from static query:
     screen.getByRole("link", { name: "Test Collection Title" });
 

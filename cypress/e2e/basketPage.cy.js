@@ -43,7 +43,7 @@ describe("desktop view basket page", () => {
     }).as("checkoutCreate");
     cy.visit("/basket");
     cy.wait("@checkoutCreate");
-    cy.findByRole("link", { name: "Home" });
+    cy.findAllByRole("link", { name: "Home" });
     cy.findByRole("link", { name: "no items in shopping cart" });
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
