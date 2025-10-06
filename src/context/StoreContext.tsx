@@ -11,6 +11,7 @@ import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import type {
   Cart,
   CartLineUpdateInput,
+  CartUserError,
   CartWarning,
   Maybe,
   Mutation,
@@ -28,10 +29,12 @@ const clientV2 = createStorefrontApiClient({
 // ***********************
 // TYPES:
 // ***********************
+
 interface StoreStateType {
   client: typeof clientV2;
   isLoading: boolean;
   hasResponseError: boolean;
+  userErrors?: CartUserError[];
   cart?: Maybe<Cart>;
 }
 
@@ -40,6 +43,7 @@ interface StoreContextType {
     client: typeof clientV2;
     isLoading: boolean;
     hasResponseError: boolean;
+    userErrors?: CartUserError[];
     cart?: Maybe<Cart>;
   };
   setStore: Dispatch<SetStateAction<StoreStateType>>;
@@ -226,6 +230,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (existingCheckoutId) {
       // retrieve existing cart
+
       setStore((prevState) => {
         return { ...prevState, isLoading: true };
       });
@@ -240,6 +245,16 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
           if (errors) {
             setStore((prevState) => {
               return { ...prevState, isLoading: false, hasResponseError: true };
+            });
+            return;
+          }
+
+          if (!data?.cart) {
+            // if no cart found, remove invalid cart id from local storage
+            typeof window !== "undefined" &&
+              localStorage.removeItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
+            setStore((prevState) => {
+              return { ...prevState, isLoading: false };
             });
             return;
           }
@@ -262,6 +277,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (!existingCheckoutId) {
+      // create new cart
       setStore((prevState) => {
         return { ...prevState, isLoading: true };
       });
@@ -341,6 +357,17 @@ function useAddItemToCart() {
           });
           return;
         }
+
+        if (data?.cartLinesAdd?.userErrors.length) {
+          setStore((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              userErrors: data?.cartLinesAdd?.userErrors,
+            };
+          });
+          return;
+        }
         setStore((prevState) => ({
           ...prevState,
           isLoading: false,
@@ -389,6 +416,17 @@ function useCartLinesUpdate() {
         if (errors) {
           setStore((prevState) => {
             return { ...prevState, isLoading: false, hasResponseError: true };
+          });
+          return;
+        }
+
+        if (data?.cartLinesUpdate?.userErrors.length) {
+          setStore((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              userErrors: data?.cartLinesUpdate?.userErrors,
+            };
           });
           return;
         }
@@ -508,6 +546,13 @@ const useHasResponseError = () => {
   return hasResponseError;
 };
 
+const useUserErrors = () => {
+  const {
+    store: { userErrors },
+  } = useContext(StoreContext);
+  return userErrors;
+};
+
 export {
   StoreContext,
   StoreApp,
@@ -520,4 +565,5 @@ export {
   useCheckoutUrl,
   useIsCartLoading,
   useHasResponseError,
+  useUserErrors,
 };
