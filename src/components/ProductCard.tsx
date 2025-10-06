@@ -43,6 +43,7 @@ import {
   useCartLinesUpdate,
   useCheckoutLineItems,
   useHasResponseError,
+  useUserErrors,
 } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
@@ -87,8 +88,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     updateItemsToCartWarnings,
     setUpdateItemsToCartWarnings,
   } = useCartLinesUpdate();
-  const responseError = useHasResponseError();
-  const featuredImage = getImage(product.featuredImage);
+  const hasResponseError = useHasResponseError();
+  const userError = useUserErrors();
   const featuredImageDetail = getImage(product.featuredImage?.detail ?? null);
 
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
@@ -420,7 +421,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         </Alert>
                       );
                     })}
-                  {responseError && (
+
+                  {hasResponseError && (
                     <Alert status="error">
                       <AlertIcon />
                       We couldn’t add this item to your cart. Please try again.
@@ -428,6 +430,17 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       support.
                     </Alert>
                   )}
+
+                  {userError &&
+                    userError.length > 0 &&
+                    userError.map((item) => {
+                      return (
+                        <Alert status="error">
+                          <AlertIcon />
+                          {item.message}
+                        </Alert>
+                      );
+                    })}
                 </Form>
               </CardBody>
             </Container>
