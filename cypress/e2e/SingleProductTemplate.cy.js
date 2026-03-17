@@ -263,11 +263,15 @@ describe("Collection Template mobile view", () => {
 
     cy.findByRole("button", { name: "Add to shopping cart" }).click();
 
-    cy.findByText("low stock").should("exist");
+    cy.findByText(
+      /Your item was added, but there may be some limitations/i
+    ).should("exist");
 
     cy.findByLabelText(/Artwork frame material/i).select("Wood");
 
-    cy.findByText("low stock").should("not.exist");
+    cy.findByText(
+      /Your item was added, but there may be some limitations/i
+    ).should("not.exist");
   });
 
   it("renders a response message error if network response has error ", () => {
@@ -290,7 +294,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@ResponseError");
     cy.findByText(
-      "We couldn’t add this item to your cart. Please try again. If the problem continues, refresh the page or contact support."
+      /We couldn’t add this item to your cart. Please try again/i
     );
   });
 });

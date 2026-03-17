@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useEffect,
+  useCallback,
 } from "react";
 import gql from "graphql-tag";
 import { print } from "graphql";
@@ -34,7 +35,6 @@ interface StoreStateType {
   client: typeof clientV2;
   isLoading: boolean;
   hasResponseError: boolean;
-  userErrors?: CartUserError[];
   cart?: Maybe<Cart>;
 }
 
@@ -43,7 +43,6 @@ interface StoreContextType {
     client: typeof clientV2;
     isLoading: boolean;
     hasResponseError: boolean;
-    userErrors?: CartUserError[];
     cart?: Maybe<Cart>;
   };
   setStore: Dispatch<SetStateAction<StoreStateType>>;
@@ -263,7 +262,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
             typeof window !== "undefined" &&
               localStorage.setItem(
                 SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-                data.cart.id
+                data.cart.id,
               );
             setStore((prevState) => {
               return {
@@ -298,7 +297,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
             typeof window !== "undefined" &&
               localStorage.setItem(
                 SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-                data.cartCreate.cart.id
+                data.cartCreate.cart.id,
               );
             setStore((prevState) => {
               return {
@@ -319,6 +318,11 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+type AddProductResult = {
+  cart?: Maybe<Cart>;
+  userErrors?: CartUserError[];
+};
+
 function useAddItemToCart() {
   const {
     store: { client, cart },
@@ -328,61 +332,65 @@ function useAddItemToCart() {
   const [addItemToCartWarnings, setAddItemToCartWarnings] = useState<
     Array<CartWarning>
   >([]);
+  const [addItemUserErrors, setAddItemUserErrors] = useState<CartUserError[]>([]);
 
-  const addItemToCart = ({ variantId, quantity }: AddItemsToCartArgs) => {
-    setStore((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true,
-      };
-    });
-    setAddItemToCartLoading(true);
-
-    client
-      .request<Mutation>(print(cartLinesAddMutation), {
-        variables: {
-          cartId: cart?.id,
-          lines: [
-            {
-              merchandiseId: variantId,
-              quantity: quantity,
-            },
-          ],
-        },
-      })
-      .then(({ data, errors }) => {
-        if (errors) {
-          setStore((prevState) => {
-            return { ...prevState, isLoading: false, hasResponseError: true };
-          });
-          return;
-        }
-
-        if (data?.cartLinesAdd?.userErrors.length) {
-          setStore((prevState) => {
-            return {
-              ...prevState,
-              isLoading: false,
-              userErrors: data?.cartLinesAdd?.userErrors,
-            };
-          });
-          return;
-        }
-        setStore((prevState) => ({
+  const addItemToCartCallback = useCallback(
+    ({
+      variantId,
+      quantity,
+    }: AddItemsToCartArgs): Promise<AddProductResult> => {
+      setStore((prevState) => {
+        return {
           ...prevState,
-          isLoading: false,
-          cart: data?.cartLinesAdd?.cart,
-        }));
-        setAddItemToCartLoading(false);
-        setAddItemToCartWarnings(data?.cartLinesAdd?.warnings ?? []);
+          isLoading: true,
+        };
       });
-  };
+      setAddItemToCartLoading(true);
+      return client
+        .request<Mutation>(print(cartLinesAddMutation), {
+          variables: {
+            cartId: cart?.id,
+            lines: [
+              {
+                merchandiseId: variantId,
+                quantity: quantity,
+              },
+            ],
+          },
+        })
+        .then(({ data }) => {
+          if (data?.cartLinesAdd?.userErrors.length) {
+            setAddItemUserErrors(data?.cartLinesAdd?.userErrors ?? []);
+            setStore((prevState) => ({ ...prevState, isLoading: false }));
+            setAddItemToCartLoading(false);
+            return { userErrors: data?.cartLinesAdd?.userErrors }; // ✅ Return early error
+          }
+
+          setStore((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            cart: data?.cartLinesAdd?.cart,
+          }));
+          setAddItemToCartLoading(false);
+          return { cart: data?.cartLinesAdd?.cart }; // ✅ Return cart on success
+        })
+        .catch((error) => {
+          setAddItemToCartLoading(false);
+          // Handle any errors that occurred during the request
+          console.error("Error adding item to cart:", error);
+          throw error; // Rethrow the error so the caller can handle it
+        });
+    },
+    [client, cart, setStore],
+  );
 
   return {
-    addItemToCart,
+    addItemToCartCallback,
     addItemToCartLoading,
     addItemToCartWarnings,
     setAddItemToCartWarnings,
+    addItemUserErrors,
+    setAddItemUserErrors,
   };
 }
 
@@ -396,6 +404,7 @@ function useCartLinesUpdate() {
   const [updateItemsToCartWarnings, setUpdateItemsToCartWarnings] = useState<
     Array<CartWarning>
   >([]);
+  const [updateItemUserErrors, setUpdateItemUserErrors] = useState<CartUserError[]>([]);
 
   const updateItemsToCart = ({ lines }: UpdateItemsToCartArgs) => {
     setStore((prevState) => {
@@ -405,7 +414,7 @@ function useCartLinesUpdate() {
       };
     });
     setUpdateItemsToCartLoading(true);
-    client
+    return client
       .request<Mutation>(print(cartLinesUpdateMutation), {
         variables: {
           cartId: cart?.id,
@@ -417,17 +426,14 @@ function useCartLinesUpdate() {
           setStore((prevState) => {
             return { ...prevState, isLoading: false, hasResponseError: true };
           });
+          setUpdateItemsToCartLoading(false);
           return;
         }
 
         if (data?.cartLinesUpdate?.userErrors.length) {
-          setStore((prevState) => {
-            return {
-              ...prevState,
-              isLoading: false,
-              userErrors: data?.cartLinesUpdate?.userErrors,
-            };
-          });
+          setUpdateItemUserErrors(data?.cartLinesUpdate?.userErrors ?? []);
+          setStore((prevState) => ({ ...prevState, isLoading: false }));
+          setUpdateItemsToCartLoading(false);
           return;
         }
         setStore((prevState) => {
@@ -448,6 +454,8 @@ function useCartLinesUpdate() {
     updateItemsToCartLoading,
     updateItemsToCartWarnings,
     setUpdateItemsToCartWarnings,
+    updateItemUserErrors,
+    setUpdateItemUserErrors,
   };
 }
 
@@ -546,13 +554,6 @@ const useHasResponseError = () => {
   return hasResponseError;
 };
 
-const useUserErrors = () => {
-  const {
-    store: { userErrors },
-  } = useContext(StoreContext);
-  return userErrors;
-};
-
 export {
   StoreContext,
   StoreApp,
@@ -565,5 +566,4 @@ export {
   useCheckoutUrl,
   useIsCartLoading,
   useHasResponseError,
-  useUserErrors,
 };

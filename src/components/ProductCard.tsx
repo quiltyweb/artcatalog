@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SafeZoom from "./SafeZoom";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
@@ -28,6 +28,7 @@ import {
   VStack,
   Alert,
   AlertIcon,
+  useToast,
 } from "@chakra-ui/react";
 import {
   Formik,
@@ -43,7 +44,6 @@ import {
   useCartLinesUpdate,
   useCheckoutLineItems,
   useHasResponseError,
-  useUserErrors,
 } from "../context/StoreContext";
 import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
@@ -66,35 +66,38 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
   printVersion,
 }): React.ReactElement => {
+  // TODO: refactor title_line_1 and title_line_2 to be constants
+  // TODO: If the product has a metafield for title_line_1, use it as the product name
   const productMainTitle =
     product.metafields.find((field) => field.key === "title_line_1")?.value ||
     product.title;
-
   // If the product has a metafield for title_line_2, append it to the product name
   const productSubTitle = product.metafields.find(
-    (field) => field.key === "title_line_2"
+    (field) => field.key === "title_line_2",
   )?.value;
 
   const checkoutLineItems = useCheckoutLineItems();
   const {
-    addItemToCart,
+    addItemToCartCallback,
     addItemToCartLoading,
     addItemToCartWarnings,
     setAddItemToCartWarnings,
+    addItemUserErrors,
+    setAddItemUserErrors,
   } = useAddItemToCart();
   const {
     updateItemsToCart,
     updateItemsToCartLoading,
     updateItemsToCartWarnings,
     setUpdateItemsToCartWarnings,
+    updateItemUserErrors,
+    setUpdateItemUserErrors,
   } = useCartLinesUpdate();
   const hasResponseError = useHasResponseError();
-  const userError = useUserErrors();
   const featuredImageDetail = getImage(product.featuredImage?.detail ?? null);
 
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   const isProductPlublishedToStoreApp = product.publishedAt !== null;
-  const [selectedVariant, setSelectedVariant] = useState("");
 
   const initialValues: ProductCardFormValues = {
     id: product.id,
@@ -104,24 +107,20 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
       ? product.variants[0].selectedOptions[0].value
       : "",
   };
+
+  const toast = useToast();
+
   const SubmitSchema = Yup.object().shape({
     variant: Yup.string().required("Option Required"),
     quantity: Yup.number().required("Quantity Required"),
   });
-
-  useEffect(() => {
-    setAddItemToCartWarnings([]);
-    setUpdateItemsToCartWarnings([]);
-    setSelectedVariant("");
-  }, [selectedVariant]);
-
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={SubmitSchema}
       onSubmit={(
         values: ProductCardFormValues,
-        { setSubmitting }: FormikHelpers<ProductCardFormValues>
+        { setSubmitting, setFieldValue }: FormikHelpers<ProductCardFormValues>,
       ) => {
         if (values.quantity === 0) {
           return;
@@ -133,27 +132,63 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         });
 
         if (!selectedVariant) {
-          throw Error;
+          setSubmitting(false);
+          return;
         }
 
         const foundCartLineItem = checkoutLineItems.find(
-          (item) => item.merchandise.id === selectedVariant.shopifyId
+          (item) => item.merchandise.id === selectedVariant.shopifyId,
         );
 
         if (foundCartLineItem) {
           const updatedQuantity = foundCartLineItem.quantity + values.quantity;
           updateItemsToCart({
             lines: [{ id: foundCartLineItem.id, quantity: updatedQuantity }],
-          });
-          setSubmitting(false);
+          })
+            .then(() => {
+              toast({
+                title: "Cart updated.",
+                description: `Updated ${productMainTitle} - ${selectedVariant.title}`,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+            })
+            .finally(() => {
+              setSubmitting(false);
+            });
           return;
         }
 
-        addItemToCart({
+        addItemToCartCallback({
           variantId: selectedVariant.shopifyId,
           quantity: values.quantity,
-        });
-        setSubmitting(false);
+        })
+          .then((result) => {
+            if (result?.userErrors?.length) {
+              return;
+            }
+            toast({
+              title: "Item added to cart.",
+              description: `Added ${productMainTitle} - ${selectedVariant.title}`,
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            setFieldValue("quantity", 1);
+          })
+          .catch((err) => {
+            toast({
+              title: "Unable to add item to cart.",
+              description: "Something went wrong. Please try again.",
+              status: "error",
+              duration: 4000,
+              isClosable: true,
+            });
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
       }}
     >
       {(props: FormikProps<ProductCardFormValues>) => {
@@ -318,9 +353,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                                 onChange={(e) => {
                                   props.setFieldValue(
                                     "variant",
-                                    e.target.value
+                                    e.target.value,
                                   );
-                                  setSelectedVariant(e.target.value);
+                                  setAddItemToCartWarnings([]);
+                                  setUpdateItemsToCartWarnings([]);
+                                  setAddItemUserErrors([]);
+                                  setUpdateItemUserErrors([]);
                                 }}
                               >
                                 {values.map((value, i) => (
@@ -376,7 +414,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       width="100%"
                       padding="6"
                       my="4"
-                      isLoading={props.isSubmitting}
                       isDisabled={
                         props.isSubmitting ||
                         isSoldOut ||
@@ -389,58 +426,70 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     {addItemToCartLoading && (
                       <VStack role="status">
                         <Spinner color="colorPalette.600" />
-                        <Text color="colorPalette.600">
-                          Adding item to cart...
-                        </Text>
+                        <Text color="colorPalette.600">Adding item...</Text>
                       </VStack>
                     )}
                     {updateItemsToCartLoading && (
                       <VStack role="status">
                         <Spinner color="colorPalette.600" />
-                        <Text color="colorPalette.600">
-                          Updating item to cart...
-                        </Text>
+                        <Text color="colorPalette.600">Updating item...</Text>
                       </VStack>
                     )}
                   </VStack>
-                  {addItemToCartWarnings.length > 0 &&
-                    addItemToCartWarnings.map((item) => {
-                      return (
-                        <Alert status="warning">
-                          <AlertIcon />
-                          {item.message}
-                        </Alert>
-                      );
-                    })}
-                  {updateItemsToCartWarnings.length > 0 &&
-                    updateItemsToCartWarnings.map((item) => {
-                      return (
-                        <Alert status="warning">
-                          <AlertIcon />
-                          {item.message}
-                        </Alert>
-                      );
-                    })}
+                  {addItemToCartWarnings.length > 0 && (
+                    <Alert status="warning">
+                      <AlertIcon />
+                      Your item was added, but there may be some limitations.
+                      Please review your cart before checkout.
+                    </Alert>
+                  )}
+                  {updateItemsToCartWarnings.length > 0 && (
+                    <Alert status="warning">
+                      <AlertIcon />
+                      Your cart was updated, but there may be some limitations.
+                      Please review your cart before checkout.
+                    </Alert>
+                  )}
 
                   {hasResponseError && (
                     <Alert status="error">
                       <AlertIcon />
-                      We couldn’t add this item to your cart. Please try again.
-                      If the problem continues, refresh the page or contact
-                      support.
+                      <span>
+                        We couldn’t add this item to your cart. Please try again
+                        or{" "}
+                        <Link to="/contact" className="underline">
+                          contact support
+                        </Link>
+                        .
+                      </span>
                     </Alert>
                   )}
 
-                  {userError &&
-                    userError.length > 0 &&
-                    userError.map((item) => {
-                      return (
-                        <Alert status="error">
-                          <AlertIcon />
-                          {item.message}
-                        </Alert>
-                      );
-                    })}
+                  {addItemUserErrors.length > 0 && (
+                    <Alert status="error">
+                      <AlertIcon />
+                      <span>
+                        We couldn’t add this item to your cart. Please try again
+                        or{" "}
+                        <Link to="/contact" className="underline">
+                          contact support
+                        </Link>
+                        .
+                      </span>
+                    </Alert>
+                  )}
+                  {updateItemUserErrors.length > 0 && (
+                    <Alert status="error">
+                      <AlertIcon />
+                      <span>
+                        We couldn’t update your cart. Please try again or{" "}
+                        <Link to="/contact" className="underline">
+                          contact support
+                        </Link>
+                        .
+                      </span>
+                    </Alert>
+                  )}
                 </Form>
               </CardBody>
             </Container>
