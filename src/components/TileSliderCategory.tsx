@@ -76,7 +76,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
               <div
                 className="absolute bottom-0 left-0 w-full
                      bg-black/60 text-white text-sm sm:text-base
-                     px-3 py-2 rounded-b-lg"
+                     px-3 py-2 rounded-b-lg min-h-[4rem] flex items-center justify-center text-center"
               >
                 <Link
                   aria-live="polite"
