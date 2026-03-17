@@ -42,7 +42,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
       <section
         aria-live="off"
         aria-labelledby="all-categories-title"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+        className="grid grid-cols-[repeat(auto-fit,_minmax(250px,_350px))] justify-center gap-2"
       >
         {tiles &&
           tiles.map((tile) => (
