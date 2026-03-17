@@ -49,6 +49,12 @@ const Nav: React.FunctionComponent<NavProps> = ({
         />
       </Link>
       <Flex flexDirection={"row"} alignItems="center">
+        <ResponsiveMenu
+          allShopifyCollectionNodes={allShopifyCollection?.nodes}
+          isOpen={isOpen}
+          handleClickOnOpen={handleClickOnOpen}
+          handleClickOnClose={handleClickOnClose}
+        />
         <Link
           as={GatsbyLink}
           to="/basket"
@@ -56,7 +62,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           alignItems="baseline"
           justifyContent="center"
           gap="0"
-          marginEnd={4}
+          marginStart={4}
           aria-labelledby="cartCounter"
           aria-live="polite"
         >
@@ -70,12 +76,6 @@ const Nav: React.FunctionComponent<NavProps> = ({
             {lineItemsCount}
           </Text>
         </Link>
-        <ResponsiveMenu
-          allShopifyCollectionNodes={allShopifyCollection?.nodes}
-          isOpen={isOpen}
-          handleClickOnOpen={handleClickOnOpen}
-          handleClickOnClose={handleClickOnClose}
-        />
       </Flex>
     </Flex>
   );
