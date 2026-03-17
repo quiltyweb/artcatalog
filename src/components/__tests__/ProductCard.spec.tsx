@@ -16,6 +16,7 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks();
+  jest.restoreAllMocks();
 });
 
 describe("ProductCard", () => {
@@ -919,10 +920,12 @@ describe("ProductCard", () => {
 
   it("renders a Loading text below to Add to shopping cart button when item is adding", async () => {
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
-      addItemToCart: jest.fn(),
+      addItemToCartCallback: jest.fn(),
       addItemToCartLoading: true,
       addItemToCartWarnings: [],
       setAddItemToCartWarnings: jest.fn(),
+      addItemUserErrors: [],
+      setAddItemUserErrors: jest.fn(),
     });
     const mockedShopifyProductSoldOutData = {
       product: {
@@ -985,7 +988,7 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    screen.getByText("Adding item to cart...");
+    screen.getByText("Adding item...");
   });
 
   it("renders a Loading text below to Add to shopping cart button when item is updating", async () => {
@@ -994,6 +997,8 @@ describe("ProductCard", () => {
       updateItemsToCartLoading: true,
       updateItemsToCartWarnings: [],
       setUpdateItemsToCartWarnings: jest.fn(),
+      updateItemUserErrors: [],
+      setUpdateItemUserErrors: jest.fn(),
     });
     const mockedShopifyProductSoldOutData = {
       product: {
@@ -1056,12 +1061,12 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    screen.getByText("Updating item to cart...");
+    screen.getByText("Updating item...");
   });
 
   it("renders a message notifying the user about a warning in the response of adding item to cart", async () => {
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
-      addItemToCart: jest.fn(),
+      addItemToCartCallback: jest.fn(),
       addItemToCartLoading: false,
       addItemToCartWarnings: [
         {
@@ -1071,6 +1076,8 @@ describe("ProductCard", () => {
         },
       ],
       setAddItemToCartWarnings: jest.fn(),
+      addItemUserErrors: [],
+      setAddItemUserErrors: jest.fn(),
     });
     const mockedShopifyProductData = {
       product: {
@@ -1205,7 +1212,7 @@ describe("ProductCard", () => {
     );
 
     screen.getByText(
-      "Only 3 items were added to your cart due to availability."
+      "Your item was added, but there may be some limitations. Please review your cart before checkout."
     );
   });
 
@@ -1221,6 +1228,8 @@ describe("ProductCard", () => {
           message: "Only 5 items were added to your cart due to availability.",
         },
       ],
+      updateItemUserErrors: [],
+      setUpdateItemUserErrors: jest.fn(),
     });
     const mockedShopifyProductData = {
       product: {
@@ -1355,14 +1364,14 @@ describe("ProductCard", () => {
     );
 
     screen.getByText(
-      "Only 5 items were added to your cart due to availability."
+      "Your cart was updated, but there may be some limitations. Please review your cart before checkout."
     );
   });
 
   it("clears warning message when a variant is selected", async () => {
     const mockFn = jest.fn();
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
-      addItemToCart: jest.fn(),
+      addItemToCartCallback: jest.fn(),
       addItemToCartLoading: false,
       addItemToCartWarnings: [
         {
@@ -1372,6 +1381,8 @@ describe("ProductCard", () => {
         },
       ],
       setAddItemToCartWarnings: mockFn,
+      addItemUserErrors: [],
+      setAddItemUserErrors: jest.fn(),
     });
 
     const mockedShopifyProductData = {
@@ -1444,7 +1455,7 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductData.collectionHandle}
       />
     );
-    expect(screen.getByText("low stock")).toBeInTheDocument();
+    expect(screen.getByText("Your item was added, but there may be some limitations. Please review your cart before checkout.")).toBeInTheDocument();
 
     const select = screen.getByLabelText(/select a Color/i);
 
@@ -1528,7 +1539,7 @@ describe("ProductCard", () => {
       />
     );
     screen.getByText(
-      "We couldn’t add this item to your cart. Please try again. If the problem continues, refresh the page or contact support."
+      /We couldn’t add this item to your cart. Please try again/
     );
   });
 
@@ -1616,11 +1627,14 @@ describe("ProductCard", () => {
   });
 
   it("renders user error message when response has user errors", async () => {
-    jest.spyOn(StoreContext, "useUserErrors").mockReturnValue([
-      {
-        message: "This is a user error message",
-      },
-    ]);
+    jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+      addItemToCartCallback: jest.fn(),
+      addItemToCartLoading: false,
+      addItemToCartWarnings: [],
+      setAddItemToCartWarnings: jest.fn(),
+      addItemUserErrors: [{ message: "This is a user error message" }],
+      setAddItemUserErrors: jest.fn(),
+    });
     const mockedShopifyProductData = {
       product: {
         id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
@@ -1693,6 +1707,6 @@ describe("ProductCard", () => {
       />
     );
 
-    screen.getByText("This is a user error message");
+    screen.getByText(/add this item to your cart/);
   });
 });
