@@ -1,4 +1,5 @@
 import * as React from "react";
+import DOMPurify from "dompurify";
 import { Link, graphql, PageProps, HeadProps } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import {
@@ -33,7 +34,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
         <Box
           className="prose prose-lg max-w-none mb-6"
           dangerouslySetInnerHTML={{
-            __html: storefrontshopify.page?.body || "",
+            __html: DOMPurify.sanitize(storefrontshopify.page?.body || ""),
           }}
         />
         <StaticImage
