@@ -79,7 +79,6 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                      px-3 py-2 rounded-b-lg min-h-[4rem] flex items-center justify-center text-center"
               >
                 <Link
-                  aria-live="polite"
                   href={image.href}
                   className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
                 >
