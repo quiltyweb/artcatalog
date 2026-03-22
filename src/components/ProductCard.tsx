@@ -1,4 +1,5 @@
 import React from "react";
+import DOMPurify from "dompurify";
 import SafeZoom from "./SafeZoom";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
@@ -276,7 +277,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 )}
                 <Box
                   className="prose prose-lg max-w-none mb-6"
-                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                  dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(product.descriptionHtml) : product.descriptionHtml }}
                 />
                 {/* TODO: add print handle to open specific print */}
                 {printVersion && (
