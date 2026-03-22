@@ -37,7 +37,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "AdminShopify",
         fieldName: "adminshopify",
-        url: "https://brushella-dev.myshopify.com/admin/api/2025-01/graphql.json",
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/admin/api/2025-01/graphql.json`,
         headers: {
           "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         },
@@ -48,7 +48,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "StoreFrontShopify",
         fieldName: "storefrontshopify",
-        url: "https://brushellashop.myshopify.com/api/2025-01/graphql.json",
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/api/2025-01/graphql.json`,
         headers: {
           "X-Shopify-Storefront-Access-Token":
             process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
@@ -66,7 +66,7 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-shopify",
       options: {
-        storeUrl: "brushella-dev.myshopify.com",
+        storeUrl: process.env.GATSBY_SHOPIFY_STORE_DOMAIN,
         password: process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         salesChannel: process.env.GATSBY_SHOPIFY_APP_ID,
         shopifyConnections: ["collections"],

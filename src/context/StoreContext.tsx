@@ -22,9 +22,9 @@ import { formatPrice } from "../utils/formatPrice";
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 
 const clientV2 = createStorefrontApiClient({
-  storeDomain: "brushellashop.myshopify.com",
-  apiVersion: "2025-01",
+  storeDomain: process.env.GATSBY_SHOPIFY_STORE_DOMAIN!,
   publicAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
+  apiVersion: "2025-01",
 });
 
 // ***********************
@@ -332,7 +332,9 @@ function useAddItemToCart() {
   const [addItemToCartWarnings, setAddItemToCartWarnings] = useState<
     Array<CartWarning>
   >([]);
-  const [addItemUserErrors, setAddItemUserErrors] = useState<CartUserError[]>([]);
+  const [addItemUserErrors, setAddItemUserErrors] = useState<CartUserError[]>(
+    [],
+  );
 
   const addItemToCartCallback = useCallback(
     ({
@@ -404,7 +406,9 @@ function useCartLinesUpdate() {
   const [updateItemsToCartWarnings, setUpdateItemsToCartWarnings] = useState<
     Array<CartWarning>
   >([]);
-  const [updateItemUserErrors, setUpdateItemUserErrors] = useState<CartUserError[]>([]);
+  const [updateItemUserErrors, setUpdateItemUserErrors] = useState<
+    CartUserError[]
+  >([]);
 
   const updateItemsToCart = ({ lines }: UpdateItemsToCartArgs) => {
     setStore((prevState) => {
