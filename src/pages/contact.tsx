@@ -80,31 +80,39 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
           { fullname, email, message }: FormValues,
           { setStatus }
         ) => {
-          const res = await fetch(
-            "https://www.formbackend.com/f/a89f490517ad6461",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify({ fullname, email, message }),
-            }
-          );
+          try {
+            const res = await fetch(
+              "https://www.formbackend.com/f/a89f490517ad6461",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({ fullname, email, message }),
+              }
+            );
 
-          if (!res.ok) {
+            if (!res.ok) {
+              setStatus({
+                sent: false,
+                message:
+                  "There was an error sending your message. Please try again later.",
+              });
+            } else {
+              if (res.status === 200) {
+                setStatus({
+                  sent: true,
+                  message: "You message was sent succesfully!",
+                });
+              }
+            }
+          } catch {
             setStatus({
               sent: false,
               message:
                 "There was an error sending your message. Please try again later.",
             });
-          } else {
-            if (res.status === 200) {
-              setStatus({
-                sent: true,
-                message: "You message was sent succesfully!",
-              });
-            }
           }
         }}
       >

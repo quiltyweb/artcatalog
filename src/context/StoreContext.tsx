@@ -450,6 +450,14 @@ function useCartLinesUpdate() {
 
         setUpdateItemsToCartLoading(false);
         setUpdateItemsToCartWarnings(data?.cartLinesUpdate?.warnings ?? []);
+      })
+      .catch(() => {
+        setStore((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          hasResponseError: true,
+        }));
+        setUpdateItemsToCartLoading(false);
       });
   };
 
@@ -528,6 +536,13 @@ const useRemoveItemFromCart = () => {
             cart: data?.cartLinesRemove?.cart,
           };
         });
+      })
+      .catch(() => {
+        setStore((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          hasResponseError: true,
+        }));
       });
   };
   return removeItemFromCart;

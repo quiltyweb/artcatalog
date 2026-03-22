@@ -1709,4 +1709,5 @@ describe("ProductCard", () => {
 
     screen.getByText(/add this item to your cart/);
   });
+
 });

@@ -73,6 +73,35 @@ const config: GatsbyConfig = {
       },
     },
     `gatsby-plugin-postcss`,
+    {
+      resolve: "gatsby-plugin-manifest",
+      options: {
+        name: "Brushella Art and Decor Store",
+        short_name: "Brushella",
+        start_url: "/",
+        background_color: "#ffffff",
+        theme_color: "#319795",
+        display: "standalone",
+        icon: "src/images/brushella-icon.png",
+        icons: [
+          {
+            src: "src/images/android-chrome-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "src/images/android-chrome-256x256.png",
+            sizes: "256x256",
+            type: "image/png",
+          },
+          {
+            src: "src/images/apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
+          },
+        ],
+      },
+    },
   ],
   graphqlTypegen: true,
 };

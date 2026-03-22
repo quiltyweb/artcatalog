@@ -1,5 +1,6 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import ContactPage from "../contact";
 import fetchMock from "jest-fetch-mock";
 
@@ -15,6 +16,26 @@ afterEach(() => {
 });
 
 describe("ContactPage", () => {
+  it("shows an error message when the fetch throws a network error", async () => {
+    fetchMock.mockRejectOnce(new Error("Network error"));
+
+    render(<ContactPage />);
+
+    await userEvent.type(screen.getByLabelText("Full Name"), "Jane Doe");
+    await userEvent.type(
+      screen.getByLabelText("Email address"),
+      "jane@example.com"
+    );
+    await userEvent.type(screen.getByLabelText("Message"), "Hello there");
+    await userEvent.click(screen.getByRole("button", { name: "Send Message" }));
+
+    await waitFor(() =>
+      screen.getByText(
+        "There was an error sending your message. Please try again later."
+      )
+    );
+  });
+
   it("renders correctly", () => {
     render(<ContactPage />);
     screen.getByRole("heading", { name: "Contact me" });
