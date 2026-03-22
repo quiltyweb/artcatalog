@@ -35,17 +35,19 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
-      <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/collections">All Categories</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">{title}</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb>
+      <nav aria-label="breadcrumb">
+        <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/collections">All Categories</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href="#">{title}</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </nav>
       <Heading as="h2" color="teal.500" textTransform="capitalize" mb="2.4rem">
         {title}
       </Heading>
