@@ -7,16 +7,17 @@ import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/source-sans-3";
 import "./src/styles/global.css";
 import { LayoutDataProvider } from "./src/context/LayoutContext";
+import ErrorBoundary from "./src/components/ErrorBoundary";
 
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
 }) => (
-  <>
+  <ErrorBoundary>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <LayoutDataProvider>
       <StoreApp>{element}</StoreApp>
     </LayoutDataProvider>
-  </>
+  </ErrorBoundary>
 );
 
 export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
