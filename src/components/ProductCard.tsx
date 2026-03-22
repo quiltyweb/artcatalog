@@ -277,7 +277,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 )}
                 <Box
                   className="prose prose-lg max-w-none mb-6"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.descriptionHtml) }}
+                  dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(product.descriptionHtml) : product.descriptionHtml }}
                 />
                 {/* TODO: add print handle to open specific print */}
                 {printVersion && (

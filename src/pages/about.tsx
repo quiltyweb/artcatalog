@@ -34,7 +34,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
         <Box
           className="prose prose-lg max-w-none mb-6"
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(storefrontshopify.page?.body || ""),
+            __html: typeof window !== "undefined" ? DOMPurify.sanitize(storefrontshopify.page?.body || "") : storefrontshopify.page?.body || "",
           }}
         />
         <StaticImage
