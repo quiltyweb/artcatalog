@@ -3,7 +3,7 @@
 exports[`SEO render children correctly 1`] = `
 <DocumentFragment>
   <title>
-    pagetitle prop Sitetitle prop
+    pagetitle prop | Sitetitle prop
   </title>
   <meta
     content="description prop"
@@ -18,6 +18,26 @@ exports[`SEO render children correctly 1`] = `
     rel="icon"
     sizes="any"
     type="image/svg+xml"
+  />
+  <meta
+    content="website"
+    property="og:type"
+  />
+  <meta
+    content="pagetitle prop | Sitetitle prop"
+    property="og:title"
+  />
+  <meta
+    content="description prop"
+    property="og:description"
+  />
+  <meta
+    content="../../image.png"
+    property="og:image"
+  />
+  <meta
+    content="Sitetitle prop"
+    property="og:site_name"
   />
   <link
     charset="UTF-8"
@@ -39,7 +59,7 @@ exports[`SEO render children correctly 1`] = `
 exports[`SEO render fallback values 1`] = `
 <DocumentFragment>
   <title>
-    page title from prop Brushella
+    page title from prop | Brushella
   </title>
   <meta
     content="Brushella Art and Decor store"
@@ -54,6 +74,26 @@ exports[`SEO render fallback values 1`] = `
     rel="icon"
     sizes="any"
     type="image/svg+xml"
+  />
+  <meta
+    content="website"
+    property="og:type"
+  />
+  <meta
+    content="page title from prop | Brushella"
+    property="og:title"
+  />
+  <meta
+    content="Brushella Art and Decor store"
+    property="og:description"
+  />
+  <meta
+    content="/brushella-icon.svg"
+    property="og:image"
+  />
+  <meta
+    content="Brushella"
+    property="og:site_name"
   />
   <link
     charset="UTF-8"
