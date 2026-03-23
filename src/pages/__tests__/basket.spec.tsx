@@ -446,7 +446,7 @@ describe("BasketPage", () => {
     screen.getByText(/taxes and/i);
     screen.getByRole("link", { name: /shipping/i });
     screen.getByText(/calculated at check out/i);
-    screen.getByRole("button", { name: /check out/i });
+    screen.getByRole("button", { name: /proceed to checkout/i });
   });
 
   it("renders quote form when cart count is greater than zero items", () => {
