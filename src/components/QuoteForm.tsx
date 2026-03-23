@@ -139,7 +139,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
                     colorScheme="teal"
                     type="submit"
                   >
-                    Get a Quote
+                    Request a Quote
                   </Button>
                 </Form>
               )}

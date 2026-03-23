@@ -74,7 +74,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
               );
             })}
           <ListItem key={"contact-page"} p="0 1rem 1rem 0">
-            <FooterLink to="/contact">contact me</FooterLink>
+            <FooterLink to="/contact">Contact Me</FooterLink>
           </ListItem>
           <ListItem key={"about-page"} p="0 1rem 1rem 0">
             <FooterLink to="/about">About Me</FooterLink>
