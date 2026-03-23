@@ -103,7 +103,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
                     {({ field, form }: FieldProps<string, FormValues>) => (
                       <FormControl
                         isInvalid={
-                          form.errors.fullname && form.touched.fullname
+                          !!(form.errors.fullname && form.touched.fullname)
                         }
                         mb={8}
                       >
@@ -119,7 +119,7 @@ const QuoteForm: React.FunctionComponent<QuoteFormProps> = ({
                   <Field name="email" type="email">
                     {({ field, form }: FieldProps<string, FormValues>) => (
                       <FormControl
-                        isInvalid={form.errors.email && form.touched.email}
+                        isInvalid={!!(form.errors.email && form.touched.email)}
                         mb={8}
                       >
                         <FormLabel>Email address</FormLabel>

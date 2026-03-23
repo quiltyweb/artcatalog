@@ -110,5 +110,12 @@
       "cypress.config.ts",
       "gatsby-browser.tsx",
       "gatsby-ssr.tsx",
-  ]
+    ],
+    "exclude": [
+      "**/__tests__/**",
+      "**/*.spec.tsx",
+      "**/*.spec.ts",
+      "cypress/**",
+      "__mocks__/**"
+    ]
   }
