@@ -165,7 +165,7 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
         type="button"
         onClick={handleCheckout}
       >
-        Check out
+        Proceed to Checkout
       </Button>
     </Box>
   );
@@ -202,7 +202,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
         <Heading as="h3" size="md" fontWeight="normal">
           Your cart is empty.
         </Heading>
-        <CallToActionButton title="Shop now" link="/collections" />
+        <CallToActionButton title="Browse All Collections" link="/collections" />
       </Container>
     );
   }
@@ -472,9 +472,10 @@ export default MyBasketPage;
 export const Head = (props: any) => {
   return (
     <SEO
-      pageTitle="Shopping Cart"
+      pageTitle="Your Shopping Cart"
       siteTitle="Brushella"
-      description="Shopping Cart with your selected items from the Brushella Store"
+      description="Review your selected Brushella artworks and prints. Proceed to checkout to bring original paintings and fine art into your home."
+      canonical={`https://www.brushella.art${props.location.pathname}`}
     />
   );
 };

@@ -188,7 +188,7 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
                     colorScheme="teal"
                     type="submit"
                   >
-                    Send Message
+                    Send Enquiry
                   </Button>
                 </Form>
               )}
@@ -203,11 +203,25 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
 export default ContactPage;
 
 export const Head = (props: any) => {
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: "Contact", item: canonical },
+    ],
+  };
+
   return (
     <SEO
-      pageTitle="Contact Page"
+      pageTitle="Contact — Commissions & Art Enquiries"
       siteTitle="Brushella"
-      description="Contact page to send enquiries to Brushella Store via the contact form"
-    />
+      description="Get in touch with Brushella to ask about original artworks, commissions, prints or shipping. We'd love to hear from you."
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+    </SEO>
   );
 };

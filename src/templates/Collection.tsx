@@ -185,7 +185,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           to={`/product-categories/${collectionHandle}`}
           style={{ textDecoration: "underline" }}
         >
-          Learn more about {title}
+          About the {title} Collection
         </Link>
       </Box>
     </Container>
@@ -194,10 +194,26 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 export default Collection;
 
 export const Head = (props: any) => {
+  const { title } = props.pageContext;
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: "All Categories", item: "https://www.brushella.art/collections/" },
+      { "@type": "ListItem", position: 3, name: title, item: canonical },
+    ],
+  };
+
   return (
     <SEO
-      pageTitle={`${props.pageContext.title} - Collection Page`}
-      description="Product Collections of Brushella Store"
-    />
+      pageTitle={`${title} — Art Collection`}
+      description={`Browse the ${title} collection by Brushella — original artworks and fine art prints handcrafted by Chilean artist Gabriela.`}
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+    </SEO>
   );
 };

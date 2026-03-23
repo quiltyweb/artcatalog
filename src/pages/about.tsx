@@ -52,13 +52,27 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
 export default AboutPage;
 
 export const Head = (props: HeadProps<any>) => {
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: "About Me", item: canonical },
+    ],
+  };
+
   return (
     <SEO
-      pageTitle="About Page - Meet the artist"
+      pageTitle="Meet the Artist — Gabriela, Chilean Painter"
       siteTitle={props.data.site.siteMetadata.title}
-      description="Meet Gabriela, the artist behind Brushella Store"
+      description="Meet Gabriela, the Chilean artist, Australia-based painter behind Brushella. Discover her story, inspiration and the passion that drives her original art collections."
       image={props.data.site.siteMetadata.image}
-    />
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+    </SEO>
   );
 };
 

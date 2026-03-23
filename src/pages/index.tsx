@@ -22,11 +22,38 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
 export default IndexPage;
 
 export const Head = (props: any) => {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Brushella",
+    url: "https://www.brushella.art",
+    description:
+      "Original paintings, art prints and home decor by Gabriela, the artist behind Brushella",
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Brushella",
+    url: "https://www.brushella.art",
+    logo: "https://www.brushella.art/brushella-icon.svg",
+    sameAs: [
+      "https://www.facebook.com/Brushella",
+      "https://www.instagram.com/brushella_brushmaster/",
+    ],
+  };
+
   return (
     <SEO
-      pageTitle="Home Page"
+      pageTitle="Original Paintings & Fine Art Prints"
       siteTitle="Brushella"
-      description="Home Page for Brushella Store"
-    />
+      description="Shop original paintings, fine art prints and home décor by Gabriela — the artist behind Brushella. Unique handcrafted artworks for every space."
+      canonical={`https://www.brushella.art${props.location.pathname}`}
+    >
+      <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify(organizationSchema)}
+      </script>
+    </SEO>
   );
 };
