@@ -61,6 +61,6 @@ describe("About page mobile", () => {
     cy.findByRole("heading", { name: /About Me/i });
     cy.findByAltText("Gabriela painting on a large canvas in her art studio");
     cy.findByText(/this is test data for bio About Me page/i);
-    cy.title().should("contain", "About Page - Meet the artist");
+    cy.title().should("contain", "Meet the Artist — Gabriela, Chilean Painter");
   });
 });
