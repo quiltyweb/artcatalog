@@ -121,7 +121,7 @@ describe("Home page mobile", () => {
       cy.findByText(
         "Your one-stop online shop where craftsmanship meets creativity!"
       );
-      cy.findByRole("link", { name: "Shop now" });
+      cy.findByRole("link", { name: "Explore the Collection" });
       cy.findByText(
         /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
       );

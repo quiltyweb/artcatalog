@@ -881,7 +881,7 @@ describe("IndexPage", () => {
     // homepage hero Author section:
     screen.getByRole("heading", { name: /Welcome to Brushella's Art Store/ });
     screen.getByText(/Embrace the beauty of handmade artistry with Brushella/);
-    screen.getByRole("link", { name: "Shop now" });
+    screen.getByRole("link", { name: "Explore the Collection" });
 
     // homepage mini slider Tiles:
     screen.getByRole("heading", { name: "Browse Brushella’s World" });

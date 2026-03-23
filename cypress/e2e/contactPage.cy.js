@@ -38,11 +38,11 @@ describe("contact Page mobile", () => {
     cy.findByLabelText("Full Name");
     cy.findByLabelText("Email address");
     cy.findByLabelText("Message");
-    cy.findByRole("button", { name: "Send Message" });
+    cy.findByRole("button", { name: "Send Enquiry" });
   });
 
   it("shows user errors when form has no data", () => {
-    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.findByRole("button", { name: "Send Enquiry" }).click();
     cy.get("main").scrollIntoView();
     cy.findByText("Name is Required");
     cy.findByText("Email is Required");
@@ -58,7 +58,7 @@ describe("contact Page mobile", () => {
       "https://www.formbackend.com/f/a89f490517ad6461",
       "success"
     ).as("formbackendSuccess");
-    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.findByRole("button", { name: "Send Enquiry" }).click();
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText("You message was sent succesfully!");
@@ -71,7 +71,7 @@ describe("contact Page mobile", () => {
     cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
       statusCode: 500,
     }).as("formbackendFailure");
-    cy.findByRole("button", { name: "Send Message" }).click();
+    cy.findByRole("button", { name: "Send Enquiry" }).click();
     cy.wait("@formbackendFailure");
     cy.get("main").scrollIntoView();
     cy.findByText(

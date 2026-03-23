@@ -27,7 +27,7 @@ describe("ContactPage", () => {
       "jane@example.com"
     );
     await userEvent.type(screen.getByLabelText("Message"), "Hello there");
-    await userEvent.click(screen.getByRole("button", { name: "Send Message" }));
+    await userEvent.click(screen.getByRole("button", { name: "Send Enquiry" }));
 
     await waitFor(() =>
       screen.getByText(
@@ -45,7 +45,7 @@ describe("ContactPage", () => {
     screen.getByLabelText("Full Name");
     screen.getByLabelText("Email address");
     screen.getByLabelText("Message");
-    screen.getByRole("button", { name: "Send Message" });
+    screen.getByRole("button", { name: "Send Enquiry" });
     screen.getByRole("link", { name: "Home" });
   });
 });

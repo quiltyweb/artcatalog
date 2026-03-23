@@ -48,9 +48,9 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
-    cy.findByRole("button", { name: "check out" }).should("not.exist");
+    cy.findByRole("button", { name: "Proceed to Checkout" }).should("not.exist");
     cy.findByRole("heading", { name: "Quotation form" }).should("not.exist");
-    cy.findByRole("button", { name: /Get a Quote/i }).should("not.exist");
+    cy.findByRole("button", { name: /Request a Quote/i }).should("not.exist");
   });
 
   it("loads shopping cart with 1 item on desktop view", () => {
@@ -81,14 +81,14 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "'test print (not for sale)'" });
     cy.findByText("description for test print (not for sale) in html field");
-    cy.findByRole("button", { name: "Add to shopping cart" }).click();
+    cy.findByRole("button", { name: "Add to Cart" }).click();
     cy.findByText("Option Required");
     cy.get("select").select("Wood");
     cy.findAllByText(/Wood/i);
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutLineItemsAdd.json",
     }).as("checkoutLineItemsAdd");
-    cy.findByRole("button", { name: "Add to shopping cart" }).click();
+    cy.findByRole("button", { name: "Add to Cart" }).click();
     cy.wait("@checkoutLineItemsAdd");
     cy.findByRole("link", { name: "1 item in shopping cart" }).click();
     cy.findByRole("table", {
@@ -132,7 +132,7 @@ describe("desktop view basket page", () => {
     cy.wait("@queryCart");
     cy.findByRole("table", { name: /2 items in your cart/ });
     cy.findByRole("heading", { name: "Quotation form" });
-    cy.findByRole("button", { name: /Get a Quote/i });
+    cy.findByRole("button", { name: /Request a Quote/i });
   });
 });
 
@@ -168,7 +168,7 @@ describe("mobile view basket page", () => {
       name: /2 items in your cart. Subtotal is \$0.00 AUD./,
     });
     cy.findByRole("heading", { name: "Quotation form" });
-    cy.findByRole("button", { name: /Get a Quote/i });
+    cy.findByRole("button", { name: /Request a Quote/i });
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -179,7 +179,7 @@ describe("mobile view basket page", () => {
     cy.findByRole("heading", { name: "Shopping Cart" });
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
-    cy.findByRole("button", { name: "check out" }).should("not.exist");
+    cy.findByRole("button", { name: "Proceed to Checkout" }).should("not.exist");
   });
 
   it("deletes an item from the shopping cart", () => {
@@ -244,7 +244,7 @@ describe("mobile view Basket page with Quote form ", () => {
     }).as("queryCart");
     cy.visit("/basket");
     cy.wait("@queryCart");
-    cy.findByRole("button", { name: /Get a Quote/i }).click();
+    cy.findByRole("button", { name: /Request a Quote/i }).click();
     cy.get("main").scrollIntoView();
     cy.findByText("Name is Required");
     cy.findByText("Email is Required");
@@ -263,7 +263,7 @@ describe("mobile view Basket page with Quote form ", () => {
       "https://www.formbackend.com/f/a89f490517ad6461",
       "success"
     ).as("formbackendSuccess");
-    cy.findByRole("button", { name: /Get a Quote/i }).click();
+    cy.findByRole("button", { name: /Request a Quote/i }).click();
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText(
@@ -282,7 +282,7 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
       statusCode: 500,
     }).as("formbackendFailure");
-    cy.findByRole("button", { name: /Get a Quote/i }).click();
+    cy.findByRole("button", { name: /Request a Quote/i }).click();
     cy.wait("@formbackendFailure");
     cy.get("main").scrollIntoView();
     cy.findByText(
