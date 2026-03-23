@@ -47,7 +47,7 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">Learn more about {title}</BreadcrumbLink>
+          <BreadcrumbLink href="#">About the {title} Collection</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">
@@ -72,7 +72,7 @@ export const Head = (props: any) => {
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
       { "@type": "ListItem", position: 2, name: "All Categories", item: "https://www.brushella.art/collections/" },
       { "@type": "ListItem", position: 3, name: title, item: `https://www.brushella.art/collections/${handle}/` },
-      { "@type": "ListItem", position: 4, name: `Learn more about ${title}`, item: canonical },
+      { "@type": "ListItem", position: 4, name: `About the ${title} Collection`, item: canonical },
     ],
   };
 
