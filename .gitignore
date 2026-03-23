@@ -99,7 +99,7 @@ cypress/e2e/2-advanced-examples
 cypress/fixtures/example.json
 
 #types
-src/gatsby-types.d.ts
+# src/gatsby-types.d.ts is committed so CI can run tsc --noEmit without a Gatsby build
 
 #settings
 .vscode/settings.json
