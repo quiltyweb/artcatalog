@@ -14,7 +14,7 @@ type SafeZoomProps = UncontrolledProps & {
 export default function SafeZoom({ children, ...props }: SafeZoomProps) {
   const isTest =
     process.env.NODE_ENV === "test" ||
-    (typeof window !== "undefined" && (window.Cypress || (window as any).jest));
+    (typeof window !== "undefined" && ((window as any).Cypress || (window as any).jest));
 
   if (isTest) {
     // Render children directly in tests
