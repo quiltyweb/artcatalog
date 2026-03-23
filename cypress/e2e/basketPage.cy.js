@@ -113,7 +113,7 @@ describe("desktop view basket page", () => {
       cy.findByText(/taxes and/i);
       cy.findByRole("link", { name: /shipping/i });
       cy.findByText(/calculated at check out/i);
-      cy.findByRole("button", { name: /check out/i });
+      cy.findByRole("button", { name: /proceed to checkout/i });
     });
   });
 
@@ -218,7 +218,7 @@ describe("mobile view basket page", () => {
       cy.stub(win, "open").as("windowOpen");
     });
     cy.get('[data-testid="summary-section"]').scrollIntoView();
-    cy.findByRole("button", { name: /check out/i }).click();
+    cy.findByRole("button", { name: /proceed to checkout/i }).click();
     cy.get("@windowOpen").should(
       "be.calledWith",
       "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd"
