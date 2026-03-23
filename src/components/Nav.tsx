@@ -33,7 +33,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
   };
 
   return (
-    <Flex as="nav" gap="4" alignItems="center" justify="space-between">
+    <Flex as="nav" aria-label="main navigation" gap="4" alignItems="center" justify="space-between">
       <Link as={GatsbyLink} to="/" marginEnd="auto">
         <LogoSVG
           id="top-logo"
