@@ -115,7 +115,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   className="slide-caption block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black
                     font-serif font-medium mb-1 text-lg"
                 >
-                  <p className="leading-snug line-clamp-2">{item.caption}</p>
+                  <p className="leading-snug line-clamp-2 min-h-[3.1rem]">{item.caption}</p>
                 </Link>
               </div>
             </div>
