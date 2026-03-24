@@ -10,7 +10,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:cypress/recommended",
-    "plugin:react-hooks/recommended-legacy",
+    "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -39,7 +39,7 @@ module.exports = {
       extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react-hooks/recommended-legacy",
+        "plugin:react-hooks/recommended",
       ],
       env: {
         es6: true,

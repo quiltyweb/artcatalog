@@ -53,11 +53,10 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
             >
               <Link
                 to={`/collections/${tile.handle}/`}
-                className="px-2 py-2 mt-1 mb-2 rounded block
-              focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2"
+                className="px-2 py-2 mt-1 mb-2 rounded block"
               >
                 <h4
-                  className="text-xl transform transition duration-200 ease-out hover:scale-105 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                  className="text-xl transform transition duration-200 ease-out hover:scale-105 hover:underline"
                   aria-label={`go to ${tile.title} category`}
                 >
                   {tile.title}

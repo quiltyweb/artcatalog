@@ -80,7 +80,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
               >
                 <Link
                   href={image.href}
-                  className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+                  className="block"
                 >
                   {image.productTitle}
                 </Link>

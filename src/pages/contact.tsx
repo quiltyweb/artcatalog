@@ -183,9 +183,9 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
                   <Button
                     isLoading={props.isSubmitting}
                     mt={4}
-                    backgroundColor="#86548A"
-                    color="#ffffff"
-                    colorScheme="teal"
+                    variant="outline"
+                    borderColor="#86548A"
+                    color="#86548A"
                     type="submit"
                   >
                     Send Enquiry

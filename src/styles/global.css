@@ -20,6 +20,14 @@ h4,h5,h6, span {
   font-family: 'Source Sans 3 Variable', sans-serif!important;
   font-weight: 500!important;
 }
+/* Focus ring — thin dotted, inherits element colour, keyboard-only.
+   !important overrides Chakra UI's outline:none on Link/Button components. */
+*:focus-visible {
+  outline: 2px dotted currentColor !important;
+  outline-offset: 3px !important;
+  box-shadow: none !important;
+}
+
 /* screen reader only */
 .sr-only {
   position: absolute;

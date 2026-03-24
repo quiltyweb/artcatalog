@@ -1,8 +1,17 @@
+import {
+  REGEX_INTERCEPT_POST_REQUEST,
+} from "../support/constants";
+
 describe("contact Page desktop", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
     cy.visit("/contact");
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", { name: /contact me/i });
   });
 
   it("checks for accessibility violations on desktop", () => {
@@ -18,15 +27,28 @@ describe("contact Page mobile", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("iphone-4");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
     cy.visit("/contact");
+    cy.wait("@checkoutCreate");
+    cy.findByRole("heading", { name: /contact me/i });
   });
 
   it("checks for accessibility violations on mobile", () => {
     cy.injectAxe();
-    cy.checkA11y(null, {
-      runOnly: ["wcag2a", "wcag2aa"],
-      includedImpacts: ["critical", "serious"],
-    });
+    cy.checkA11y(
+      null,
+      {
+        runOnly: ["wcag2a", "wcag2aa"],
+        includedImpacts: ["critical", "serious"],
+      },
+      (violations) => {
+        violations.forEach(({ id, impact, nodes }) => {
+          cy.log(`[${impact}] ${id}: ${nodes.map((n) => n.target).join(", ")}`);
+        });
+      }
+    );
   });
 
   it("loads contact page correctly", () => {
