@@ -82,7 +82,10 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           onlyInViewport: true,
         }}
         watchSlidesProgress={true} // enables progress tracking
-        onInit={() => setLoading(false)} // hide loader when initialized
+        onInit={() => {
+          setLoading(false);
+          (document.activeElement as HTMLElement)?.blur();
+        }}
         onSlideChange={(swiper) => {
           if (window.innerWidth < 768) {
             return;
