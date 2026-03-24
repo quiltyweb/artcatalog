@@ -20,6 +20,8 @@ import type {
 } from "@shopify/hydrogen-react/storefront-api-types";
 import { formatPrice } from "../utils/formatPrice";
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
+const SHOPIFY_CHECKOUT_TIMESTAMP_KEY = "shopify_checkout_timestamp";
+const CART_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
 
 const clientV2 = createStorefrontApiClient({
   storeDomain: process.env.GATSBY_SHOPIFY_STORE_DOMAIN!,
@@ -222,9 +224,18 @@ const StoreContext = React.createContext<StoreContextType>({
 const StoreApp = ({ children }: { children: React.ReactNode }) => {
   const [store, setStore] = useState<StoreStateType>(storeInitialValues);
 
-  const existingCheckoutId =
-    typeof window !== "undefined" &&
-    localStorage.getItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
+  const existingCheckoutId = (() => {
+    if (typeof window === "undefined") return null;
+    const id = localStorage.getItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
+    if (!id) return null;
+    const storedAt = localStorage.getItem(SHOPIFY_CHECKOUT_TIMESTAMP_KEY);
+    if (!storedAt || Date.now() - parseInt(storedAt) > CART_EXPIRY_MS) {
+      localStorage.removeItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
+      localStorage.removeItem(SHOPIFY_CHECKOUT_TIMESTAMP_KEY);
+      return null;
+    }
+    return id;
+  })();
 
   useEffect(() => {
     if (existingCheckoutId) {
@@ -264,6 +275,11 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
                 SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
                 data.cart.id,
               );
+            typeof window !== "undefined" &&
+              localStorage.setItem(
+                SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
+                Date.now().toString(),
+              );
             setStore((prevState) => {
               return {
                 ...prevState,
@@ -298,6 +314,11 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
               localStorage.setItem(
                 SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
                 data.cartCreate.cart.id,
+              );
+            typeof window !== "undefined" &&
+              localStorage.setItem(
+                SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
+                Date.now().toString(),
               );
             setStore((prevState) => {
               return {
@@ -378,9 +399,7 @@ function useAddItemToCart() {
         })
         .catch((error) => {
           setAddItemToCartLoading(false);
-          // Handle any errors that occurred during the request
-          console.error("Error adding item to cart:", error);
-          throw error; // Rethrow the error so the caller can handle it
+          throw error;
         });
     },
     [client, cart, setStore],
