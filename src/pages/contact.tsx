@@ -187,11 +187,6 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
                     color="#ffffff"
                     colorScheme="teal"
                     type="submit"
-                    _focusVisible={{
-                      outline: "2px dotted #86548A",
-                      outlineOffset: "3px",
-                      boxShadow: "none",
-                    }}
                   >
                     Send Enquiry
                   </Button>
