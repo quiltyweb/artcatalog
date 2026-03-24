@@ -15,15 +15,15 @@ type FlattenedImage = {
   title: string;
   caption: string;
   category: string;
+  order?: string;
 };
 
-// TODO: make this helper reduceMetaobjectsToSliderItems, and change order of images based on admin setting (add order field in metafield)
 export function useMetaobjectToHeroSlider() {
   const mainSliderImages =
     useLayoutConsumer()?.storefrontshopify.metaobjects.nodes?.map(
-      (currentItem, currentIndex, arr) => {
+      (currentItem) => {
         const flattenedFields = currentItem.fields.reduce(
-          (acc, field, index, arr) => {
+          (acc, field) => {
             if (field.key === "image" && field.reference !== null) {
               acc[field.key] = field.value;
               acc["reference"] = field.reference;
@@ -41,5 +41,13 @@ export function useMetaobjectToHeroSlider() {
         return { ...flattenedFields } as FlattenedImage;
       }
     );
-  return mainSliderImages;
+
+  if (!mainSliderImages) return mainSliderImages;
+
+  const hasOrder = mainSliderImages.some((item) => item.order !== undefined);
+  if (!hasOrder) return mainSliderImages;
+
+  return [...mainSliderImages].sort(
+    (a, b) => parseInt(a.order ?? "0") - parseInt(b.order ?? "0")
+  );
 }
