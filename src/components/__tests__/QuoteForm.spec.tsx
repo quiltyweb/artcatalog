@@ -64,6 +64,6 @@ describe("QuoteForm", () => {
     screen.getByRole("heading", { name: "Quotation form" });
     screen.getByLabelText("Full Name");
     screen.getByLabelText("Email address");
-    screen.getByRole("button", { name: "Get a Quote" });
+    screen.getByRole("button", { name: "Request a Quote" });
   });
 });

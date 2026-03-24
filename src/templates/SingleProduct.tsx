@@ -48,10 +48,53 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
 export default SingleProduct;
 
 export const Head = (props: any) => {
+  const { product, collectionHandle } = props.pageContext;
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+  const isAvailable = product.variants.some((v: any) => v.availableForSale);
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: "Categories", item: "https://www.brushella.art/collections/" },
+      { "@type": "ListItem", position: 3, name: `All ${collectionHandle.split("-").join(" ")} products`, item: `https://www.brushella.art/collections/${collectionHandle}/` },
+      { "@type": "ListItem", position: 4, name: product.title, item: canonical },
+    ],
+  };
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description,
+    image: product.featuredImage?.originalSrc,
+    url: `https://www.brushella.art/collections/${collectionHandle}/${product.handle}`,
+    brand: {
+      "@type": "Brand",
+      name: "Brushella",
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: product.priceRangeV2.minVariantPrice.currencyCode,
+      lowPrice: product.priceRangeV2.minVariantPrice.amount,
+      highPrice: product.priceRangeV2.maxVariantPrice.amount,
+      offerCount: product.variants.length,
+      availability: isAvailable
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <SEO
-      pageTitle={`${props.pageContext.product.title} - Product Page`}
-      description="Product page for Brushella Art and Decor store"
-    />
+      pageTitle={`${product.title} — Original Art for Sale`}
+      description={product.description}
+      image={product.featuredImage?.originalSrc || undefined}
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </SEO>
   );
 };

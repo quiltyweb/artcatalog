@@ -56,11 +56,26 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
 export default LegalContent;
 
 export const Head = (props: any) => {
+  const { title } = props.pageContext;
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: title, item: canonical },
+    ],
+  };
+
   return (
     <SEO
-      pageTitle={`${props.pageContext.title} - Legal Information Page`}
+      pageTitle={title}
       siteTitle="Brushella"
-      description="Legal and shipping Information about our products"
-    />
+      description={`Brushella's ${title} — clear and transparent policies for a confident and safe art purchasing experience.`}
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+    </SEO>
   );
 };

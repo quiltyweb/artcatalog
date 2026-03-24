@@ -70,7 +70,7 @@ describe("Collections Page mobile", () => {
       cy.findByRole("heading", { name: "Prints" });
       cy.findByText("Mock data for Print Category description.");
       cy.findByText("There are no products available.");
-      cy.findByRole("link", { name: "Learn more about Prints" });
+      cy.findByRole("link", { name: "About the Prints Collection" });
     });
     cy.findByLabelText("breadcrumb").within(() => {
       cy.findByText("Home");

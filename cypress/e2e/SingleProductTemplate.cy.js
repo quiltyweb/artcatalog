@@ -114,7 +114,7 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("heading", { name: "Details gallery:" });
     cy.findByAltText("alt text for media 1");
     cy.findByAltText("alt text for media 2");
-    cy.findByRole("button", { name: "Add to shopping cart" });
+    cy.findByRole("button", { name: "Add to Cart" });
   });
 
   it("Renders single product page with fallback image when feature image not provided", () => {
@@ -205,7 +205,7 @@ describe("Collection Template mobile view", () => {
       name: /Quantity/i,
     }).should("have.attr", "disabled");
     cy.findByRole("button", {
-      name: /Add to shopping cart/i,
+      name: /Add to Cart/i,
     }).should("have.attr", "disabled");
   });
 
@@ -229,7 +229,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.findByText(/item unavailable/i);
     cy.findByRole("button", {
-      name: /Add to shopping cart/i,
+      name: /Add to Cart/i,
     }).should("have.attr", "disabled");
   });
 
@@ -261,7 +261,7 @@ describe("Collection Template mobile view", () => {
       fixture: "singleProduct/singleProduct-with-warnings-step2.json",
     }).as("cartLinesAdd");
 
-    cy.findByRole("button", { name: "Add to shopping cart" }).click();
+    cy.findByRole("button", { name: "Add to Cart" }).click();
 
     cy.findByText(
       /Your item was added, but there may be some limitations/i

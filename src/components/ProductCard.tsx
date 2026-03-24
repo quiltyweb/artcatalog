@@ -285,7 +285,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     to={`/collections/prints/${printVersion.handle}`}
                     className="underline mb-4 block"
                   >
-                    Go to Print version of this original painting
+                    View Print Version
                   </Link>
                 )}
 
@@ -422,7 +422,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       }
                       aria-disabled={props.isSubmitting}
                     >
-                      Add to shopping cart
+                      Add to Cart
                     </Button>
                     {addItemToCartLoading && (
                       <VStack role="status">

@@ -27,7 +27,7 @@ describe("ProductCategories Template", () => {
       "href",
       "/collections/test-handle"
     );
-    screen.getByText(/Learn more about test title/i);
+    screen.getByText(/About the test title Collection/i);
     screen.getByRole("heading", { name: /test title/i });
     screen.getByText("testing content");
   });

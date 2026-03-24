@@ -179,6 +179,6 @@ describe("Single product Template", () => {
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
-    screen.getByRole("button", { name: "Add to shopping cart" });
+    screen.getByRole("button", { name: "Add to Cart" });
   });
 });

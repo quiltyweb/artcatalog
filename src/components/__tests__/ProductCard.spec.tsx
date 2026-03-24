@@ -305,7 +305,7 @@ describe("ProductCard", () => {
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
-    screen.getByRole("button", { name: "Add to shopping cart" });
+    screen.getByRole("button", { name: "Add to Cart" });
     screen.getByText(/from/i);
     screen.getByText(/AUD/i);
     screen.getByText(/\$10.00/i);
@@ -846,7 +846,7 @@ describe("ProductCard", () => {
 
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
-      screen.getByRole("button", { name: "Add to shopping cart" })
+      screen.getByRole("button", { name: "Add to Cart" })
     ).toBeDisabled();
   });
 
@@ -914,11 +914,11 @@ describe("ProductCard", () => {
     expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
-      screen.getByRole("button", { name: "Add to shopping cart" })
+      screen.getByRole("button", { name: "Add to Cart" })
     ).toBeDisabled();
   });
 
-  it("renders a Loading text below to Add to shopping cart button when item is adding", async () => {
+  it("renders a Loading text below Add to Cart button when item is adding", async () => {
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
       addItemToCartCallback: jest.fn(),
       addItemToCartLoading: true,
@@ -991,7 +991,7 @@ describe("ProductCard", () => {
     screen.getByText("Adding item...");
   });
 
-  it("renders a Loading text below to Add to shopping cart button when item is updating", async () => {
+  it("renders a Loading text below Add to Cart button when item is updating", async () => {
     jest.spyOn(StoreContext, "useCartLinesUpdate").mockReturnValue({
       updateItemsToCart: jest.fn(),
       updateItemsToCartLoading: true,
@@ -1543,7 +1543,7 @@ describe("ProductCard", () => {
     );
   });
 
-  it("Go to Print version page of original painting", async () => {
+  it("View Print Version link for original painting", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
@@ -1622,7 +1622,7 @@ describe("ProductCard", () => {
     );
 
     screen.getByRole("link", {
-      name: "Go to Print version of this original painting",
+      name: "View Print Version",
     });
   });
 

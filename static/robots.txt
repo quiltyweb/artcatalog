@@ -1,5 +1,16 @@
+# All original artwork, images, and creative content on this site are protected by copyright
+# and are NOT licensed for AI training, machine learning datasets, or model development.
+# Unauthorized use of this content for AI training purposes is strictly prohibited.
+
 User-agent: *
 Allow: /
+Disallow: /page-data/
+Disallow: /static/
+Disallow: /__gatsby/
+Disallow: /404/
+Disallow: /404.html
+
+Sitemap: https://www.brushella.art/sitemap-index.xml
 
 # Disallow AI training crawlers
 User-agent: GPTBot

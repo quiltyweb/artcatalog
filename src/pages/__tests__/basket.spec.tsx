@@ -187,7 +187,7 @@ describe("BasketPage", () => {
     useLineItemsCount.mockImplementation(() => 0);
     render(<BasketPage />);
     screen.getByRole("heading", { name: "Your cart is empty." });
-    screen.getByRole("link", { name: "Shop now" });
+    screen.getByRole("link", { name: "Browse All Collections" });
   });
 
   it("renders table with correct caption title for one item", () => {
@@ -446,7 +446,7 @@ describe("BasketPage", () => {
     screen.getByText(/taxes and/i);
     screen.getByRole("link", { name: /shipping/i });
     screen.getByText(/calculated at check out/i);
-    screen.getByRole("button", { name: /check out/i });
+    screen.getByRole("button", { name: /proceed to checkout/i });
   });
 
   it("renders quote form when cart count is greater than zero items", () => {
@@ -479,6 +479,6 @@ describe("BasketPage", () => {
     screen.getByRole("heading", { name: "Quotation form" });
     screen.getByLabelText("Full Name");
     screen.getByLabelText("Email address");
-    screen.getByRole("button", { name: "Get a Quote" });
+    screen.getByRole("button", { name: "Request a Quote" });
   });
 });

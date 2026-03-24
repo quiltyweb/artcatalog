@@ -460,6 +460,6 @@ describe("Collection page Template", () => {
       collectionHandle: "this-is-the-collection-handle",
     };
     render(<Collection pageContext={mockedPageContext} />);
-    screen.getByRole("link", { name: "Learn more about Collection title" });
+    screen.getByRole("link", { name: "About the Collection title Collection" });
   });
 });

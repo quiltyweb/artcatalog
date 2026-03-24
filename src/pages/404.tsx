@@ -45,7 +45,7 @@ const NotFoundPage: React.FunctionComponent = (): React.ReactElement => (
           </>
         ) : null}
         <br />
-        <Link to="/">Go home</Link>.
+        <Link to="/collections">Browse Our Collections</Link>.
       </p>
     </Container>
   </main>
@@ -58,7 +58,7 @@ export const Head = (props: any) => {
     <SEO
       pageTitle="Page Not Found"
       siteTitle="Brushella"
-      description="404 Error page not found"
+      description="Page not found. Browse Brushella's original paintings, fine art prints and home décor collections instead."
     />
   );
 };

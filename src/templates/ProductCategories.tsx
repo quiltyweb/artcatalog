@@ -47,7 +47,7 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">Learn more about {title}</BreadcrumbLink>
+          <BreadcrumbLink href="#">About the {title} Collection</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Heading as="h2" color="teal.500" mb="2.4rem">
@@ -62,10 +62,27 @@ const ProductCategories: React.FunctionComponent<ProductCategoriesProps> = ({
 export default ProductCategories;
 
 export const Head = (props: any) => {
+  const { title, handle } = props.pageContext;
+  const canonical = `https://www.brushella.art${props.location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      { "@type": "ListItem", position: 2, name: "All Categories", item: "https://www.brushella.art/collections/" },
+      { "@type": "ListItem", position: 3, name: title, item: `https://www.brushella.art/collections/${handle}/` },
+      { "@type": "ListItem", position: 4, name: `About the ${title} Collection`, item: canonical },
+    ],
+  };
+
   return (
     <SEO
-      pageTitle={`${props.pageContext.title} - Product Categories Page`}
-      description="Product category page for Brushella Art and Decor store"
-    />
+      pageTitle={`${title} — Art Category Guide`}
+      description={`Explore Brushella's ${title} — unique handcrafted paintings and fine art prints by Chilean artist Gabriela.`}
+      canonical={canonical}
+    >
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+    </SEO>
   );
 };
