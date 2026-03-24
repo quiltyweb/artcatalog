@@ -20,6 +20,12 @@ h4,h5,h6, span {
   font-family: 'Source Sans 3 Variable', sans-serif!important;
   font-weight: 500!important;
 }
+/* Focus ring — thin dotted, inherits element colour, keyboard-only */
+*:focus-visible {
+  outline: 2px dotted currentColor;
+  outline-offset: 3px;
+}
+
 /* screen reader only */
 .sr-only {
   position: absolute;
