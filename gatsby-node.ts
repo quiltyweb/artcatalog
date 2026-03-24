@@ -175,13 +175,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
       },
     });
 
-    // TODO: look in allShopifyProduct and find printVersion GID
-
     node.products.map((product) => {
       const printVersionGID = product.printVersion?.value;
       const printVersionItem =
         collectionsAndProductsResult.data?.allShopifyProduct.nodes.find(
-          (product) => product.shopifyId === printVersionGID
+          (printNode) => printNode.shopifyId === printVersionGID
         );
       createPage({
         path: `/collections/${node.handle}/${product.handle}`,

@@ -279,7 +279,6 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   className="prose prose-lg max-w-none mb-6"
                   dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(product.descriptionHtml) : product.descriptionHtml }}
                 />
-                {/* TODO: add print handle to open specific print */}
                 {printVersion && (
                   <Link
                     to={`/collections/prints/${printVersion.handle}`}
