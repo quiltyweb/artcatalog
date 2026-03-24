@@ -17,9 +17,6 @@ export const SkipToContentLink = () => (
       duration-300
       z-[9999]
       focus:translate-y-0
-      focus:outline-none
-      focus:ring-2
-      focus:ring-blue-500
     "
       tabIndex={0}
     >
