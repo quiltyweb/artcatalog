@@ -46,7 +46,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           <BreadcrumbLink href="#">{title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Heading as="h2" color="teal.500" textTransform="capitalize" mb="2.4rem">
+      <Heading as="h2" color="teal.600" textTransform="capitalize" mb="2.4rem">
         {title}
       </Heading>
       {description && (

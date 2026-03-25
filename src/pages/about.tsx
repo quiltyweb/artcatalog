@@ -27,7 +27,7 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
           <BreadcrumbLink href="#">About Me</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Heading as="h2" color="teal.500" mb="2.4rem">
+      <Heading as="h2" color="teal.600" mb="2.4rem">
         About Me
       </Heading>
       <SimpleGrid columns={[1, 1, 1, 2]} justifyItems="center" mb="2.4rem">

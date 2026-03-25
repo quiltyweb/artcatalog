@@ -44,7 +44,7 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
           <BreadcrumbLink href="#">{title}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Heading as="h2" color="teal.500" mb="2.4rem">
+      <Heading as="h2" color="teal.600" mb="2.4rem">
         {title}
       </Heading>
       <Content maxWidth={["100%", "100%", "60%"]}>
