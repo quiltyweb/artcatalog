@@ -2,7 +2,6 @@ import {
   REGEX_INTERCEPT_POST_REQUEST,
   MOCKED_LAYOUT_GLOBAL_DATA,
 } from "../support/constants";
-const REGEX_INTERCEPT_GET_PAGE_DATA_REQUEST = /page-data\/sq\/d/;
 
 describe("desktop view basket page", () => {
   beforeEach(() => {
@@ -31,7 +30,7 @@ describe("desktop view basket page", () => {
   });
 
   it("renders store alert below breadcrumbs", () => {
-    cy.findByRole("status").within(() => {
+    cy.findByRole("note").within(() => {
       cy.findByText(/Brushella.art is under construction./i);
       cy.findByText(/This store can’t accept payments right now./i);
     });
@@ -96,12 +95,12 @@ describe("desktop view basket page", () => {
     });
     cy.findByRole("columnheader", { name: "thumbnail" });
     cy.findByRole("columnheader", { name: "product" });
-    cy.findByRole("cell", { name: /test print \(not for sale\) \- Wood/i });
+    cy.findByRole("cell", { name: /test print \(not for sale\) - Wood/i });
     cy.findByRole("columnheader", { name: "quantity" });
     cy.findByRole("cell", { name: "1" });
     cy.findByRole("columnheader", { name: "remove" });
     cy.findByRole("button", {
-      name: /remove test print \(not for sale\) \- Wood/i,
+      name: /remove test print \(not for sale\) - Wood/i,
     });
     cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
@@ -267,7 +266,7 @@ describe("mobile view Basket page with Quote form ", () => {
     cy.wait("@formbackendSuccess");
     cy.get("main").scrollIntoView();
     cy.findByText(
-      /Your quote was sent succesfully with the following items: 1 test print \(not for sale\) \- Plastic, 1 test print \(not for sale\) \- Wood/i
+      /Your quote was sent succesfully with the following items: 1 test print \(not for sale\) - Plastic, 1 test print \(not for sale\) - Wood/i
     );
   });
 
