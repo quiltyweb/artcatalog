@@ -37,7 +37,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "AdminShopify",
         fieldName: "adminshopify",
-        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/admin/api/2025-01/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/admin/api/2026-01/graphql.json`,
         headers: {
           "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_PASSWORD,
         },
@@ -48,7 +48,7 @@ const config: GatsbyConfig = {
       options: {
         typeName: "StoreFrontShopify",
         fieldName: "storefrontshopify",
-        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/api/2025-01/graphql.json`,
+        url: `https://${process.env.GATSBY_SHOPIFY_STORE_DOMAIN}/api/2026-01/graphql.json`,
         headers: {
           "X-Shopify-Storefront-Access-Token":
             process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,

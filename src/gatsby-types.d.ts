@@ -329,8 +329,12 @@ type AdminShopify = {
    * Supports [cursor-based pagination](https://shopify.dev/docs/api/usage/pagination-graphql) to control the number of blogs returned and their order. Use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/blogs#arguments-query) argument to filter results by specific criteria.
    */
   readonly blogs: AdminShopify_BlogConnection;
-  /** Count of blogs. */
+  /** Count of blogs. Limited to a maximum of 10000 by default. */
   readonly blogsCount: Maybe<AdminShopify_Count>;
+  /** Returns a `BulkOperation` resource by ID. */
+  readonly bulkOperation: Maybe<AdminShopify_BulkOperation>;
+  /** Returns the app's bulk operations meeting the specified filters. Defaults to sorting by created_at, with newest operations first. */
+  readonly bulkOperations: AdminShopify_BulkOperationConnection;
   /**
    * Returns the list of [business entities](https://shopify.dev/docs/api/admin-graphql/latest/objects/BusinessEntity) associated with the shop. Use this query to retrieve business entities for assigning to markets, managing payment providers per entity, or viewing entity attribution on orders.
    *
@@ -511,7 +515,7 @@ type AdminShopify = {
    * Use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/companies#arguments-query) argument to filter companies by attributes like name or externalId. Sort and paginate results to handle large datasets efficiently. Learn more about [Shopify API search syntax](https://shopify.dev/docs/api/usage/search-syntax).
    */
   readonly companies: AdminShopify_CompanyConnection;
-  /** The number of companies for a shop. */
+  /** The number of companies for a shop. Limited to a maximum of 10000 by default. */
   readonly companiesCount: Maybe<AdminShopify_Count>;
   /** Returns a `Company` resource by ID. */
   readonly company: Maybe<AdminShopify_Company>;
@@ -579,7 +583,7 @@ type AdminShopify = {
    * The `customers` query supports [pagination](https://shopify.dev/api/usage/pagination-graphql) and [sorting](https://shopify.dev/api/admin-graphql/latest/enums/CustomerSortKeys).
    */
   readonly customers: AdminShopify_CustomerConnection;
-  /** The number of customers. */
+  /** The number of customers. Limited to a maximum of 10000 by default. */
   readonly customersCount: Maybe<AdminShopify_Count>;
   /**
    * The paginated list of deletion events.
@@ -612,7 +616,7 @@ type AdminShopify = {
   readonly deliveryPromiseSettings: AdminShopify_DeliveryPromiseSetting;
   /** Returns the shop-wide shipping settings. */
   readonly deliverySettings: Maybe<AdminShopify_DeliverySetting>;
-  /** The total number of discount codes for the shop. */
+  /** The total number of discount codes for the shop. Limited to a maximum of 10000 by default. */
   readonly discountCodesCount: Maybe<AdminShopify_Count>;
   /** Returns a `DiscountNode` resource by ID. */
   readonly discountNode: Maybe<AdminShopify_DiscountNode>;
@@ -654,12 +658,20 @@ type AdminShopify = {
    * which indicates its progress through the sales workflow.
    */
   readonly draftOrder: Maybe<AdminShopify_DraftOrder>;
+  /**
+   * Available delivery options for a [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder) based on the provided input. The query returns shipping rates, local delivery rates, and pickup locations that merchants can choose from when creating draft orders.
+   *
+   * Accepts draft order details including [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, [`MailingAddress`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress) for shipping, and discounts to determine which delivery methods are available. Pagination parameters control the number of local pickup options returned.
+   */
+  readonly draftOrderAvailableDeliveryOptions: AdminShopify_DraftOrderAvailableDeliveryOptions;
   /** List of the shop's draft order saved searches. */
   readonly draftOrderSavedSearches: AdminShopify_SavedSearchConnection;
   /** Returns a `DraftOrderTag` resource by ID. */
   readonly draftOrderTag: Maybe<AdminShopify_DraftOrderTag>;
   /** List of saved draft orders. */
   readonly draftOrders: AdminShopify_DraftOrderConnection;
+  /** Returns the number of draft orders that match the query. Limited to a maximum of 10000 by default. */
+  readonly draftOrdersCount: Maybe<AdminShopify_Count>;
   /** Retrieves a single event by ID. Events chronicle activities in your store such as resource creation, updates, or staff comments. The query returns an [`Event`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Event) interface of type [`BasicEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BasicEvent) or [`CommentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CommentEvent). */
   readonly event: Maybe<AdminShopify_Event>;
   /**
@@ -760,6 +772,16 @@ type AdminShopify = {
   readonly inventoryLevel: Maybe<AdminShopify_InventoryLevel>;
   /** Returns the shop's inventory configuration, including all inventory quantity names. Quantity names represent different [inventory states](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states) that merchants use to track inventory. */
   readonly inventoryProperties: AdminShopify_InventoryProperties;
+  /** Retrieves an [`InventoryShipment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryShipment) by ID. Returns tracking details, [`InventoryShipmentLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryShipmentLineItem) objects with quantities, and the shipment's current [`InventoryShipmentStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryShipmentStatus). */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** Returns an [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer) by ID. Inventory transfers track the movement of inventory between locations, including origin and destination details, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects, quantities, and [`InventoryTransferStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus) values. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /**
+   * Returns a paginated list of [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer) objects between locations. Transfers track the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects.
+   *
+   * Supports filtering transfers using query parameters and sorting by various criteria. Use the connection's edges to access transfer details including [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects, quantities, and shipment status.
+   */
+  readonly inventoryTransfers: AdminShopify_InventoryTransferConnection;
   /** Returns a Job resource by ID. Used to check the status of internal jobs and any applicable changes. */
   readonly job: Maybe<AdminShopify_Job>;
   /**
@@ -816,6 +838,8 @@ type AdminShopify = {
    * Learn more about [Shopify Markets](https://shopify.dev/docs/apps/build/markets).
    */
   readonly markets: AdminShopify_MarketConnection;
+  /** The resolved values for a buyer signal. */
+  readonly marketsResolvedValues: AdminShopify_MarketsResolvedValues;
   /** Returns a `Menu` resource by ID. */
   readonly menu: Maybe<AdminShopify_Menu>;
   /**
@@ -904,6 +928,8 @@ type AdminShopify = {
   readonly order: Maybe<AdminShopify_Order>;
   /** Return an order by an identifier. */
   readonly orderByIdentifier: Maybe<AdminShopify_Order>;
+  /** Returns a `OrderEditSession` resource by ID. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /**
    * Retrieves the status of a deferred payment by its payment reference ID. Use this query to monitor the processing status of payments that are initiated through payment mutations. Deferred payments are called [payment terms](https://shopify.dev/docs/apps/build/checkout/payments/payment-terms) in the API.
    *
@@ -935,7 +961,7 @@ type AdminShopify = {
    * The query supports filtering with a [search query](https://shopify.dev/docs/api/usage/search-syntax) and sorting by various criteria. Advanced filtering is available through saved searches using the [`savedSearchId`](https://shopify.dev/docs/api/admin-graphql/latest/queries/pages#arguments-savedSearchId) argument.
    */
   readonly pages: AdminShopify_PageConnection;
-  /** Count of pages. */
+  /** Count of pages. Limited to a maximum of 10000 by default. */
   readonly pagesCount: Maybe<AdminShopify_Count>;
   /** The payment customization. */
   readonly paymentCustomization: Maybe<AdminShopify_PaymentCustomization>;
@@ -945,6 +971,8 @@ type AdminShopify = {
   readonly paymentTermsTemplates: ReadonlyArray<AdminShopify_PaymentTermsTemplate>;
   /** The number of pendings orders. Limited to a maximum of 10000. */
   readonly pendingOrdersCount: Maybe<AdminShopify_Count>;
+  /** Returns a `PointOfSaleDevice` resource by ID. */
+  readonly pointOfSaleDevice: Maybe<AdminShopify_PointOfSaleDevice>;
   /**
    * Returns a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) by ID. You can use price lists to specify either fixed prices or adjusted relative prices that override initial [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) prices.
    *
@@ -1095,7 +1123,7 @@ type AdminShopify = {
    * Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components).
    */
   readonly productVariants: AdminShopify_ProductVariantConnection;
-  /** Count of product variants. */
+  /** Count of product variants. Limited to a maximum of 10000 by default. */
   readonly productVariantsCount: Maybe<AdminShopify_Count>;
   /**
    * The list of vendors added to products.
@@ -1129,7 +1157,7 @@ type AdminShopify = {
    * Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components).
    */
   readonly products: AdminShopify_ProductConnection;
-  /** Count of products. */
+  /** Count of products. Limited to a maximum of 10000 by default. */
   readonly productsCount: Maybe<AdminShopify_Count>;
   /** The list of publicly-accessible Admin API versions, including supported versions, the release candidate, and unstable versions. */
   readonly publicApiVersions: ReadonlyArray<AdminShopify_ApiVersion>;
@@ -1145,7 +1173,7 @@ type AdminShopify = {
    * Filter publications by [`CatalogType`](https://shopify.dev/docs/api/admin-graphql/latest/enums/CatalogType).
    */
   readonly publications: AdminShopify_PublicationConnection;
-  /** Count of publications. */
+  /** Count of publications. Limited to a maximum of 10000 by default. */
   readonly publicationsCount: Maybe<AdminShopify_Count>;
   /** Returns a count of published products by publication ID. Limited to a maximum of 10000 by default. */
   readonly publishedProductsCount: Maybe<AdminShopify_Count>;
@@ -1196,6 +1224,17 @@ type AdminShopify = {
    * Learn more about building for [return management](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management).
    */
   readonly returnCalculate: Maybe<AdminShopify_CalculatedReturn>;
+  /**
+   * Returns the full library of available return reason definitions.
+   *
+   * Use this query to retrieve the standardized return reasons available for creating returns.
+   * Filter by IDs or handles to get specific definitions.
+   *
+   * Only non-deleted reasons should be shown to customers when creating new returns.
+   * Deleted reasons have been replaced with better alternatives and are no longer recommended.
+   * However, they remain valid options and may still appear on existing returns.
+   */
+  readonly returnReasonDefinitions: AdminShopify_ReturnReasonDefinitionConnection;
   /** Returns a `ReturnableFulfillment` resource by ID. */
   readonly returnableFulfillment: Maybe<AdminShopify_ReturnableFulfillment>;
   /** List of returnable fulfillments. */
@@ -1246,7 +1285,7 @@ type AdminShopify = {
    * The query supports standard [pagination](https://shopify.dev/docs/api/usage/pagination-graphql) arguments and returns a [`SegmentConnection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SegmentConnection) containing segment details including names, creation dates, and the query definitions that determine segment membership.
    */
   readonly segments: AdminShopify_SegmentConnection;
-  /** The number of segments for a shop. */
+  /** The number of segments for a shop. Limited to a maximum of 10000 by default. */
   readonly segmentsCount: Maybe<AdminShopify_Count>;
   /** Returns a `SellingPlanGroup` resource by ID. */
   readonly sellingPlanGroup: Maybe<AdminShopify_SellingPlanGroup>;
@@ -1273,6 +1312,10 @@ type AdminShopify = {
    * Use the optional `published` argument to filter for only the locales that are visible to customers. The response includes the ISO locale code, whether it's the shop's primary locale, and which [`MarketWebPresence`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MarketWebPresence) objects use each locale.
    */
   readonly shopLocales: ReadonlyArray<AdminShopify_ShopLocale>;
+  /** Returns a Shop Pay payment request receipt. */
+  readonly shopPayPaymentRequestReceipt: Maybe<AdminShopify_ShopPayPaymentRequestReceipt>;
+  /** Returns a list of Shop Pay payment request receipts. */
+  readonly shopPayPaymentRequestReceipts: Maybe<AdminShopify_ShopPayPaymentRequestReceiptConnection>;
   /**
    * Returns a Shopify Function by its ID.
    * [Functions](https://shopify.dev/apps/build/functions)
@@ -1299,6 +1342,14 @@ type AdminShopify = {
    * The account includes [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records showing charges, refunds, and adjustments that affect your balance. Also includes [`ShopifyPaymentsDispute`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute) records and [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) history between the account and connected [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) configurations.
    */
   readonly shopifyPaymentsAccount: Maybe<AdminShopify_ShopifyPaymentsAccount>;
+  /**
+   * Executes a [ShopifyQL query](https://shopify.dev/docs/apps/build/shopifyql) to analyze store data and returns results in a tabular format.
+   *
+   * The response includes column metadata with names, data types, and display names, along with the actual data rows. If the query contains syntax errors, then the response provides parse error messages instead of table data.
+   *
+   * Read the [ShopifyQL reference documentation](https://shopify.dev/docs/api/shopifyql) for more information on how to write ShopifyQL queries.
+   */
+  readonly shopifyqlQuery: Maybe<AdminShopify_ShopifyqlQueryResponse>;
   /**
    * Retrieves a [staff member](https://shopify.dev/docs/api/admin-graphql/latest/objects/StaffMember) by ID. If no ID is provided, the query returns the staff member that's making the request. A staff member is a user who can access the Shopify admin to manage store operations.
    *
@@ -1636,7 +1687,26 @@ type AdminShopify_blogsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_blogsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_bulkOperationArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_bulkOperationsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_BulkOperationsSortKeys>;
 };
 
 
@@ -1713,6 +1783,7 @@ type AdminShopify_catalogsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_catalogsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   type?: InputMaybe<AdminShopify_CatalogType>;
 };
@@ -1836,6 +1907,7 @@ type AdminShopify_collectionsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_collectionsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
 };
@@ -1868,6 +1940,12 @@ type AdminShopify_companiesArgs = {
   query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
   sortKey?: InputMaybe<AdminShopify_CompanySortKeys>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_companiesCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -2026,6 +2104,7 @@ type AdminShopify_customersArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_customersCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -2097,6 +2176,7 @@ type AdminShopify_deliveryPromiseProviderArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_discountCodesCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -2122,6 +2202,7 @@ type AdminShopify_discountNodesArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_discountNodesCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
 };
@@ -2181,6 +2262,16 @@ type AdminShopify_draftOrderArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_draftOrderAvailableDeliveryOptionsArgs = {
+  input: AdminShopify_DraftOrderAvailableDeliveryOptionsInput;
+  localPickupCount: InputMaybe<Scalars['Int']>;
+  localPickupFrom: InputMaybe<Scalars['Int']>;
+  search: InputMaybe<Scalars['String']>;
+  sessionToken: InputMaybe<Scalars['String']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_draftOrderSavedSearchesArgs = {
   after: InputMaybe<Scalars['String']>;
   before: InputMaybe<Scalars['String']>;
@@ -2206,6 +2297,14 @@ type AdminShopify_draftOrdersArgs = {
   reverse?: InputMaybe<Scalars['Boolean']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
   sortKey?: InputMaybe<AdminShopify_DraftOrderSortKeys>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_draftOrdersCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  savedSearchId: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -2308,6 +2407,7 @@ type AdminShopify_giftCardsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_giftCardsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
 };
@@ -2333,6 +2433,31 @@ type AdminShopify_inventoryItemsArgs = {
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_inventoryLevelArgs = {
   id: Scalars['ID'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_inventoryShipmentArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_inventoryTransferArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_inventoryTransfersArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  savedSearchId: InputMaybe<Scalars['ID']>;
+  sortKey?: InputMaybe<AdminShopify_TransferSortKeys>;
 };
 
 
@@ -2380,6 +2505,7 @@ type AdminShopify_locationsAvailableForDeliveryProfilesConnectionArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_locationsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -2485,6 +2611,12 @@ type AdminShopify_marketsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']>;
   sortKey?: InputMaybe<AdminShopify_MarketsSortKeys>;
   type?: InputMaybe<AdminShopify_MarketType>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_marketsResolvedValuesArgs = {
+  buyerSignal: AdminShopify_BuyerSignalInput;
 };
 
 
@@ -2618,6 +2750,12 @@ type AdminShopify_orderByIdentifierArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_orderEditSessionArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_orderPaymentStatusArgs = {
   orderId: Scalars['ID'];
   paymentReferenceId: Scalars['String'];
@@ -2675,6 +2813,12 @@ type AdminShopify_pagesArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_pagesCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_paymentCustomizationArgs = {
   id: Scalars['ID'];
 };
@@ -2694,6 +2838,12 @@ type AdminShopify_paymentCustomizationsArgs = {
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_paymentTermsTemplatesArgs = {
   paymentTermsType: InputMaybe<AdminShopify_PaymentTermsType>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_pointOfSaleDeviceArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -2823,6 +2973,7 @@ type AdminShopify_productVariantsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_productVariantsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -2852,7 +3003,7 @@ type AdminShopify_productsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_productsCountArgs = {
-  limit: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
 };
@@ -2878,11 +3029,13 @@ type AdminShopify_publicationsArgs = {
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_publicationsCountArgs = {
   catalogType: InputMaybe<AdminShopify_CatalogType>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_publishedProductsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   publicationId: Scalars['ID'];
 };
 
@@ -2902,6 +3055,20 @@ type AdminShopify_returnArgs = {
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_returnCalculateArgs = {
   input: AdminShopify_CalculateReturnInput;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_returnReasonDefinitionsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  handles: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  ids: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_ReturnReasonDefinitionSortKeys>;
 };
 
 
@@ -3010,6 +3177,12 @@ type AdminShopify_segmentsArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_segmentsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_sellingPlanGroupArgs = {
   id: Scalars['ID'];
 };
@@ -3034,6 +3207,24 @@ type AdminShopify_shopLocalesArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_shopPayPaymentRequestReceiptArgs = {
+  token: Scalars['String'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_shopPayPaymentRequestReceiptsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_ShopPayPaymentRequestReceiptsSortKeys>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_shopifyFunctionArgs = {
   id: Scalars['String'];
 };
@@ -3048,6 +3239,12 @@ type AdminShopify_shopifyFunctionsArgs = {
   last: InputMaybe<Scalars['Int']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
   useCreationUi: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+type AdminShopify_shopifyqlQueryArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -3255,6 +3452,7 @@ type AdminShopify_urlRedirectsArgs = {
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_urlRedirectsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   savedSearchId: InputMaybe<Scalars['ID']>;
 };
@@ -3310,11 +3508,13 @@ type AdminShopify_webhookSubscriptionsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']>;
   sortKey?: InputMaybe<AdminShopify_WebhookSubscriptionSortKeys>;
   topics: InputMaybe<ReadonlyArray<AdminShopify_WebhookSubscriptionTopic>>;
+  uri: InputMaybe<Scalars['String']>;
 };
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 type AdminShopify_webhookSubscriptionsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -3446,6 +3646,8 @@ type AdminShopify_AbandonedCheckoutLineItem = AdminShopify_Node & {
   readonly originalTotalPriceSet: AdminShopify_MoneyBag;
   /** Original price for a single unit of this line item, before discounts. */
   readonly originalUnitPriceSet: AdminShopify_MoneyBag;
+  /** The parent relationship for this line item. */
+  readonly parentRelationship: Maybe<AdminShopify_AbandonedCheckoutLineItemParentRelationship>;
   /**
    * Product for this line item.
    * NULL for custom line items and products that were deleted after checkout began.
@@ -3512,6 +3714,12 @@ type AdminShopify_AbandonedCheckoutLineItemEdge = {
   readonly cursor: Scalars['String'];
   /** The item at the end of AbandonedCheckoutLineItemEdge. */
   readonly node: AdminShopify_AbandonedCheckoutLineItem;
+};
+
+/** The line relationship between two line items in an abandoned checkout. */
+type AdminShopify_AbandonedCheckoutLineItemParentRelationship = {
+  /** The parent line item of the current line item. */
+  readonly parent: AdminShopify_AbandonedCheckoutLineItem;
 };
 
 /** The set of valid sort keys for the AbandonedCheckout query. */
@@ -4863,6 +5071,35 @@ type AdminShopify_AppTransactionSortKeys =
   /** Sort by the `id` value. */
   | 'ID';
 
+/** Represents an error that happens while uninstalling an app. */
+type AdminShopify_AppUninstallAppUninstallError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_AppUninstallAppUninstallErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `AppUninstallAppUninstallError`. */
+type AdminShopify_AppUninstallAppUninstallErrorCode =
+  /** The app cannot be found. */
+  | 'APP_NOT_FOUND'
+  /** The app is not installed. */
+  | 'APP_NOT_INSTALLED'
+  /** An error occurred while uninstalling the app. */
+  | 'APP_UNINSTALL_ERROR'
+  /** User does not have sufficient permissions to uninstall this app. */
+  | 'USER_PERMISSIONS_INSUFFICIENT';
+
+/** Return type for `appUninstall` mutation. */
+type AdminShopify_AppUninstallPayload = {
+  /** The uninstalled app. */
+  readonly app: Maybe<AdminShopify_App>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_AppUninstallAppUninstallError>;
+};
+
 /**
  * Defines usage-based pricing terms for app subscriptions where merchants pay based on their actual consumption of app features or services. This pricing model provides flexibility for merchants who want to pay only for what they use rather than fixed monthly fees.
  *
@@ -4982,7 +5219,7 @@ type AdminShopify_Article = AdminShopify_HasEvents & AdminShopify_HasMetafieldDe
   readonly body: Scalars['AdminShopify_HTML'];
   /** List of the article's comments. */
   readonly comments: AdminShopify_CommentConnection;
-  /** Count of comments. */
+  /** Count of comments. Limited to a maximum of 10000 by default. */
   readonly commentsCount: Maybe<AdminShopify_Count>;
   /** The date and time (ISO 8601 format) when the article was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
@@ -5067,7 +5304,7 @@ type AdminShopify_Article_commentsArgs = {
  * Articles can be organized with tags and published immediately or scheduled for future publication using the [`publishedAt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Article#field-Article.fields.publishedAt) timestamp. The API manages comments on articles when the blog's comment policy enables them.
  */
 type AdminShopify_Article_commentsCountArgs = {
-  limit: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -5458,6 +5695,13 @@ type AdminShopify_AttributeInput = {
   readonly value: Scalars['String'];
 };
 
+/** The intended audience for the order status page. */
+type AdminShopify_Audience =
+  /** Intended for customer notifications. */
+  | 'CUSTOMERVIEW'
+  /** Intended for merchant wanting to preview the order status page. Should be used immediately after querying. */
+  | 'MERCHANTVIEW';
+
 /** The input fields for an author. Either the `name` or `user_id` fields can be supplied, but never both. */
 type AdminShopify_AuthorInput = {
   /** The author's full name. */
@@ -5552,6 +5796,34 @@ type AdminShopify_BalanceTransactionSortKeys =
   /** Sort by the `transaction_type` value. */
   | 'TRANSACTION_TYPE';
 
+/** Represents a bank account payment instrument. */
+type AdminShopify_BankAccount = {
+  /** The type of account holder. */
+  readonly accountHolderType: AdminShopify_BankAccountHolderType;
+  /** The type of bank account. */
+  readonly accountType: AdminShopify_BankAccountType;
+  /** The name of the bank. */
+  readonly bankName: Scalars['String'];
+  /** The billing address associated with the bank account. */
+  readonly billingAddress: Maybe<AdminShopify_CustomerPaymentInstrumentBillingAddress>;
+  /** The last four digits of the account number. */
+  readonly lastDigits: Scalars['String'];
+};
+
+/** The type of bank account holder. */
+type AdminShopify_BankAccountHolderType =
+  /** A company account holder. */
+  | 'COMPANY'
+  /** An individual account holder. */
+  | 'INDIVIDUAL';
+
+/** The type of bank account. */
+type AdminShopify_BankAccountType =
+  /** A checking account. */
+  | 'CHECKING'
+  /** A savings account. */
+  | 'SAVINGS';
+
 /** The valid types of actions a user should be able to perform in an financial app. */
 type AdminShopify_BankingFinanceAppAccess =
   /** Indication that the user has blocked money movement due to MFA disabled. */
@@ -5640,6 +5912,8 @@ type AdminShopify_BasicEvent = AdminShopify_Event & AdminShopify_Node & {
   readonly attributeToApp: Scalars['Boolean'];
   /** Whether the event was caused by an admin user. */
   readonly attributeToUser: Scalars['Boolean'];
+  /** The entity which performed the action that generated the event. */
+  readonly author: Maybe<Scalars['String']>;
   /** The date and time when the event was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** Whether the event is critical. */
@@ -5699,6 +5973,8 @@ type AdminShopify_BillingAttemptUserErrorCode =
   | 'ORIGIN_TIME_BEFORE_CONTRACT_CREATION'
   /** Origin time needs to be within the selected billing cycle's start and end at date. */
   | 'ORIGIN_TIME_OUT_OF_RANGE'
+  /** Billing attempt rate limit exceeded - try later. */
+  | 'THROTTLED'
   /** Billing cycle selector cannot select upcoming billing cycle past limit. */
   | 'UPCOMING_CYCLE_LIMIT_EXCEEDED';
 
@@ -5710,7 +5986,7 @@ type AdminShopify_BillingAttemptUserErrorCode =
 type AdminShopify_Blog = AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Node & {
   /** List of the blog's articles. */
   readonly articles: AdminShopify_ArticleConnection;
-  /** Count of articles. */
+  /** Count of articles. Limited to a maximum of 10000 by default. */
   readonly articlesCount: Maybe<AdminShopify_Count>;
   /** Indicates whether readers can post comments to the blog and if comments are moderated or not. */
   readonly commentPolicy: AdminShopify_CommentPolicy;
@@ -5779,7 +6055,7 @@ type AdminShopify_Blog_articlesArgs = {
  * Each blog contains articles with their associated comments, tags, and metadata. The comment policy controls whether readers can post comments and whether moderation is required. Blogs use customizable URL handles and can apply alternate templates for specialized layouts.
  */
 type AdminShopify_Blog_articlesCountArgs = {
-  limit: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -6118,6 +6394,24 @@ type AdminShopify_BulkOperationCancelPayload = {
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
 
+/** An auto-generated type for paginating through multiple BulkOperations. */
+type AdminShopify_BulkOperationConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_BulkOperationEdge>;
+  /** A list of nodes that are contained in BulkOperationEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_BulkOperation>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one BulkOperation and a cursor during pagination. */
+type AdminShopify_BulkOperationEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of BulkOperationEdge. */
+  readonly node: AdminShopify_BulkOperation;
+};
+
 /** Error codes for failed bulk operations. */
 type AdminShopify_BulkOperationErrorCode =
   /**
@@ -6201,6 +6495,13 @@ type AdminShopify_BulkOperationUserErrorCode =
   | 'LIMIT_REACHED'
   /** A bulk operation is already in progress. */
   | 'OPERATION_IN_PROGRESS';
+
+/** The set of valid sort keys for the BulkOperations query. */
+type AdminShopify_BulkOperationsSortKeys =
+  /** Sort by the `completed_at` value. */
+  | 'COMPLETED_AT'
+  /** Sort by the `created_at` value. */
+  | 'CREATED_AT';
 
 /** Return type for `bulkProductResourceFeedbackCreate` mutation. */
 type AdminShopify_BulkProductResourceFeedbackCreatePayload = {
@@ -6307,6 +6608,8 @@ type AdminShopify_BusinessCustomerUserError = AdminShopify_DisplayableError & {
 type AdminShopify_BusinessEntity = AdminShopify_Node & {
   /** The address of the merchant's Business Entity. */
   readonly address: AdminShopify_BusinessEntityAddress;
+  /** Whether the Business Entity is archived from the shop. */
+  readonly archived: Scalars['Boolean'];
   /** The name of the company associated with the merchant's Business Entity. */
   readonly companyName: Maybe<Scalars['String']>;
   /** The display name of the merchant's Business Entity. */
@@ -6367,6 +6670,12 @@ type AdminShopify_BuyerExperienceConfigurationInput = {
   readonly editableShippingAddress: InputMaybe<Scalars['Boolean']>;
   /** Represents the merchant configured payment terms. */
   readonly paymentTermsTemplateId: InputMaybe<Scalars['ID']>;
+};
+
+/** The input fields for a buyer signal. */
+type AdminShopify_BuyerSignalInput = {
+  /** The country code of the buyer. */
+  readonly countryCode: AdminShopify_CountryCode;
 };
 
 /** The input fields for exchange line items on a calculated return. */
@@ -7239,7 +7548,11 @@ type AdminShopify_CartTransformCreateUserErrorCode =
   /** Failed to create cart transform due to invalid input. */
   | 'INPUT_INVALID'
   /** Could not create or update metafields. */
-  | 'INVALID_METAFIELDS';
+  | 'INVALID_METAFIELDS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS';
 
 /** Return type for `cartTransformDelete` mutation. */
 type AdminShopify_CartTransformDeletePayload = {
@@ -7839,6 +8152,7 @@ type AdminShopify_Channel_productsArgs = {
  * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
  */
 type AdminShopify_Channel_productsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
 };
 
@@ -7895,6 +8209,8 @@ type AdminShopify_ChannelInformation = AdminShopify_Node & {
   readonly channelDefinition: Maybe<AdminShopify_ChannelDefinition>;
   /** The unique ID for the channel. */
   readonly channelId: Scalars['ID'];
+  /** The publishing destination display name or channel name. */
+  readonly displayName: Maybe<Scalars['String']>;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
 };
@@ -9511,6 +9827,8 @@ type AdminShopify_CodeDiscountSortKeys =
  * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Node & AdminShopify_Publishable & {
+  /** Collection duplicate operations involving this collection, either as a source (copying products from this collection to another) or a target (copying products to this collection from another). */
+  readonly activeOperations: AdminShopify_CollectionOperations;
   /**
    * The number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
@@ -10396,6 +10714,60 @@ type AdminShopify_CollectionDeletePayload = {
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
 
+/** The input fields for duplicating a collection. */
+type AdminShopify_CollectionDuplicateInput = {
+  /** The ID of the collection to be duplicated. */
+  readonly collectionId: Scalars['ID'];
+  /** Whether to duplicate the collection's publications (channel availability). When `true` (default), the duplicated collection will be published to the same channels as the original. When `false`, the duplicated collection will be unpublished on all channels. */
+  readonly copyPublications: InputMaybe<Scalars['Boolean']>;
+  /** The new title of the collection. */
+  readonly newTitle: Scalars['String'];
+};
+
+/** Represents an in-progress collection duplication operation. Collection duplication is a synchronous operation for simple collections, and an asynchronous operation for collections containing too many products to process synchronously. */
+type AdminShopify_CollectionDuplicateOperation = {
+  /** Whether the collection is the source that products are being duplicated from, or the target collection that products are being duplicated onto. */
+  readonly collectionRole: AdminShopify_CollectionDuplicateOperationRole;
+  /** The background job performing the duplication. */
+  readonly job: AdminShopify_Job;
+};
+
+/** The role a collection plays in a duplication operation. */
+type AdminShopify_CollectionDuplicateOperationRole =
+  /** Products are being duplicated from this collection. */
+  | 'SOURCE'
+  /** Products are being duplicated onto this collection. */
+  | 'TARGET';
+
+/** Return type for `collectionDuplicate` mutation. */
+type AdminShopify_CollectionDuplicatePayload = {
+  /**
+   * The newly created duplicate collection. Will contain all data if duplication completed synchronously.
+   * If async processing is required, the collection will be created but products will be added in the background
+   * and can be tracked via the job field or the collection's active_operations field.
+   */
+  readonly collection: Maybe<AdminShopify_Collection>;
+  /** The background job copying manually included products onto the target collection. Only returned if async processing is required, otherwise products will be copied synchronously when the collection is created. */
+  readonly job: Maybe<AdminShopify_Job>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_CollectionDuplicateUserError>;
+};
+
+/** Errors related to collection duplication. */
+type AdminShopify_CollectionDuplicateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_CollectionDuplicateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `CollectionDuplicateUserError`. */
+type AdminShopify_CollectionDuplicateUserErrorCode =
+  /** The collection was not found. Please check the collection ID and try again. */
+  | 'COLLECTION_NOT_FOUND';
+
 /** An auto-generated type which holds one Collection and a cursor during pagination. */
 type AdminShopify_CollectionEdge = {
   /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
@@ -10443,6 +10815,12 @@ type AdminShopify_CollectionInput = {
   readonly templateSuffix: InputMaybe<Scalars['String']>;
   /** The title of the collection. Required for creating a new collection. */
   readonly title: InputMaybe<Scalars['String']>;
+};
+
+/** Represents operations involving a collection. */
+type AdminShopify_CollectionOperations = {
+  /** Collection duplicate operations. */
+  readonly duplicate: ReadonlyArray<AdminShopify_CollectionDuplicateOperation>;
 };
 
 /**
@@ -10538,8 +10916,29 @@ type AdminShopify_CollectionReorderProductsPayload = {
   /** The asynchronous job reordering the products. */
   readonly job: Maybe<AdminShopify_Job>;
   /** The list of errors that occurred from executing the mutation. */
-  readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
+  readonly userErrors: ReadonlyArray<AdminShopify_CollectionReorderProductsUserError>;
 };
+
+/** Errors related to order customer removal. */
+type AdminShopify_CollectionReorderProductsUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_CollectionReorderProductsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `CollectionReorderProductsUserError`. */
+type AdminShopify_CollectionReorderProductsUserErrorCode =
+  /** The collection was not found. Please check the collection ID and try again. */
+  | 'COLLECTION_NOT_FOUND'
+  /** The move is invalid. */
+  | 'INVALID_MOVE'
+  /** The collection is not manually sorted. Can't reorder products unless collection is manually sorted. */
+  | 'MANUALLY_SORTED_COLLECTION'
+  /** Products are currently being reordered. Please try again later. */
+  | 'TOO_MANY_ATTEMPTS_TO_REORDER_PRODUCTS';
 
 /** Represents at rule that's used to assign products to a collection. */
 type AdminShopify_CollectionRule = {
@@ -10775,6 +11174,65 @@ type AdminShopify_CollectionUpdatePayload = {
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
+
+/** The data type of a column. */
+type AdminShopify_ColumnDataType =
+  /** Represents an array of values. */
+  | 'ARRAY'
+  /** Represents a boolean value. */
+  | 'BOOLEAN'
+  /** Represents a duration in days. */
+  | 'DAY_DURATION'
+  /** Represents a day of week value. */
+  | 'DAY_OF_WEEK'
+  /** Represents a day-level timestamp value. */
+  | 'DAY_TIMESTAMP'
+  /** Represents a decimal value. */
+  | 'DECIMAL'
+  /** Represents a floating point value. */
+  | 'FLOAT'
+  /** Represents a duration in hours. */
+  | 'HOUR_DURATION'
+  /** Represents an hour of day value. */
+  | 'HOUR_OF_DAY'
+  /** Represents a hour-level timestamp value. */
+  | 'HOUR_TIMESTAMP'
+  /** Represents an identity value. */
+  | 'IDENTITY'
+  /** Represents an integer value. */
+  | 'INTEGER'
+  /** Represents a duration in milliseconds. */
+  | 'MILLISECOND_DURATION'
+  /** Represents a duration in minutes. */
+  | 'MINUTE_DURATION'
+  /** Represents a minute-level timestamp value. */
+  | 'MINUTE_TIMESTAMP'
+  /** Represents a monetary value. */
+  | 'MONEY'
+  /** Represents a month of year value. */
+  | 'MONTH_OF_YEAR'
+  /** Represents a month-level timestamp value. */
+  | 'MONTH_TIMESTAMP'
+  /** Represents a percentage value. */
+  | 'PERCENT'
+  /** Represents a quarter-level timestamp value. */
+  | 'QUARTER_TIMESTAMP'
+  /** Represents a duration in seconds. */
+  | 'SECOND_DURATION'
+  /** Represents a second-level timestamp value. */
+  | 'SECOND_TIMESTAMP'
+  /** Represents a string value. */
+  | 'STRING'
+  /** Represents a timestamp value in seconds. */
+  | 'TIMESTAMP'
+  /** Represents an unspecified data type. */
+  | 'UNSPECIFIED'
+  /** Represents a week of year value. */
+  | 'WEEK_OF_YEAR'
+  /** Represents a week-level timestamp value. */
+  | 'WEEK_TIMESTAMP'
+  /** Represents a year-level timestamp value. */
+  | 'YEAR_TIMESTAMP';
 
 /** A combined listing of products. */
 type AdminShopify_CombinedListing = {
@@ -11096,7 +11554,7 @@ type AdminShopify_CommentEventAttachment = {
 };
 
 /** The main embed of a comment event. */
-type AdminShopify_CommentEventEmbed = AdminShopify_Customer | AdminShopify_DraftOrder | AdminShopify_Order | AdminShopify_Product | AdminShopify_ProductVariant;
+type AdminShopify_CommentEventEmbed = AdminShopify_Customer | AdminShopify_DraftOrder | AdminShopify_InventoryTransfer | AdminShopify_Order | AdminShopify_Product | AdminShopify_ProductVariant;
 
 /** The subject line of a comment event. */
 type AdminShopify_CommentEventSubject = {
@@ -11848,7 +12306,7 @@ type AdminShopify_CompanyInput = {
  *
  * Each location can have its own [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) objects that determine which products are published and their pricing. The [`BuyerExperienceConfiguration`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BuyerExperienceConfiguration) determines checkout behavior including [`PaymentTerms`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms), and whether orders require merchant review. B2B customers select which location they're purchasing for, which determines the applicable catalogs, pricing, [`TaxExemption`](https://shopify.dev/docs/api/admin-graphql/latest/enums/TaxExemption) values, and checkout settings for their [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects.
  */
-type AdminShopify_CompanyLocation = AdminShopify_CommentEventSubject & AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_Navigable & AdminShopify_Node & {
+type AdminShopify_CompanyLocation = AdminShopify_CommentEventSubject & AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_HasStoreCreditAccounts & AdminShopify_Navigable & AdminShopify_Node & {
   /** The address used as billing address for the location. */
   readonly billingAddress: Maybe<AdminShopify_CompanyAddress>;
   /** The configuration for the buyer's B2B checkout. */
@@ -11922,6 +12380,11 @@ type AdminShopify_CompanyLocation = AdminShopify_CommentEventSubject & AdminShop
   /** The list of staff members assigned to the company location. */
   readonly staffMemberAssignments: AdminShopify_CompanyLocationStaffMemberAssignmentConnection;
   /**
+   * Returns a list of store credit accounts that belong to the owner resource.
+   * A store credit account owner can hold multiple accounts each with a different currency.
+   */
+  readonly storeCreditAccounts: AdminShopify_StoreCreditAccountConnection;
+  /**
    * The list of tax exemptions applied to the location.
    * @deprecated Use `taxSettings` instead.
    */
@@ -11951,6 +12414,16 @@ type AdminShopify_CompanyLocation_catalogsArgs = {
   first: InputMaybe<Scalars['Int']>;
   last: InputMaybe<Scalars['Int']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * A location or branch of a [`Company`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Company) that's a customer of the shop. Company locations enable B2B customers to manage multiple branches with distinct billing and shipping addresses, tax settings, and checkout configurations.
+ *
+ * Each location can have its own [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) objects that determine which products are published and their pricing. The [`BuyerExperienceConfiguration`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BuyerExperienceConfiguration) determines checkout behavior including [`PaymentTerms`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms), and whether orders require merchant review. B2B customers select which location they're purchasing for, which determines the applicable catalogs, pricing, [`TaxExemption`](https://shopify.dev/docs/api/admin-graphql/latest/enums/TaxExemption) values, and checkout settings for their [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects.
+ */
+type AdminShopify_CompanyLocation_catalogsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -12085,6 +12558,20 @@ type AdminShopify_CompanyLocation_staffMemberAssignmentsArgs = {
   query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
   sortKey?: InputMaybe<AdminShopify_CompanyLocationStaffMemberAssignmentSortKeys>;
+};
+
+
+/**
+ * A location or branch of a [`Company`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Company) that's a customer of the shop. Company locations enable B2B customers to manage multiple branches with distinct billing and shipping addresses, tax settings, and checkout configurations.
+ *
+ * Each location can have its own [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) objects that determine which products are published and their pricing. The [`BuyerExperienceConfiguration`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BuyerExperienceConfiguration) determines checkout behavior including [`PaymentTerms`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms), and whether orders require merchant review. B2B customers select which location they're purchasing for, which determines the applicable catalogs, pricing, [`TaxExemption`](https://shopify.dev/docs/api/admin-graphql/latest/enums/TaxExemption) values, and checkout settings for their [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects.
+ */
+type AdminShopify_CompanyLocation_storeCreditAccountsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
 };
 
 /** Return type for `companyLocationAssignAddress` mutation. */
@@ -12425,6 +12912,30 @@ type AdminShopify_CompanyUpdatePayload = {
   readonly company: Maybe<AdminShopify_Company>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_BusinessCustomerUserError>;
+};
+
+/** An option on the bundle parent product that is consolidated from multiple different components. */
+type AdminShopify_ComponentizedProductsBundleConsolidatedOption = {
+  /** The name of the consolidated option. */
+  readonly name: Scalars['String'];
+  /** The selections of the consolidated option. */
+  readonly selections: ReadonlyArray<AdminShopify_ComponentizedProductsBundleConsolidatedOptionSelection>;
+};
+
+/** An option selection for a bundle consolidated option. */
+type AdminShopify_ComponentizedProductsBundleConsolidatedOptionSelection = {
+  /** The component values that are included in the consolidated option selection. */
+  readonly components: ReadonlyArray<AdminShopify_ComponentizedProductsBundleConsolidatedOptionSelectionComponent>;
+  /** The value of the consolidated option on the bundle parent. */
+  readonly value: Scalars['String'];
+};
+
+/** A component that's included in a bundle consolidated option selection. */
+type AdminShopify_ComponentizedProductsBundleConsolidatedOptionSelectionComponent = {
+  /** The ID of the component's option that's included in this consolidated option selection. */
+  readonly optionId: Scalars['ID'];
+  /** The value of the component's option value that's included in this consolidated option selection. */
+  readonly value: Scalars['String'];
 };
 
 /**
@@ -13083,8 +13594,8 @@ type AdminShopify_CountryHarmonizedSystemCodeEdge = {
 
 /** The input fields required to specify a harmonized system code. */
 type AdminShopify_CountryHarmonizedSystemCodeInput = {
-  /** The ISO 3166-1 alpha-2 country code for the country that issued the specified harmonized system code. */
-  readonly countryCode: AdminShopify_CountryCode;
+  /** The ISO 3166-1 alpha-2 country code for the country that issued the specified harmonized system code. Represents global harmonized system code when set to null. */
+  readonly countryCode: InputMaybe<AdminShopify_CountryCode>;
   /** Country specific harmonized system code. */
   readonly harmonizedSystemCode: Scalars['String'];
 };
@@ -13443,6 +13954,18 @@ type AdminShopify_CurrencyCode =
   /** Zambian Kwacha (ZMW). */
   | 'ZMW';
 
+/** Represents a currency exchange adjustment applied to an order transaction. */
+type AdminShopify_CurrencyExchangeAdjustment = AdminShopify_Node & {
+  /** The adjustment amount in both shop and presentment currencies. */
+  readonly adjustment: AdminShopify_MoneyV2;
+  /** The final amount in both shop and presentment currencies after the adjustment. */
+  readonly finalAmountSet: AdminShopify_MoneyV2;
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /** The original amount in both shop and presentment currencies before the adjustment. */
+  readonly originalAmountSet: AdminShopify_MoneyV2;
+};
+
 /** Currency formats configured for the merchant. These formats are available to use within Liquid. */
 type AdminShopify_CurrencyFormats = {
   /** Money without currency in HTML. */
@@ -13463,6 +13986,8 @@ type AdminShopify_CurrencySetting = {
   readonly currencyName: Scalars['String'];
   /** Whether the currency is enabled or not. An enabled currency setting is visible to buyers and allows orders to be generated with that currency as presentment. */
   readonly enabled: Scalars['Boolean'];
+  /** The manual rate, if enabled, that applies to this currency when converting from shop currency. This rate is specific to the associated market's currency setting. */
+  readonly manualRate: Maybe<Scalars['AdminShopify_Decimal']>;
   /** The date and time when the active exchange rate for the currency was last modified. It can be the automatic rate's creation date, or the manual rate's last updated at date if active. */
   readonly rateUpdatedAt: Maybe<Scalars['AdminShopify_DateTime']>;
 };
@@ -14288,6 +14813,8 @@ type AdminShopify_CustomerInput = {
   readonly locale: InputMaybe<Scalars['String']>;
   /** Additional metafields to associate to the customer. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
+  /** A unique identifier for the customer that's used with Multipass login. */
+  readonly multipassIdentifier: InputMaybe<Scalars['String']>;
   /** A note about the customer. */
   readonly note: InputMaybe<Scalars['String']>;
   /** The unique phone number for the customer. */
@@ -14658,7 +15185,7 @@ type AdminShopify_CustomerMomentEdge = {
 };
 
 /** All possible instruments for CustomerPaymentMethods. */
-type AdminShopify_CustomerPaymentInstrument = AdminShopify_CustomerCreditCard | AdminShopify_CustomerPaypalBillingAgreement | AdminShopify_CustomerShopPayAgreement;
+type AdminShopify_CustomerPaymentInstrument = AdminShopify_BankAccount | AdminShopify_CustomerCreditCard | AdminShopify_CustomerPaypalBillingAgreement | AdminShopify_CustomerShopPayAgreement;
 
 /** The billing address of a payment instrument. */
 type AdminShopify_CustomerPaymentInstrumentBillingAddress = {
@@ -14698,12 +15225,28 @@ type AdminShopify_CustomerPaymentMethod = AdminShopify_Node & {
   readonly id: Scalars['ID'];
   /** The instrument for this payment method. */
   readonly instrument: Maybe<AdminShopify_CustomerPaymentInstrument>;
+  /** The mandates associated with the payment method. */
+  readonly mandates: AdminShopify_PaymentMandateResourceConnection;
   /** The time that the payment method was revoked. */
   readonly revokedAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** The revocation reason for this payment method. */
   readonly revokedReason: Maybe<AdminShopify_CustomerPaymentMethodRevocationReason>;
   /** List Subscription Contracts. */
   readonly subscriptionContracts: AdminShopify_SubscriptionContractConnection;
+};
+
+
+/**
+ * A customer's saved payment method. Stores the payment instrument details and billing information for recurring charges.
+ *
+ * The payment method supports types included in the [`CustomerPaymentInstrument`](https://shopify.dev/docs/api/admin-graphql/latest/unions/CustomerPaymentInstrument) union.
+ */
+type AdminShopify_CustomerPaymentMethod_mandatesArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -16468,6 +17011,10 @@ type AdminShopify_DeliveryCustomizationErrorCode =
   | 'INVALID_METAFIELDS'
   /** Maximum delivery customizations are already enabled. */
   | 'MAXIMUM_ACTIVE_DELIVERY_CUSTOMIZATIONS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Required input field must be present. */
   | 'REQUIRED_INPUT_FIELD'
   /** Unauthorized app scope. */
@@ -16477,8 +17024,8 @@ type AdminShopify_DeliveryCustomizationErrorCode =
 type AdminShopify_DeliveryCustomizationInput = {
   /** The enabled status of the delivery customization. */
   readonly enabled: InputMaybe<Scalars['Boolean']>;
-  /** The ID of the function providing the delivery customization. */
-  readonly functionId: InputMaybe<Scalars['String']>;
+  /** Function handle scoped to your current app ID. Only finds functions within your app. */
+  readonly functionHandle: InputMaybe<Scalars['String']>;
   /** Additional metafields to associate to the delivery customization. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
   /** The title of the delivery customization. */
@@ -16879,6 +17426,8 @@ type AdminShopify_DeliveryProfile = AdminShopify_Node & {
   readonly unassignedLocations: ReadonlyArray<AdminShopify_Location>;
   /** List of locations that have not been assigned to a location group for this profile. */
   readonly unassignedLocationsPaginated: AdminShopify_LocationConnection;
+  /** The version of the delivery profile. */
+  readonly version: Scalars['Int'];
   /** The number of countries with active rates to deliver to. */
   readonly zoneCountryCount: Scalars['Int'];
 };
@@ -17544,6 +18093,8 @@ type AdminShopify_DiscountAutomaticApp = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /**
@@ -17623,6 +18174,12 @@ type AdminShopify_DiscountAutomaticAppInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations. For app discounts using Admin UI Extensions, merchants can control POS eligibility when the context is set to ALL.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** Determines which discount effects the discount can apply. */
   readonly discountClasses: InputMaybe<ReadonlyArray<AdminShopify_DiscountClass>>;
   /**
@@ -17630,13 +18187,8 @@ type AdminShopify_DiscountAutomaticAppInput = {
    * For discounts without a fixed expiration date, specify `null`.
    */
   readonly endsAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
-  /**
-   * The
-   * [function ID](https://shopify.dev/docs/apps/build/functions/input-output/metafields-for-input-queries)
-   * associated with the app extension providing the
-   * [discount type](https://help.shopify.com/manual/discounts/discount-types).
-   */
-  readonly functionId: InputMaybe<Scalars['String']>;
+  /** The handle of the function providing the discount. */
+  readonly functionHandle: InputMaybe<Scalars['String']>;
   /**
    * Additional metafields to associate to the discount.
    * [Metafields](https://shopify.dev/docs/apps/build/custom-data)
@@ -17705,6 +18257,8 @@ type AdminShopify_DiscountAutomaticBasic = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -17787,6 +18341,12 @@ type AdminShopify_DiscountAutomaticBasicInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** Information about the qualifying items and their discount. */
   readonly customerGets: InputMaybe<AdminShopify_DiscountCustomerGetsInput>;
   /**
@@ -17864,6 +18424,8 @@ type AdminShopify_DiscountAutomaticBxgy = AdminShopify_HasEvents & AdminShopify_
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
@@ -17975,6 +18537,12 @@ type AdminShopify_DiscountAutomaticBxgyInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
   readonly customerBuys: InputMaybe<AdminShopify_DiscountCustomerBuysInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -18087,6 +18655,8 @@ type AdminShopify_DiscountAutomaticFreeShipping = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /**
@@ -18187,6 +18757,12 @@ type AdminShopify_DiscountAutomaticFreeShippingInput = {
    * that you can use in combination with the shipping discount.
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** A list of destinations where the discount will apply. */
   readonly destination: InputMaybe<AdminShopify_DiscountShippingDestinationSelectionInput>;
   /**
@@ -18333,6 +18909,23 @@ type AdminShopify_DiscountAutomaticNodeEdge = {
   readonly node: AdminShopify_DiscountAutomaticNode;
 };
 
+/** All buyers are eligible for the discount. */
+type AdminShopify_DiscountBuyerSelection =
+  /** All buyers are eligible for the discount. */
+  | 'ALL';
+
+/**
+ * Indicates that a discount applies to all buyers without restrictions, enabling universal promotions that reach every customer. This selection removes buyer-specific limitations from discount eligibility.
+ *
+ * For example, a flash sale or grand opening promotion would target all buyers to maximize participation and store visibility.
+ *
+ * Learn more about [discount targeting](https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountApplication).
+ */
+type AdminShopify_DiscountBuyerSelectionAll = {
+  /** All buyers are eligible for the discount. */
+  readonly all: AdminShopify_DiscountBuyerSelection;
+};
+
 /**
  * The [discount class](https://help.shopify.com/manual/discounts/combining-discounts/discount-combinations)
  * that's used to control how discounts can be combined.
@@ -18423,6 +19016,8 @@ type AdminShopify_DiscountCodeApp = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /**
@@ -18546,6 +19141,11 @@ type AdminShopify_DiscountCodeAppInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** Determines which discount effects the discount can apply. */
   readonly discountClasses: InputMaybe<ReadonlyArray<AdminShopify_DiscountClass>>;
   /**
@@ -18553,8 +19153,8 @@ type AdminShopify_DiscountCodeAppInput = {
    * For discounts without a fixed expiration date, specify `null`.
    */
   readonly endsAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
-  /** The [function ID](https://shopify.dev/docs/apps/build/functions/input-output/metafields-for-input-queries) associated with the app extension that's providing the [discount type](https://help.shopify.com/manual/discounts/discount-types). */
-  readonly functionId: InputMaybe<Scalars['String']>;
+  /** The handle of the function providing the discount. */
+  readonly functionHandle: InputMaybe<Scalars['String']>;
   /** Additional metafields to associate to the discount. [Metafields](https://shopify.dev/docs/apps/build/custom-data) provide dynamic function configuration with different parameters, such as `percentage` for a percentage discount. Merchants can set metafield values in the Shopify admin, which makes the discount function more flexible and customizable. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
   /** The number of times a discount applies on recurring purchases (subscriptions).         0 will apply infinitely whereas 1 will only apply to the first checkout. */
@@ -18645,6 +19245,8 @@ type AdminShopify_DiscountCodeBasic = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -18777,6 +19379,11 @@ type AdminShopify_DiscountCodeBasicInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
   readonly customerGets: InputMaybe<AdminShopify_DiscountCustomerGetsInput>;
   /**
@@ -18875,6 +19482,8 @@ type AdminShopify_DiscountCodeBxgy = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
@@ -19000,6 +19609,11 @@ type AdminShopify_DiscountCodeBxgyInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
   readonly customerBuys: InputMaybe<AdminShopify_DiscountCustomerBuysInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -19104,6 +19718,8 @@ type AdminShopify_DiscountCodeFreeShipping = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   readonly combinesWith: AdminShopify_DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  readonly context: AdminShopify_DiscountContext;
   /** The date and time when the discount was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
   /**
@@ -19247,6 +19863,11 @@ type AdminShopify_DiscountCodeFreeShippingInput = {
    * that you can use in combination with the shipping discount.
    */
   readonly combinesWith: InputMaybe<AdminShopify_DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  readonly context: InputMaybe<AdminShopify_DiscountContextInput>;
   /** The shipping destinations where the free shipping discount can be applied. You can specify whether the discount applies to all countries, or specify individual countries. */
   readonly destination: InputMaybe<AdminShopify_DiscountShippingDestinationSelectionInput>;
   /**
@@ -19494,6 +20115,19 @@ type AdminShopify_DiscountCombinesWithInput = {
    * class.
    */
   readonly shippingDiscounts: InputMaybe<Scalars['Boolean']>;
+};
+
+/** The type used to define which buyers can use the discount. */
+type AdminShopify_DiscountContext = AdminShopify_DiscountBuyerSelectionAll | AdminShopify_DiscountCustomerSegments | AdminShopify_DiscountCustomers;
+
+/** The input fields for the buyers who can use this discount. */
+type AdminShopify_DiscountContextInput = {
+  /** All buyers are eligible for this discount. */
+  readonly all: InputMaybe<AdminShopify_DiscountBuyerSelection>;
+  /** The list of customer segment IDs to add or remove from the list of customer segments. */
+  readonly customerSegments: InputMaybe<AdminShopify_DiscountCustomerSegmentsInput>;
+  /** The list of customer IDs to add or remove from the list of customers. */
+  readonly customers: InputMaybe<AdminShopify_DiscountCustomersInput>;
 };
 
 /**
@@ -19750,6 +20384,10 @@ type AdminShopify_DiscountErrorCode =
   | 'MINIMUM_SUBTOTAL_AND_QUANTITY_RANGE_BOTH_PRESENT'
   /** Missing a required argument. */
   | 'MISSING_ARGUMENT'
+  /** Either function ID or function handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function ID or function handle is allowed. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Recurring cycle limit must be 1 when discount does not apply to subscription items. */
   | 'MULTIPLE_RECURRING_CYCLE_LIMIT_FOR_NON_SUBSCRIPTION_ITEMS'
   /** The input value needs to be blank. */
@@ -20320,6 +20958,21 @@ type AdminShopify_DisputeType =
   /** The dispute is in the inquiry phase. */
   | 'INQUIRY';
 
+/** A distance, which includes a numeric value and a unit of measurement. */
+type AdminShopify_Distance = {
+  /** The unit of measurement for `value`. */
+  readonly unit: AdminShopify_DistanceUnit;
+  /** The distance value using the unit system specified with `unit`. */
+  readonly value: Scalars['Float'];
+};
+
+/** Units of measurement for distance. */
+type AdminShopify_DistanceUnit =
+  /** Metric system unit of distance. */
+  | 'KILOMETERS'
+  /** Imperial system unit of distance. */
+  | 'MILES';
+
 /** A unique string that represents the address of a Shopify store on the Internet. */
 type AdminShopify_Domain = AdminShopify_Node & {
   /** The host name of the domain. For example, `example.com`. */
@@ -20755,6 +21408,46 @@ type AdminShopify_DraftOrderAppliedDiscountType =
   /** A percentage of the order subtotal. */
   | 'PERCENTAGE';
 
+/** The available delivery options for a draft order. */
+type AdminShopify_DraftOrderAvailableDeliveryOptions = {
+  /** The available local delivery rates for the draft order. Requires a customer with a valid shipping address and at least one line item. */
+  readonly availableLocalDeliveryRates: ReadonlyArray<AdminShopify_DraftOrderShippingRate>;
+  /** The available local pickup options for the draft order. Requires at least one line item. */
+  readonly availableLocalPickupOptions: ReadonlyArray<AdminShopify_PickupInStoreLocation>;
+  /** The available shipping rates for the draft order. Requires a customer with a valid shipping address and at least one line item. */
+  readonly availableShippingRates: ReadonlyArray<AdminShopify_DraftOrderShippingRate>;
+  /** Returns information about pagination of local pickup options. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** The input fields used to determine available delivery options for a draft order. */
+type AdminShopify_DraftOrderAvailableDeliveryOptionsInput = {
+  /**
+   * Whether or not to accept automatic discounts on the draft order during calculation.
+   * If false, only discount codes and custom draft order discounts (see `appliedDiscount`) will be applied.
+   * If true, eligible automatic discounts will be applied in addition to discount codes and custom draft order discounts.
+   */
+  readonly acceptAutomaticDiscounts: InputMaybe<Scalars['Boolean']>;
+  /**
+   * The discount that will be applied to the draft order.
+   * A draft order line item can have one discount. A draft order can also have one order-level discount.
+   */
+  readonly appliedDiscount: InputMaybe<AdminShopify_DraftOrderAppliedDiscountInput>;
+  /** Discount codes that will be attempted to be applied to the draft order. If the draft isn't eligible for any given discount code it will be skipped during calculation. */
+  readonly discountCodes: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  /**
+   * Product variant line item or custom line item associated to the draft order.
+   * Each draft order must include at least one line item.
+   */
+  readonly lineItems: InputMaybe<ReadonlyArray<AdminShopify_DraftOrderLineItemInput>>;
+  /** The selected country code that determines the pricing of the draft order. */
+  readonly marketRegionCountryCode: InputMaybe<AdminShopify_CountryCode>;
+  /** The purchasing entity for the draft order. */
+  readonly purchasingEntity: InputMaybe<AdminShopify_PurchasingEntityInput>;
+  /** The mailing address to where the order will be shipped. */
+  readonly shippingAddress: InputMaybe<AdminShopify_MailingAddressInput>;
+};
+
 /** Return type for `draftOrderBulkAddTags` mutation. */
 type AdminShopify_DraftOrderBulkAddTagsPayload = {
   /** The asynchronous job for adding tags to the draft orders. */
@@ -20819,12 +21512,6 @@ type AdminShopify_DraftOrderConnection = {
 type AdminShopify_DraftOrderCreateFromOrderPayload = {
   /** The created draft order. */
   readonly draftOrder: Maybe<AdminShopify_DraftOrder>;
-  /** The list of errors that occurred from executing the mutation. */
-  readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
-};
-
-/** Return type for `draftOrderCreateMerchantCheckout` mutation. */
-type AdminShopify_DraftOrderCreateMerchantCheckoutPayload = {
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -20912,6 +21599,7 @@ type AdminShopify_DraftOrderInput = {
   /**
    * The list of product variant or custom line item.
    * Each draft order must include at least one line item.
+   * Accepts a maximum of 499 line items.
    *
    * NOTE: Draft orders don't currently support subscriptions.
    */
@@ -21200,6 +21888,16 @@ type AdminShopify_DraftOrderLineItemInput = {
   readonly weight: InputMaybe<AdminShopify_WeightInput>;
 };
 
+/** A warning indicating that the market region country code is not supported with Markets. */
+type AdminShopify_DraftOrderMarketRegionCountryCodeNotSupportedWarning = AdminShopify_DraftOrderWarning & {
+  /** The error code. */
+  readonly errorCode: Scalars['String'];
+  /** The input field that the warning applies to. */
+  readonly field: Scalars['String'];
+  /** The warning message. */
+  readonly message: Scalars['String'];
+};
+
 /** The platform discounts applied to the draft order. */
 type AdminShopify_DraftOrderPlatformDiscount = {
   /** Price reduction allocations across the draft order's lines. */
@@ -21215,6 +21913,8 @@ type AdminShopify_DraftOrderPlatformDiscount = {
    * @deprecated Use `discountClasses` instead.
    */
   readonly discountClass: AdminShopify_DiscountClass;
+  /** The discount classes. */
+  readonly discountClasses: ReadonlyArray<AdminShopify_DiscountClass>;
   /** The discount node for the platform discount. */
   readonly discountNode: Maybe<AdminShopify_DiscountNode>;
   /** The ID of the discount. */
@@ -21249,6 +21949,20 @@ type AdminShopify_DraftOrderPlatformDiscountAllocation = {
 
 /** The element of the draft being discounted. */
 type AdminShopify_DraftOrderPlatformDiscountAllocationTarget = AdminShopify_CalculatedDraftOrderLineItem | AdminShopify_DraftOrderLineItem | AdminShopify_ShippingLine;
+
+/** A shipping rate is an additional cost added to the cost of the products that were ordered. */
+type AdminShopify_DraftOrderShippingRate = {
+  /** The code of the shipping rate. */
+  readonly code: Scalars['String'];
+  /** Unique identifier for this shipping rate. */
+  readonly handle: Scalars['String'];
+  /** The cost associated with the shipping rate. */
+  readonly price: AdminShopify_MoneyV2;
+  /** The source of the shipping rate. */
+  readonly source: Scalars['String'];
+  /** The name of the shipping rate. */
+  readonly title: Scalars['String'];
+};
 
 /** The set of valid sort keys for the DraftOrder query. */
 type AdminShopify_DraftOrderSortKeys =
@@ -21543,6 +22257,8 @@ type AdminShopify_EventSubjectType =
   | 'DISCOUNT_NODE'
   /** A DraftOrder resource generated the event. */
   | 'DRAFT_ORDER'
+  /** A InventoryTransfer resource generated the event. */
+  | 'INVENTORY_TRANSFER'
   /** A Order resource generated the event. */
   | 'ORDER'
   /** A Page resource generated the event. */
@@ -21568,6 +22284,18 @@ type AdminShopify_ExchangeLineItem = AdminShopify_Node & {
    * @deprecated Use `lineItems` instead.
    */
   readonly lineItem: Maybe<AdminShopify_LineItem>;
+  /** The order line items for the exchange. */
+  readonly lineItems: Maybe<ReadonlyArray<AdminShopify_LineItem>>;
+  /** The quantity of the exchange item that can be processed. */
+  readonly processableQuantity: Scalars['Int'];
+  /** The quantity of the exchange item that have been processed. */
+  readonly processedQuantity: Scalars['Int'];
+  /** The number of units ordered, including refunded and removed units. */
+  readonly quantity: Scalars['Int'];
+  /** The quantity of the exchange item that haven't been processed. */
+  readonly unprocessedQuantity: Scalars['Int'];
+  /** The ID of the variant at time of return creation. */
+  readonly variantId: Maybe<Scalars['ID']>;
 };
 
 /** The input fields for an applied discount on a calculated exchange line item. */
@@ -21617,6 +22345,14 @@ type AdminShopify_ExchangeLineItemInput = {
   readonly quantity: Scalars['Int'];
   /** The ID of the product variant to be added to the order as part of an exchange. */
   readonly variantId: InputMaybe<Scalars['ID']>;
+};
+
+/** The input fields for removing an exchange line item from a return. */
+type AdminShopify_ExchangeLineItemRemoveFromReturnInput = {
+  /** The ID of the exchange line item to remove. */
+  readonly exchangeLineItemId: Scalars['ID'];
+  /** The quantity of the associated exchange line item to be removed. */
+  readonly quantity: Scalars['Int'];
 };
 
 /** An exchange where existing items on an order are returned and new items are added to the order. */
@@ -21812,8 +22548,8 @@ type AdminShopify_Fee = {
 type AdminShopify_FeeSale = AdminShopify_Sale & {
   /** The type of order action that the sale represents. */
   readonly actionType: AdminShopify_SaleActionType;
-  /** The fee associated with the sale. */
-  readonly fee: AdminShopify_Fee;
+  /** The fee associated with the sale. It can be null if the fee was deleted. */
+  readonly fee: Maybe<AdminShopify_Fee>;
   /** The unique ID for the sale. */
   readonly id: Scalars['ID'];
   /** The line type assocated with the sale. */
@@ -22456,7 +23192,11 @@ type AdminShopify_FulfillmentConstraintRuleCreateUserErrorCode =
   /** Failed to create fulfillment constraint rule due to invalid input. */
   | 'INPUT_INVALID'
   /** Maximum number of fulfillment constraint rules reached. Limit is 10. */
-  | 'MAXIMUM_FULFILLMENT_CONSTRAINT_RULES_REACHED';
+  | 'MAXIMUM_FULFILLMENT_CONSTRAINT_RULES_REACHED'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS';
 
 /** Return type for `fulfillmentConstraintRuleDelete` mutation. */
 type AdminShopify_FulfillmentConstraintRuleDeletePayload = {
@@ -22530,6 +23270,8 @@ type AdminShopify_FulfillmentDisplayStatus =
   | 'ATTEMPTED_DELIVERY'
   /** Displayed as **Canceled**. */
   | 'CANCELED'
+  /** Displayed as **Picked up by carrier**. */
+  | 'CARRIER_PICKED_UP'
   /** Displayed as **Confirmed**. */
   | 'CONFIRMED'
   /** Displayed as **Delayed**. */
@@ -22668,6 +23410,8 @@ type AdminShopify_FulfillmentEventSortKeys =
 type AdminShopify_FulfillmentEventStatus =
   /** A delivery was attempted. */
   | 'ATTEMPTED_DELIVERY'
+  /** The fulfillment has been picked up by the carrier. */
+  | 'CARRIER_PICKED_UP'
   /** The fulfillment is confirmed. This is the default value when no other information is available. */
   | 'CONFIRMED'
   /** The fulfillment is delayed. */
@@ -24727,6 +25471,45 @@ type AdminShopify_FulfillmentOrderSupportedAction = {
   readonly externalUrl: Maybe<Scalars['AdminShopify_URL']>;
 };
 
+/** Return type for `fulfillmentOrdersReroute` mutation. */
+type AdminShopify_FulfillmentOrdersReroutePayload = {
+  /** The fulfillment orders which contains the moved line items. */
+  readonly movedFulfillmentOrders: Maybe<ReadonlyArray<AdminShopify_FulfillmentOrder>>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_FulfillmentOrdersRerouteUserError>;
+};
+
+/** An error that occurs during the execution of `FulfillmentOrdersReroute`. */
+type AdminShopify_FulfillmentOrdersRerouteUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_FulfillmentOrdersRerouteUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `FulfillmentOrdersRerouteUserError`. */
+type AdminShopify_FulfillmentOrdersRerouteUserErrorCode =
+  /** Cannot move a fulfillment order that has progress reported. */
+  | 'CANNOT_MOVE_FULFILLMENT_ORDER_WITH_REPORTED_PROGRESS'
+  /** Cannot reassign location for fulfillment orders. */
+  | 'CANNOT_REASSIGN_LOCATION_FOR_FULFILLMENT_ORDERS'
+  /** The delivery method type is not supported. */
+  | 'DELIVERY_METHOD_TYPE_NOT_SUPPORTED'
+  /** Fulfillment orders must belong to the same location. */
+  | 'FULFILLMENT_ORDERS_MUST_BELONG_TO_SAME_LOCATION'
+  /** Fulfillment orders are not from the same order. */
+  | 'FULFILLMENT_ORDERS_NOT_FROM_THE_SAME_ORDER'
+  /** All fulfillment orders must have status and request status compatible with reroutable states. */
+  | 'FULFILLMENT_ORDERS_STATE_NOT_SUPPORTED'
+  /** Fulfillment order could not be found. */
+  | 'FULFILLMENT_ORDER_NOT_FOUND'
+  /** No fulfillment order IDs were provided. */
+  | 'NO_FULFILLMENT_ORDER_IDS'
+  /** This feature is only supported for multi-location shops. */
+  | 'SINGLE_LOCATION_SHOP_NOT_SUPPORTED';
+
 /** Return type for `fulfillmentOrdersSetFulfillmentDeadline` mutation. */
 type AdminShopify_FulfillmentOrdersSetFulfillmentDeadlinePayload = {
   /** Whether the fulfillment deadline was successfully set. */
@@ -26027,7 +26810,7 @@ type AdminShopify_HasStoreCreditAccounts_storeCreditAccountsArgs = {
 };
 
 /** Represents an image resource. */
-type AdminShopify_Image = AdminShopify_HasMetafields & {
+type AdminShopify_Image = AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & {
   /** A word or phrase to share the nature or contents of an image. */
   readonly altText: Maybe<Scalars['String']>;
   /** The original height of the image in pixels. Returns `null` if the image isn't hosted by Shopify. */
@@ -26058,6 +26841,12 @@ type AdminShopify_Image = AdminShopify_HasMetafields & {
    */
   readonly src: Scalars['AdminShopify_URL'];
   /**
+   * The ThumbHash of the image.
+   *
+   * Useful to display placeholder images while the original image is loading.
+   */
+  readonly thumbhash: Maybe<Scalars['String']>;
+  /**
    * The location of the transformed image as a URL.
    *
    * All transformation arguments are considered "best-effort". If they can be applied to an image, they will be.
@@ -26065,6 +26854,8 @@ type AdminShopify_Image = AdminShopify_HasMetafields & {
    * @deprecated Use `url(transform:)` instead
    */
   readonly transformedSrc: Scalars['AdminShopify_URL'];
+  /** The published translations associated with the resource. */
+  readonly translations: ReadonlyArray<AdminShopify_Translation>;
   /**
    * The location of the image as a URL.
    *
@@ -26106,6 +26897,13 @@ type AdminShopify_Image_transformedSrcArgs = {
   maxWidth: InputMaybe<Scalars['Int']>;
   preferredContentType: InputMaybe<AdminShopify_ImageContentType>;
   scale?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** Represents an image resource. */
+type AdminShopify_Image_translationsArgs = {
+  locale: Scalars['String'];
+  marketId: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -26284,6 +27082,12 @@ type AdminShopify_InventoryAdjustQuantitiesUserError = AdminShopify_DisplayableE
 type AdminShopify_InventoryAdjustQuantitiesUserErrorCode =
   /** The quantities couldn't be adjusted. Try again. */
   | 'ADJUST_QUANTITIES_FAILED'
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Internal (gid://shopify/) ledger documents are not allowed to be adjusted via API. */
   | 'INTERNAL_LEDGER_DOCUMENT'
   /** A ledger document URI is not allowed when adjusting available. */
@@ -26311,7 +27115,9 @@ type AdminShopify_InventoryAdjustQuantitiesUserErrorCode =
   /** All changes must have the same ledger document URI or, in the case of adjusting available, no ledger document URI. */
   | 'MAX_ONE_LEDGER_DOCUMENT'
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
-  | 'NON_MUTABLE_INVENTORY_ITEM';
+  | 'NON_MUTABLE_INVENTORY_ITEM'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE';
 
 /**
  * Records a batch of inventory changes made together in a single operation. Tracks which [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) or [`StaffMember`](https://shopify.dev/docs/api/admin-graphql/latest/objects/StaffMember) initiated the changes, when they occurred, and why they were made.
@@ -26350,6 +27156,16 @@ type AdminShopify_InventoryAdjustmentGroup_changesArgs = {
   inventoryItemIds: InputMaybe<ReadonlyArray<Scalars['ID']>>;
   locationIds: InputMaybe<ReadonlyArray<Scalars['ID']>>;
   quantityNames: InputMaybe<ReadonlyArray<Scalars['String']>>;
+};
+
+/** The input fields required to adjust the available quantity of a product variant at a location. */
+type AdminShopify_InventoryAdjustmentInput = {
+  /** The adjustment of the available quantity at the location. If the value is `null`, then the product variant is no longer stocked at the location. */
+  readonly adjustment: InputMaybe<Scalars['Int']>;
+  /** The quantity to compare against before applying the delta. */
+  readonly changeFromQuantity: InputMaybe<Scalars['Int']>;
+  /** The ID of the location where the available quantity should be adjusted. */
+  readonly locationId: Scalars['ID'];
 };
 
 /** The input fields to specify whether the inventory item should be activated or not at the specified location. */
@@ -26436,6 +27252,16 @@ type AdminShopify_InventoryChange = {
 
 /** The input fields for the change to be made to an inventory item at a location. */
 type AdminShopify_InventoryChangeInput = {
+  /**
+   * The quantity currently expected at this location, before the delta is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't equal the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This prevents accidental overwrites when the client is operating on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need protection against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  readonly changeFromQuantity: InputMaybe<Scalars['Int']>;
   /** The amount by which the inventory quantity will be changed. */
   readonly delta: Scalars['Int'];
   /** Specifies the inventory item to which the change will be applied. */
@@ -26508,8 +27334,13 @@ type AdminShopify_InventoryItem = AdminShopify_LegacyInteroperability & AdminSho
   readonly unitCost: Maybe<AdminShopify_MoneyV2>;
   /** The date and time when the inventory item was updated. */
   readonly updatedAt: Scalars['AdminShopify_DateTime'];
-  /** The variant that owns this inventory item. */
+  /**
+   * The variant that owns this inventory item.
+   * @deprecated Use `variants` instead.
+   */
   readonly variant: AdminShopify_ProductVariant;
+  /** A paginated list of the variants that reference this inventory item. */
+  readonly variants: Maybe<AdminShopify_ProductVariantConnection>;
 };
 
 
@@ -26549,6 +27380,19 @@ type AdminShopify_InventoryItem_inventoryLevelsArgs = {
   last: InputMaybe<Scalars['Int']>;
   query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ */
+type AdminShopify_InventoryItem_variantsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
 };
 
 /** An auto-generated type for paginating through multiple InventoryItems. */
@@ -26601,6 +27445,8 @@ type AdminShopify_InventoryItemMeasurement = AdminShopify_Node & {
 
 /** The input fields for an inventory item measurement. */
 type AdminShopify_InventoryItemMeasurementInput = {
+  /** Shipping package associated with inventory item. */
+  readonly shippingPackageId: InputMaybe<Scalars['ID']>;
   /** The weight of the inventory item. */
   readonly weight: InputMaybe<AdminShopify_WeightInput>;
 };
@@ -26747,8 +27593,14 @@ type AdminShopify_InventoryMoveQuantitiesUserError = AdminShopify_DisplayableErr
 
 /** Possible error codes that can be returned by `InventoryMoveQuantitiesUserError`. */
 type AdminShopify_InventoryMoveQuantitiesUserErrorCode =
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The quantities can't be moved between different locations. */
   | 'DIFFERENT_LOCATIONS'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Internal (gid://shopify/) ledger documents are not allowed to be adjusted via API. */
   | 'INTERNAL_LEDGER_DOCUMENT'
   /** A ledger document URI is not allowed when adjusting available. */
@@ -26780,7 +27632,9 @@ type AdminShopify_InventoryMoveQuantitiesUserErrorCode =
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
   | 'NON_MUTABLE_INVENTORY_ITEM'
   /** The quantity names for each change can't be the same. */
-  | 'SAME_QUANTITY_NAME';
+  | 'SAME_QUANTITY_NAME'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE';
 
 /**
  * Represents the change to be made to an inventory item at a location.
@@ -26800,6 +27654,16 @@ type AdminShopify_InventoryMoveQuantityChange = {
 
 /** The input fields representing the change to be made to an inventory item at a location. */
 type AdminShopify_InventoryMoveQuantityTerminalInput = {
+  /**
+   * The quantity currently expected at this location, before the move is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  readonly changeFromQuantity: InputMaybe<Scalars['Int']>;
   /**
    * A non-Shopify URI that identifies what specific inventory transaction or ledger entry was changed. Represents the exact inventory movement being referenced, distinct from the business reason for the change.
    *
@@ -26858,6 +27722,16 @@ type AdminShopify_InventoryQuantity = AdminShopify_Node & {
 
 /** The input fields for the quantity to be set for an inventory item at a location. */
 type AdminShopify_InventoryQuantityInput = {
+  /**
+   * The quantity currently expected at this location, before setting the new quantity.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  readonly changeFromQuantity: InputMaybe<Scalars['Int']>;
   /** Specifies the inventory item to which the quantity will be set. */
   readonly inventoryItemId: Scalars['ID'];
   /** Specifies the location at which the quantity will be set. */
@@ -27018,8 +27892,14 @@ type AdminShopify_InventorySetOnHandQuantitiesUserError = AdminShopify_Displayab
 
 /** Possible error codes that can be returned by `InventorySetOnHandQuantitiesUserError`. */
 type AdminShopify_InventorySetOnHandQuantitiesUserErrorCode =
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified inventory item could not be found. */
   | 'INVALID_INVENTORY_ITEM'
   /** The specified location could not be found. */
@@ -27036,6 +27916,8 @@ type AdminShopify_InventorySetOnHandQuantitiesUserErrorCode =
   | 'ITEM_NOT_STOCKED_AT_LOCATION'
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
   | 'NON_MUTABLE_INVENTORY_ITEM'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE'
   /** The on-hand quantities couldn't be set. Try again. */
   | 'SET_ON_HAND_QUANTITIES_FAILED';
 
@@ -27091,10 +27973,16 @@ type AdminShopify_InventorySetQuantitiesUserError = AdminShopify_DisplayableErro
 
 /** Possible error codes that can be returned by `InventorySetQuantitiesUserError`. */
 type AdminShopify_InventorySetQuantitiesUserErrorCode =
+  /** The changeFromQuantity value does not match persisted value. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The compareQuantity argument must be given to each quantity or ignored using ignoreCompareQuantity. */
   | 'COMPARE_QUANTITY_REQUIRED'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified inventory item could not be found. */
   | 'INVALID_INVENTORY_ITEM'
   /** The specified location could not be found. */
@@ -27120,6 +28008,8 @@ type AdminShopify_InventorySetQuantitiesUserErrorCode =
 
 /** The input fields for the quantity to be set for an inventory item at a location. */
 type AdminShopify_InventorySetQuantityInput = {
+  /** The current quantity to be compared against the persisted quantity. For more information, refer to the [Compare and Swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap). */
+  readonly changeFromQuantity: InputMaybe<Scalars['Int']>;
   /** Specifies the inventory item to which the quantity will be set. */
   readonly inventoryItemId: Scalars['ID'];
   /** Specifies the location at which the quantity will be set. */
@@ -27181,6 +28071,10 @@ type AdminShopify_InventorySetScheduledChangesUserErrorCode =
   | 'DUPLICATE_TO_NAME'
   /** There was an error updating the scheduled changes. */
   | 'ERROR_UPDATING_SCHEDULED'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified field is invalid. */
   | 'INCLUSION'
   /** The specified fromName is invalid. */
@@ -27201,6 +28095,1221 @@ type AdminShopify_InventorySetScheduledChangesUserErrorCode =
   | 'LOCATION_NOT_FOUND'
   /** The from_name and to_name can't be the same. */
   | 'SAME_FROM_TO_NAMES';
+
+/** Represents an inventory shipment. */
+type AdminShopify_InventoryShipment = AdminShopify_Node & {
+  /** The date the shipment was created in UTC. */
+  readonly dateCreated: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** The date the shipment was initially received in UTC. */
+  readonly dateReceived: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** The date the shipment was shipped in UTC. */
+  readonly dateShipped: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /** The total quantity of all items in the shipment. */
+  readonly lineItemTotalQuantity: Scalars['Int'];
+  /** The line items included in this shipment. */
+  readonly lineItems: Maybe<AdminShopify_InventoryShipmentLineItemConnection>;
+  /** The number of line items associated with the inventory shipment. Limited to a maximum of 10000 by default. */
+  readonly lineItemsCount: Maybe<AdminShopify_Count>;
+  /** The name of the inventory shipment. */
+  readonly name: Scalars['String'];
+  /** The current status of the shipment. */
+  readonly status: AdminShopify_InventoryShipmentStatus;
+  /** The total quantity of items accepted across all line items in this shipment. */
+  readonly totalAcceptedQuantity: Scalars['Int'];
+  /** The total quantity of items received (both accepted and rejected) across all line items in this shipment. */
+  readonly totalReceivedQuantity: Scalars['Int'];
+  /** The total quantity of items rejected across all line items in this shipment. */
+  readonly totalRejectedQuantity: Scalars['Int'];
+  /** The tracking information for the shipment. */
+  readonly tracking: Maybe<AdminShopify_InventoryShipmentTracking>;
+};
+
+
+/** Represents an inventory shipment. */
+type AdminShopify_InventoryShipment_lineItemsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_ShipmentLineItemSortKeys>;
+};
+
+
+/** Represents an inventory shipment. */
+type AdminShopify_InventoryShipment_lineItemsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+};
+
+/** Return type for `inventoryShipmentAddItems` mutation. */
+type AdminShopify_InventoryShipmentAddItemsPayload = {
+  /** The list of added line items. */
+  readonly addedItems: Maybe<ReadonlyArray<AdminShopify_InventoryShipmentLineItem>>;
+  /** The inventory shipment with the added items. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentAddItemsUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentAddItems`. */
+type AdminShopify_InventoryShipmentAddItemsUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentAddItemsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentAddItemsUserError`. */
+type AdminShopify_InventoryShipmentAddItemsUserErrorCode =
+  /** Failed to activate inventory at location. */
+  | 'ACTIVATION_FAILED'
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** An auto-generated type for paginating through multiple InventoryShipments. */
+type AdminShopify_InventoryShipmentConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_InventoryShipmentEdge>;
+  /** A list of nodes that are contained in InventoryShipmentEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_InventoryShipment>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** Return type for `inventoryShipmentCreateInTransit` mutation. */
+type AdminShopify_InventoryShipmentCreateInTransitPayload = {
+  /** The created inventory shipment. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentCreateInTransitUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentCreateInTransit`. */
+type AdminShopify_InventoryShipmentCreateInTransitUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentCreateInTransitUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentCreateInTransitUserError`. */
+type AdminShopify_InventoryShipmentCreateInTransitUserErrorCode =
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** The shipment input cannot be empty. */
+  | 'EMPTY_SHIPMENT_INPUT'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** One or more items are not valid. */
+  | 'INVALID_ITEM'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** The shipment input is invalid. */
+  | 'INVALID_SHIPMENT_INPUT'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The URL is invalid. */
+  | 'INVALID_URL'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The list of line items is empty. */
+  | 'ITEMS_EMPTY'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** The input fields to add a shipment. */
+type AdminShopify_InventoryShipmentCreateInput = {
+  /** The date the shipment was created. */
+  readonly dateCreated: InputMaybe<Scalars['AdminShopify_DateTime']>;
+  /** The list of line items for the inventory shipment. */
+  readonly lineItems: ReadonlyArray<AdminShopify_InventoryShipmentLineItemInput>;
+  /** The ID of the inventory movement (transfer or purchase order) this shipment belongs to. */
+  readonly movementId: Scalars['ID'];
+  /** The tracking information for the shipment. */
+  readonly trackingInput: InputMaybe<AdminShopify_InventoryShipmentTrackingInput>;
+};
+
+/** Return type for `inventoryShipmentCreate` mutation. */
+type AdminShopify_InventoryShipmentCreatePayload = {
+  /** The created inventory shipment. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentCreateUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentCreate`. */
+type AdminShopify_InventoryShipmentCreateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentCreateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentCreateUserError`. */
+type AdminShopify_InventoryShipmentCreateUserErrorCode =
+  /** This barcode is already assigned to another shipment. */
+  | 'BARCODE_DUPLICATE'
+  /** Barcode must be 255 characters or less. */
+  | 'BARCODE_TOO_LONG'
+  /** Bundled items cannot be used for this operation. */
+  | 'BUNDLED_ITEM'
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** The shipment input cannot be empty. */
+  | 'EMPTY_SHIPMENT_INPUT'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The idempotency record was found but the associated scheduled changes no longer exist. */
+  | 'IDEMPOTENCY_RECORD_NOT_FOUND'
+  /** One or more items are not valid. */
+  | 'INVALID_ITEM'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** The shipment input is invalid. */
+  | 'INVALID_SHIPMENT_INPUT'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The URL is invalid. */
+  | 'INVALID_URL'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** Return type for `inventoryShipmentDelete` mutation. */
+type AdminShopify_InventoryShipmentDeletePayload = {
+  /** The ID of the inventory shipment that was deleted. */
+  readonly id: Maybe<Scalars['ID']>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentDeleteUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentDelete`. */
+type AdminShopify_InventoryShipmentDeleteUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentDeleteUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentDeleteUserError`. */
+type AdminShopify_InventoryShipmentDeleteUserErrorCode =
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND';
+
+/** An auto-generated type which holds one InventoryShipment and a cursor during pagination. */
+type AdminShopify_InventoryShipmentEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of InventoryShipmentEdge. */
+  readonly node: AdminShopify_InventoryShipment;
+};
+
+/** Represents a single line item within an inventory shipment. */
+type AdminShopify_InventoryShipmentLineItem = AdminShopify_Node & {
+  /** The quantity of items that were accepted in this shipment line item. */
+  readonly acceptedQuantity: Scalars['Int'];
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /** The inventory item associated with this line item. */
+  readonly inventoryItem: Maybe<AdminShopify_InventoryItem>;
+  /** The quantity of items in this shipment line item. */
+  readonly quantity: Scalars['Int'];
+  /** The quantity of items that were rejected in this shipment line item. */
+  readonly rejectedQuantity: Scalars['Int'];
+  /** The total quantity of units that haven't been received (neither accepted or rejected) in this shipment line item. */
+  readonly unreceivedQuantity: Scalars['Int'];
+};
+
+/** An auto-generated type for paginating through multiple InventoryShipmentLineItems. */
+type AdminShopify_InventoryShipmentLineItemConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_InventoryShipmentLineItemEdge>;
+  /** A list of nodes that are contained in InventoryShipmentLineItemEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_InventoryShipmentLineItem>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one InventoryShipmentLineItem and a cursor during pagination. */
+type AdminShopify_InventoryShipmentLineItemEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of InventoryShipmentLineItemEdge. */
+  readonly node: AdminShopify_InventoryShipmentLineItem;
+};
+
+/** The input fields for a line item on an inventory shipment. */
+type AdminShopify_InventoryShipmentLineItemInput = {
+  /** The inventory item ID for the shipment line item. */
+  readonly inventoryItemId: Scalars['ID'];
+  /** The quantity for the shipment line item. */
+  readonly quantity: Scalars['Int'];
+};
+
+/** Return type for `inventoryShipmentMarkInTransit` mutation. */
+type AdminShopify_InventoryShipmentMarkInTransitPayload = {
+  /** The marked in transit inventory shipment. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentMarkInTransitUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentMarkInTransit`. */
+type AdminShopify_InventoryShipmentMarkInTransitUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentMarkInTransitUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentMarkInTransitUserError`. */
+type AdminShopify_InventoryShipmentMarkInTransitUserErrorCode =
+  /** Failed to activate inventory at location. */
+  | 'ACTIVATION_FAILED'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The list of line items is empty. */
+  | 'ITEMS_EMPTY'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** The input fields to receive an item on an inventory shipment. */
+type AdminShopify_InventoryShipmentReceiveItemInput = {
+  /** The quantity for the item to be received. */
+  readonly quantity: Scalars['Int'];
+  /** The reason for received item. */
+  readonly reason: AdminShopify_InventoryShipmentReceiveLineItemReason;
+  /** The shipment line item ID to be received. */
+  readonly shipmentLineItemId: Scalars['ID'];
+};
+
+/** The reason for receiving a line item on an inventory shipment. */
+type AdminShopify_InventoryShipmentReceiveLineItemReason =
+  /** The line item was accepted. */
+  | 'ACCEPTED'
+  /** The line item was rejected. */
+  | 'REJECTED';
+
+/** Return type for `inventoryShipmentReceive` mutation. */
+type AdminShopify_InventoryShipmentReceivePayload = {
+  /** The inventory shipment with received items. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentReceiveUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentReceive`. */
+type AdminShopify_InventoryShipmentReceiveUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentReceiveUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentReceiveUserError`. */
+type AdminShopify_InventoryShipmentReceiveUserErrorCode =
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** Unexpected internal error happened. */
+  | 'INTERNAL_ERROR'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND';
+
+/** Return type for `inventoryShipmentRemoveItems` mutation. */
+type AdminShopify_InventoryShipmentRemoveItemsPayload = {
+  /** The inventory shipment with items removed. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentRemoveItemsUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentRemoveItems`. */
+type AdminShopify_InventoryShipmentRemoveItemsUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentRemoveItemsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentRemoveItemsUserError`. */
+type AdminShopify_InventoryShipmentRemoveItemsUserErrorCode =
+  /** Unexpected internal error happened. */
+  | 'INTERNAL_ERROR'
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND';
+
+/** Return type for `inventoryShipmentSetTracking` mutation. */
+type AdminShopify_InventoryShipmentSetTrackingPayload = {
+  /** The inventory shipment with the edited tracking info. */
+  readonly inventoryShipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentSetTrackingUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentSetTracking`. */
+type AdminShopify_InventoryShipmentSetTrackingUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentSetTrackingUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentSetTrackingUserError`. */
+type AdminShopify_InventoryShipmentSetTrackingUserErrorCode =
+  /** The URL is invalid. */
+  | 'INVALID_URL'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND';
+
+/** The status of an inventory shipment. */
+type AdminShopify_InventoryShipmentStatus =
+  /** The inventory shipment has been created but not yet shipped. */
+  | 'DRAFT'
+  /** The inventory shipment is currently in transit. */
+  | 'IN_TRANSIT'
+  /** Status not included in the current enumeration set. */
+  | 'OTHER'
+  /** The inventory shipment has been partially received at the destination. */
+  | 'PARTIALLY_RECEIVED'
+  /** The inventory shipment has been completely received at the destination. */
+  | 'RECEIVED';
+
+/** Represents the tracking information for an inventory shipment. */
+type AdminShopify_InventoryShipmentTracking = {
+  /** The estimated date and time that the shipment will arrive. */
+  readonly arrivesAt: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** The name of the shipping carrier company. */
+  readonly company: Maybe<Scalars['String']>;
+  /** The tracking number used by the carrier to identify the shipment. */
+  readonly trackingNumber: Maybe<Scalars['String']>;
+  /**
+   * The URL to track the shipment.
+   *
+   * Given a tracking number and a shipping carrier company name from
+   * [the list](https://shopify.dev/api/admin-graphql/latest/objects/FulfillmentTrackingInfo#field-company),
+   * Shopify will return a generated tracking URL if no tracking URL was set manually.
+   */
+  readonly trackingUrl: Maybe<Scalars['AdminShopify_URL']>;
+};
+
+/** The input fields for an inventory shipment's tracking information. */
+type AdminShopify_InventoryShipmentTrackingInput = {
+  /** The estimated date and time that the shipment will arrive. */
+  readonly arrivesAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
+  /**
+   * The name of the shipping carrier company.
+   *
+   * Given a shipping carrier company name from
+   * [the list](https://shopify.dev/api/admin-graphql/latest/objects/FulfillmentTrackingInfo#field-company),
+   * Shopify can build a tracking URL for a provided tracking number.
+   */
+  readonly company: InputMaybe<Scalars['String']>;
+  /** The tracking number for the shipment. */
+  readonly trackingNumber: InputMaybe<Scalars['String']>;
+  /**
+   * The URL to track the shipment.
+   *
+   * Use this field to specify a custom tracking URL. If no custom tracking URL is set, Shopify will automatically provide
+   * this field on query for a tracking number and a supported shipping carrier company from
+   * [the list](https://shopify.dev/api/admin-graphql/latest/objects/FulfillmentTrackingInfo#field-company).
+   */
+  readonly trackingUrl: InputMaybe<Scalars['AdminShopify_URL']>;
+};
+
+/** The input fields for a line item on an inventory shipment. */
+type AdminShopify_InventoryShipmentUpdateItemQuantitiesInput = {
+  /** The quantity for the shipment line item. */
+  readonly quantity: Scalars['Int'];
+  /** The ID for the inventory shipment line item. */
+  readonly shipmentLineItemId: Scalars['ID'];
+};
+
+/** Return type for `inventoryShipmentUpdateItemQuantities` mutation. */
+type AdminShopify_InventoryShipmentUpdateItemQuantitiesPayload = {
+  /** The inventory shipment with updated item quantities. */
+  readonly shipment: Maybe<AdminShopify_InventoryShipment>;
+  /** The updated item quantities. */
+  readonly updatedLineItems: Maybe<ReadonlyArray<AdminShopify_InventoryShipmentLineItem>>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryShipmentUpdateItemQuantitiesUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryShipmentUpdateItemQuantities`. */
+type AdminShopify_InventoryShipmentUpdateItemQuantitiesUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryShipmentUpdateItemQuantitiesUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryShipmentUpdateItemQuantitiesUserError`. */
+type AdminShopify_InventoryShipmentUpdateItemQuantitiesUserErrorCode =
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current shipment status does not support this operation. */
+  | 'INVALID_SHIPMENT_STATUS'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND';
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer = AdminShopify_CommentEventSubject & AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_Node & {
+  /** The date and time the inventory transfer was created in UTC format. */
+  readonly dateCreated: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** Snapshot of the destination location (name, address, when snapped) with an optional link to the live Location object. If the original location is deleted, the snapshot data will still be available but the location link will be nil. */
+  readonly destination: Maybe<AdminShopify_LocationSnapshot>;
+  /** The list of events associated with the inventory transfer. */
+  readonly events: AdminShopify_EventConnection;
+  /** Whether the merchant has added timeline comments to the inventory transfer. */
+  readonly hasTimelineComment: Scalars['Boolean'];
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /** The line items associated with the inventory transfer. */
+  readonly lineItems: AdminShopify_InventoryTransferLineItemConnection;
+  /** The number of line items associated with the inventory transfer. Limited to a maximum of 10000 by default. */
+  readonly lineItemsCount: Maybe<AdminShopify_Count>;
+  /**
+   * A [custom field](https://shopify.dev/docs/apps/build/custom-data),
+   * including its `namespace` and `key`, that's associated with a Shopify resource
+   * for the purposes of adding and storing additional information.
+   */
+  readonly metafield: Maybe<AdminShopify_Metafield>;
+  /**
+   * List of metafield definitions.
+   * @deprecated This field will be removed in a future version. Use `QueryRoot.metafieldDefinitions` instead.
+   */
+  readonly metafieldDefinitions: AdminShopify_MetafieldDefinitionConnection;
+  /**
+   * A list of [custom fields](https://shopify.dev/docs/apps/build/custom-data)
+   * that a merchant associates with a Shopify resource.
+   */
+  readonly metafields: AdminShopify_MetafieldConnection;
+  /** The name of the inventory transfer. */
+  readonly name: Scalars['String'];
+  /** Additional note attached to the inventory transfer. */
+  readonly note: Maybe<Scalars['String']>;
+  /** Snapshot of the origin location (name, address, when snapped) with an optional link to the live Location object. If the original location is deleted, the snapshot data will still be available but the location link will be nil. */
+  readonly origin: Maybe<AdminShopify_LocationSnapshot>;
+  /** The total quantity of items received in the transfer. */
+  readonly receivedQuantity: Scalars['Int'];
+  /** The reference name of the inventory transfer. */
+  readonly referenceName: Maybe<Scalars['String']>;
+  /** The shipments associated with the inventory transfer. */
+  readonly shipments: AdminShopify_InventoryShipmentConnection;
+  /** The current status of the transfer. */
+  readonly status: AdminShopify_InventoryTransferStatus;
+  /** A list of tags that have been added to the inventory transfer. */
+  readonly tags: ReadonlyArray<Scalars['String']>;
+  /** The total quantity of items being transferred. */
+  readonly totalQuantity: Scalars['Int'];
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_eventsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_EventSortKeys>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_lineItemsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_lineItemsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_metafieldArgs = {
+  key: Scalars['String'];
+  namespace: InputMaybe<Scalars['String']>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_metafieldDefinitionsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  namespace: InputMaybe<Scalars['String']>;
+  pinnedStatus?: InputMaybe<AdminShopify_MetafieldDefinitionPinnedStatus>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_MetafieldDefinitionSortKeys>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_metafieldsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  keys: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  last: InputMaybe<Scalars['Int']>;
+  namespace: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
+type AdminShopify_InventoryTransfer_shipmentsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Return type for `inventoryTransferCancel` mutation. */
+type AdminShopify_InventoryTransferCancelPayload = {
+  /** The cancelled inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferCancelUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferCancel`. */
+type AdminShopify_InventoryTransferCancelUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferCancelUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferCancelUserError`. */
+type AdminShopify_InventoryTransferCancelUserErrorCode =
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** Shipment already exists for the transfer. */
+  | 'SHIPMENT_EXISTS'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND';
+
+/** An auto-generated type for paginating through multiple InventoryTransfers. */
+type AdminShopify_InventoryTransferConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_InventoryTransferEdge>;
+  /** A list of nodes that are contained in InventoryTransferEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_InventoryTransfer>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** The input fields to create an inventory transfer. */
+type AdminShopify_InventoryTransferCreateAsReadyToShipInput = {
+  /** The date and time the inventory transfer was created. If left blank, defaults to the current date and time in UTC format. */
+  readonly dateCreated: InputMaybe<Scalars['AdminShopify_DateTime']>;
+  /** The destination location for the inventory transfer. */
+  readonly destinationLocationId: InputMaybe<Scalars['ID']>;
+  /** The list of line items for the inventory transfer. */
+  readonly lineItems: ReadonlyArray<AdminShopify_InventoryTransferLineItemInput>;
+  /** A note to add to the Inventory Transfer. */
+  readonly note: InputMaybe<Scalars['String']>;
+  /** The origin location for the inventory transfer. */
+  readonly originLocationId: InputMaybe<Scalars['ID']>;
+  /** The reference name to add to the inventory transfer. */
+  readonly referenceName: InputMaybe<Scalars['String']>;
+  /** The tags to add to the inventory transfer. */
+  readonly tags: InputMaybe<ReadonlyArray<Scalars['String']>>;
+};
+
+/** Return type for `inventoryTransferCreateAsReadyToShip` mutation. */
+type AdminShopify_InventoryTransferCreateAsReadyToShipPayload = {
+  /** The created inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferCreateAsReadyToShipUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferCreateAsReadyToShip`. */
+type AdminShopify_InventoryTransferCreateAsReadyToShipUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferCreateAsReadyToShipUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferCreateAsReadyToShipUserError`. */
+type AdminShopify_InventoryTransferCreateAsReadyToShipUserErrorCode =
+  /** Bundled items cannot be used for this operation. */
+  | 'BUNDLED_ITEM'
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The list of line items is empty. */
+  | 'ITEMS_EMPTY'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** A location is required for this operation. */
+  | 'LOCATION_REQUIRED'
+  /** The tag exceeds the maximum length. */
+  | 'TAG_EXCEEDS_MAX_LENGTH'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The origin location cannot be the same as the destination location. */
+  | 'TRANSFER_ORIGIN_CANNOT_BE_THE_SAME_AS_DESTINATION'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** The input fields to create an inventory transfer. */
+type AdminShopify_InventoryTransferCreateInput = {
+  /** The date and time the inventory transfer was created. If left blank, defaults to the current date and time in UTC format. */
+  readonly dateCreated: InputMaybe<Scalars['AdminShopify_DateTime']>;
+  /** The destination location for the inventory transfer. */
+  readonly destinationLocationId: InputMaybe<Scalars['ID']>;
+  /** The list of line items for the inventory transfer. */
+  readonly lineItems: ReadonlyArray<AdminShopify_InventoryTransferLineItemInput>;
+  /** A note to add to the Inventory Transfer. */
+  readonly note: InputMaybe<Scalars['String']>;
+  /** The origin location for the inventory transfer. */
+  readonly originLocationId: InputMaybe<Scalars['ID']>;
+  /** The reference name to add to the inventory transfer. */
+  readonly referenceName: InputMaybe<Scalars['String']>;
+  /** The tags to add to the inventory transfer. */
+  readonly tags: InputMaybe<ReadonlyArray<Scalars['String']>>;
+};
+
+/** Return type for `inventoryTransferCreate` mutation. */
+type AdminShopify_InventoryTransferCreatePayload = {
+  /** The created inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferCreateUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferCreate`. */
+type AdminShopify_InventoryTransferCreateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferCreateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferCreateUserError`. */
+type AdminShopify_InventoryTransferCreateUserErrorCode =
+  /** Bundled items cannot be used for this operation. */
+  | 'BUNDLED_ITEM'
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The tag exceeds the maximum length. */
+  | 'TAG_EXCEEDS_MAX_LENGTH'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The origin location cannot be the same as the destination location. */
+  | 'TRANSFER_ORIGIN_CANNOT_BE_THE_SAME_AS_DESTINATION'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** Return type for `inventoryTransferDelete` mutation. */
+type AdminShopify_InventoryTransferDeletePayload = {
+  /** The ID of the deleted inventory transfer. */
+  readonly deletedId: Maybe<Scalars['ID']>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferDeleteUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferDelete`. */
+type AdminShopify_InventoryTransferDeleteUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferDeleteUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferDeleteUserError`. */
+type AdminShopify_InventoryTransferDeleteUserErrorCode =
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND';
+
+/** Return type for `inventoryTransferDuplicate` mutation. */
+type AdminShopify_InventoryTransferDuplicatePayload = {
+  /** The duplicated inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferDuplicateUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferDuplicate`. */
+type AdminShopify_InventoryTransferDuplicateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferDuplicateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferDuplicateUserError`. */
+type AdminShopify_InventoryTransferDuplicateUserErrorCode =
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND';
+
+/** An auto-generated type which holds one InventoryTransfer and a cursor during pagination. */
+type AdminShopify_InventoryTransferEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of InventoryTransferEdge. */
+  readonly node: AdminShopify_InventoryTransfer;
+};
+
+/** The input fields to edit an inventory transfer. */
+type AdminShopify_InventoryTransferEditInput = {
+  /** The date the inventory transfer was created. */
+  readonly dateCreated: InputMaybe<Scalars['AdminShopify_Date']>;
+  /**
+   * The destination location for the inventory transfer. The destination location can only be
+   * changed for draft transfers.
+   */
+  readonly destinationId: InputMaybe<Scalars['ID']>;
+  /** A note to add to the Inventory Transfer. */
+  readonly note: InputMaybe<Scalars['String']>;
+  /**
+   * The origin location for the inventory transfer. The origin location can only be changed
+   * for draft transfers.
+   */
+  readonly originId: InputMaybe<Scalars['ID']>;
+  /** The reference name to add to the inventory transfer. */
+  readonly referenceName: InputMaybe<Scalars['String']>;
+  /** The tags to add to the inventory transfer. */
+  readonly tags: InputMaybe<ReadonlyArray<Scalars['String']>>;
+};
+
+/** Return type for `inventoryTransferEdit` mutation. */
+type AdminShopify_InventoryTransferEditPayload = {
+  /** The edited inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferEditUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferEdit`. */
+type AdminShopify_InventoryTransferEditUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferEditUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferEditUserError`. */
+type AdminShopify_InventoryTransferEditUserErrorCode =
+  /** Unexpected internal error happened. */
+  | 'INTERNAL_ERROR'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The tag exceeds the maximum length. */
+  | 'TAG_EXCEEDS_MAX_LENGTH'
+  /** The location of a transfer cannot be updated. Only Draft Transfers can mutate their locations. */
+  | 'TRANSFER_LOCATION_IMMUTABLE'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The origin location cannot be the same as the destination location. */
+  | 'TRANSFER_ORIGIN_CANNOT_BE_THE_SAME_AS_DESTINATION';
+
+/** Represents a line item belonging to an inventory transfer. */
+type AdminShopify_InventoryTransferLineItem = AdminShopify_Node & {
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /** The inventory item associated with this line item. */
+  readonly inventoryItem: Maybe<AdminShopify_InventoryItem>;
+  /** The quantity of the item that has been picked for a draft shipment but not yet shipped. */
+  readonly pickedForShipmentQuantity: Scalars['Int'];
+  /** The quantity of the item that can be actioned upon, such as editing the item quantity on the transfer or adding to a shipment. */
+  readonly processableQuantity: Scalars['Int'];
+  /** The quantity of the item that can be shipped. */
+  readonly shippableQuantity: Scalars['Int'];
+  /** The quantity of the item that has been shipped. */
+  readonly shippedQuantity: Scalars['Int'];
+  /** The title of the product associated with this line item. */
+  readonly title: Maybe<Scalars['String']>;
+  /** The total quantity of items being transferred. */
+  readonly totalQuantity: Scalars['Int'];
+};
+
+/** An auto-generated type for paginating through multiple InventoryTransferLineItems. */
+type AdminShopify_InventoryTransferLineItemConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_InventoryTransferLineItemEdge>;
+  /** A list of nodes that are contained in InventoryTransferLineItemEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_InventoryTransferLineItem>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one InventoryTransferLineItem and a cursor during pagination. */
+type AdminShopify_InventoryTransferLineItemEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of InventoryTransferLineItemEdge. */
+  readonly node: AdminShopify_InventoryTransferLineItem;
+};
+
+/** The input fields for a line item on an inventory transfer. */
+type AdminShopify_InventoryTransferLineItemInput = {
+  /** The inventory item ID for the transfer line item. */
+  readonly inventoryItemId: Scalars['ID'];
+  /** The quantity for the transfer line item. */
+  readonly quantity: Scalars['Int'];
+};
+
+/** Represents an update to a single transfer line item. */
+type AdminShopify_InventoryTransferLineItemUpdate = {
+  /** The delta quantity for the transfer line item. */
+  readonly deltaQuantity: Maybe<Scalars['Int']>;
+  /** The inventory item ID for the transfer line item. */
+  readonly inventoryItemId: Maybe<Scalars['ID']>;
+  /** The new quantity for the transfer line item. */
+  readonly newQuantity: Maybe<Scalars['Int']>;
+};
+
+/** Return type for `inventoryTransferMarkAsReadyToShip` mutation. */
+type AdminShopify_InventoryTransferMarkAsReadyToShipPayload = {
+  /** The ready to ship inventory transfer. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferMarkAsReadyToShipUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferMarkAsReadyToShip`. */
+type AdminShopify_InventoryTransferMarkAsReadyToShipUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferMarkAsReadyToShipUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferMarkAsReadyToShipUserError`. */
+type AdminShopify_InventoryTransferMarkAsReadyToShipUserErrorCode =
+  /** One or more items are not valid. */
+  | 'INVALID_ITEM'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The list of line items is empty. */
+  | 'ITEMS_EMPTY'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** A location is required for this operation. */
+  | 'LOCATION_REQUIRED'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND';
+
+/** The input fields to remove inventory items from a transfer. */
+type AdminShopify_InventoryTransferRemoveItemsInput = {
+  /** The ID of the inventory transfer where the items will be removed. */
+  readonly id: Scalars['ID'];
+  /** The IDs of the transfer line items to be removed from the transfer. */
+  readonly transferLineItemIds: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+};
+
+/** Return type for `inventoryTransferRemoveItems` mutation. */
+type AdminShopify_InventoryTransferRemoveItemsPayload = {
+  /** The transfer with line items removed. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The line items that have had their shippable quantity removed. */
+  readonly removedQuantities: Maybe<ReadonlyArray<AdminShopify_InventoryTransferLineItemUpdate>>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferRemoveItemsUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferRemoveItems`. */
+type AdminShopify_InventoryTransferRemoveItemsUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferRemoveItemsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferRemoveItemsUserError`. */
+type AdminShopify_InventoryTransferRemoveItemsUserErrorCode =
+  /** The item cannot have its shippable quantity removed if all of its quantity is fully allocated in one or more shipments. */
+  | 'ALL_QUANTITY_SHIPPED'
+  /** A ready to ship transfer must have at least one item. */
+  | 'CANT_REMOVE_ALL_ITEMS_FROM_READY_TO_SHIP_TRANSFER'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The item cannot be removed because it exists in a draft shipment with zero quantity. */
+  | 'ITEM_PRESENT_ON_DRAFT_SHIPMENT_WITH_ZERO_QUANTITY'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND';
+
+/** The input fields to the InventoryTransferSetItems mutation. */
+type AdminShopify_InventoryTransferSetItemsInput = {
+  /** The ID of the inventory transfer where the items will be set. */
+  readonly id: Scalars['ID'];
+  /** The line items to be set on the Transfer. */
+  readonly lineItems: ReadonlyArray<AdminShopify_InventoryTransferLineItemInput>;
+};
+
+/** Return type for `inventoryTransferSetItems` mutation. */
+type AdminShopify_InventoryTransferSetItemsPayload = {
+  /** The Transfer with its line items updated. */
+  readonly inventoryTransfer: Maybe<AdminShopify_InventoryTransfer>;
+  /** The updated line items. */
+  readonly updatedLineItems: Maybe<ReadonlyArray<AdminShopify_InventoryTransferLineItemUpdate>>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_InventoryTransferSetItemsUserError>;
+};
+
+/** An error that occurs during the execution of `InventoryTransferSetItems`. */
+type AdminShopify_InventoryTransferSetItemsUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_InventoryTransferSetItemsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `InventoryTransferSetItemsUserError`. */
+type AdminShopify_InventoryTransferSetItemsUserErrorCode =
+  /** Bundled items cannot be used for this operation. */
+  | 'BUNDLED_ITEM'
+  /** A single item can't be listed twice. */
+  | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The quantity is invalid. */
+  | 'INVALID_QUANTITY'
+  /** Current transfer status does not support this operation. */
+  | 'INVALID_TRANSFER_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
+  /** The item was not found. */
+  | 'ITEM_NOT_FOUND'
+  /** The location selected is not active. */
+  | 'LOCATION_NOT_ACTIVE'
+  /** The location selected can't be found. */
+  | 'LOCATION_NOT_FOUND'
+  /** The transfer was not found. */
+  | 'TRANSFER_NOT_FOUND'
+  /** The item does not track inventory. */
+  | 'UNTRACKED_ITEM';
+
+/** The status of a transfer. */
+type AdminShopify_InventoryTransferStatus =
+  /** The inventory transfer has been canceled. */
+  | 'CANCELED'
+  /** The inventory transfer has been created but not yet finalized. */
+  | 'DRAFT'
+  /** The inventory transfer is in progress, with a shipment currently underway or received. */
+  | 'IN_PROGRESS'
+  /** Status not included in the current enumeration set. */
+  | 'OTHER'
+  /** The inventory transfer has been created, but not yet shipped. */
+  | 'READY_TO_SHIP'
+  /** The inventory transfer has been completely received at the destination. */
+  | 'TRANSFERRED';
+
+/** The financial transfer details for a return outcome that results in an invoice. */
+type AdminShopify_InvoiceReturnOutcome = {
+  /** The total monetary value to be invoiced in shop and presentment currencies. */
+  readonly amount: AdminShopify_MoneyBag;
+};
 
 /** A job corresponds to some long running task that the client should poll for status. */
 type AdminShopify_Job = {
@@ -27680,6 +29789,8 @@ type AdminShopify_LineItem = AdminShopify_Node & {
   readonly sku: Maybe<Scalars['String']>;
   /** Staff attributed to the line item. */
   readonly staffMember: Maybe<AdminShopify_StaffMember>;
+  /** Return reasons suggested based on the line item's product category in Shopify's product taxonomy. Use [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions) to access the full library of available reasons. */
+  readonly suggestedReturnReasonDefinitions: Maybe<AdminShopify_ReturnReasonDefinitionConnection>;
   /** The taxes charged for the line item, including taxes charged for refunded and removed quantities. */
   readonly taxLines: ReadonlyArray<AdminShopify_TaxLine>;
   /** Whether the variant is taxable. */
@@ -27765,6 +29876,36 @@ type AdminShopify_LineItem_discountedTotalSetArgs = {
  * about each item in an order. Learn more about
  * [managing orders and fulfillment](https://shopify.dev/docs/apps/build/orders-fulfillment).
  */
+type AdminShopify_LineItem_suggestedReturnReasonDefinitionsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * The `LineItem` object represents a single product or service that a customer purchased in an
+ * [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order).
+ * Each line item is associated with a
+ * [product variant](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant)
+ * and can have multiple [discount allocations](https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountAllocation).
+ * Line items contain details about what was purchased, including the product variant, quantity, pricing,
+ * and fulfillment status.
+ *
+ * Use the `LineItem` object to manage the following processes:
+ *
+ * - [Track the quantity of items](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/build-fulfillment-solutions) ordered, fulfilled, and unfulfilled.
+ * - [Calculate prices](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders), including discounts and taxes.
+ * - Manage fulfillment through [fulfillment services](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps).
+ * - Manage [returns](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management) and [exchanges](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-exchanges).
+ * - Handle [subscriptions](https://shopify.dev/docs/apps/build/purchase-options/subscriptions) and recurring orders.
+ *
+ * Line items can also include custom attributes and properties, allowing merchants to add specific details
+ * about each item in an order. Learn more about
+ * [managing orders and fulfillment](https://shopify.dev/docs/apps/build/orders-fulfillment).
+ */
 type AdminShopify_LineItem_taxLinesArgs = {
   first: InputMaybe<Scalars['Int']>;
 };
@@ -27799,6 +29940,8 @@ type AdminShopify_LineItemGroup = AdminShopify_Node & {
   readonly customAttributes: ReadonlyArray<AdminShopify_Attribute>;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
+  /** ID of the product of the line item group. */
+  readonly productId: Maybe<Scalars['ID']>;
   /** Quantity of the line item group on the order. */
   readonly quantity: Scalars['Int'];
   /** Title of the line item group. */
@@ -28362,6 +30505,10 @@ type AdminShopify_LocationActivateUserErrorCode =
   | 'HAS_NON_UNIQUE_NAME'
   /** This location currently cannot be activated as inventory, pending orders or transfers are being relocated from this location. */
   | 'HAS_ONGOING_RELOCATION'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Shop has reached its location limit. */
   | 'LOCATION_LIMIT'
   /** Location not found. */
@@ -28540,6 +30687,10 @@ type AdminShopify_LocationDeactivateUserErrorCode =
   | 'HAS_INCOMING_MOVEMENTS_ERROR'
   /** Location could not be deactivated because it has open purchase orders. */
   | 'HAS_OPEN_PURCHASE_ORDERS_ERROR'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Location not found. */
   | 'LOCATION_NOT_FOUND'
   /** Location either has a fulfillment service or is the only location with a shipping address. */
@@ -28706,6 +30857,18 @@ type AdminShopify_LocationLocalPickupEnablePayload = {
   readonly localPickupSettings: Maybe<AdminShopify_DeliveryLocalPickupSettings>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_DeliveryLocationLocalPickupSettingsError>;
+};
+
+/** A snapshot of location details including name and address captured at a specific point in time. Refer to the parent model to know the lifecycle. */
+type AdminShopify_LocationSnapshot = {
+  /** The address details of the location as they were when the snapshot was recorded. */
+  readonly address: AdminShopify_LocationAddress;
+  /** A reference to the live Location object, if it still exists and is accessible. This provides current details of the location, which may differ from the snapshotted name and address. */
+  readonly location: Maybe<AdminShopify_Location>;
+  /** The name of the location as it was when the snapshot was recorded. */
+  readonly name: Scalars['String'];
+  /** The date and time when these snapshot details (name and address) were recorded. */
+  readonly snapshottedAt: Scalars['AdminShopify_DateTime'];
 };
 
 /** The set of valid sort keys for the Location query. */
@@ -28896,6 +31059,19 @@ type AdminShopify_MailingAddressValidationResult =
   | 'NO_ISSUES'
   /** Indicates that the address has been validated and might contain invalid information. */
   | 'WARNING';
+
+/** The type of resource a payment mandate can be used for. */
+type AdminShopify_MandateResourceType =
+  /** A credential stored on file for checkout. */
+  | 'CHECKOUT'
+  /** A credential stored on file for merchant and customer initiated transactions. */
+  | 'CREDENTIAL_ON_FILE'
+  /** A credential stored on file for a Draft Order. */
+  | 'DRAFT_ORDER'
+  /** A credential stored on file for an Order. */
+  | 'ORDER'
+  /** A credential stored for subscription billing attempts. */
+  | 'SUBSCRIPTIONS';
 
 /**
  * Manual discount applications capture the intentions of a discount that was manually created for an order.
@@ -29341,6 +31517,8 @@ type AdminShopify_MarketCurrencySettings = {
    * in the market's base currency.
    */
   readonly localCurrencies: Scalars['Boolean'];
+  /** Whether or not rounding is enabled on multi-currency prices. */
+  readonly roundingEnabled: Scalars['Boolean'];
 };
 
 /** The input fields used to update the currency settings of a market. */
@@ -29755,6 +31933,8 @@ type AdminShopify_MarketUserErrorCode =
   | 'MULTIPLE_CURRENCIES_NOT_SUPPORTED'
   /** Can’t delete, disable, or change the type of the last region market. */
   | 'MUST_HAVE_AT_LEAST_ONE_ACTIVE_REGION_MARKET'
+  /** Your shop is not entitled to activate markets of this type. */
+  | 'NOT_ENTITLED_TO_ACTIVATE_MARKET'
   /** No languages selected. */
   | 'NO_LANGUAGES'
   /** Can't enable or disable local currencies on a single country market. */
@@ -30472,6 +32652,8 @@ type AdminShopify_MarketingChannel =
 type AdminShopify_MarketingEngagement = {
   /** The total ad spend for the marketing content. Recurring weekly, monthly, or yearly spend needs to be divided into daily amounts. */
   readonly adSpend: Maybe<AdminShopify_MoneyV2>;
+  /** The number of all conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. All conversions include both primary and secondary conversion goals as defined by the ad platform, such as purchases, add-to-carts, page views, and sign-ups. */
+  readonly allConversions: Maybe<Scalars['AdminShopify_Decimal']>;
   /** The unique string identifier of the channel to which the engagement metrics are being provided. This should be set when and only when providing channel-level engagements. This should be nil when providing activity-level engagements. For the correct handle for your channel, contact your partner manager. */
   readonly channelHandle: Maybe<Scalars['String']>;
   /** The total number of interactions, such as a button press or a screen touch, that occurred on the marketing content. */
@@ -30496,6 +32678,8 @@ type AdminShopify_MarketingEngagement = {
   readonly occurredOn: Scalars['AdminShopify_Date'];
   /** The number of orders generated from the marketing content. */
   readonly orders: Maybe<Scalars['AdminShopify_Decimal']>;
+  /** The number of primary conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. Primary conversions represent the main conversion goal defined by the ad platform, such as purchases, sign-ups, or add-to-carts. */
+  readonly primaryConversions: Maybe<Scalars['AdminShopify_Decimal']>;
   /** The number of returning customers that have placed an order. Doesn't include adjustments such as edits, exchanges, or returns. */
   readonly returningCustomers: Maybe<Scalars['AdminShopify_Decimal']>;
   /** The amount of sales generated from the marketing content. */
@@ -30530,6 +32714,8 @@ type AdminShopify_MarketingEngagementCreatePayload = {
 type AdminShopify_MarketingEngagementInput = {
   /** The total ad spend for the marketing content. Recurring weekly, monthly, or yearly spend needs to be divided into daily amounts. */
   readonly adSpend: InputMaybe<AdminShopify_MoneyInput>;
+  /** The number of all conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. All conversions include both primary and secondary conversion goals as defined by the ad platform, such as purchases, add-to-carts, page views, and sign-ups. */
+  readonly allConversions: InputMaybe<Scalars['AdminShopify_Decimal']>;
   /** The total number of interactions, such as a button press or a screen touch, that occurred on the marketing content. */
   readonly clicksCount: InputMaybe<Scalars['Int']>;
   /** The total number of comments on the marketing content. */
@@ -30550,6 +32736,8 @@ type AdminShopify_MarketingEngagementInput = {
   readonly occurredOn: Scalars['AdminShopify_Date'];
   /** The number of orders generated from the marketing content. */
   readonly orders: InputMaybe<Scalars['AdminShopify_Decimal']>;
+  /** The number of primary conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. Primary conversions represent the main conversion goal defined by the ad platform, such as purchases, sign-ups, or add-to-carts. */
+  readonly primaryConversions: InputMaybe<Scalars['AdminShopify_Decimal']>;
   /** The number of returning customers that have placed an order. Doesn't include adjustments such as edits, exchanges, or returns. */
   readonly returningCustomers: InputMaybe<Scalars['AdminShopify_Decimal']>;
   /** The amount of sales generated from the marketing content. */
@@ -30708,6 +32896,38 @@ type AdminShopify_MarketsRegionsEntitlement = {
   readonly catalogs: AdminShopify_MarketsCatalogsEntitlement;
   /** Whether region markets are enabled. */
   readonly enabled: Scalars['Boolean'];
+};
+
+/** The resolved values based on the markets configuration for a buyer signal. Resolved values include the resolved catalogs, web presences, currency, and price inclusivity. */
+type AdminShopify_MarketsResolvedValues = {
+  /** The resolved catalogs. */
+  readonly catalogs: AdminShopify_MarketCatalogConnection;
+  /** The resolved currency code. */
+  readonly currencyCode: AdminShopify_CurrencyCode;
+  /** The resolved price inclusivity attributes. */
+  readonly priceInclusivity: AdminShopify_ResolvedPriceInclusivity;
+  /** The resolved web presences ordered by priority. */
+  readonly webPresences: AdminShopify_MarketWebPresenceConnection;
+};
+
+
+/** The resolved values based on the markets configuration for a buyer signal. Resolved values include the resolved catalogs, web presences, currency, and price inclusivity. */
+type AdminShopify_MarketsResolvedValues_catalogsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** The resolved values based on the markets configuration for a buyer signal. Resolved values include the resolved catalogs, web presences, currency, and price inclusivity. */
+type AdminShopify_MarketsResolvedValues_webPresencesArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** The entitlements for retail markets. */
@@ -30915,7 +33135,7 @@ type AdminShopify_MediaHost =
  * [product variants](https://shopify.dev/docs/apps/build/online-store/product-variant-media), and
  * [asynchronous media management](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components#asynchronous-media-management).
  */
-type AdminShopify_MediaImage = AdminShopify_File & AdminShopify_HasMetafields & AdminShopify_Media & AdminShopify_Node & {
+type AdminShopify_MediaImage = AdminShopify_File & AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Media & AdminShopify_Node & {
   /** A word or phrase to share the nature or contents of a media. */
   readonly alt: Maybe<Scalars['String']>;
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) when the file was created. */
@@ -30955,6 +33175,8 @@ type AdminShopify_MediaImage = AdminShopify_File & AdminShopify_HasMetafields & 
   readonly preview: Maybe<AdminShopify_MediaPreviewImage>;
   /** Current status of the media. */
   readonly status: AdminShopify_MediaStatus;
+  /** The published translations associated with the resource. */
+  readonly translations: ReadonlyArray<AdminShopify_Translation>;
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) when the file was last updated. */
   readonly updatedAt: Scalars['AdminShopify_DateTime'];
 };
@@ -31026,6 +33248,38 @@ type AdminShopify_MediaImage_metafieldsArgs = {
   last: InputMaybe<Scalars['Int']>;
   namespace: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * The `MediaImage` object represents an image hosted on Shopify's
+ * [content delivery network (CDN)](https://shopify.dev/docs/storefronts/themes/best-practices/performance/platform#shopify-cdn).
+ * Shopify CDN is a content system that serves as the primary way to store,
+ * manage, and deliver visual content for products, variants, and other resources across the Shopify platform.
+ *
+ * The `MediaImage` object provides information to:
+ *
+ * - Store and display product and variant images across online stores, admin interfaces, and mobile apps.
+ * - Retrieve visual branding elements, including logos, banners, favicons, and background images in checkout flows.
+ * - Retrieve signed URLs for secure, time-limited access to original image files.
+ *
+ * Each `MediaImage` object provides both the processed image data (with automatic optimization and CDN delivery)
+ * and access to the original source file. The image processing is handled asynchronously, so images
+ * might not be immediately available after upload. The
+ * [`status`](https://shopify.dev/docs/api/admin-graphql/latest/objects/mediaimage#field-MediaImage.fields.status)
+ * field indicates when processing is complete and the image is ready for use.
+ *
+ * The `MediaImage` object implements the [`Media`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Media)
+ * interface alongside other media types, like videos and 3D models.
+ *
+ * Learn about
+ * managing media for [products](https://shopify.dev/docs/apps/build/online-store/product-media),
+ * [product variants](https://shopify.dev/docs/apps/build/online-store/product-variant-media), and
+ * [asynchronous media management](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components#asynchronous-media-management).
+ */
+type AdminShopify_MediaImage_translationsArgs = {
+  locale: Scalars['String'];
+  marketId: InputMaybe<Scalars['ID']>;
 };
 
 /** The original source for an image. */
@@ -31505,27 +33759,8 @@ type AdminShopify_MetafieldAccess = {
   readonly admin: Maybe<AdminShopify_MetafieldAdminAccess>;
   /** The access permitted on the Customer Account API. */
   readonly customerAccount: AdminShopify_MetafieldCustomerAccountAccess;
-  /**
-   * The explicit grants for this metafield definition, superseding the default admin access
-   * for the specified grantees.
-   * @deprecated Explicit grants are [deprecated](https://shopify.dev/changelog/deprecating-explicit-access-grants-for-app-owned-metafields).
-   *  This will be removed in 2025-07.
-   */
-  readonly grants: ReadonlyArray<AdminShopify_MetafieldAccessGrant>;
   /** The access permitted on the Storefront API. */
   readonly storefront: Maybe<AdminShopify_MetafieldStorefrontAccess>;
-};
-
-/**
- * An explicit access grant for the metafields under this definition.
- *
- * Explicit grants are [deprecated](https://shopify.dev/changelog/deprecating-explicit-access-grants-for-app-owned-metafields).
- */
-type AdminShopify_MetafieldAccessGrant = {
-  /** The level of access the grantee has. */
-  readonly access: AdminShopify_MetafieldGrantAccessLevel;
-  /** The grantee being granted access. */
-  readonly grantee: Scalars['String'];
 };
 
 /** The input fields that set access permissions for the definition's metafields. */
@@ -31901,8 +34136,6 @@ type AdminShopify_MetafieldDefinitionCreateUserErrorCode =
   | 'CAPABILITY_REQUIRED_BUT_DISABLED'
   /** A duplicate option. */
   | 'DUPLICATE_OPTION'
-  /** The maximum limit of grants per definition type has been exceeded. */
-  | 'GRANT_LIMIT_EXCEEDED'
   /** The input value isn't included in the list. */
   | 'INCLUSION'
   /** The input value is invalid. */
@@ -32268,8 +34501,6 @@ type AdminShopify_MetafieldDefinitionUpdateUserErrorCode =
   | 'DISALLOWED_OWNER_TYPE'
   /** A duplicate option. */
   | 'DUPLICATE_OPTION'
-  /** The maximum limit of grants per definition type has been exceeded. */
-  | 'GRANT_LIMIT_EXCEEDED'
   /** An internal error occurred. */
   | 'INTERNAL_ERROR'
   /** The input value is invalid. */
@@ -32353,13 +34584,6 @@ type AdminShopify_MetafieldEdge = {
   /** The item at the end of MetafieldEdge. */
   readonly node: AdminShopify_Metafield;
 };
-
-/** Possible access levels for explicit metafield access grants. */
-type AdminShopify_MetafieldGrantAccessLevel =
-  /** Read metafield access. */
-  | 'READ'
-  /** Read and write metafield access. */
-  | 'READ_WRITE';
 
 /** Identifies a metafield by its owner resource, namespace, and key. */
 type AdminShopify_MetafieldIdentifier = {
@@ -32473,7 +34697,7 @@ type AdminShopify_MetafieldOwnerType =
   | 'VALIDATION';
 
 /** The resource referenced by the metafield value. */
-type AdminShopify_MetafieldReference = AdminShopify_Collection | AdminShopify_Company | AdminShopify_Customer | AdminShopify_GenericFile | AdminShopify_MediaImage | AdminShopify_Metaobject | AdminShopify_Model3d | AdminShopify_Order | AdminShopify_Page | AdminShopify_Product | AdminShopify_ProductVariant | AdminShopify_TaxonomyValue | AdminShopify_Video;
+type AdminShopify_MetafieldReference = AdminShopify_Article | AdminShopify_Collection | AdminShopify_Company | AdminShopify_Customer | AdminShopify_GenericFile | AdminShopify_MediaImage | AdminShopify_Metaobject | AdminShopify_Model3d | AdminShopify_Order | AdminShopify_Page | AdminShopify_Product | AdminShopify_ProductVariant | AdminShopify_TaxonomyValue | AdminShopify_Video;
 
 /** An auto-generated type for paginating through multiple MetafieldReferences. */
 type AdminShopify_MetafieldReferenceConnection = {
@@ -32673,6 +34897,8 @@ type AdminShopify_MetafieldsSetUserErrorCode =
 type AdminShopify_Metaobject = AdminShopify_Node & {
   /** Metaobject capabilities for this Metaobject. */
   readonly capabilities: AdminShopify_MetaobjectCapabilityData;
+  /** When the object was created. */
+  readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** The app used to create the object. */
   readonly createdBy: AdminShopify_App;
   /** The app used to create the object. */
@@ -32734,6 +34960,8 @@ type AdminShopify_Metaobject_referencedByArgs = {
 type AdminShopify_MetaobjectAccess = {
   /** The access permitted on the Admin API. */
   readonly admin: AdminShopify_MetaobjectAdminAccess;
+  /** The access permitted on the Customer Account API. */
+  readonly customerAccount: AdminShopify_MetaobjectCustomerAccountAccess;
   /** The access permitted on the Storefront API. */
   readonly storefront: AdminShopify_MetaobjectStorefrontAccess;
 };
@@ -32742,6 +34970,8 @@ type AdminShopify_MetaobjectAccess = {
 type AdminShopify_MetaobjectAccessInput = {
   /** The access permitted on the Admin API. */
   readonly admin: InputMaybe<AdminShopify_MetaobjectAdminAccessInput>;
+  /** The access permitted on the Customer Account API. */
+  readonly customerAccount: InputMaybe<AdminShopify_MetaobjectCustomerAccountAccess>;
   /** The access permitted on the Storefront API. */
   readonly storefront: InputMaybe<AdminShopify_MetaobjectStorefrontAccess>;
 };
@@ -32996,6 +35226,13 @@ type AdminShopify_MetaobjectCreatePayload = {
   readonly userErrors: ReadonlyArray<AdminShopify_MetaobjectUserError>;
 };
 
+/** Metaobject access permissions for the Customer Account API. */
+type AdminShopify_MetaobjectCustomerAccountAccess =
+  /** No access. */
+  | 'NONE'
+  /** Read-only access. */
+  | 'READ';
+
 /**
  * Defines the structure and configuration for a custom data type in Shopify. Each definition specifies the fields, validation rules, and capabilities that apply to all [`Metaobject`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Metaobject) entries created from it.
  *
@@ -33177,11 +35414,27 @@ type AdminShopify_MetaobjectField_referencesArgs = {
   last: InputMaybe<Scalars['Int']>;
 };
 
+/** Information about the admin filterable capability. */
+type AdminShopify_MetaobjectFieldCapabilityAdminFilterable = {
+  /** Indicates if the definition is eligible to have the capability. */
+  readonly eligible: Scalars['Boolean'];
+  /** Indicates if the capability is enabled. */
+  readonly enabled: Scalars['Boolean'];
+};
+
+/** The input fields for enabling and disabling the admin filterable capability. */
+type AdminShopify_MetaobjectFieldCapabilityAdminFilterableInput = {
+  /** Indicates whether the capability should be enabled or disabled. */
+  readonly enabled: Scalars['Boolean'];
+};
+
 /**
  * Defines a field for a MetaobjectDefinition with properties
  * such as the field's data type and validations.
  */
 type AdminShopify_MetaobjectFieldDefinition = {
+  /** Capabilities available for this metaobject field definition. */
+  readonly capabilities: AdminShopify_MetaobjectFieldDefinitionCapabilities;
   /** The administrative description. */
   readonly description: Maybe<Scalars['String']>;
   /** A key name used to identify the field within the metaobject composition. */
@@ -33199,8 +35452,22 @@ type AdminShopify_MetaobjectFieldDefinition = {
   readonly validations: ReadonlyArray<AdminShopify_MetafieldDefinitionValidation>;
 };
 
+/** Capabilities available for a metaobject field definition. */
+type AdminShopify_MetaobjectFieldDefinitionCapabilities = {
+  /** Indicate whether a metaobject field definition is configured for filtering. */
+  readonly adminFilterable: AdminShopify_MetaobjectFieldCapabilityAdminFilterable;
+};
+
+/** The input fields for creating capabilities on a metaobject field definition. */
+type AdminShopify_MetaobjectFieldDefinitionCapabilityCreateInput = {
+  /** The input for configuring the admin filterable capability. */
+  readonly adminFilterable: InputMaybe<AdminShopify_MetaobjectFieldCapabilityAdminFilterableInput>;
+};
+
 /** The input fields for creating a metaobject field definition. */
 type AdminShopify_MetaobjectFieldDefinitionCreateInput = {
+  /** Capabilities configuration for this field. */
+  readonly capabilities: InputMaybe<AdminShopify_MetaobjectFieldDefinitionCapabilityCreateInput>;
   /** An administrative description of the field. */
   readonly description: InputMaybe<Scalars['String']>;
   /**
@@ -33237,6 +35504,8 @@ type AdminShopify_MetaobjectFieldDefinitionOperationInput = {
 
 /** The input fields for updating a metaobject field definition. */
 type AdminShopify_MetaobjectFieldDefinitionUpdateInput = {
+  /** Capabilities configuration for this field. */
+  readonly capabilities: InputMaybe<AdminShopify_MetaobjectFieldDefinitionCapabilityCreateInput>;
   /** An administrative description of the field. */
   readonly description: InputMaybe<Scalars['String']>;
   /** The key of the field definition to update. */
@@ -33733,6 +36002,13 @@ type AdminShopify_Node = {
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
 };
+
+/** The valid values for the notification usage, specifying the intended notification environment usage for certain operations. */
+type AdminShopify_NotificationUsage =
+  /** The notification environment is sms. */
+  | 'SMS'
+  /** The notification environment is web. */
+  | 'WEB';
 
 /** The input fields for dimensions of an object. */
 type AdminShopify_ObjectDimensionsInput = {
@@ -34403,6 +36679,8 @@ type AdminShopify_Order = AdminShopify_CommentEventSubject & AdminShopify_HasEve
    * Commonly used for special delivery instructions, gift messages, or internal processing notes.
    */
   readonly note: Maybe<Scalars['String']>;
+  /** The order number used to generate the name using the store's configured order number prefix/suffix. This number isn't guaranteed to follow a consecutive integer sequence (e.g. 1, 2, 3..), nor is it guaranteed to be unique across multiple stores, or even for a single store. */
+  readonly number: Scalars['Int'];
   /**
    * The total amount of all additional fees, such as import fees or taxes, that were applied when an order was created.
    * Returns `null` if additional fees aren't applicable.
@@ -34456,6 +36734,8 @@ type AdminShopify_Order = AdminShopify_CommentEventSubject & AdminShopify_HasEve
    * This date and time might not match the date and time when the order was created.
    */
   readonly processedAt: Scalars['AdminShopify_DateTime'];
+  /** Whether the customer also purchased items from other stores in the network. */
+  readonly productNetwork: Scalars['Boolean'];
   /** The sales channel that the order was created from, such as the [Online Store](https://shopify.dev/docs/apps/build/app-surfaces#online-store) or [Shopify POS](https://shopify.dev/docs/apps/build/app-surfaces#point-of-sale). */
   readonly publication: Maybe<AdminShopify_Publication>;
   /**
@@ -34911,6 +37191,7 @@ type AdminShopify_Order_fulfillmentOrdersArgs = {
  */
 type AdminShopify_Order_fulfillmentsArgs = {
   first: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
 };
 
 
@@ -35290,9 +37571,39 @@ type AdminShopify_Order_shippingLinesArgs = {
  *
  * Learn more about [building apps for orders and fulfillment](https://shopify.dev/docs/apps/build/orders-fulfillment).
  */
+type AdminShopify_Order_statusPageUrlArgs = {
+  audience: InputMaybe<AdminShopify_Audience>;
+  notificationUsage: InputMaybe<AdminShopify_NotificationUsage>;
+};
+
+
+/**
+ * The `Order` object represents a customer's request to purchase one or more products from a store. Use the `Order` object to handle the complete purchase lifecycle from checkout to fulfillment.
+ *
+ * Use the `Order` object when you need to:
+ *
+ * - Display order details on customer account pages or admin dashboards.
+ * - Create orders for phone sales, wholesale customers, or subscription services.
+ * - Update order information like shipping addresses, notes, or fulfillment status.
+ * - Process returns, exchanges, and partial refunds.
+ * - Generate invoices, receipts, and shipping labels.
+ *
+ * The `Order` object serves as the central hub connecting customer information, product details, payment processing, and fulfillment data within the GraphQL Admin API schema.
+ *
+ * > Note:
+ * > Only the last 60 days' worth of orders from a store are accessible from the `Order` object by default. If you want to access older records,
+ * > then you need to [request access to all orders](https://shopify.dev/docs/api/usage/access-scopes#orders-permissions). If your app is granted
+ * > access, then you can add the `read_all_orders`, `read_orders`, and `write_orders` scopes.
+ *
+ * > Caution:
+ * > Only use orders data if it's required for your app's functionality. Shopify will restrict [access to scopes](https://shopify.dev/docs/api/usage/access-scopes#requesting-specific-permissions) for apps that don't have a legitimate use for the associated data.
+ *
+ * Learn more about [building apps for orders and fulfillment](https://shopify.dev/docs/apps/build/orders-fulfillment).
+ */
 type AdminShopify_Order_suggestedRefundArgs = {
   refundDuties: InputMaybe<ReadonlyArray<AdminShopify_RefundDutyInput>>;
   refundLineItems: InputMaybe<ReadonlyArray<AdminShopify_RefundLineItemInput>>;
+  refundMethodAllocation?: InputMaybe<AdminShopify_RefundMethodAllocation>;
   refundShipping: InputMaybe<Scalars['Boolean']>;
   shippingAmount: InputMaybe<Scalars['AdminShopify_Money']>;
   suggestFullRefund?: InputMaybe<Scalars['Boolean']>;
@@ -35470,6 +37781,20 @@ type AdminShopify_OrderCancelReason =
   /** Staff made an error. */
   | 'STAFF';
 
+/** The input fields used to specify the refund method for an order cancellation. */
+type AdminShopify_OrderCancelRefundMethodInput = {
+  /** Whether to refund to the original payment method. */
+  readonly originalPaymentMethodsRefund: InputMaybe<Scalars['Boolean']>;
+  /** Whether to refund to store credit. */
+  readonly storeCreditRefund: InputMaybe<AdminShopify_OrderCancelStoreCreditRefundInput>;
+};
+
+/** The input fields used to refund to store credit. */
+type AdminShopify_OrderCancelStoreCreditRefundInput = {
+  /** The expiration date of the store credit. */
+  readonly expiresAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
+};
+
 /** Errors related to order cancellation. */
 type AdminShopify_OrderCancelUserError = AdminShopify_DisplayableError & {
   /** The error code. */
@@ -35489,7 +37814,15 @@ type AdminShopify_OrderCancelUserErrorCode =
   /** The record with the ID used as the input value couldn't be found. */
   | 'NOT_FOUND'
   /** An order refund was requested but the user does not have the refund_orders permission. */
-  | 'NO_REFUND_PERMISSION';
+  | 'NO_REFUND_PERMISSION'
+  /** An order refund was requested but the user does not have the refund_to_store_credit permission. */
+  | 'NO_REFUND_TO_STORE_CREDIT_PERMISSION'
+  /** A store credit order refund was requested but the order is a B2B order. */
+  | 'STORE_CREDIT_REFUND_B2B_NOT_SUPPORTED'
+  /** A store credit order refund was requested but the expiration date is in the past. */
+  | 'STORE_CREDIT_REFUND_EXPIRATION_IN_PAST'
+  /** A store credit order refund was requested but the order has no customer. */
+  | 'STORE_CREDIT_REFUND_MISSING_CUSTOMER';
 
 /** Details about the order cancellation. */
 type AdminShopify_OrderCancellation = {
@@ -35815,7 +38148,9 @@ type AdminShopify_OrderCreateManualPaymentOrderCreateManualPaymentErrorCode =
   /** Order is temporarily unavailable. */
   | 'ORDER_IS_TEMPORARILY_UNAVAILABLE'
   /** Order is not found. */
-  | 'ORDER_NOT_FOUND';
+  | 'ORDER_NOT_FOUND'
+  /** Indicates that the processedAt field is invalid, such as when it references a future date. */
+  | 'PROCESSED_AT_INVALID';
 
 /** Return type for `orderCreateManualPayment` mutation. */
 type AdminShopify_OrderCreateManualPaymentPayload = {
@@ -36069,6 +38404,62 @@ type AdminShopify_OrderCreateUserErrorCode =
   /** Indicates that the tax line rate is missing - only enforced for LineItem or ShippingLine-level tax lines. */
   | 'TAX_LINE_RATE_MISSING';
 
+/** Return type for `orderCustomerRemove` mutation. */
+type AdminShopify_OrderCustomerRemovePayload = {
+  /** The order that had its customer removed. */
+  readonly order: Maybe<AdminShopify_Order>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_OrderCustomerRemoveUserError>;
+};
+
+/** Errors related to order customer removal. */
+type AdminShopify_OrderCustomerRemoveUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_OrderCustomerRemoveUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `OrderCustomerRemoveUserError`. */
+type AdminShopify_OrderCustomerRemoveUserErrorCode =
+  /** The input value is invalid. */
+  | 'INVALID'
+  /** The record with the ID used as the input value couldn't be found. */
+  | 'NOT_FOUND'
+  /** An error ocurred while saving the order. */
+  | 'NOT_SAVED';
+
+/** Return type for `orderCustomerSet` mutation. */
+type AdminShopify_OrderCustomerSetPayload = {
+  /** The order that had a customer set. */
+  readonly order: Maybe<AdminShopify_Order>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_OrderCustomerSetUserError>;
+};
+
+/** Errors related to order customer set. */
+type AdminShopify_OrderCustomerSetUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_OrderCustomerSetUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `OrderCustomerSetUserError`. */
+type AdminShopify_OrderCustomerSetUserErrorCode =
+  /** The input value is invalid. */
+  | 'INVALID'
+  /** The record with the ID used as the input value couldn't be found. */
+  | 'NOT_FOUND'
+  /** The customer does not have the permissions to place this order. */
+  | 'NOT_PERMITTED'
+  /** An error ocurred while saving the order. */
+  | 'NOT_SAVED';
+
 /** Return type for `orderDelete` mutation. */
 type AdminShopify_OrderDeletePayload = {
   /** Deleted order ID. */
@@ -36163,6 +38554,8 @@ type AdminShopify_OrderEditAddCustomItemPayload = {
   readonly calculatedLineItem: Maybe<AdminShopify_CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36175,6 +38568,8 @@ type AdminShopify_OrderEditAddLineItemDiscountPayload = {
   readonly calculatedLineItem: Maybe<AdminShopify_CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36199,6 +38594,8 @@ type AdminShopify_OrderEditAddShippingLinePayload = {
    * that's added during this order edit.
    */
   readonly calculatedShippingLine: Maybe<AdminShopify_CalculatedShippingLine>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_OrderEditAddShippingLineUserError>;
 };
@@ -36230,6 +38627,8 @@ type AdminShopify_OrderEditAddVariantPayload = {
    * with the edits applied but not saved.
    */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36274,6 +38673,8 @@ type AdminShopify_OrderEditAppliedDiscountInput = {
 type AdminShopify_OrderEditBeginPayload = {
   /** The order that will be edited. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session that was created. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36282,6 +38683,8 @@ type AdminShopify_OrderEditBeginPayload = {
 type AdminShopify_OrderEditCommitPayload = {
   /** The order with changes applied. */
   readonly order: Maybe<AdminShopify_Order>;
+  /** Messages to display to the user after the staged changes are commmitted. */
+  readonly successMessages: Maybe<ReadonlyArray<Scalars['String']>>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36290,6 +38693,8 @@ type AdminShopify_OrderEditCommitPayload = {
 type AdminShopify_OrderEditRemoveDiscountPayload = {
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_OrderEditRemoveDiscountUserError>;
 };
@@ -36315,6 +38720,8 @@ type AdminShopify_OrderEditRemoveLineItemDiscountPayload = {
   readonly calculatedLineItem: Maybe<AdminShopify_CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36326,6 +38733,8 @@ type AdminShopify_OrderEditRemoveShippingLinePayload = {
    * with the edits applied but not saved.
    */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_OrderEditRemoveShippingLineUserError>;
 };
@@ -36345,12 +38754,20 @@ type AdminShopify_OrderEditRemoveShippingLineUserErrorCode =
   /** The input value is invalid. */
   | 'INVALID';
 
+/** An edit session for an order. */
+type AdminShopify_OrderEditSession = AdminShopify_Node & {
+  /** The unique ID of the order edit session. */
+  readonly id: Scalars['ID'];
+};
+
 /** Return type for `orderEditSetQuantity` mutation. */
 type AdminShopify_OrderEditSetQuantityPayload = {
   /** The calculated line item with the edits applied but not saved. */
   readonly calculatedLineItem: Maybe<AdminShopify_CalculatedLineItem>;
   /** The calculated order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_UserError>;
 };
@@ -36359,6 +38776,8 @@ type AdminShopify_OrderEditSetQuantityPayload = {
 type AdminShopify_OrderEditUpdateDiscountPayload = {
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_OrderEditUpdateDiscountUserError>;
 };
@@ -36390,6 +38809,8 @@ type AdminShopify_OrderEditUpdateShippingLineInput = {
 type AdminShopify_OrderEditUpdateShippingLinePayload = {
   /** An order with the edits applied but not saved. */
   readonly calculatedOrder: Maybe<AdminShopify_CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  readonly orderEditSession: Maybe<AdminShopify_OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_OrderEditUpdateShippingLineUserError>;
 };
@@ -36431,6 +38852,8 @@ type AdminShopify_OrderInput = {
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
   /** The new contents for the note associated with the order. Overwrites the existing note. */
   readonly note: InputMaybe<Scalars['String']>;
+  /** A new customer phone number for the order. Overwrites the existing phone number. */
+  readonly phone: InputMaybe<Scalars['String']>;
   /** The new purchase order number for the order. */
   readonly poNumber: InputMaybe<Scalars['String']>;
   /** The new shipping address for the order. Overwrites the existing shipping address. */
@@ -36684,6 +39107,8 @@ type AdminShopify_OrderRiskSummary = {
 type AdminShopify_OrderSortKeys =
   /** Sorts by the date and time the order was created. */
   | 'CREATED_AT'
+  /** Sorts by the current total price of an order in the shop currency, including any returns/refunds/removals. */
+  | 'CURRENT_TOTAL_PRICE'
   /** Sorts by the customer's name. */
   | 'CUSTOMER_NAME'
   /** Sort by shipping address to analyze regional sales patterns or plan logistics. */
@@ -36713,7 +39138,7 @@ type AdminShopify_OrderSortKeys =
   | 'UPDATED_AT';
 
 /** A change that has been applied to an order. */
-type AdminShopify_OrderStagedChange = AdminShopify_OrderStagedChangeAddCustomItem | AdminShopify_OrderStagedChangeAddLineItemDiscount | AdminShopify_OrderStagedChangeAddShippingLine | AdminShopify_OrderStagedChangeAddVariant | AdminShopify_OrderStagedChangeDecrementItem | AdminShopify_OrderStagedChangeIncrementItem | AdminShopify_OrderStagedChangeRemoveShippingLine;
+type AdminShopify_OrderStagedChange = AdminShopify_OrderStagedChangeAddCustomItem | AdminShopify_OrderStagedChangeAddLineItemDiscount | AdminShopify_OrderStagedChangeAddShippingLine | AdminShopify_OrderStagedChangeAddVariant | AdminShopify_OrderStagedChangeDecrementItem | AdminShopify_OrderStagedChangeIncrementItem | AdminShopify_OrderStagedChangeRemoveDiscount | AdminShopify_OrderStagedChangeRemoveShippingLine;
 
 /**
  * A change to the order representing the addition of a
@@ -36798,6 +39223,12 @@ type AdminShopify_OrderStagedChangeIncrementItem = {
   readonly lineItem: AdminShopify_LineItem;
 };
 
+/** A discount application removed during an order edit. */
+type AdminShopify_OrderStagedChangeRemoveDiscount = {
+  /** The removed discount application. */
+  readonly discountApplication: AdminShopify_DiscountApplication;
+};
+
 /** A shipping line removed during an order edit. */
 type AdminShopify_OrderStagedChangeRemoveShippingLine = {
   /** The removed shipping line. */
@@ -36854,6 +39285,10 @@ type AdminShopify_OrderTransaction = AdminShopify_Node & {
   readonly authorizationExpiresAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** Date and time when the transaction was created. */
   readonly createdAt: Scalars['AdminShopify_DateTime'];
+  /** An adjustment on the transaction showing the amount lost or gained  due to fluctuations in the currency exchange rate. */
+  readonly currencyExchangeAdjustment: Maybe<AdminShopify_CurrencyExchangeAdjustment>;
+  /** The Shopify Point of Sale device used to process the transaction. */
+  readonly device: Maybe<AdminShopify_PointOfSaleDevice>;
   /** A standardized error code, independent of the payment provider. */
   readonly errorCode: Maybe<AdminShopify_OrderTransactionErrorCode>;
   /** The transaction fees charged on the order transaction. Only present for Shopify Payments transactions. */
@@ -36866,6 +39301,8 @@ type AdminShopify_OrderTransaction = AdminShopify_Node & {
   readonly id: Scalars['ID'];
   /** The kind of transaction. */
   readonly kind: AdminShopify_OrderTransactionKind;
+  /** The physical location where the transaction was processed. */
+  readonly location: Maybe<AdminShopify_Location>;
   /** Whether the transaction is processed by manual payment gateway. */
   readonly manualPaymentGateway: Scalars['Boolean'];
   /** Whether the transaction can be manually captured. */
@@ -37535,6 +39972,10 @@ type AdminShopify_PaymentCustomizationErrorCode =
   | 'INVALID_METAFIELDS'
   /** Maximum payment customizations are already enabled. */
   | 'MAXIMUM_ACTIVE_PAYMENT_CUSTOMIZATIONS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Shop must be on a Shopify Plus plan to activate payment customizations from a custom app. */
   | 'PAYMENT_CUSTOMIZATION_FUNCTION_NOT_ELIGIBLE'
   /** Payment customization not found. */
@@ -37546,8 +39987,8 @@ type AdminShopify_PaymentCustomizationErrorCode =
 type AdminShopify_PaymentCustomizationInput = {
   /** The enabled status of the payment customization. */
   readonly enabled: InputMaybe<Scalars['Boolean']>;
-  /** The ID of the function providing the payment customization. */
-  readonly functionId: InputMaybe<Scalars['String']>;
+  /** Function handle scoped to your app ID. */
+  readonly functionHandle: InputMaybe<Scalars['String']>;
   /** Additional metafields to associate to the payment customization. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
   /** The title of the payment customization. */
@@ -37563,10 +40004,10 @@ type AdminShopify_PaymentCustomizationUpdatePayload = {
 };
 
 /** Payment details related to a transaction. */
-type AdminShopify_PaymentDetails = AdminShopify_CardPaymentDetails | AdminShopify_LocalPaymentMethodsPaymentDetails | AdminShopify_ShopPayInstallmentsPaymentDetails;
+type AdminShopify_PaymentDetails = AdminShopify_CardPaymentDetails | AdminShopify_LocalPaymentMethodsPaymentDetails | AdminShopify_PaypalWalletPaymentDetails | AdminShopify_ShopPayInstallmentsPaymentDetails;
 
 /** All possible instrument outputs for Payment Mandates. */
-type AdminShopify_PaymentInstrument = AdminShopify_VaultCreditCard | AdminShopify_VaultPaypalBillingAgreement;
+type AdminShopify_PaymentInstrument = AdminShopify_BankAccount | AdminShopify_VaultCreditCard | AdminShopify_VaultPaypalBillingAgreement;
 
 /**
  * A payment instrument and the permission
@@ -37577,6 +40018,36 @@ type AdminShopify_PaymentMandate = AdminShopify_Node & {
   readonly id: Scalars['ID'];
   /** The outputs details of the payment instrument. */
   readonly paymentInstrument: AdminShopify_PaymentInstrument;
+};
+
+/**
+ * A payment mandate with resource information, representing the permission
+ * the owner of the payment instrument gives to the merchant to debit it
+ * for specific resources (e.g., Order, Subscriptions).
+ */
+type AdminShopify_PaymentMandateResource = {
+  /** The ID of the resource that this payment method was created for. */
+  readonly resourceId: Maybe<Scalars['ID']>;
+  /** The resource type that this payment method was created for (e.g., Order, Subscriptions). */
+  readonly resourceType: Maybe<AdminShopify_MandateResourceType>;
+};
+
+/** An auto-generated type for paginating through multiple PaymentMandateResources. */
+type AdminShopify_PaymentMandateResourceConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_PaymentMandateResourceEdge>;
+  /** A list of nodes that are contained in PaymentMandateResourceEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_PaymentMandateResource>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one PaymentMandateResource and a cursor during pagination. */
+type AdminShopify_PaymentMandateResourceEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of PaymentMandateResourceEdge. */
+  readonly node: AdminShopify_PaymentMandateResource;
 };
 
 /** Some of the payment methods used in Shopify. */
@@ -37638,8 +40109,12 @@ type AdminShopify_PaymentSchedule = AdminShopify_Node & {
    * @deprecated Use `balanceDue`, `totalBalance`, or `Order.totalOutstandingSet` instead.
    */
   readonly amount: AdminShopify_MoneyV2;
+  /** Remaining balance to be captured for this payment schedule. */
+  readonly balanceDue: AdminShopify_MoneyV2;
   /** Date and time when the payment schedule is paid or fulfilled. */
   readonly completedAt: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** Whether the payment schedule is due. */
+  readonly due: Scalars['Boolean'];
   /** Date and time when the payment schedule is due. */
   readonly dueAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** A globally-unique ID. */
@@ -37648,6 +40123,8 @@ type AdminShopify_PaymentSchedule = AdminShopify_Node & {
   readonly issuedAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** The payment terms the payment schedule belongs to. */
   readonly paymentTerms: AdminShopify_PaymentTerms;
+  /** Remaining balance to be paid or authorized by the customer for this payment schedule. */
+  readonly totalBalance: AdminShopify_MoneyV2;
 };
 
 /** An auto-generated type for paginating through multiple PaymentSchedules. */
@@ -37692,6 +40169,8 @@ type AdminShopify_PaymentSettings = {
 type AdminShopify_PaymentTerms = AdminShopify_Node & {
   /** The draft order associated with the payment terms. */
   readonly draftOrder: Maybe<AdminShopify_DraftOrder>;
+  /** Whether payment terms have a payment schedule that's due. */
+  readonly due: Scalars['Boolean'];
   /** Duration of payment terms in days based on the payment terms template used to create the payment terms. */
   readonly dueInDays: Maybe<Scalars['Int']>;
   /** A globally-unique ID. */
@@ -37893,6 +40372,36 @@ type AdminShopify_PaypalExpressSubscriptionsGatewayStatus =
   | 'ENABLED'
   /** The status is pending. */
   | 'PENDING';
+
+/** PayPal Wallet payment details related to a transaction. */
+type AdminShopify_PaypalWalletPaymentDetails = AdminShopify_BasePaymentDetails & {
+  /** The name of payment method used by the buyer. */
+  readonly paymentMethodName: Maybe<Scalars['String']>;
+};
+
+/** A location for in-store pickup. */
+type AdminShopify_PickupInStoreLocation = {
+  /** The code of the pickup location. */
+  readonly code: Scalars['String'];
+  /** Distance from the buyer to the pickup location. */
+  readonly distanceFromBuyer: Maybe<AdminShopify_Distance>;
+  /** A unique identifier for this pickup location. */
+  readonly handle: Scalars['String'];
+  /** Pickup instructions. */
+  readonly instructions: Scalars['String'];
+  /** The location ID of the pickup location. */
+  readonly locationId: Scalars['ID'];
+  /** The source of the pickup location. */
+  readonly source: Scalars['String'];
+  /** Title of the pickup location. */
+  readonly title: Scalars['String'];
+};
+
+/** Represents a mobile device that Shopify Point of Sale has been installed on. */
+type AdminShopify_PointOfSaleDevice = AdminShopify_Node & {
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+};
 
 /** The input fields used to include the line items of a specified fulfillment order that should be marked as prepared for pickup by a customer. */
 type AdminShopify_PreparedFulfillmentOrderLineItemsInput = {
@@ -38276,6 +40785,8 @@ type AdminShopify_PriceListPriceUserErrorCode =
 
 /** The input fields representing the price for all variants of a product. */
 type AdminShopify_PriceListProductPriceInput = {
+  /** Specifies the compare-at price and currency to apply to the product's variants on the price list. */
+  readonly compareAtPrice: InputMaybe<AdminShopify_MoneyInput>;
   /** Specifies the price and currency to apply to the product's variants on the price list. */
   readonly price: AdminShopify_MoneyInput;
   /** Specifies the ID of the product to update its variants for. */
@@ -39385,6 +41896,8 @@ type AdminShopify_Product = AdminShopify_HasEvents & AdminShopify_HasMetafieldDe
    * that are associated with a product in a bundle.
    */
   readonly bundleComponents: AdminShopify_ProductBundleComponentConnection;
+  /** A list of consolidated options for a product in a bundle. */
+  readonly bundleConsolidatedOptions: Maybe<ReadonlyArray<AdminShopify_ComponentizedProductsBundleConsolidatedOption>>;
   /**
    * The category of a product
    * from [Shopify's Standard Product Taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17).
@@ -39549,6 +42062,18 @@ type AdminShopify_Product = AdminShopify_HasEvents & AdminShopify_HasMetafieldDe
    * @deprecated Use `category` instead.
    */
   readonly productCategory: Maybe<AdminShopify_ProductCategory>;
+  /**
+   * A list of products that contain at least one variant associated with
+   * at least one of the current products' variants via group relationship.
+   */
+  readonly productComponents: AdminShopify_ProductComponentTypeConnection;
+  /**
+   * A count of unique products that contain at least one variant associated with
+   * at least one of the current products' variants via group relationship.
+   */
+  readonly productComponentsCount: Maybe<AdminShopify_Count>;
+  /** A list of products that has a variant that contains any of this product's variants as a component. */
+  readonly productParents: AdminShopify_ProductConnection;
   /**
    * A list of the channels where the product is published.
    * @deprecated Use `resourcePublications` instead.
@@ -39985,6 +42510,47 @@ type AdminShopify_Product_optionsArgs = {
  * Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components),
  * including limitations and considerations.
  */
+type AdminShopify_Product_productComponentsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers. They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/productvariant) to create or update different versions of the same product.
+ * You can also add or update product [media](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/media).
+ * Products can be organized by grouping them into a [collection](https://shopify.dev/docs/api/admin-graphql/latest/objects/collection).
+ *
+ * Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components),
+ * including limitations and considerations.
+ */
+type AdminShopify_Product_productParentsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers. They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/productvariant) to create or update different versions of the same product.
+ * You can also add or update product [media](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/media).
+ * Products can be organized by grouping them into a [collection](https://shopify.dev/docs/api/admin-graphql/latest/objects/collection).
+ *
+ * Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components),
+ * including limitations and considerations.
+ */
 type AdminShopify_Product_productPublicationsArgs = {
   after: InputMaybe<Scalars['String']>;
   before: InputMaybe<Scalars['String']>;
@@ -40389,10 +42955,39 @@ type AdminShopify_ProductBundleComponentQuantityOptionValueInput = {
   readonly quantity: Scalars['Int'];
 };
 
+/** The input fields for mapping a consolidated option to a specific component option. */
+type AdminShopify_ProductBundleConsolidatedOptionComponentInput = {
+  /**
+   * The ID of the component option that this consolidated option maps to.
+   * If null, this selection targets the component's quantity option with the given name.
+   */
+  readonly componentOptionId: InputMaybe<Scalars['ID']>;
+  /** The value to use for the component option (e.g., 'Small', 'Red'). */
+  readonly componentOptionValue: Scalars['String'];
+};
+
+/** The input fields for a consolidated option on a componentized product. */
+type AdminShopify_ProductBundleConsolidatedOptionInput = {
+  /** The name of the consolidated option (e.g., 'Size', 'Color'). */
+  readonly optionName: Scalars['String'];
+  /** The option selections that define how this consolidated option maps to component options. */
+  readonly optionSelections: ReadonlyArray<AdminShopify_ProductBundleConsolidatedOptionSelectionInput>;
+};
+
+/** The input fields for a consolidated option selection that maps to component options. */
+type AdminShopify_ProductBundleConsolidatedOptionSelectionInput = {
+  /** The component mappings that define how this option value maps to specific component options. */
+  readonly components: ReadonlyArray<AdminShopify_ProductBundleConsolidatedOptionComponentInput>;
+  /** The value for this consolidated option selection (e.g., 'Small', 'Medium', 'Large'). */
+  readonly optionValue: Scalars['String'];
+};
+
 /** The input fields for creating a componentized product. */
 type AdminShopify_ProductBundleCreateInput = {
   /** The component products to bundle with the bundle product. */
   readonly components: ReadonlyArray<AdminShopify_ProductBundleComponentInput>;
+  /** The consolidated options of the componentized product to create, if provided. */
+  readonly consolidatedOptions: InputMaybe<ReadonlyArray<AdminShopify_ProductBundleConsolidatedOptionInput>>;
   /** The title of the product to create. */
   readonly title: Scalars['String'];
 };
@@ -40456,6 +43051,8 @@ type AdminShopify_ProductBundleOperation = AdminShopify_Node & AdminShopify_Prod
 type AdminShopify_ProductBundleUpdateInput = {
   /** The components to update existing ones. If none provided, no changes occur. Note: This replaces, not adds to, current components. */
   readonly components: InputMaybe<ReadonlyArray<AdminShopify_ProductBundleComponentInput>>;
+  /** The consolidated options of the componentized product to update, if provided. */
+  readonly consolidatedOptions: InputMaybe<ReadonlyArray<AdminShopify_ProductBundleConsolidatedOptionInput>>;
   /** The ID of the componentized product to update. */
   readonly productId: Scalars['ID'];
   /** The title to rename the componentized product to, if provided. */
@@ -40540,6 +43137,58 @@ type AdminShopify_ProductCompareAtPriceRange = {
   readonly maxVariantCompareAtPrice: AdminShopify_MoneyV2;
   /** The lowest variant's compare-at price. */
   readonly minVariantCompareAtPrice: AdminShopify_MoneyV2;
+};
+
+/** The product component information. */
+type AdminShopify_ProductComponentType = {
+  /** The list of products' variants that are components. */
+  readonly componentVariants: AdminShopify_ProductVariantConnection;
+  /** The number of component variants for the product component. */
+  readonly componentVariantsCount: Maybe<AdminShopify_Count>;
+  /** The list of products' variants that are not components. */
+  readonly nonComponentVariants: AdminShopify_ProductVariantConnection;
+  /** The number of non_components variants for the product component. */
+  readonly nonComponentVariantsCount: Maybe<AdminShopify_Count>;
+  /** The product that's a component. */
+  readonly product: AdminShopify_Product;
+};
+
+
+/** The product component information. */
+type AdminShopify_ProductComponentType_componentVariantsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** The product component information. */
+type AdminShopify_ProductComponentType_nonComponentVariantsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** An auto-generated type for paginating through multiple ProductComponentTypes. */
+type AdminShopify_ProductComponentTypeConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_ProductComponentTypeEdge>;
+  /** A list of nodes that are contained in ProductComponentTypeEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_ProductComponentType>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one ProductComponentType and a cursor during pagination. */
+type AdminShopify_ProductComponentTypeEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of ProductComponentTypeEdge. */
+  readonly node: AdminShopify_ProductComponentType;
 };
 
 /** An auto-generated type for paginating through multiple Products. */
@@ -41798,6 +44447,8 @@ type AdminShopify_ProductSetUserErrorCode =
   | 'INVALID_PRODUCT'
   /** Product variant is not valid. */
   | 'INVALID_VARIANT'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Error processing request in the background job. */
   | 'JOB_ERROR'
   /** No valid metafield definition found for linked option. */
@@ -41864,7 +44515,9 @@ type AdminShopify_ProductStatus =
   /** The product is no longer being sold and isn't available to customers on sales channels and apps. */
   | 'ARCHIVED'
   /** The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft. */
-  | 'DRAFT';
+  | 'DRAFT'
+  /** The product is active but you need a direct link to view it. The product doesn't show up in search, collections, or product recommendations. It will be returned in Storefront API and Liquid only when referenced individually by handle, id, or metafield reference.This status is only visible from 2025-10 and up, is translated to active in older versions and can't be changed from unlisted in older versions. */
+  | 'UNLISTED';
 
 /** Represents a [Shopify product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) node. */
 type AdminShopify_ProductTaxonomyNode = AdminShopify_Node & {
@@ -42099,6 +44752,8 @@ type AdminShopify_ProductVariant = AdminShopify_HasEvents & AdminShopify_HasMeta
   readonly price: Scalars['AdminShopify_Money'];
   /** The product that this variant belongs to. */
   readonly product: AdminShopify_Product;
+  /** A list of products that have product variants that contain this variant as a product component. */
+  readonly productParents: AdminShopify_ProductConnection;
   /** A list of the product variant components. */
   readonly productVariantComponents: AdminShopify_ProductVariantComponentConnection;
   /**
@@ -42124,6 +44779,8 @@ type AdminShopify_ProductVariant = AdminShopify_HasEvents & AdminShopify_HasMeta
   readonly sellingPlanGroups: AdminShopify_SellingPlanGroupConnection;
   /** Count of selling plan groups associated with the product variant. */
   readonly sellingPlanGroupsCount: Maybe<AdminShopify_Count>;
+  /** Whether to show the unit price for this product variant. */
+  readonly showUnitPrice: Scalars['Boolean'];
   /**
    * A case-sensitive identifier for the product variant in the shop.
    * Required in order to connect to a fulfillment service.
@@ -42147,6 +44804,8 @@ type AdminShopify_ProductVariant = AdminShopify_HasEvents & AdminShopify_HasMeta
   readonly title: Scalars['String'];
   /** The published translations associated with the resource. */
   readonly translations: ReadonlyArray<AdminShopify_Translation>;
+  /** The unit price value for the variant based on the variant measurement. */
+  readonly unitPrice: Maybe<AdminShopify_MoneyV2>;
   /** The unit price measurement for the variant. */
   readonly unitPriceMeasurement: Maybe<AdminShopify_UnitPriceMeasurement>;
   /** The date and time (ISO 8601 format) when the product variant was last modified. */
@@ -42451,6 +45110,45 @@ type AdminShopify_ProductVariant_presentmentPricesArgs = {
  *
  * Learn more about [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components).
  */
+type AdminShopify_ProductVariant_productParentsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/**
+ * The `ProductVariant` object represents a version of a
+ * [product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product)
+ * that comes in more than one [option](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOption),
+ * such as size or color. For example, if a merchant sells t-shirts with options for size and color, then a small,
+ * blue t-shirt would be one product variant and a large, blue t-shirt would be another.
+ *
+ * Use the `ProductVariant` object to manage the full lifecycle and configuration of a product's variants. Common
+ * use cases for using the `ProductVariant` object include:
+ *
+ * - Tracking inventory for each variant
+ * - Setting unique prices for each variant
+ * - Assigning barcodes and SKUs to connect variants to fulfillment services
+ * - Attaching variant-specific images and media
+ * - Setting delivery and tax requirements
+ * - Supporting product bundles, subscriptions, and selling plans
+ *
+ * A `ProductVariant` is associated with a parent
+ * [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) object.
+ * `ProductVariant` serves as the central link between a product's merchandising configuration, inventory,
+ * pricing, fulfillment, and sales channels within the GraphQL Admin API schema. Each variant
+ * can reference other GraphQL types such as:
+ *
+ * - [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem): Used for inventory tracking
+ * - [`Image`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Image): Used for variant-specific images
+ * - [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup): Used for subscriptions and selling plans
+ *
+ * Learn more about [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components).
+ */
 type AdminShopify_ProductVariant_productVariantComponentsArgs = {
   after: InputMaybe<Scalars['String']>;
   before: InputMaybe<Scalars['String']>;
@@ -42606,6 +45304,8 @@ type AdminShopify_ProductVariantContextualPricing = {
   readonly quantityPriceBreaks: AdminShopify_QuantityPriceBreakConnection;
   /** The quantity rule applied for a given context. */
   readonly quantityRule: AdminShopify_QuantityRule;
+  /** The unit price value for the given context based on the variant measurement. */
+  readonly unitPrice: Maybe<AdminShopify_MoneyV2>;
 };
 
 
@@ -42828,6 +45528,8 @@ type AdminShopify_ProductVariantSetInput = {
    * The inventory quantities at each location where the variant is stocked.
    * If you're updating an existing variant, then you can only update the
    * quantities at locations where the variant is already stocked.
+   *
+   * The total number of inventory quantities across all variants in the mutation can't exceed 50000.
    */
   readonly inventoryQuantities: InputMaybe<ReadonlyArray<AdminShopify_ProductSetInventoryInput>>;
   /**
@@ -42848,12 +45550,16 @@ type AdminShopify_ProductVariantSetInput = {
    * from channels that don't support bundles.
    */
   readonly requiresComponents: InputMaybe<Scalars['Boolean']>;
+  /** Whether or not unit price should be shown for this product variant. */
+  readonly showUnitPrice: InputMaybe<Scalars['Boolean']>;
   /** The SKU for the variant. Case-sensitive string. */
   readonly sku: InputMaybe<Scalars['String']>;
   /** The tax code associated with the variant. */
   readonly taxCode: InputMaybe<Scalars['String']>;
   /** Whether the variant is taxable. */
   readonly taxable: InputMaybe<Scalars['Boolean']>;
+  /** The unit price measurement for the product variant. */
+  readonly unitPriceMeasurement: InputMaybe<AdminShopify_UnitPriceMeasurementInput>;
 };
 
 /** The set of valid sort keys for the ProductVariant query. */
@@ -42903,6 +45609,8 @@ type AdminShopify_ProductVariantsBulkCreatePayload = {
 type AdminShopify_ProductVariantsBulkCreateStrategy =
   /** The default strategy. Deletes the standalone default ("Default Title") variant when it's the only variant on the product. Preserves the standalone custom variant. */
   | 'DEFAULT'
+  /** Preserves the existing standalone variant when the product has only a single default ("Default Title") or a single custom variant. */
+  | 'PRESERVE_STANDALONE_VARIANT'
   /** Deletes the existing standalone variant when the product has only a single default ("Default Title") or custom variant. */
   | 'REMOVE_STANDALONE_VARIANT';
 
@@ -42926,6 +45634,8 @@ type AdminShopify_ProductVariantsBulkCreateUserErrorCode =
   | 'INVALID'
   /** Input is invalid. */
   | 'INVALID_INPUT'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Input must be for this product. */
   | 'MUST_BE_FOR_THIS_PRODUCT'
   /** Variant options are not enough. */
@@ -43014,16 +45724,22 @@ type AdminShopify_ProductVariantsBulkInput = {
   readonly optionValues: InputMaybe<ReadonlyArray<AdminShopify_VariantOptionValueInput>>;
   /** The price of the variant. */
   readonly price: InputMaybe<Scalars['AdminShopify_Money']>;
+  /** Adjust inventory quantities with deltas. */
+  readonly quantityAdjustments: InputMaybe<ReadonlyArray<AdminShopify_InventoryAdjustmentInput>>;
   /**
    * Whether a product variant requires components. The default value is `false`.
    * If `true`, then the product variant can only be purchased as a parent bundle with components and it will be
    * omitted from channels that don't support bundles.
    */
   readonly requiresComponents: InputMaybe<Scalars['Boolean']>;
+  /** Whether the unit price should be shown for this product variant. */
+  readonly showUnitPrice: InputMaybe<Scalars['Boolean']>;
   /** The tax code associated with the variant. */
   readonly taxCode: InputMaybe<Scalars['String']>;
   /** Whether the variant is taxable. */
   readonly taxable: InputMaybe<Scalars['Boolean']>;
+  /** The unit price measurement for the product variant. */
+  readonly unitPriceMeasurement: InputMaybe<AdminShopify_UnitPriceMeasurementInput>;
 };
 
 /** Return type for `productVariantsBulkReorder` mutation. */
@@ -43091,6 +45807,8 @@ type AdminShopify_ProductVariantsBulkUpdateUserErrorCode =
   | 'INVALID_INPUT'
   /** Metafield value is invalid. */
   | 'INVALID_VALUE'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Input must be for this product. */
   | 'MUST_BE_FOR_THIS_PRODUCT'
   /** Mandatory field input field missing. */
@@ -43259,6 +45977,8 @@ type AdminShopify_Publication = AdminShopify_Node & {
   readonly id: Scalars['ID'];
   /** The list of products included, but not necessarily published, in the publication. */
   readonly includedProducts: AdminShopify_ProductConnection;
+  /** The count of products included in the publication. Limited to a maximum of 10000 by default. */
+  readonly includedProductsCount: Maybe<AdminShopify_Count>;
   /**
    * Name of the publication.
    * @deprecated Use [Catalog.title](https://shopify.dev/api/admin-graphql/unstable/interfaces/Catalog#field-catalog-title) instead.
@@ -43331,7 +46051,24 @@ type AdminShopify_Publication_includedProductsArgs = {
   before: InputMaybe<Scalars['String']>;
   first: InputMaybe<Scalars['Int']>;
   last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
+  savedSearchId: InputMaybe<Scalars['ID']>;
+  sortKey?: InputMaybe<AdminShopify_ProductSortKeys>;
+};
+
+
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
+type AdminShopify_Publication_includedProductsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
+  savedSearchId: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -43363,7 +46100,10 @@ type AdminShopify_Publication_productsArgs = {
   before: InputMaybe<Scalars['String']>;
   first: InputMaybe<Scalars['Int']>;
   last: InputMaybe<Scalars['Int']>;
+  query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
+  savedSearchId: InputMaybe<Scalars['ID']>;
+  sortKey?: InputMaybe<AdminShopify_ProductSortKeys>;
 };
 
 /** An auto-generated type for paginating through multiple Publications. */
@@ -44085,6 +46825,8 @@ type AdminShopify_Refund = AdminShopify_LegacyInteroperability & AdminShopify_No
   readonly order: AdminShopify_Order;
   /** The order adjustments that are attached with the refund. */
   readonly orderAdjustments: AdminShopify_OrderAdjustmentConnection;
+  /** The date and time when the refund was processed. */
+  readonly processedAt: Scalars['AdminShopify_DateTime'];
   /** The `RefundLineItem` resources attached to the refund. */
   readonly refundLineItems: AdminShopify_RefundLineItemConnection;
   /** The `RefundShippingLine` resources attached to the refund. */
@@ -44371,6 +47113,8 @@ type AdminShopify_RefundEdge = {
 
 /** The input fields to create a refund. */
 type AdminShopify_RefundInput = {
+  /** Whether to allow the total refunded amount to surpass the amount paid for the order. */
+  readonly allowOverRefunding: InputMaybe<Scalars['Boolean']>;
   /** The currency that is used to refund the order. This must be the presentment currency, which is the currency used by the customer. This is a required field for orders where the currency and presentment currency differ. */
   readonly currency: InputMaybe<AdminShopify_CurrencyCode>;
   /** An optional reason for a discrepancy between calculated and actual refund amounts. */
@@ -44381,10 +47125,14 @@ type AdminShopify_RefundInput = {
   readonly notify: InputMaybe<Scalars['Boolean']>;
   /** The ID of the order that's being refunded. */
   readonly orderId: Scalars['ID'];
+  /** The date and time when the refund is being processed. If not provided, it will be set to the current time. */
+  readonly processedAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
   /** A list of duties to refund. */
   readonly refundDuties: InputMaybe<ReadonlyArray<AdminShopify_RefundDutyInput>>;
   /** A list of line items to refund. */
   readonly refundLineItems: InputMaybe<ReadonlyArray<AdminShopify_RefundLineItemInput>>;
+  /** A list of instructions to process the financial outcome of the refund. */
+  readonly refundMethods: InputMaybe<ReadonlyArray<AdminShopify_RefundMethodInput>>;
   /** The input fields that are required to reimburse shipping costs. */
   readonly shipping: InputMaybe<AdminShopify_ShippingRefundInput>;
   /** A list of transactions involved in the refund. */
@@ -44472,6 +47220,29 @@ type AdminShopify_RefundLineItemRestockType =
   | 'NO_RESTOCK'
   /** The refund line item was returned. Use this when restocking line items that were fulfilled. */
   | 'RETURN';
+
+/** The different methods that a refund amount can be allocated to. */
+type AdminShopify_RefundMethodAllocation =
+  /** The refund is to original payment methods. */
+  | 'ORIGINAL_PAYMENT_METHODS'
+  /** The refund is to store credit. */
+  | 'STORE_CREDIT';
+
+/** The input fields for processing the financial outcome of a refund. */
+type AdminShopify_RefundMethodInput = {
+  /** The details of the refund to store credit. */
+  readonly storeCreditRefund: InputMaybe<AdminShopify_StoreCreditRefundInput>;
+};
+
+/** The financial transfer details for a return outcome that results in a refund. */
+type AdminShopify_RefundReturnOutcome = {
+  /** The total monetary value to be refunded in shop and presentment currencies. */
+  readonly amount: AdminShopify_MoneyBag;
+  /** A list of suggested refund methods. */
+  readonly suggestedRefundMethods: ReadonlyArray<AdminShopify_SuggestedRefundMethod>;
+  /** A list of suggested order transactions. */
+  readonly suggestedTransactions: ReadonlyArray<AdminShopify_SuggestedOrderTransaction>;
+};
 
 /** The input fields for the shipping cost to refund. */
 type AdminShopify_RefundShippingInput = {
@@ -44564,6 +47335,22 @@ type AdminShopify_RemoteStripePaymentMethodInput = {
    * payment_method_id will become mandatory for all API versions.
    */
   readonly paymentMethodId: InputMaybe<Scalars['String']>;
+};
+
+/** Return type for `removeFromReturn` mutation. */
+type AdminShopify_RemoveFromReturnPayload = {
+  /** The modified return. */
+  readonly return: Maybe<AdminShopify_Return>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_ReturnUserError>;
+};
+
+/** The resolved price inclusivity attributes. */
+type AdminShopify_ResolvedPriceInclusivity = {
+  /** Whether duties are included in the price. */
+  readonly dutiesIncluded: Scalars['Boolean'];
+  /** Whether taxes are included in the price. */
+  readonly taxesIncluded: Scalars['Boolean'];
 };
 
 /**
@@ -44818,6 +47605,10 @@ type AdminShopify_RestrictedForResource = {
  * on behalf of merchants.
  */
 type AdminShopify_Return = AdminShopify_Node & {
+  /** The date and time when the return was closed. */
+  readonly closedAt: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** The date and time when the return was created. */
+  readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** Additional information about the declined return. */
   readonly decline: Maybe<AdminShopify_ReturnDecline>;
   /** The exchange line items attached to the return. */
@@ -44830,14 +47621,20 @@ type AdminShopify_Return = AdminShopify_Node & {
   readonly order: AdminShopify_Order;
   /** The list of refunds associated with the return. */
   readonly refunds: AdminShopify_RefundConnection;
+  /** The date and time when the return was approved. */
+  readonly requestApprovedAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** The return line items attached to the return. */
   readonly returnLineItems: AdminShopify_ReturnLineItemTypeConnection;
   /** The return shipping fees for the return. */
   readonly returnShippingFees: ReadonlyArray<AdminShopify_ReturnShippingFee>;
   /** The list of reverse fulfillment orders for the return. */
   readonly reverseFulfillmentOrders: AdminShopify_ReverseFulfillmentOrderConnection;
+  /** The staff member that created the return. */
+  readonly staffMember: Maybe<AdminShopify_StaffMember>;
   /** The status of the return. */
   readonly status: AdminShopify_ReturnStatus;
+  /** A suggested financial outcome for the return. */
+  readonly suggestedFinancialOutcome: Maybe<AdminShopify_SuggestedReturnFinancialOutcome>;
   /**
    * A suggested refund for the return.
    * @deprecated Use `suggestedFinancialOutcome` instead.
@@ -44845,6 +47642,8 @@ type AdminShopify_Return = AdminShopify_Node & {
   readonly suggestedRefund: Maybe<AdminShopify_SuggestedReturnRefund>;
   /** The sum of all return line item quantities for the return. */
   readonly totalQuantity: Scalars['Int'];
+  /** The order transactions created from the return. */
+  readonly transactions: AdminShopify_OrderTransactionConnection;
 };
 
 
@@ -44872,6 +47671,7 @@ type AdminShopify_Return_exchangeLineItemsArgs = {
   first: InputMaybe<Scalars['Int']>;
   includeRemovedItems?: InputMaybe<Scalars['Boolean']>;
   last: InputMaybe<Scalars['Int']>;
+  processingStatus: InputMaybe<AdminShopify_ReturnProcessingStatusFilterInput>;
   reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -44926,6 +47726,7 @@ type AdminShopify_Return_returnLineItemsArgs = {
   before: InputMaybe<Scalars['String']>;
   first: InputMaybe<Scalars['Int']>;
   last: InputMaybe<Scalars['Int']>;
+  processingStatus: InputMaybe<AdminShopify_ReturnProcessingStatusFilterInput>;
   reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -44975,10 +47776,65 @@ type AdminShopify_Return_reverseFulfillmentOrdersArgs = {
  * and [reverse deliveries](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-deliveries)
  * on behalf of merchants.
  */
+type AdminShopify_Return_suggestedFinancialOutcomeArgs = {
+  exchangeLineItems: ReadonlyArray<AdminShopify_SuggestedOutcomeExchangeLineItemInput>;
+  refundDuties: InputMaybe<ReadonlyArray<AdminShopify_RefundDutyInput>>;
+  refundMethodAllocation?: InputMaybe<AdminShopify_RefundMethodAllocation>;
+  refundShipping: InputMaybe<AdminShopify_RefundShippingInput>;
+  returnLineItems: ReadonlyArray<AdminShopify_SuggestedOutcomeReturnLineItemInput>;
+  tipLineId: InputMaybe<Scalars['ID']>;
+};
+
+
+/**
+ * The `Return` object represents the intent of a buyer to ship one or more items from an order back to a merchant
+ * or a third-party fulfillment location. A return is associated with an [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order)
+ * and can include multiple return [line items](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem).
+ * Each return has a [status](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps#return-statuses),
+ * which indicates the state of the return.
+ *
+ * Use the `Return` object to capture the financial, logistical,
+ * and business intent of a return. For example, you can identify eligible items for a return and issue customers
+ * a refund for returned items on behalf of the merchant.
+ *
+ * Learn more about providing a
+ * [return management workflow](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management)
+ * for merchants. You can also manage [exchanges](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-exchanges),
+ * [reverse fulfillment orders](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-fulfillment-orders),
+ * and [reverse deliveries](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-deliveries)
+ * on behalf of merchants.
+ */
 type AdminShopify_Return_suggestedRefundArgs = {
   refundDuties: InputMaybe<ReadonlyArray<AdminShopify_RefundDutyInput>>;
   refundShipping: InputMaybe<AdminShopify_RefundShippingInput>;
   returnRefundLineItems: ReadonlyArray<AdminShopify_ReturnRefundLineItemInput>;
+};
+
+
+/**
+ * The `Return` object represents the intent of a buyer to ship one or more items from an order back to a merchant
+ * or a third-party fulfillment location. A return is associated with an [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order)
+ * and can include multiple return [line items](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem).
+ * Each return has a [status](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps#return-statuses),
+ * which indicates the state of the return.
+ *
+ * Use the `Return` object to capture the financial, logistical,
+ * and business intent of a return. For example, you can identify eligible items for a return and issue customers
+ * a refund for returned items on behalf of the merchant.
+ *
+ * Learn more about providing a
+ * [return management workflow](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management)
+ * for merchants. You can also manage [exchanges](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-exchanges),
+ * [reverse fulfillment orders](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-fulfillment-orders),
+ * and [reverse deliveries](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-deliveries)
+ * on behalf of merchants.
+ */
+type AdminShopify_Return_transactionsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** An agreement between the merchant and customer for a return. */
@@ -45197,6 +48053,10 @@ type AdminShopify_ReturnLineItem = AdminShopify_Node & AdminShopify_ReturnLineIt
   readonly fulfillmentLineItem: AdminShopify_FulfillmentLineItem;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
+  /** The quantity that can be processed. */
+  readonly processableQuantity: Scalars['Int'];
+  /** The quantity that has been processed. */
+  readonly processedQuantity: Scalars['Int'];
   /** The quantity being returned. */
   readonly quantity: Scalars['Int'];
   /** The quantity that can be refunded. */
@@ -45205,12 +48065,19 @@ type AdminShopify_ReturnLineItem = AdminShopify_Node & AdminShopify_ReturnLineIt
   readonly refundedQuantity: Scalars['Int'];
   /** The restocking fee for the return line item. */
   readonly restockingFee: Maybe<AdminShopify_RestockingFee>;
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   readonly returnReason: AdminShopify_ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  readonly returnReasonDefinition: Maybe<AdminShopify_ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   readonly returnReasonNote: Scalars['String'];
   /** The total weight of the item. */
   readonly totalWeight: Maybe<AdminShopify_Weight>;
+  /** The quantity that has't been processed. */
+  readonly unprocessedQuantity: Scalars['Int'];
   /** The total line price after all discounts on the line item, including both line item level discounts and code-based line item discounts, are applied. */
   readonly withCodeDiscountedTotalPriceSet: AdminShopify_MoneyBag;
 };
@@ -45226,8 +48093,8 @@ type AdminShopify_ReturnLineItemInput = {
   readonly quantity: Scalars['Int'];
   /** The restocking fee to capture. */
   readonly restockingFee: InputMaybe<AdminShopify_RestockingFeeInput>;
-  /** The reason for the item to be returned. */
-  readonly returnReason: AdminShopify_ReturnReason;
+  /** The ID of a [`ReturnReasonDefinition`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ReturnReasonDefinition). Accepts any ID from the full library of reasons available via [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions), not limited to the suggested reasons for the line item. */
+  readonly returnReasonDefinitionId: InputMaybe<Scalars['ID']>;
   /**
    * A note about the reason that the item is being returned.
    * Maximum length: 255 characters.
@@ -45257,16 +48124,27 @@ type AdminShopify_ReturnLineItemType = {
   readonly customerNote: Maybe<Scalars['String']>;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
+  /** The quantity that can be processed. */
+  readonly processableQuantity: Scalars['Int'];
+  /** The quantity that has been processed. */
+  readonly processedQuantity: Scalars['Int'];
   /** The quantity being returned. */
   readonly quantity: Scalars['Int'];
   /** The quantity that can be refunded. */
   readonly refundableQuantity: Scalars['Int'];
   /** The quantity that was refunded. */
   readonly refundedQuantity: Scalars['Int'];
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   readonly returnReason: AdminShopify_ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  readonly returnReasonDefinition: Maybe<AdminShopify_ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   readonly returnReasonNote: Scalars['String'];
+  /** The quantity that has't been processed. */
+  readonly unprocessedQuantity: Scalars['Int'];
 };
 
 /** An auto-generated type for paginating through multiple ReturnLineItemTypes. */
@@ -45286,6 +48164,80 @@ type AdminShopify_ReturnLineItemTypeEdge = {
   /** The item at the end of ReturnLineItemTypeEdge. */
   readonly node: AdminShopify_ReturnLineItemType;
 };
+
+/** The financial transfer details for the return outcome. */
+type AdminShopify_ReturnOutcomeFinancialTransfer = AdminShopify_InvoiceReturnOutcome | AdminShopify_RefundReturnOutcome;
+
+/** The input fields for an exchange line item. */
+type AdminShopify_ReturnProcessExchangeLineItemInput = {
+  /** The ID of the exchange line item. */
+  readonly id: Scalars['ID'];
+  /** The quantity of the exchange line item. */
+  readonly quantity: Scalars['Int'];
+};
+
+/** The input fields for the financial transfer for the return. */
+type AdminShopify_ReturnProcessFinancialTransferInput = {
+  /** Issue a refund for the return. */
+  readonly issueRefund: InputMaybe<AdminShopify_ReturnProcessRefundInput>;
+};
+
+/** The input fields for processing a return. */
+type AdminShopify_ReturnProcessInput = {
+  /** The exchange line items list to be handled. */
+  readonly exchangeLineItems: InputMaybe<ReadonlyArray<AdminShopify_ReturnProcessExchangeLineItemInput>>;
+  /** The financial transfer for the return. */
+  readonly financialTransfer: InputMaybe<AdminShopify_ReturnProcessFinancialTransferInput>;
+  /** The note for the return. */
+  readonly note: InputMaybe<Scalars['String']>;
+  /** Whether to notify the customer about the return. */
+  readonly notifyCustomer: InputMaybe<Scalars['Boolean']>;
+  /** The refund duties list to be handled. */
+  readonly refundDuties: InputMaybe<ReadonlyArray<AdminShopify_RefundDutyInput>>;
+  /** The shipping cost to refund. */
+  readonly refundShipping: InputMaybe<AdminShopify_RefundShippingInput>;
+  /** The ID of the return to be processed. */
+  readonly returnId: Scalars['ID'];
+  /** The return line items list to be handled. */
+  readonly returnLineItems: InputMaybe<ReadonlyArray<AdminShopify_ReturnProcessReturnLineItemInput>>;
+  /** ID of the tip line item. */
+  readonly tipLineId: InputMaybe<Scalars['ID']>;
+};
+
+/** Return type for `returnProcess` mutation. */
+type AdminShopify_ReturnProcessPayload = {
+  /** The processed return. */
+  readonly return: Maybe<AdminShopify_Return>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_ReturnUserError>;
+};
+
+/** The input fields for the refund for the return. */
+type AdminShopify_ReturnProcessRefundInput = {
+  /** Whether to allow the total refunded amount to surpass the amount paid for the order. */
+  readonly allowOverRefunding: InputMaybe<Scalars['Boolean']>;
+  /** The order transactions for the refund. */
+  readonly orderTransactions: ReadonlyArray<AdminShopify_ReturnRefundOrderTransactionInput>;
+  /** A list of instructions to process the financial outcome of the refund. */
+  readonly refundMethods: InputMaybe<ReadonlyArray<AdminShopify_RefundMethodInput>>;
+};
+
+/** The input fields for a return line item. */
+type AdminShopify_ReturnProcessReturnLineItemInput = {
+  /** The dispositions for the return line item. */
+  readonly dispositions: InputMaybe<ReadonlyArray<AdminShopify_ReverseFulfillmentOrderDisposeInput>>;
+  /** The ID of the return line item. */
+  readonly id: Scalars['ID'];
+  /** The quantity of the return line item. */
+  readonly quantity: Scalars['Int'];
+};
+
+/** Filter line items based on processing status. */
+type AdminShopify_ReturnProcessingStatusFilterInput =
+  /** Only include line items that have some processable quantity. */
+  | 'PROCESSABLE'
+  /** Only include line items that have been processed. */
+  | 'PROCESSED';
 
 /** The reason for returning the return line item. */
 type AdminShopify_ReturnReason =
@@ -45309,6 +48261,68 @@ type AdminShopify_ReturnReason =
   | 'UNWANTED'
   /** The item is returned because the customer received the wrong one. Displays as **Received the wrong item**. */
   | 'WRONG_ITEM';
+
+/**
+ * A standardized reason for returning an item.
+ *
+ * - Shopify offers an expanded library of return reasons available to all merchants
+ * - For each product, Shopify suggests a curated subset of reasons based on the product's category
+ * - Suggested reasons aren't the only valid options. When creating a return via the API, you can use any reason from the [full library](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions).
+ */
+type AdminShopify_ReturnReasonDefinition = AdminShopify_Node & {
+  /**
+   * Whether the return reason has been removed from taxonomy.
+   *
+   * Deleted reasons should not be presented to customers when creating new returns, but may still
+   * appear on existing returns that were created before the reason was deleted. This field enables
+   * graceful deprecation of return reasons without breaking historical data.
+   */
+  readonly deleted: Scalars['Boolean'];
+  /**
+   * A unique, human-readable, stable identifier for the return reason.
+   *
+   * Example values include "arrived-late", "comfort", "too-tight", "color-too-bright", and "quality".
+   * The handle remains consistent across API versions and localizations, making it suitable for programmatic use.
+   */
+  readonly handle: Scalars['String'];
+  /** A globally-unique ID. */
+  readonly id: Scalars['ID'];
+  /**
+   * The localized, user-facing name of the return reason.
+   *
+   * This field returns the reason name in the requested locale, automatically falling back to
+   * English if no translation is available. Use this field when displaying return reasons to
+   * customers or merchants.
+   */
+  readonly name: Scalars['String'];
+};
+
+/** An auto-generated type for paginating through multiple ReturnReasonDefinitions. */
+type AdminShopify_ReturnReasonDefinitionConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_ReturnReasonDefinitionEdge>;
+  /** A list of nodes that are contained in ReturnReasonDefinitionEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_ReturnReasonDefinition>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one ReturnReasonDefinition and a cursor during pagination. */
+type AdminShopify_ReturnReasonDefinitionEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of ReturnReasonDefinitionEdge. */
+  readonly node: AdminShopify_ReturnReasonDefinition;
+};
+
+/** The set of valid sort keys for the ReturnReasonDefinition query. */
+type AdminShopify_ReturnReasonDefinitionSortKeys =
+  /** Sort by the `handle` value. */
+  | 'HANDLE'
+  /** Sort by the `id` value. */
+  | 'ID'
+  /** Sort by the `name` value. */
+  | 'NAME';
 
 /** The input fields to refund a return. */
 type AdminShopify_ReturnRefundInput = {
@@ -45385,8 +48399,8 @@ type AdminShopify_ReturnRequestLineItemInput = {
   readonly quantity: Scalars['Int'];
   /** The restocking fee to capture. */
   readonly restockingFee: InputMaybe<AdminShopify_RestockingFeeInput>;
-  /** The reason why the line item is being returned. */
-  readonly returnReason: AdminShopify_ReturnReason;
+  /** The ID of a [`ReturnReasonDefinition`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ReturnReasonDefinition). Accepts any ID from the full library of reasons available via [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions), not limited to the suggested reasons for the line item. */
+  readonly returnReasonDefinitionId: InputMaybe<Scalars['ID']>;
 };
 
 /** Return type for `returnRequest` mutation. */
@@ -45742,6 +48756,8 @@ type AdminShopify_ReverseFulfillmentOrderDisposePayload = {
 
 /** The details of the arrangement of an item. */
 type AdminShopify_ReverseFulfillmentOrderDisposition = AdminShopify_Node & {
+  /** The date and time when the disposition was created. */
+  readonly createdAt: Scalars['AdminShopify_DateTime'];
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
   /** The location where the disposition occurred. */
@@ -46458,6 +49474,10 @@ type AdminShopify_SegmentEventFilterParameter = {
   readonly localizedDescription: Scalars['String'];
   /** The localized name of the parameter. */
   readonly localizedName: Scalars['String'];
+  /** The parameter maximum value range. */
+  readonly maxRange: Maybe<Scalars['Float']>;
+  /** The parameter minimum value range. */
+  readonly minRange: Maybe<Scalars['Float']>;
   /** Whether the parameter is optional. */
   readonly optional: Scalars['Boolean'];
   /** The type of the parameter. */
@@ -46498,6 +49518,10 @@ type AdminShopify_SegmentFilterEdge = {
 type AdminShopify_SegmentFloatFilter = AdminShopify_SegmentFilter & {
   /** The localized name of the filter. */
   readonly localizedName: Scalars['String'];
+  /** The maximum range a filter can have. */
+  readonly maxRange: Maybe<Scalars['Float']>;
+  /** The minimum range a filter can have. */
+  readonly minRange: Maybe<Scalars['Float']>;
   /** Whether a file can have multiple values for a single customer. */
   readonly multiValue: Scalars['Boolean'];
   /** The query name of the filter. */
@@ -46508,6 +49532,10 @@ type AdminShopify_SegmentFloatFilter = AdminShopify_SegmentFilter & {
 type AdminShopify_SegmentIntegerFilter = AdminShopify_SegmentFilter & {
   /** The localized name of the filter. */
   readonly localizedName: Scalars['String'];
+  /** The maximum range a filter can have. */
+  readonly maxRange: Maybe<Scalars['Float']>;
+  /** The minimum range a filter can have. */
+  readonly minRange: Maybe<Scalars['Float']>;
   /** Whether a file can have multiple values for a single customer. */
   readonly multiValue: Scalars['Boolean'];
   /** The query name of the filter. */
@@ -47735,6 +50763,8 @@ type AdminShopify_SellingPlanRemainingBalanceChargeTrigger =
   | 'EXACT_TIME'
   /** When there's no remaining balance to be charged after checkout. */
   | 'NO_REMAINING_BALANCE'
+  /** When the order is fulfilled. */
+  | 'ON_FULFILLMENT'
   /** After the duration defined by the remaining_balance_charge_time_after_checkout field. */
   | 'TIME_AFTER_CHECKOUT';
 
@@ -47779,6 +50809,11 @@ type AdminShopify_ServerPixelStatus =
   | 'DISCONNECTED_CONFIGURED'
   /** This server pixel is disconnected and unconfigured: it does not stream events to the endpoint and no endpoint address had been added to the server pixel. */
   | 'DISCONNECTED_UNCONFIGURED';
+
+/** The set of valid sort keys for the ShipmentLineItem query. */
+type AdminShopify_ShipmentLineItemSortKeys =
+  /** Sort by the `id` value. */
+  | 'ID';
 
 /**
  * The [discount class](https://help.shopify.com/manual/discounts/combining-discounts/discount-combinations)
@@ -47986,7 +51021,7 @@ type AdminShopify_ShippingRefundInput = {
  *
  * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
  */
-type AdminShopify_Shop = AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Node & {
+type AdminShopify_Shop = AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Node & {
   /** Account owner information. */
   readonly accountOwner: AdminShopify_StaffMember;
   /** A list of the shop's active alert messages that appear in the Shopify admin. */
@@ -48083,11 +51118,6 @@ type AdminShopify_Shop = AdminShopify_HasMetafields & AdminShopify_HasPublishedT
   /** A list of tags that have been added to draft orders. */
   readonly draftOrderTags: AdminShopify_StringConnection;
   /**
-   * List of saved draft orders on the shop.
-   * @deprecated Removed as of 2026-01. Use `QueryRoot.draftOrders` instead.
-   */
-  readonly draftOrders: AdminShopify_DraftOrderConnection;
-  /**
    * The shop owner's email address.
    * Shopify will use this email address to communicate with the shop owner.
    */
@@ -48135,6 +51165,11 @@ type AdminShopify_Shop = AdminShopify_HasMetafields & AdminShopify_HasPublishedT
    * for the purposes of adding and storing additional information.
    */
   readonly metafield: Maybe<AdminShopify_Metafield>;
+  /**
+   * List of metafield definitions.
+   * @deprecated This field will be removed in a future version. Use `QueryRoot.metafieldDefinitions` instead.
+   */
+  readonly metafieldDefinitions: AdminShopify_MetafieldDefinitionConnection;
   /**
    * A list of [custom fields](https://shopify.dev/docs/apps/build/custom-data)
    * that a merchant associates with a Shopify resource.
@@ -48210,6 +51245,8 @@ type AdminShopify_Shop = AdminShopify_HasMetafields & AdminShopify_HasPublishedT
   readonly setupRequired: Scalars['Boolean'];
   /** The list of countries that the shop ships to. */
   readonly shipsToCountries: ReadonlyArray<AdminShopify_CountryCode>;
+  /** The shop's address information as it will appear to buyers. */
+  readonly shopAddress: AdminShopify_ShopAddress;
   /** The name of the shop owner. */
   readonly shopOwnerName: Scalars['String'];
   /** The list of all legal policies associated with a shop. */
@@ -48368,22 +51405,6 @@ type AdminShopify_Shop_draftOrderTagsArgs = {
  *
  * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
  */
-type AdminShopify_Shop_draftOrdersArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
-  sortKey?: InputMaybe<AdminShopify_DraftOrderSortKeys>;
-};
-
-
-/**
- * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
- *
- * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
- */
 type AdminShopify_Shop_fulfillmentOrdersArgs = {
   after: InputMaybe<Scalars['String']>;
   before: InputMaybe<Scalars['String']>;
@@ -48437,6 +51458,24 @@ type AdminShopify_Shop_locationsArgs = {
 type AdminShopify_Shop_metafieldArgs = {
   key: Scalars['String'];
   namespace: InputMaybe<Scalars['String']>;
+};
+
+
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
+type AdminShopify_Shop_metafieldDefinitionsArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  namespace: InputMaybe<Scalars['String']>;
+  pinnedStatus?: InputMaybe<AdminShopify_MetafieldDefinitionPinnedStatus>;
+  query: InputMaybe<Scalars['String']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<AdminShopify_MetafieldDefinitionSortKeys>;
 };
 
 
@@ -48875,6 +51914,242 @@ type AdminShopify_ShopPayInstallmentsPaymentDetails = AdminShopify_BasePaymentDe
   readonly paymentMethodName: Maybe<Scalars['String']>;
 };
 
+/** Represents a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequest = {
+  /** The discounts for the payment request order. */
+  readonly discounts: Maybe<ReadonlyArray<AdminShopify_ShopPayPaymentRequestDiscount>>;
+  /** The line items for the payment request. */
+  readonly lineItems: ReadonlyArray<AdminShopify_ShopPayPaymentRequestLineItem>;
+  /** The presentment currency for the payment request. */
+  readonly presentmentCurrency: AdminShopify_CurrencyCode;
+  /** The delivery method type for the payment request. */
+  readonly selectedDeliveryMethodType: AdminShopify_ShopPayPaymentRequestDeliveryMethodType;
+  /** The shipping address for the payment request. */
+  readonly shippingAddress: Maybe<AdminShopify_ShopPayPaymentRequestContactField>;
+  /** The shipping lines for the payment request. */
+  readonly shippingLines: ReadonlyArray<AdminShopify_ShopPayPaymentRequestShippingLine>;
+  /** The subtotal amount for the payment request. */
+  readonly subtotal: AdminShopify_MoneyV2;
+  /** The total amount for the payment request. */
+  readonly total: AdminShopify_MoneyV2;
+  /** The total shipping price for the payment request. */
+  readonly totalShippingPrice: Maybe<AdminShopify_ShopPayPaymentRequestTotalShippingPrice>;
+  /** The total tax for the payment request. */
+  readonly totalTax: Maybe<AdminShopify_MoneyV2>;
+};
+
+/** Represents a contact field for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestContactField = {
+  /** The first address line of the contact field. */
+  readonly address1: Scalars['String'];
+  /** The second address line of the contact field. */
+  readonly address2: Maybe<Scalars['String']>;
+  /** The city of the contact field. */
+  readonly city: Scalars['String'];
+  /** The company name of the contact field. */
+  readonly companyName: Maybe<Scalars['String']>;
+  /** The country of the contact field. */
+  readonly countryCode: Scalars['String'];
+  /** The email of the contact field. */
+  readonly email: Maybe<Scalars['String']>;
+  /** The first name of the contact field. */
+  readonly firstName: Scalars['String'];
+  /** The last name of the contact field. */
+  readonly lastName: Scalars['String'];
+  /** The phone number of the contact field. */
+  readonly phone: Maybe<Scalars['String']>;
+  /** The postal code of the contact field. */
+  readonly postalCode: Maybe<Scalars['String']>;
+  /** The province of the contact field. */
+  readonly provinceCode: Maybe<Scalars['String']>;
+};
+
+/** Represents the delivery method type for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestDeliveryMethodType =
+  /** The delivery method type is pickup. */
+  | 'PICKUP'
+  /** The delivery method type is shipping. */
+  | 'SHIPPING';
+
+/** Represents a discount for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestDiscount = {
+  /** The amount of the discount. */
+  readonly amount: AdminShopify_MoneyV2;
+  /** The label of the discount. */
+  readonly label: Scalars['String'];
+};
+
+/** Represents an image for a Shop Pay payment request line item. */
+type AdminShopify_ShopPayPaymentRequestImage = {
+  /** The alt text of the image. */
+  readonly alt: Maybe<Scalars['String']>;
+  /** The source URL of the image. */
+  readonly url: Scalars['String'];
+};
+
+/** Represents a line item for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestLineItem = {
+  /** The final item price for the line item. */
+  readonly finalItemPrice: AdminShopify_MoneyV2;
+  /** The final line price for the line item. */
+  readonly finalLinePrice: AdminShopify_MoneyV2;
+  /** The image of the line item. */
+  readonly image: Maybe<AdminShopify_ShopPayPaymentRequestImage>;
+  /** The item discounts for the line item. */
+  readonly itemDiscounts: Maybe<ReadonlyArray<AdminShopify_ShopPayPaymentRequestDiscount>>;
+  /** The label of the line item. */
+  readonly label: Scalars['String'];
+  /** The line discounts for the line item. */
+  readonly lineDiscounts: Maybe<ReadonlyArray<AdminShopify_ShopPayPaymentRequestDiscount>>;
+  /** The original item price for the line item. */
+  readonly originalItemPrice: Maybe<AdminShopify_MoneyV2>;
+  /** The original line price for the line item. */
+  readonly originalLinePrice: Maybe<AdminShopify_MoneyV2>;
+  /** The quantity of the line item. */
+  readonly quantity: Scalars['Int'];
+  /** Whether the line item requires shipping. */
+  readonly requiresShipping: Maybe<Scalars['Boolean']>;
+  /** The SKU of the line item. */
+  readonly sku: Maybe<Scalars['String']>;
+};
+
+/** The receipt of Shop Pay payment request session submission. */
+type AdminShopify_ShopPayPaymentRequestReceipt = {
+  /** The date and time when the payment request receipt was created. */
+  readonly createdAt: Scalars['AdminShopify_DateTime'];
+  /** The order that's associated with the payment request receipt. */
+  readonly order: Maybe<AdminShopify_Order>;
+  /** The shop pay payment request object. */
+  readonly paymentRequest: AdminShopify_ShopPayPaymentRequest;
+  /** The status of the payment request session submission. */
+  readonly processingStatus: AdminShopify_ShopPayPaymentRequestReceiptProcessingStatus;
+  /** The source identifier provided in the `ShopPayPaymentRequestSessionCreate` mutation. */
+  readonly sourceIdentifier: Scalars['String'];
+  /** The token of the receipt, initially returned by an `ShopPayPaymentRequestSessionSubmit` mutation. */
+  readonly token: Scalars['String'];
+};
+
+/** An auto-generated type for paginating through multiple ShopPayPaymentRequestReceipts. */
+type AdminShopify_ShopPayPaymentRequestReceiptConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  readonly edges: ReadonlyArray<AdminShopify_ShopPayPaymentRequestReceiptEdge>;
+  /** A list of nodes that are contained in ShopPayPaymentRequestReceiptEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  readonly nodes: ReadonlyArray<AdminShopify_ShopPayPaymentRequestReceipt>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  readonly pageInfo: AdminShopify_PageInfo;
+};
+
+/** An auto-generated type which holds one ShopPayPaymentRequestReceipt and a cursor during pagination. */
+type AdminShopify_ShopPayPaymentRequestReceiptEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  readonly cursor: Scalars['String'];
+  /** The item at the end of ShopPayPaymentRequestReceiptEdge. */
+  readonly node: AdminShopify_ShopPayPaymentRequestReceipt;
+};
+
+/**
+ * The processing status of a Shop Pay payment request.
+ * Represents the different states a payment request can be in during its lifecycle,
+ * from initial creation through to completion or failure.
+ */
+type AdminShopify_ShopPayPaymentRequestReceiptProcessingStatus = {
+  /** A standardized error code, independent of the payment provider. */
+  readonly errorCode: Maybe<AdminShopify_ShopPayPaymentRequestReceiptProcessingStatusErrorCode>;
+  /** The message of the payment request receipt. */
+  readonly message: Maybe<Scalars['String']>;
+  /** The state of the payment request receipt. */
+  readonly state: AdminShopify_ShopPayPaymentRequestReceiptProcessingStatusState;
+};
+
+/** A standardized error code, independent of the payment provider. */
+type AdminShopify_ShopPayPaymentRequestReceiptProcessingStatusErrorCode =
+  /** The amount is too small. */
+  | 'AMOUNT_TOO_SMALL'
+  /** Call the card issuer. */
+  | 'CALL_ISSUER'
+  /** The card was declined. */
+  | 'CARD_DECLINED'
+  /** There is an error in the gateway or merchant configuration. */
+  | 'CONFIG_ERROR'
+  /** The card is expired. */
+  | 'EXPIRED_CARD'
+  /** The card issuer has flagged the transaction as potentially fraudulent. */
+  | 'FRAUD_SUSPECTED'
+  /** There was an unknown error with processing the payment. */
+  | 'GENERIC_ERROR'
+  /** The address does not match the card number. */
+  | 'INCORRECT_ADDRESS'
+  /** The CVC does not match the card number. */
+  | 'INCORRECT_CVC'
+  /** The card number is incorrect. */
+  | 'INCORRECT_NUMBER'
+  /** The entered PIN is incorrect. */
+  | 'INCORRECT_PIN'
+  /** The ZIP or postal code does not match the card number. */
+  | 'INCORRECT_ZIP'
+  /** The amount is either too high or too low for the provider. */
+  | 'INVALID_AMOUNT'
+  /** The payment method is not available in the customer's country. */
+  | 'INVALID_COUNTRY'
+  /** The format of the CVC is incorrect. */
+  | 'INVALID_CVC'
+  /** The format of the expiry date is incorrect. */
+  | 'INVALID_EXPIRY_DATE'
+  /** The format of the card number is incorrect. */
+  | 'INVALID_NUMBER'
+  /** The payment method is momentarily unavailable. */
+  | 'PAYMENT_METHOD_UNAVAILABLE'
+  /** The card has been reported as lost or stolen, and the card issuer has requested that the merchant keep the card and call the number on the back. */
+  | 'PICK_UP_CARD'
+  /** There was an error while processing the payment. */
+  | 'PROCESSING_ERROR'
+  /** A real card was used but the gateway was in test mode. */
+  | 'TEST_MODE_LIVE_CARD'
+  /** The 3D Secure check failed. */
+  | 'THREE_D_SECURE_FAILED'
+  /** The gateway or merchant configuration doesn't support a feature, such as network tokenization. */
+  | 'UNSUPPORTED_FEATURE';
+
+/** The state of the payment request receipt. */
+type AdminShopify_ShopPayPaymentRequestReceiptProcessingStatusState =
+  /** The payment request requires action from the buyer. */
+  | 'ACTION_REQUIRED'
+  /** The payment request processing completed successfully. */
+  | 'COMPLETED'
+  /** The payment request processing failed. */
+  | 'FAILED'
+  /** The payment request currently being processed. */
+  | 'PROCESSING'
+  /** The payment request is ready and queued to be processed. */
+  | 'READY';
+
+/** The set of valid sort keys for the ShopPayPaymentRequestReceipts query. */
+type AdminShopify_ShopPayPaymentRequestReceiptsSortKeys =
+  /** Sort by the `created_at` value. */
+  | 'CREATED_AT'
+  /** Sort by the `id` value. */
+  | 'ID';
+
+/** Represents a shipping line for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestShippingLine = {
+  /** The amount for the shipping line. */
+  readonly amount: AdminShopify_MoneyV2;
+  /** The code of the shipping line. */
+  readonly code: Scalars['String'];
+  /** The label of the shipping line. */
+  readonly label: Scalars['String'];
+};
+
+/** Represents a shipping total for a Shop Pay payment request. */
+type AdminShopify_ShopPayPaymentRequestTotalShippingPrice = {
+  /** The discounts for the shipping total. */
+  readonly discounts: ReadonlyArray<AdminShopify_ShopPayPaymentRequestDiscount>;
+  /** The final total for the shipping line. */
+  readonly finalTotal: AdminShopify_MoneyV2;
+  /** The original total for the shipping line. */
+  readonly originalTotal: Maybe<AdminShopify_MoneyV2>;
+};
+
 /** The shop's billing plan and subscription details. Indicates the plan tier (such as Basic, Advanced, or Plus), whether the shop has a Shopify Plus subscription, and if it's a dev store for testing. */
 type AdminShopify_ShopPlan = {
   /**
@@ -48884,6 +52159,8 @@ type AdminShopify_ShopPlan = {
   readonly displayName: Scalars['String'];
   /** Whether the shop is a partner development shop for testing purposes. */
   readonly partnerDevelopment: Scalars['Boolean'];
+  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Agentic Enterprise, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
+  readonly publicDisplayName: Scalars['String'];
   /** Whether the shop has a Shopify Plus subscription. */
   readonly shopifyPlus: Scalars['Boolean'];
 };
@@ -49031,6 +52308,8 @@ type AdminShopify_ShopifyFunction = {
   readonly appKey: Scalars['String'];
   /** The description of the Shopify Function. */
   readonly description: Maybe<Scalars['String']>;
+  /** The handle of the Shopify Function. */
+  readonly handle: Scalars['String'];
   /** The ID of the Shopify Function. */
   readonly id: Scalars['String'];
   /** The input query of the Shopify Function. */
@@ -49437,6 +52716,8 @@ type AdminShopify_ShopifyPaymentsDefaultChargeStatementDescriptor = AdminShopify
 type AdminShopify_ShopifyPaymentsDispute = AdminShopify_LegacyInteroperability & AdminShopify_Node & {
   /** The total amount disputed by the cardholder. */
   readonly amount: AdminShopify_MoneyV2;
+  /** The evidence associated with the dispute. */
+  readonly disputeEvidence: AdminShopify_ShopifyPaymentsDisputeEvidence;
   /** The deadline for evidence submission. */
   readonly evidenceDueBy: Maybe<Scalars['AdminShopify_Date']>;
   /** The date when evidence was sent. Returns null if evidence hasn't yet been sent. */
@@ -49712,6 +52993,8 @@ type AdminShopify_ShopifyPaymentsPayout = AdminShopify_LegacyInteroperability & 
   readonly bankAccount: Maybe<AdminShopify_ShopifyPaymentsBankAccount>;
   /** The business entity associated with the payout. */
   readonly businessEntity: AdminShopify_BusinessEntity;
+  /** A unique trace ID from the financial institution. Use this reference number to track the payout with your provider. */
+  readonly externalTraceId: Maybe<Scalars['String']>;
   /**
    * The total amount and currency of the payout.
    * @deprecated Use `net` instead.
@@ -49862,6 +53145,8 @@ type AdminShopify_ShopifyPaymentsPayoutSummary = {
   readonly retriedPayoutsFee: AdminShopify_MoneyV2;
   /** Total gross amount for all retried payouts. */
   readonly retriedPayoutsGross: AdminShopify_MoneyV2;
+  /** Total amount for all usdc rebate credit balance adjustments. */
+  readonly usdcRebateCreditAmount: AdminShopify_MoneyV2;
 };
 
 /** The possible transaction types for a payout. */
@@ -50212,6 +53497,34 @@ type AdminShopify_ShopifyProtectStatus =
   /** The order received a fraudulent chargeback and it was protected. */
   | 'PROTECTED';
 
+/** A response to a ShopifyQL query. */
+type AdminShopify_ShopifyqlQueryResponse = {
+  /** A list of parse errors, if parsing fails. */
+  readonly parseErrors: ReadonlyArray<Scalars['String']>;
+  /** The result in a tabular format with column and row data. */
+  readonly tableData: Maybe<AdminShopify_ShopifyqlTableData>;
+};
+
+/** The result of a ShopifyQL query. */
+type AdminShopify_ShopifyqlTableData = {
+  /** The columns of the table. */
+  readonly columns: ReadonlyArray<AdminShopify_ShopifyqlTableDataColumn>;
+  /** The rows of the table. */
+  readonly rows: Scalars['AdminShopify_JSON'];
+};
+
+/** Represents a column in a ShopifyQL query response. */
+type AdminShopify_ShopifyqlTableDataColumn = {
+  /** The data type of the column. */
+  readonly dataType: AdminShopify_ColumnDataType;
+  /** The human-readable display name of the column. */
+  readonly displayName: Scalars['String'];
+  /** The name of the column. */
+  readonly name: Scalars['String'];
+  /** The sub type of an array column. */
+  readonly subType: Maybe<AdminShopify_ColumnDataType>;
+};
+
 /**
  * A user account that can access the Shopify admin to manage store operations. Includes personal information and account status.
  *
@@ -50535,6 +53848,13 @@ type AdminShopify_StagedUploadTargetGenerateUploadResource =
    */
   | 'COLLECTION_IMAGE'
   /**
+   * Represents a file associated with a dispute.
+   *
+   * For example, after uploading the file, you can add the file to a dispute using the
+   * [disputeEvidenceUpdate mutation](https://shopify.dev/api/admin-graphql/latest/mutations/disputeEvidenceUpdate).
+   */
+  | 'DISPUTE_FILE_UPLOAD'
+  /**
    * Represents any file other than HTML.
    *
    * For example, after uploading the file, you can add the file to the
@@ -50819,6 +54139,11 @@ type AdminShopify_StoreCreditAccountCreditInput = {
   readonly creditAmount: AdminShopify_MoneyInput;
   /** The date and time when the credit expires. */
   readonly expiresAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
+  /**
+   * Whether to send a notification to the account owner when the store credit is issued.
+   * Defaults to `false`.
+   */
+  readonly notify: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Return type for `storeCreditAccountCredit` mutation. */
@@ -51031,6 +54356,14 @@ type AdminShopify_StoreCreditAccountTransactionEdge = {
 
 /** The origin of a store credit account transaction. */
 type AdminShopify_StoreCreditAccountTransactionOrigin = AdminShopify_OrderTransaction;
+
+/** The input fields to process a refund to store credit. */
+type AdminShopify_StoreCreditRefundInput = {
+  /** The amount to be issued as store credit. */
+  readonly amount: AdminShopify_MoneyInput;
+  /** An optional expiration date for the store credit being issued. */
+  readonly expiresAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
+};
 
 /** The event that caused the store credit account transaction. */
 type AdminShopify_StoreCreditSystemEvent =
@@ -51294,6 +54627,8 @@ type AdminShopify_SubscriptionBillingAttemptErrorCode =
   | 'INSUFFICIENT_FUNDS'
   /** Not enough inventory found. */
   | 'INSUFFICIENT_INVENTORY'
+  /** The billing address is invalid. */
+  | 'INVALID_BILLING_ADDRESS'
   /** The billing agreement ID or the transaction ID for the customer's payment method is invalid. */
   | 'INVALID_CUSTOMER_BILLING_AGREEMENT'
   /** Payment method is invalid. Please update or create a new payment method. */
@@ -52325,7 +55660,7 @@ type AdminShopify_SubscriptionDeliveryMethodInput = {
  */
 type AdminShopify_SubscriptionDeliveryMethodLocalDelivery = {
   /** The address to deliver to. */
-  readonly address: AdminShopify_SubscriptionMailingAddress;
+  readonly address: AdminShopify_MailingAddress;
   /** The details of the local delivery method to use. */
   readonly localDeliveryOption: AdminShopify_SubscriptionDeliveryMethodLocalDeliveryOption;
 };
@@ -52429,7 +55764,7 @@ type AdminShopify_SubscriptionDeliveryMethodPickupOptionInput = {
 /** Represents a shipping delivery method: a mailing address and a shipping option. */
 type AdminShopify_SubscriptionDeliveryMethodShipping = {
   /** The address to ship to. */
-  readonly address: AdminShopify_SubscriptionMailingAddress;
+  readonly address: AdminShopify_MailingAddress;
   /** The details of the shipping method to use. */
   readonly shippingOption: AdminShopify_SubscriptionDeliveryMethodShippingOption;
 };
@@ -53483,44 +56818,6 @@ type AdminShopify_SubscriptionLocalDeliveryOption = {
   readonly title: Scalars['String'];
 };
 
-/** Represents a Mailing Address on a Subscription. */
-type AdminShopify_SubscriptionMailingAddress = {
-  /** The first line of the address. Typically the street address or PO Box number. */
-  readonly address1: Maybe<Scalars['String']>;
-  /** The second line of the address. Typically the number of the apartment, suite, or unit. */
-  readonly address2: Maybe<Scalars['String']>;
-  /** The name of the city, district, village, or town. */
-  readonly city: Maybe<Scalars['String']>;
-  /** The name of the customer's company or organization. */
-  readonly company: Maybe<Scalars['String']>;
-  /** The name of the country. */
-  readonly country: Maybe<Scalars['String']>;
-  /**
-   * The two-letter code for the country of the address.
-   *
-   * For example, US.
-   */
-  readonly countryCode: Maybe<AdminShopify_CountryCode>;
-  /** The first name of the customer. */
-  readonly firstName: Maybe<Scalars['String']>;
-  /** The last name of the customer. */
-  readonly lastName: Maybe<Scalars['String']>;
-  /** The full name of the customer, based on firstName and lastName. */
-  readonly name: Maybe<Scalars['String']>;
-  /** A unique phone number for the customer. Formatted using E.164 standard. For example, _+16135551111_. */
-  readonly phone: Maybe<Scalars['String']>;
-  /** The region of the address, such as the province, state, or district. */
-  readonly province: Maybe<Scalars['String']>;
-  /**
-   * The alphanumeric code for the region.
-   *
-   * For example, ON.
-   */
-  readonly provinceCode: Maybe<Scalars['String']>;
-  /** The zip or postal code of the address. */
-  readonly zip: Maybe<Scalars['String']>;
-};
-
 /** Custom subscription discount. */
 type AdminShopify_SubscriptionManualDiscount = {
   /** Entitled line items used to apply the subscription discount on. */
@@ -53728,6 +57025,22 @@ type AdminShopify_SuggestedOrderTransactionKind =
   /** A suggested refund transaction for an order. */
   | 'SUGGESTED_REFUND';
 
+/** The input fields for an exchange line item. */
+type AdminShopify_SuggestedOutcomeExchangeLineItemInput = {
+  /** The ID of the exchange line item. */
+  readonly id: Scalars['ID'];
+  /** The quantity of the exchange line item. */
+  readonly quantity: Scalars['Int'];
+};
+
+/** The input fields for a return line item. */
+type AdminShopify_SuggestedOutcomeReturnLineItemInput = {
+  /** The ID of the return line item. */
+  readonly id: Scalars['ID'];
+  /** The quantity of the return line item. */
+  readonly quantity: Scalars['Int'];
+};
+
 /**
  * A refund amount that Shopify suggests based on the items, duties, and shipping costs that customers return. Provides a breakdown of all monetary values including subtotals, taxes, discounts, and the maximum refundable amount.
  *
@@ -53765,6 +57078,8 @@ type AdminShopify_SuggestedRefund = {
   readonly subtotal: Scalars['AdminShopify_Money'];
   /** The sum of all the prices of the line items being refunded in shop and presentment currencies. */
   readonly subtotalSet: AdminShopify_MoneyBag;
+  /** A list of suggested refund methods. */
+  readonly suggestedRefundMethods: ReadonlyArray<AdminShopify_SuggestedRefundMethod>;
   /** A list of suggested order transactions. */
   readonly suggestedTransactions: ReadonlyArray<AdminShopify_SuggestedOrderTransaction>;
   /** The total cart discount amount that was applied to all line items in this refund. */
@@ -53778,6 +57093,36 @@ type AdminShopify_SuggestedRefund = {
    * @deprecated Use `totalTaxSet` instead.
    */
   readonly totalTaxes: Scalars['AdminShopify_Money'];
+};
+
+/** Generic attributes of a suggested refund method. */
+type AdminShopify_SuggestedRefundMethod = {
+  /** The suggested amount to refund in shop and presentment currencies. */
+  readonly amount: AdminShopify_MoneyBag;
+  /** The maximum available amount to refund in shop and presentment currencies. */
+  readonly maximumRefundable: AdminShopify_MoneyBag;
+};
+
+/** Represents a return financial outcome suggested by Shopify based on the items being reimbursed. You can then use the suggested outcome object to generate an actual refund or invoice for the return. */
+type AdminShopify_SuggestedReturnFinancialOutcome = {
+  /** The sum of all the discounted prices of the line items being refunded. */
+  readonly discountedSubtotal: AdminShopify_MoneyBag;
+  /** The financial transfer details for the return outcome. */
+  readonly financialTransfer: Maybe<AdminShopify_ReturnOutcomeFinancialTransfer>;
+  /** The total monetary value available to refund in shop and presentment currencies. */
+  readonly maximumRefundable: AdminShopify_MoneyBag;
+  /** A list of duties to be refunded from the order. */
+  readonly refundDuties: ReadonlyArray<AdminShopify_RefundDuty>;
+  /** The shipping costs to be refunded from the order. */
+  readonly shipping: AdminShopify_ShippingRefund;
+  /** The sum of all the additional fees being refunded in shop and presentment currencies. The value must be positive. */
+  readonly totalAdditionalFees: AdminShopify_MoneyBag;
+  /** The total cart discount amount that was applied to all line items in this refund. */
+  readonly totalCartDiscountAmount: AdminShopify_MoneyBag;
+  /** The sum of all the duties being refunded from the order in shop and presentment currencies. The value must be positive. */
+  readonly totalDuties: AdminShopify_MoneyBag;
+  /** The sum of the taxes being refunded in shop and presentment currencies. The value must be positive. */
+  readonly totalTax: AdminShopify_MoneyBag;
 };
 
 /** Represents a return refund suggested by Shopify based on the items being reimbursed. You can then use the suggested refund object to generate an actual refund for the return. */
@@ -53802,6 +57147,16 @@ type AdminShopify_SuggestedReturnRefund = {
   readonly totalDuties: AdminShopify_MoneyBag;
   /** The sum of the taxes being refunded in shop and presentment currencies. The value must be positive. */
   readonly totalTax: AdminShopify_MoneyBag;
+};
+
+/** The suggested values for a refund to store credit. */
+type AdminShopify_SuggestedStoreCreditRefund = AdminShopify_SuggestedRefundMethod & {
+  /** The suggested amount to refund in shop and presentment currencies. */
+  readonly amount: AdminShopify_MoneyBag;
+  /** The suggested expiration date for the store credit. */
+  readonly expiresAt: Maybe<Scalars['AdminShopify_DateTime']>;
+  /** The maximum available amount to refund in shop and presentment currencies. */
+  readonly maximumRefundable: AdminShopify_MoneyBag;
 };
 
 /** Return type for `tagsAdd` mutation. */
@@ -54033,6 +57388,31 @@ type AdminShopify_TaxPartnerState =
   | 'PENDING'
   /** App is configured, but not used for tax calculations. */
   | 'READY';
+
+/** Return type for `taxSummaryCreate` mutation. */
+type AdminShopify_TaxSummaryCreatePayload = {
+  /** A list of orders that were successfully enqueued to create a tax summary. */
+  readonly enqueuedOrders: Maybe<ReadonlyArray<AdminShopify_Order>>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_TaxSummaryCreateUserError>;
+};
+
+/** An error that occurs during the execution of `TaxSummaryCreate`. */
+type AdminShopify_TaxSummaryCreateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_TaxSummaryCreateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `TaxSummaryCreateUserError`. */
+type AdminShopify_TaxSummaryCreateUserErrorCode =
+  /** There was an error during enqueueing of the tax summary creation job(s). */
+  | 'GENERAL_ERROR'
+  /** No order was not found. */
+  | 'ORDER_NOT_FOUND';
 
 /**
  * Represents Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) tree. Provides categories that you can filter by search criteria or hierarchical relationships.
@@ -54323,6 +57703,29 @@ type AdminShopify_ThemeDeleteUserErrorCode =
   /** The record with the ID used as the input value couldn't be found. */
   | 'NOT_FOUND';
 
+/** Return type for `themeDuplicate` mutation. */
+type AdminShopify_ThemeDuplicatePayload = {
+  /** The newly duplicated theme. */
+  readonly newTheme: Maybe<AdminShopify_OnlineStoreTheme>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<AdminShopify_ThemeDuplicateUserError>;
+};
+
+/** An error that occurs during the execution of `ThemeDuplicate`. */
+type AdminShopify_ThemeDuplicateUserError = AdminShopify_DisplayableError & {
+  /** The error code. */
+  readonly code: Maybe<AdminShopify_ThemeDuplicateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  readonly field: Maybe<ReadonlyArray<Scalars['String']>>;
+  /** The error message. */
+  readonly message: Scalars['String'];
+};
+
+/** Possible error codes that can be returned by `ThemeDuplicateUserError`. */
+type AdminShopify_ThemeDuplicateUserErrorCode =
+  /** The record with the ID used as the input value couldn't be found. */
+  | 'NOT_FOUND';
+
 /** The input fields for the file copy. */
 type AdminShopify_ThemeFilesCopyFileInput = {
   /** The new file where the content is copied to. */
@@ -54508,6 +57911,25 @@ type AdminShopify_TransactionVoidUserErrorCode =
   /** Transaction does not exist. */
   | 'TRANSACTION_NOT_FOUND';
 
+/** The set of valid sort keys for the Transfer query. */
+type AdminShopify_TransferSortKeys =
+  /** Sort by the `created_at` value. */
+  | 'CREATED_AT'
+  /** Sort by the `destination_name` value. */
+  | 'DESTINATION_NAME'
+  /** Sort by the `expected_shipment_arrival` value. */
+  | 'EXPECTED_SHIPMENT_ARRIVAL'
+  /** Sort by the `id` value. */
+  | 'ID'
+  /** Sort by the `name` value. */
+  | 'NAME'
+  /** Sort by the `origin_name` value. */
+  | 'ORIGIN_NAME'
+  /** Sort by the `source_name` value. */
+  | 'SOURCE_NAME'
+  /** Sort by the `status` value. */
+  | 'STATUS';
+
 /** Translatable content of a resource's field. */
 type AdminShopify_TranslatableContent = {
   /** Hash digest representation of the content value. */
@@ -54613,10 +58035,14 @@ type AdminShopify_TranslatableResourceEdge = {
 type AdminShopify_TranslatableResourceType =
   /** A blog post. Translatable fields: `title`, `body_html`, `summary_html`, `handle`, `meta_title`, `meta_description`. */
   | 'ARTICLE'
+  /** An article image. Translatable fields: `alt`. */
+  | 'ARTICLE_IMAGE'
   /** A blog. Translatable fields: `title`, `handle`, `meta_title`, `meta_description`. */
   | 'BLOG'
   /** A product collection. Translatable fields: `title`, `body_html`, `handle`, `meta_title`, `meta_description`. */
   | 'COLLECTION'
+  /** A collection image. Translatable fields: `alt`. */
+  | 'COLLECTION_IMAGE'
   /** The delivery method definition. For example, "Standard", or "Expedited". Translatable fields: `name`, `description`. */
   | 'DELIVERY_METHOD_DEFINITION'
   /** An email template. Translatable fields: `title`, `body_html`. */
@@ -54625,6 +58051,8 @@ type AdminShopify_TranslatableResourceType =
   | 'FILTER'
   /** A link to direct users. Translatable fields: `title`. */
   | 'LINK'
+  /** An image. Translatable fields: `alt`. */
+  | 'MEDIA_IMAGE'
   /** A category of links. Translatable fields: `title`. */
   | 'MENU'
   /** A Metafield. Translatable fields: `value`. */
@@ -54830,12 +58258,28 @@ type AdminShopify_UnitPriceMeasurement = {
   readonly referenceValue: Scalars['Int'];
 };
 
+/** The input fields for the measurement used to calculate a unit price for a product variant (e.g. $9.99 / 100ml). */
+type AdminShopify_UnitPriceMeasurementInput = {
+  /** The quantity unit for the unit price measurement. */
+  readonly quantityUnit: InputMaybe<AdminShopify_UnitPriceMeasurementMeasuredUnit>;
+  /** The quantity value for the unit price measurement. */
+  readonly quantityValue: InputMaybe<Scalars['Float']>;
+  /** The reference unit for the unit price measurement. */
+  readonly referenceUnit: InputMaybe<AdminShopify_UnitPriceMeasurementMeasuredUnit>;
+  /** The reference value for the unit price measurement. */
+  readonly referenceValue: InputMaybe<Scalars['Int']>;
+};
+
 /** The accepted types of unit of measurement. */
 type AdminShopify_UnitPriceMeasurementMeasuredType =
   /** Unit of measurements representing areas. */
   | 'AREA'
+  /** Unit of measurements representing counts. */
+  | 'COUNT'
   /** Unit of measurements representing lengths. */
   | 'LENGTH'
+  /** The type of measurement is unknown. Upgrade to the latest version of the API to resolve this type. */
+  | 'UNKNOWN'
   /** Unit of measurements representing volumes. */
   | 'VOLUME'
   /** Unit of measurements representing weights. */
@@ -54847,12 +58291,26 @@ type AdminShopify_UnitPriceMeasurementMeasuredUnit =
   | 'CL'
   /** 100 centimeters equals 1 meter. */
   | 'CM'
+  /** Imperial system unit of volume (U.S. customary unit). */
+  | 'FLOZ'
+  /** 1 foot equals 12 inches. */
+  | 'FT'
+  /** Imperial system unit of area. */
+  | 'FT2'
   /** Metric system unit of weight. */
   | 'G'
+  /** 1 gallon equals 128 fluid ounces (U.S. customary unit). */
+  | 'GAL'
+  /** Imperial system unit of length. */
+  | 'IN'
+  /** 1 item, a unit of count. */
+  | 'ITEM'
   /** 1 kilogram equals 1000 grams. */
   | 'KG'
   /** Metric system unit of volume. */
   | 'L'
+  /** Imperial system unit of weight. */
+  | 'LB'
   /** Metric system unit of length. */
   | 'M'
   /** Metric system unit of area. */
@@ -54864,7 +58322,17 @@ type AdminShopify_UnitPriceMeasurementMeasuredUnit =
   /** 1000 milliliters equals 1 liter. */
   | 'ML'
   /** 1000 millimeters equals 1 meter. */
-  | 'MM';
+  | 'MM'
+  /** 16 ounces equals 1 pound. */
+  | 'OZ'
+  /** 1 pint equals 16 fluid ounces (U.S. customary unit). */
+  | 'PT'
+  /** 1 quart equals 32 fluid ounces (U.S. customary unit). */
+  | 'QT'
+  /** The unit of measurement is unknown. Upgrade to the latest version of the API to resolve this unit. */
+  | 'UNKNOWN'
+  /** 1 yard equals 36 inches. */
+  | 'YD';
 
 /** Systems of weights and measures. */
 type AdminShopify_UnitSystem =
@@ -54901,18 +58369,29 @@ type AdminShopify_UnverifiedReturnLineItem = AdminShopify_Node & AdminShopify_Re
   readonly customerNote: Maybe<Scalars['String']>;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
+  /** The quantity that can be processed. */
+  readonly processableQuantity: Scalars['Int'];
+  /** The quantity that has been processed. */
+  readonly processedQuantity: Scalars['Int'];
   /** The quantity being returned. */
   readonly quantity: Scalars['Int'];
   /** The quantity that can be refunded. */
   readonly refundableQuantity: Scalars['Int'];
   /** The quantity that was refunded. */
   readonly refundedQuantity: Scalars['Int'];
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   readonly returnReason: AdminShopify_ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  readonly returnReasonDefinition: Maybe<AdminShopify_ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   readonly returnReasonNote: Scalars['String'];
   /** The unit price of the unverified return line item. */
   readonly unitPrice: AdminShopify_MoneyV2;
+  /** The quantity that has't been processed. */
+  readonly unprocessedQuantity: Scalars['Int'];
 };
 
 /** The input fields required to update a media object. */
@@ -55276,8 +58755,8 @@ type AdminShopify_ValidationCreateInput = {
   readonly blockOnFailure: InputMaybe<Scalars['Boolean']>;
   /** Whether the validation should be live on the merchant checkout. */
   readonly enable: InputMaybe<Scalars['Boolean']>;
-  /** The function ID representing the extension to install. */
-  readonly functionId: Scalars['String'];
+  /** The function handle representing the extension to install. */
+  readonly functionHandle: InputMaybe<Scalars['String']>;
   /** Additional metafields to associate to the validation. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
   /** The title of the validation. */
@@ -55373,6 +58852,10 @@ type AdminShopify_ValidationUserErrorCode =
   | 'INVALID_VALUE'
   /** Cannot have more than 25 active validation functions. */
   | 'MAX_VALIDATIONS_ACTIVATED'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Validation not found. */
   | 'NOT_FOUND'
   /** The input value needs to be blank. */
@@ -55706,6 +59189,8 @@ type AdminShopify_WebhookSubscription = AdminShopify_LegacyInteroperability & Ad
   readonly topic: AdminShopify_WebhookSubscriptionTopic;
   /** The date and time when the webhook subscription was updated. */
   readonly updatedAt: Scalars['AdminShopify_DateTime'];
+  /** The URI to which the webhook subscription will send events. */
+  readonly uri: Scalars['String'];
 };
 
 /** An auto-generated type for paginating through multiple WebhookSubscriptions. */
@@ -55762,6 +59247,8 @@ type AdminShopify_WebhookSubscriptionInput = {
   readonly metafieldNamespaces: InputMaybe<ReadonlyArray<Scalars['String']>>;
   /** A list of identifiers specifying metafields to include in the webhook payload. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_HasMetafieldsMetafieldIdentifierInput>>;
+  /** The URI where the webhook subscription should send events. Supports an HTTPS URL, a Google Pub/Sub URI (pubsub://{project-id}:{topic-id}) or an Amazon EventBridge event source ARN. */
+  readonly uri: InputMaybe<Scalars['String']>;
 };
 
 /**
@@ -56063,8 +59550,38 @@ type AdminShopify_WebhookSubscriptionTopic =
   | 'INVENTORY_LEVELS_DISCONNECT'
   /** The webhook topic for `inventory_levels/update` events. Occurs whenever an inventory level is updated. Requires the `read_inventory` scope. */
   | 'INVENTORY_LEVELS_UPDATE'
+  /** The webhook topic for `inventory_shipments/add_items` events. Occurs whenever items are added to a shipment. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_ADD_ITEMS'
+  /** The webhook topic for `inventory_shipments/create` events. Triggers when a shipment is created. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_CREATE'
+  /** The webhook topic for `inventory_shipments/delete` events. Triggers when a shipment is deleted. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_DELETE'
+  /** The webhook topic for `inventory_shipments/mark_in_transit` events. Triggers when a shipment is marked as in transit. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_MARK_IN_TRANSIT'
+  /** The webhook topic for `inventory_shipments/receive_items` events. Triggers when items on a shipment are received. Requires the `read_inventory_shipments_received_items` scope. */
+  | 'INVENTORY_SHIPMENTS_RECEIVE_ITEMS'
+  /** The webhook topic for `inventory_shipments/remove_items` events. Occurs whenever items are removed from a shipment. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_REMOVE_ITEMS'
+  /** The webhook topic for `inventory_shipments/update_item_quantities` events. Occurs whenever quantities change on a shipment. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_UPDATE_ITEM_QUANTITIES'
+  /** The webhook topic for `inventory_shipments/update_tracking` events. Triggers when tracking info on a shipment is updated. Requires the `read_inventory_shipments` scope. */
+  | 'INVENTORY_SHIPMENTS_UPDATE_TRACKING'
+  /** The webhook topic for `inventory_transfers/add_items` events. Occurs any time items are added to a transfer. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_ADD_ITEMS'
+  /** The webhook topic for `inventory_transfers/cancel` events. Triggers when a transfer is canceled. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_CANCEL'
+  /** The webhook topic for `inventory_transfers/complete` events. Triggers when a transfer is completed. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_COMPLETE'
+  /** The webhook topic for `inventory_transfers/ready_to_ship` events. Triggers when a transfer is marked as ready to ship. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_READY_TO_SHIP'
+  /** The webhook topic for `inventory_transfers/remove_items` events. Occurs any time items are removed from a transfer. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_REMOVE_ITEMS'
+  /** The webhook topic for `inventory_transfers/update_item_quantities` events. Occurs whenever the quantity of transfer line items changes. Requires the `read_inventory_transfers` scope. */
+  | 'INVENTORY_TRANSFERS_UPDATE_ITEM_QUANTITIES'
   /** The webhook topic for `locales/create` events. Occurs whenever a shop locale is created Requires the `read_locales` scope. */
   | 'LOCALES_CREATE'
+  /** The webhook topic for `locales/destroy` events. Occurs whenever a shop locale is destroyed Requires the `read_locales` scope. */
+  | 'LOCALES_DESTROY'
   /** The webhook topic for `locales/update` events. Occurs whenever a shop locale is updated, such as published or unpublished Requires the `read_locales` scope. */
   | 'LOCALES_UPDATE'
   /** The webhook topic for `locations/activate` events. Occurs whenever a deactivated location is re-activated. Requires the `read_locations` scope. */
@@ -56107,6 +59624,8 @@ type AdminShopify_WebhookSubscriptionTopic =
   | 'ORDERS_EDITED'
   /** The webhook topic for `orders/fulfilled` events. Occurs whenever an order is fulfilled. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
   | 'ORDERS_FULFILLED'
+  /** The webhook topic for `orders/link_requested` events. Occurs whenever a customer requests a new order link from the expired order status page. Requires at least one of the following scopes: read_orders, read_marketplace_orders, read_buyer_membership_orders. */
+  | 'ORDERS_LINK_REQUESTED'
   /** The webhook topic for `orders/paid` events. Occurs whenever an order is paid. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
   | 'ORDERS_PAID'
   /** The webhook topic for `orders/partially_fulfilled` events. Occurs whenever an order is partially fulfilled. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
@@ -56182,6 +59701,8 @@ type AdminShopify_WebhookSubscriptionTopic =
   | 'RETURNS_CLOSE'
   /** The webhook topic for `returns/decline` events. Occurs whenever a return is declined. This means `Return.status` is `DECLINED`. Requires at least one of the following scopes: read_returns, read_marketplace_returns, read_buyer_membership_orders. */
   | 'RETURNS_DECLINE'
+  /** The webhook topic for `returns/process` events. Occurs whenever a return is processed. Requires at least one of the following scopes: read_returns, read_marketplace_returns, read_buyer_membership_orders. */
+  | 'RETURNS_PROCESS'
   /** The webhook topic for `returns/reopen` events. Occurs whenever a closed return is reopened. Requires at least one of the following scopes: read_orders, read_marketplace_orders, read_returns, read_marketplace_returns, read_buyer_membership_orders. */
   | 'RETURNS_REOPEN'
   /** The webhook topic for `returns/request` events. Occurs whenever a return is requested. This means `Return.status` is `REQUESTED`. Requires at least one of the following scopes: read_returns, read_marketplace_returns, read_buyer_membership_orders. */
@@ -56261,6 +59782,8 @@ type AdminShopify_WebhookSubscriptionTopic =
   | 'TAX_SERVICES_CREATE'
   /** The webhook topic for `tax_services/update` events. Occurs whenver a tax service is updated. Requires the `read_taxes` scope. */
   | 'TAX_SERVICES_UPDATE'
+  /** The webhook topic for `tax_summaries/create` events. Occurs when a tax summary is created. Consumed by tax partners. Requires at least one of the following scopes: read_fulfillments, read_marketplace_orders, read_orders. */
+  | 'TAX_SUMMARIES_CREATE'
   /** The webhook topic for `tender_transactions/create` events. Occurs when a tender transaction is created. Requires the `read_orders` scope. */
   | 'TENDER_TRANSACTIONS_CREATE'
   /** The webhook topic for `themes/create` events. Occurs whenever a theme is created. Does not occur when theme files are created. Requires the `read_themes` scope. */
@@ -63401,6 +66924,16 @@ type StoreFrontShopify_CartCardSource =
    */
   | 'SAVED_CREDIT_CARD';
 
+/** Return type for `cartClone` mutation. */
+type StoreFrontShopify_CartClonePayload = {
+  /** The newly created cart without PII. This is a different cart from the source. */
+  readonly cart: Maybe<StoreFrontShopify_Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<StoreFrontShopify_CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  readonly warnings: ReadonlyArray<StoreFrontShopify_CartWarning>;
+};
+
 /**
  * A discount allocation applied to a cart line when a customer enters a [discount code](https://help.shopify.com/manual/discounts/discount-methods/discount-codes).
  *
@@ -63661,6 +67194,16 @@ type StoreFrontShopify_CartDeliveryAddressesAddPayload = {
 
 /** Return type for `cartDeliveryAddressesRemove` mutation. */
 type StoreFrontShopify_CartDeliveryAddressesRemovePayload = {
+  /** The updated cart. */
+  readonly cart: Maybe<StoreFrontShopify_Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<StoreFrontShopify_CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  readonly warnings: ReadonlyArray<StoreFrontShopify_CartWarning>;
+};
+
+/** Return type for `cartDeliveryAddressesReplace` mutation. */
+type StoreFrontShopify_CartDeliveryAddressesReplacePayload = {
   /** The updated cart. */
   readonly cart: Maybe<StoreFrontShopify_Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -63938,6 +67481,14 @@ type StoreFrontShopify_CartErrorCode =
   | 'ADDRESS_FIELD_IS_REQUIRED'
   /** The specified address field is too long. */
   | 'ADDRESS_FIELD_IS_TOO_LONG'
+  /** Bundles and addons cannot be mixed. */
+  | 'BUNDLES_AND_ADDONS_CANNOT_BE_MIXED'
+  /** Buyer cannot purchase for company location. */
+  | 'BUYER_CANNOT_PURCHASE_FOR_COMPANY_LOCATION'
+  /** The cart is too large to save. */
+  | 'CART_TOO_LARGE'
+  /** The specified gift card recipient is invalid. */
+  | 'GIFT_CARD_RECIPIENT_INVALID'
   /** The input value is invalid. */
   | 'INVALID'
   /** Company location not found or not allowed. */
@@ -63956,6 +67507,8 @@ type StoreFrontShopify_CartErrorCode =
   | 'INVALID_METAFIELDS'
   /** The payment wasn't valid. */
   | 'INVALID_PAYMENT'
+  /** The payment is invalid. Deferred payment is required. */
+  | 'INVALID_PAYMENT_DEFERRED_PAYMENT_REQUIRED'
   /** Cannot update payment on an empty cart */
   | 'INVALID_PAYMENT_EMPTY_CART'
   /** The given zip code is invalid for the provided country. */
@@ -63966,6 +67519,8 @@ type StoreFrontShopify_CartErrorCode =
   | 'LESS_THAN'
   /** The quantity must be below the specified maximum for the item. */
   | 'MAXIMUM_EXCEEDED'
+  /** Item cannot be purchased as configured. */
+  | 'MERCHANDISE_NOT_APPLICABLE'
   /** The quantity must be above the specified minimum for the item. */
   | 'MINIMUM_NOT_MET'
   /** The customer access token is required when setting a company location. */
@@ -63978,6 +67533,14 @@ type StoreFrontShopify_CartErrorCode =
   | 'NOTE_TOO_LONG'
   /** Only one delivery address can be selected. */
   | 'ONLY_ONE_DELIVERY_ADDRESS_CAN_BE_SELECTED'
+  /** Cannot reference existing parent lines by variant_id. */
+  | 'PARENT_LINE_INVALID_REFERENCE'
+  /** Parent line nesting is too deep or circular. */
+  | 'PARENT_LINE_NESTING_TOO_DEEP'
+  /** Parent line not found. */
+  | 'PARENT_LINE_NOT_FOUND'
+  /** Nested cartlines are blocked due to an incompatibility. */
+  | 'PARENT_LINE_OPERATION_BLOCKED'
   /** Credit card has expired. */
   | 'PAYMENTS_CREDIT_CARD_BASE_EXPIRED'
   /** Credit card gateway is not supported. */
@@ -63998,16 +67561,26 @@ type StoreFrontShopify_CartErrorCode =
   | 'PAYMENTS_CREDIT_CARD_YEAR_EXPIRED'
   /** Credit card expiry year is invalid. */
   | 'PAYMENTS_CREDIT_CARD_YEAR_INVALID_EXPIRY_YEAR'
+  /** The payment method is not applicable. */
+  | 'PAYMENT_METHOD_NOT_APPLICABLE'
   /** The payment method is not supported. */
   | 'PAYMENT_METHOD_NOT_SUPPORTED'
+  /** The delivery group is in a pending state. */
+  | 'PENDING_DELIVERY_GROUPS'
   /** The given province cannot be found. */
   | 'PROVINCE_NOT_FOUND'
+  /** Selling plan is not applicable. */
+  | 'SELLING_PLAN_NOT_APPLICABLE'
+  /** An error occurred while saving the cart. */
+  | 'SERVICE_UNAVAILABLE'
   /** Too many delivery addresses on Cart. */
   | 'TOO_MANY_DELIVERY_ADDRESSES'
   /** A general error occurred during address validation. */
   | 'UNSPECIFIED_ADDRESS_ERROR'
   /** Validation failed. */
   | 'VALIDATION_CUSTOM'
+  /** Variant can only be purchased with a selling plan. */
+  | 'VARIANT_REQUIRES_SELLING_PLAN'
   /** The given zip code is unsupported. */
   | 'ZIP_CODE_NOT_SUPPORTED';
 
@@ -64037,6 +67610,16 @@ type StoreFrontShopify_CartEstimatedCost = {
 type StoreFrontShopify_CartFreePaymentMethodInput = {
   /** The customer's billing address. */
   readonly billingAddress: StoreFrontShopify_MailingAddressInput;
+};
+
+/** Return type for `cartGiftCardCodesAdd` mutation. */
+type StoreFrontShopify_CartGiftCardCodesAddPayload = {
+  /** The updated cart. */
+  readonly cart: Maybe<StoreFrontShopify_Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<StoreFrontShopify_CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  readonly warnings: ReadonlyArray<StoreFrontShopify_CartWarning>;
 };
 
 /** Return type for `cartGiftCardCodesRemove` mutation. */
@@ -64156,8 +67739,12 @@ type StoreFrontShopify_CartLine = StoreFrontShopify_BaseCartLine & StoreFrontSho
   readonly estimatedCost: StoreFrontShopify_CartLineEstimatedCost;
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
+  /** The instructions for the line item. */
+  readonly instructions: StoreFrontShopify_CartLineInstructions;
   /** The merchandise that the buyer intends to purchase. */
   readonly merchandise: StoreFrontShopify_Merchandise;
+  /** The parent of the line item. */
+  readonly parentRelationship: Maybe<StoreFrontShopify_CartLineParentRelationship>;
   /** The quantity of the merchandise that the customer intends to purchase. */
   readonly quantity: Scalars['Int'];
   /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
@@ -64222,10 +67809,34 @@ type StoreFrontShopify_CartLineInput = {
   readonly attributes: InputMaybe<ReadonlyArray<StoreFrontShopify_AttributeInput>>;
   /** The ID of the merchandise that the buyer intends to purchase. */
   readonly merchandiseId: Scalars['ID'];
+  /** The parent line item of the cart line. */
+  readonly parent: InputMaybe<StoreFrontShopify_CartLineParentInput>;
   /** The quantity of the merchandise. */
   readonly quantity: InputMaybe<Scalars['Int']>;
   /** The ID of the selling plan that the merchandise is being purchased with. */
   readonly sellingPlanId: InputMaybe<Scalars['ID']>;
+};
+
+/** Represents instructions for a cart line item. */
+type StoreFrontShopify_CartLineInstructions = {
+  /** Whether the line item can be removed from the cart. */
+  readonly canRemove: Scalars['Boolean'];
+  /** Whether the line item quantity can be updated. */
+  readonly canUpdateQuantity: Scalars['Boolean'];
+};
+
+/** The parent line item of the cart line. */
+type StoreFrontShopify_CartLineParentInput = {
+  /** The id of the parent line item. */
+  readonly lineId: InputMaybe<Scalars['ID']>;
+  /** The ID of the parent line merchandise. */
+  readonly merchandiseId: InputMaybe<Scalars['ID']>;
+};
+
+/** Represents the parent relationship of a cart line. */
+type StoreFrontShopify_CartLineParentRelationship = {
+  /** The parent cart line. */
+  readonly parent: StoreFrontShopify_CartLine;
 };
 
 /**
@@ -64427,6 +68038,16 @@ type StoreFrontShopify_CartPrepareForCompletionPayload = {
 /** The result of cart preparation. */
 type StoreFrontShopify_CartPrepareForCompletionResult = StoreFrontShopify_CartStatusNotReady | StoreFrontShopify_CartStatusReady | StoreFrontShopify_CartThrottled;
 
+/** Return type for `cartRemovePersonalData` mutation. */
+type StoreFrontShopify_CartRemovePersonalDataPayload = {
+  /** The updated cart. */
+  readonly cart: Maybe<StoreFrontShopify_Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  readonly userErrors: ReadonlyArray<StoreFrontShopify_CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  readonly warnings: ReadonlyArray<StoreFrontShopify_CartWarning>;
+};
+
 /**
  * A selectable delivery address for a cart.
  *
@@ -64569,12 +68190,38 @@ type StoreFrontShopify_CartWarning = {
 
 /** The code for the cart warning. */
 type StoreFrontShopify_CartWarningCode =
+  /** The discount code cannot be honored. */
+  | 'DISCOUNT_CODE_NOT_HONOURED'
+  /** The discount is currently inactive. */
+  | 'DISCOUNT_CURRENTLY_INACTIVE'
+  /** The customer is not eligible for this discount. */
+  | 'DISCOUNT_CUSTOMER_NOT_ELIGIBLE'
+  /** The customer's discount usage limit has been reached. */
+  | 'DISCOUNT_CUSTOMER_USAGE_LIMIT_REACHED'
+  /** An eligible customer is missing for this discount. */
+  | 'DISCOUNT_ELIGIBLE_CUSTOMER_MISSING'
+  /** The purchase type is incompatible with this discount. */
+  | 'DISCOUNT_INCOMPATIBLE_PURCHASE_TYPE'
+  /** The discount was not found. */
+  | 'DISCOUNT_NOT_FOUND'
+  /** There are no entitled line items for this discount. */
+  | 'DISCOUNT_NO_ENTITLED_LINE_ITEMS'
+  /** There are no entitled shipping lines for this discount. */
+  | 'DISCOUNT_NO_ENTITLED_SHIPPING_LINES'
+  /** The purchase is not in range for this discount. */
+  | 'DISCOUNT_PURCHASE_NOT_IN_RANGE'
+  /** The quantity is not in range for this discount. */
+  | 'DISCOUNT_QUANTITY_NOT_IN_RANGE'
+  /** The discount usage limit has been reached. */
+  | 'DISCOUNT_USAGE_LIMIT_REACHED'
   /** A delivery address with the same details already exists on this cart. */
   | 'DUPLICATE_DELIVERY_ADDRESS'
   /** The merchandise does not have enough stock. */
   | 'MERCHANDISE_NOT_ENOUGH_STOCK'
   /** The merchandise is out of stock. */
   | 'MERCHANDISE_OUT_OF_STOCK'
+  /** Only one-time purchase is available for B2B orders. */
+  | 'MERCHANDISE_SELLING_PLAN_NOT_APPLICABLE_ON_COMPANY_LOCATION'
   /** Gift cards are not available as a payment method. */
   | 'PAYMENTS_GIFT_CARDS_UNAVAILABLE';
 
@@ -65845,6 +69492,8 @@ type StoreFrontShopify_Customer = StoreFrontShopify_HasMetafields & {
   readonly acceptsMarketing: Scalars['Boolean'];
   /** A list of addresses for the customer. */
   readonly addresses: StoreFrontShopify_MailingAddressConnection;
+  /** The URL of the customer's avatar image. */
+  readonly avatarUrl: Maybe<Scalars['String']>;
   /** The date and time when the customer was created. */
   readonly createdAt: Scalars['StoreFrontShopify_DateTime'];
   /** The customer’s default address. */
@@ -65869,6 +69518,8 @@ type StoreFrontShopify_Customer = StoreFrontShopify_HasMetafields & {
   readonly orders: StoreFrontShopify_OrderConnection;
   /** The customer’s phone number. */
   readonly phone: Maybe<Scalars['String']>;
+  /** The social login provider associated with the customer. */
+  readonly socialLoginProvider: Maybe<StoreFrontShopify_SocialLoginProvider>;
   /**
    * A comma separated list of tags that have been added to the customer.
    * Additional access scope required: unauthenticated_read_customer_tags.
@@ -66773,6 +70424,15 @@ type StoreFrontShopify_Image = {
    * @deprecated Use `url` instead.
    */
   readonly src: Scalars['StoreFrontShopify_URL'];
+  /**
+   * The ThumbHash of the image.
+   *
+   * Useful to display placeholder images while the original image is loading.
+   *
+   * See https://evanw.github.io/thumbhash/ for details on how to use it.
+   *
+   */
+  readonly thumbhash: Maybe<Scalars['String']>;
   /**
    * The location of the transformed image as a URL.
    *
@@ -67855,7 +71515,7 @@ type StoreFrontShopify_MetafieldParentResource = StoreFrontShopify_Article | Sto
  * Returned by the `Metafield` object's [`reference`](https://shopify.dev/docs/api/storefront/current/objects/Metafield#field-Metafield.fields.reference) field for single references or the [`references`](https://shopify.dev/docs/api/storefront/current/objects/Metafield#field-Metafield.fields.references) field for lists.
  *
  */
-type StoreFrontShopify_MetafieldReference = StoreFrontShopify_Collection | StoreFrontShopify_GenericFile | StoreFrontShopify_MediaImage | StoreFrontShopify_Metaobject | StoreFrontShopify_Model3d | StoreFrontShopify_Page | StoreFrontShopify_Product | StoreFrontShopify_ProductVariant | StoreFrontShopify_Video;
+type StoreFrontShopify_MetafieldReference = StoreFrontShopify_Article | StoreFrontShopify_Collection | StoreFrontShopify_GenericFile | StoreFrontShopify_MediaImage | StoreFrontShopify_Metaobject | StoreFrontShopify_Model3d | StoreFrontShopify_Page | StoreFrontShopify_Product | StoreFrontShopify_ProductVariant | StoreFrontShopify_Video;
 
 /**
  * An auto-generated type for paginating through multiple MetafieldReferences.
@@ -70055,6 +73715,10 @@ type StoreFrontShopify_SellingPlanRecurringDeliveryPolicy = {
 type StoreFrontShopify_Shop = StoreFrontShopify_HasMetafields & StoreFrontShopify_Node & {
   /** The shop's branding configuration. */
   readonly brand: Maybe<StoreFrontShopify_Brand>;
+  /** Translations for customer accounts. */
+  readonly customerAccountTranslations: Maybe<ReadonlyArray<StoreFrontShopify_Translation>>;
+  /** The URL for the customer account (only present if shop has a customer account vanity domain). */
+  readonly customerAccountUrl: Maybe<Scalars['String']>;
   /** A description of the shop. */
   readonly description: Maybe<Scalars['String']>;
   /** A globally-unique ID. */
@@ -70081,6 +73745,8 @@ type StoreFrontShopify_Shop = StoreFrontShopify_HasMetafields & StoreFrontShopif
   readonly shipsToCountries: ReadonlyArray<StoreFrontShopify_CountryCode>;
   /** The Shop Pay Installments pricing information for the shop. */
   readonly shopPayInstallmentsPricing: Maybe<StoreFrontShopify_ShopPayInstallmentsPricing>;
+  /** The social login providers for customer accounts. */
+  readonly socialLoginProviders: ReadonlyArray<StoreFrontShopify_SocialLoginProvider>;
   /** The shop’s subscription policy. */
   readonly subscriptionPolicy: Maybe<StoreFrontShopify_ShopPolicyWithDefault>;
   /** The shop’s terms of service. */
@@ -70633,6 +74299,12 @@ type StoreFrontShopify_SitemapType =
   /** Products present in the sitemap. */
   | 'PRODUCT';
 
+/** A social login provider for customer accounts. */
+type StoreFrontShopify_SocialLoginProvider = {
+  /** The handle of the social login provider. */
+  readonly handle: Scalars['String'];
+};
+
 /**
  * Inventory information for a product variant at a physical store location that offers local pickup. Includes stock availability, quantity on hand, and estimated pickup readiness time.
  *
@@ -70888,6 +74560,14 @@ type StoreFrontShopify_Trackable = {
   readonly trackingParameters: Maybe<Scalars['String']>;
 };
 
+/** Translation represents a translation of a key-value pair. */
+type StoreFrontShopify_Translation = {
+  /** The key of the translation. */
+  readonly key: Scalars['String'];
+  /** The value of the translation. */
+  readonly value: Scalars['String'];
+};
+
 /**
  * The measurement data used to calculate unit prices for a [`ProductVariant`](https://shopify.dev/docs/api/storefront/current/objects/ProductVariant). Unit pricing helps customers compare costs across different package sizes by showing a standardized price, such as "$9.99 / 100ml".
  *
@@ -70911,8 +74591,12 @@ type StoreFrontShopify_UnitPriceMeasurement = {
 type StoreFrontShopify_UnitPriceMeasurementMeasuredType =
   /** Unit of measurements representing areas. */
   | 'AREA'
+  /** Unit of measurements representing counts. */
+  | 'COUNT'
   /** Unit of measurements representing lengths. */
   | 'LENGTH'
+  /** The type of measurement is unknown. Upgrade to the latest version of the API to resolve this type. */
+  | 'UNKNOWN'
   /** Unit of measurements representing volumes. */
   | 'VOLUME'
   /** Unit of measurements representing weights. */
@@ -70924,12 +74608,26 @@ type StoreFrontShopify_UnitPriceMeasurementMeasuredUnit =
   | 'CL'
   /** 100 centimeters equals 1 meter. */
   | 'CM'
+  /** Imperial system unit of volume (U.S. customary unit). */
+  | 'FLOZ'
+  /** 1 foot equals 12 inches. */
+  | 'FT'
+  /** Imperial system unit of area. */
+  | 'FT2'
   /** Metric system unit of weight. */
   | 'G'
+  /** 1 gallon equals 128 fluid ounces (U.S. customary unit). */
+  | 'GAL'
+  /** Imperial system unit of length. */
+  | 'IN'
+  /** 1 item, a unit of count. */
+  | 'ITEM'
   /** 1 kilogram equals 1000 grams. */
   | 'KG'
   /** Metric system unit of volume. */
   | 'L'
+  /** Imperial system unit of weight. */
+  | 'LB'
   /** Metric system unit of length. */
   | 'M'
   /** Metric system unit of area. */
@@ -70941,7 +74639,17 @@ type StoreFrontShopify_UnitPriceMeasurementMeasuredUnit =
   /** 1000 milliliters equals 1 liter. */
   | 'ML'
   /** 1000 millimeters equals 1 meter. */
-  | 'MM';
+  | 'MM'
+  /** 16 ounces equals 1 pound. */
+  | 'OZ'
+  /** 1 pint equals 16 fluid ounces (U.S. customary unit). */
+  | 'PT'
+  /** 1 quart equals 32 fluid ounces (U.S. customary unit). */
+  | 'QT'
+  /** The unit of measurement is unknown. Upgrade to the latest version of the API to resolve this unit. */
+  | 'UNKNOWN'
+  /** 1 yard equals 36 inches. */
+  | 'YD';
 
 /** Systems of weights and measures. */
 type StoreFrontShopify_UnitSystem =
@@ -71052,6 +74760,18 @@ type StoreFrontShopify_VideoSource = {
   readonly url: Scalars['String'];
   /** The width of the video. */
   readonly width: Scalars['Int'];
+};
+
+/** The visitor's consent to data processing purposes for the shop. true means accepting the purposes, false means declining them, and null means that the visitor didn't express a preference. */
+type StoreFrontShopify_VisitorConsent = {
+  /** The visitor accepts or rejects the analytics data processing purpose. */
+  readonly analytics: InputMaybe<Scalars['Boolean']>;
+  /** The visitor accepts or rejects the first and third party marketing data processing purposes. */
+  readonly marketing: InputMaybe<Scalars['Boolean']>;
+  /** The visitor accepts or rejects the preferences data processing purpose. */
+  readonly preferences: InputMaybe<Scalars['Boolean']>;
+  /** The visitor accepts or rejects the sale or sharing of their data with third parties. */
+  readonly saleOfData: InputMaybe<Scalars['Boolean']>;
 };
 
 /**

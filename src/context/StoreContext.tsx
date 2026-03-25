@@ -26,7 +26,7 @@ const CART_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
 const clientV2 = createStorefrontApiClient({
   storeDomain: process.env.GATSBY_SHOPIFY_STORE_DOMAIN!,
   publicAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
-  apiVersion: "2025-01",
+  apiVersion: "2026-01",
 });
 
 // ***********************
