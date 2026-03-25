@@ -31,7 +31,7 @@ describe("BasketPage", () => {
     useCheckoutLineItems.mockImplementation((): any => []);
     render(<BasketPage />);
 
-    screen.getByRole("status", {
+    screen.getByRole("note", {
       name: /Brushella.art is under construction./,
     });
   });
@@ -71,7 +71,7 @@ describe("BasketPage", () => {
     ]);
     render(<BasketPage />);
 
-    screen.getByRole("status", {
+    screen.getByRole("note", {
       name: /Brushella.art is under construction./,
     });
   });
