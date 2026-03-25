@@ -22,6 +22,7 @@ const FooterLink = styled(GatsbyLink)`
   color: #2b2b35;
   &:hover {
     color: #6591a2;
+    text-decoration: underline;
   }
 `;
 const FooterIconLink = styled.a`
@@ -103,7 +104,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
                 boxSize="1rem"
                 aria-label="facebook"
                 title="facebook"
-                color="teal.500"
+                color="teal.600"
                 as={FaFacebookF}
               />
             </FooterIconLink>
@@ -117,7 +118,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
                 data-testid="instagram"
                 boxSize="1rem"
                 title="instagram"
-                color="teal.500"
+                color="teal.600"
                 as={FaInstagram}
               />
             </FooterIconLink>
@@ -131,7 +132,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
                 boxSize="1rem"
                 aria-label="whatsApp"
                 title="whatsApp"
-                color="teal.500"
+                color="teal.600"
                 as={FaWhatsapp}
               />
             </FooterIconLink>

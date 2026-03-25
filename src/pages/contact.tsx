@@ -46,7 +46,7 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
         <BreadcrumbLink href="#">Contact</BreadcrumbLink>
       </BreadcrumbItem>
     </Breadcrumb>
-    <Heading as="h2" color="teal.500" mb="2.4rem">
+    <Heading as="h2" color="teal.600" mb="2.4rem">
       Contact me
     </Heading>
     <Text
