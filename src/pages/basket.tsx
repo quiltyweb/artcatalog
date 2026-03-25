@@ -53,7 +53,7 @@ const BreadcrumbMenuCart = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <Alert
-        role="status"
+        role="note"
         status="info"
         flexDir={["column", "row"]}
         aria-labelledby="message"
@@ -182,9 +182,15 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
   if (isCartLoading) {
     return (
-      <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+      <Container
+        as="section"
+        maxW={"1200px"}
+        padding={"4rem 0.5rem"}
+        aria-live="polite"
+        aria-busy="true"
+      >
         <BreadcrumbMenuCart />
-        <Heading as="h2" color="teal.500" mb="2.4rem">
+        <Heading as="h2" color="teal.600" mb="2.4rem">
           Shopping Cart
         </Heading>
         <TableLoadingSkeleton />
@@ -196,7 +202,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
     return (
       <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
         <BreadcrumbMenuCart />
-        <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
+        <Heading as="h2" color="teal.600" mb="2.4rem" mt="2.4rem">
           Shopping Cart
         </Heading>
         <Heading as="h3" size="md" fontWeight="normal">
@@ -210,7 +216,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
       <BreadcrumbMenuCart />
-      <Heading as="h2" color="teal.500" mb="2.4rem" mt="2.4rem">
+      <Heading as="h2" color="teal.600" mb="2.4rem" mt="2.4rem">
         Shopping Cart
       </Heading>
       <TableContainer mb="8">
@@ -228,12 +234,12 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           {isDektop && (
             <Thead>
               <Tr>
-                <Th>thumbnail</Th>
-                <Th>product</Th>
-                <Th>price</Th>
-                <Th>quantity</Th>
-                <Th>remove</Th>
-                <Th>total</Th>
+                <Th scope="col">thumbnail</Th>
+                <Th scope="col">product</Th>
+                <Th scope="col">price</Th>
+                <Th scope="col">quantity</Th>
+                <Th scope="col">remove</Th>
+                <Th scope="col">total</Th>
               </Tr>
             </Thead>
           )}
@@ -344,7 +350,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
               // mobile first render
               return (
-                <>
+                <React.Fragment key={`${item.id}-mobile-${index}`}>
                   <Tr backgroundColor="gray.200">
                     <Th scope="row">thumbnail</Th>
                     <Td gridArea={"image"}>
@@ -446,7 +452,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                       </Text>
                     </Td>
                   </Tr>
-                </>
+                </React.Fragment>
               );
             })}
           </Tbody>
