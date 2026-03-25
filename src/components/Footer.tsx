@@ -22,6 +22,7 @@ const FooterLink = styled(GatsbyLink)`
   color: #2b2b35;
   &:hover {
     color: #6591a2;
+    text-decoration: underline;
   }
 `;
 const FooterIconLink = styled.a`
