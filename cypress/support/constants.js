@@ -1,4 +1,4 @@
-export const REGEX_INTERCEPT_POST_REQUEST = /api\/2025-01\/graphql/;
+export const REGEX_INTERCEPT_POST_REQUEST = /api\/2026-01\/graphql/;
 export const MOCKED_LAYOUT_GLOBAL_DATA = {
   storefrontshopify: {
     metaobjects: {
