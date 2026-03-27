@@ -98,7 +98,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   const featuredImageDetail = getImage(product.featuredImage?.detail ?? null);
 
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
-  const isProductPlublishedToStoreApp = product.publishedAt !== null;
+  const isProductPlublishedToStoreApp = product.status === "ACTIVE";
 
   const initialValues: ProductCardFormValues = {
     id: product.id,
@@ -277,7 +277,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 )}
                 <Box
                   className="prose prose-lg max-w-none mb-6"
-                  dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(product.descriptionHtml) : product.descriptionHtml }}
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      typeof window !== "undefined"
+                        ? DOMPurify.sanitize(product.descriptionHtml)
+                        : product.descriptionHtml,
+                  }}
                 />
                 {printVersion && (
                   <Link
