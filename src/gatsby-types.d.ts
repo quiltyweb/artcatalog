@@ -6467,7 +6467,7 @@ type AdminShopify_BulkOperationStatus =
    * [BulkOperation.errorCode](https://shopify.dev/api/admin-graphql/latest/enums/bulkoperationerrorcode).
    */
   | 'FAILED'
-  /** The bulk operation is runnning. */
+  /** The bulk operation is running. */
   | 'RUNNING';
 
 /** The valid values for the bulk operation's type. */

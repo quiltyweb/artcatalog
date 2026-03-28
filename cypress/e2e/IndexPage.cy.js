@@ -172,7 +172,15 @@ describe("Home page mobile", () => {
   });
   // TODO: UPDATE this test to check on all categories.
   it("Navigates from mobile menu to each category page", () => {
+    cy.intercept(
+      "GET",
+      "/page-data/collections/original-paintings/page-data.json",
+      {
+        fixture: "collection-template/collection-original-paintings.json",
+      }
+    ).as("originalPaintingsPage");
     cy.clickDrawerMenuOption("Original Paintings");
+    cy.wait("@originalPaintingsPage");
     cy.findByRole("heading", { name: /Original Paintings/i });
   });
 });

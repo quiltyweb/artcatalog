@@ -573,7 +573,6 @@ export const MOCKED_LAYOUT_GLOBAL_DATA = {
                 values: ["Default Title"],
               },
             ],
-            publishedAt: "2025-09-08T00:49:13Z",
           },
         ],
       },

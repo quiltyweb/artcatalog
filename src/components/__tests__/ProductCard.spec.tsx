@@ -857,7 +857,7 @@ describe("ProductCard", () => {
         title: '"Prana" Original Acrylic Painting (SOLD)',
         handle: "prana-original-acrylic-painting",
         description: 'test description"',
-        status: "ACTIVE",
+        status: "DRAFT",
         hasOutOfStockVariants: true,
         priceRangeV2: {
           minVariantPrice: {
@@ -900,7 +900,6 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
-        publishedAt: null,
         metafields: [],
       },
       collectionHandle: "prints",
@@ -933,7 +932,7 @@ describe("ProductCard", () => {
         title: '"Prana" Original Acrylic Painting (SOLD)',
         handle: "prana-original-acrylic-painting",
         description: 'test description"',
-        status: "ACTIVE",
+        status: "DRAFT",
         hasOutOfStockVariants: true,
         priceRangeV2: {
           minVariantPrice: {
@@ -977,7 +976,6 @@ describe("ProductCard", () => {
           },
         ],
         metafields: [],
-        publishedAt: null,
       },
       collectionHandle: "prints",
     };
@@ -1006,7 +1004,7 @@ describe("ProductCard", () => {
         title: '"Prana" Original Acrylic Painting (SOLD)',
         handle: "prana-original-acrylic-painting",
         description: 'test description"',
-        status: "ACTIVE",
+        status: "DRAFT",
         hasOutOfStockVariants: true,
         priceRangeV2: {
           minVariantPrice: {
@@ -1049,7 +1047,6 @@ describe("ProductCard", () => {
             values: ["Default Title"],
           },
         ],
-        publishedAt: null,
         metafields: [],
       },
       collectionHandle: "prints",

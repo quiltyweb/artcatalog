@@ -8,7 +8,7 @@
                 "title": "test title Original Acrylic Painting",
                 "handle": "test-title-handle",
                 "description": "Medium: Acrylic painting",
-                "status": "ACTIVE",
+                "status": "DRAFT",
                 "hasOutOfStockVariants": false,
                 "priceRangeV2": {
                     "minVariantPrice": {
@@ -51,8 +51,7 @@
                         ]
                     }
                 ],
-                 "metafields":[],
-                "publishedAt": null
+                 "metafields":[]
             },
             "collectionHandle": "original-paintings"
         },
