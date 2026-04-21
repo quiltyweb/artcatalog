@@ -28,6 +28,18 @@ h4,h5,h6, span {
   box-shadow: none !important;
 }
 
+/* Collection card image hover zoom */
+.collection-card-image:hover {
+  transform: scale(1.08);
+}
+
+/* Buy Print button hover — contrast ratio ~5.4:1 (WCAG AA) */
+.buy-print-btn:hover {
+  background-color: #7a6538;
+  color: #fff !important;
+  transform: scale(1.03);
+}
+
 /* screen reader only */
 .sr-only {
   position: absolute;
