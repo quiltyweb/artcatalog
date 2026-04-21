@@ -64,7 +64,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
               grid: gatsbyImageData(
                 layout: CONSTRAINED
                 width: 400
-                aspectRatio: 1
                 placeholder: BLURRED
                 formats: [AUTO, WEBP]
               )

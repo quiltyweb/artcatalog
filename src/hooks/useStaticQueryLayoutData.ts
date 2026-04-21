@@ -82,9 +82,9 @@ export function useStaticQueryLayoutData() {
               altText
               originalSrc
               gridCategorySlider: gatsbyImageData(
-                width: 500
-                height: 500
+                width: 400
                 layout: CONSTRAINED
+                # aspectRatio: 0.667
                 placeholder: BLURRED
                 formats: [AUTO, WEBP]
               )
@@ -130,12 +130,7 @@ export function useStaticQueryLayoutData() {
                   width
                   originalSrc
                   transformedSrc
-                  gatsbyImageData(
-                    height: 82
-                    width: 82
-                    aspectRatio: 1
-                    placeholder: BLURRED
-                  )
+                  gatsbyImageData(width: 82, placeholder: BLURRED)
                 }
               }
             }
