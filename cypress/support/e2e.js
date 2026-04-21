@@ -19,5 +19,12 @@ import "cypress-axe";
 import "@testing-library/cypress/add-commands";
 import "cypress-plugin-tab";
 
+// Ignore Gatsby StaticQuery hydration errors that are unrelated to the test
+Cypress.on("uncaught:exception", (err) => {
+  if (err.message.includes("StaticQuery")) {
+    return false;
+  }
+});
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

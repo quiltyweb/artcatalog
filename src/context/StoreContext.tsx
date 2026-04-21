@@ -389,6 +389,7 @@ function useAddItemToCart() {
             return { userErrors: data?.cartLinesAdd?.userErrors }; // ✅ Return early error
           }
 
+          setAddItemToCartWarnings(data?.cartLinesAdd?.warnings ?? []);
           setStore((prevState) => ({
             ...prevState,
             isLoading: false,
