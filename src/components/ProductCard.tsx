@@ -287,9 +287,20 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 {printVersion && (
                   <Link
                     to={`/collections/prints/${printVersion.handle}`}
-                    className="underline mb-4 block"
+                    className="mt-4 mb-4 inline-flex items-center gap-3 no-underline buy-print-btn"
+                    style={{
+                      border: "1.5px solid #8b7340",
+                      color: "#8b7340",
+                      padding: "0.75rem 1.5rem",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      fontSize: "0.875rem",
+                      fontWeight: 400,
+                      transition:
+                        "transform 0.5s cubic-bezier(.215,.61,.355,0.5)",
+                    }}
                   >
-                    View Print Version
+                    Buy This Print <span aria-hidden="true">&rarr;</span>
                   </Link>
                 )}
 

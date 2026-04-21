@@ -1540,7 +1540,7 @@ describe("ProductCard", () => {
     );
   });
 
-  it("View Print Version link for original painting", async () => {
+  it("Buy This Print link for original painting", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
@@ -1619,7 +1619,7 @@ describe("ProductCard", () => {
     );
 
     screen.getByRole("link", {
-      name: "View Print Version",
+      name: "Buy This Print",
     });
   });
 
