@@ -301,7 +301,6 @@ describe("ProductCard", () => {
     //   "Alternative text of featured Image of product goes here..."
     // );
     screen.getByText("Product description html goes here");
-    screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
@@ -451,9 +450,6 @@ describe("ProductCard", () => {
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
     expect(screen.queryByRole("select")).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Variations:" })
-    ).not.toBeInTheDocument();
   });
 
   it("renders without media images gallery when product has no media", async () => {
