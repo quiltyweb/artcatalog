@@ -40,6 +40,7 @@ h4,h5,h6, span {
   transform: scale(1.03);
 }
 
+
 /* screen reader only */
 .sr-only {
   position: absolute;

@@ -510,63 +510,59 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               </CardBody>
             </Container>
             <Container p="4">
-              {!featuredImageDetail && !variantFoundImage && (
-                <Image
-                  data-testid="no-image-found"
-                  src={notFoundImage}
-                  alt="No image available"
-                  style={{
-                    filter: "grayscale(1)",
-                    width: "500px",
-                    height: "300px",
-                    marginBottom: "1.4rem",
-                  }}
-                  objectFit="cover"
-                  maxW={{ base: "100%", sm: "500px" }}
-                />
-              )}
+              <Flex
+                direction={{ base: "column", md: "row" }}
+                gap={4}
+              >
+                <Box id="main-image" flex="1">
+                  {!featuredImageDetail && !variantFoundImage && (
+                    <Image
+                      data-testid="no-image-found"
+                      src={notFoundImage}
+                      alt="No image available"
+                      style={{
+                        filter: "grayscale(1)",
+                        width: "500px",
+                        height: "300px",
+                        marginBottom: "1.4rem",
+                      }}
+                      objectFit="cover"
+                      maxW={{ base: "100%", sm: "500px" }}
+                    />
+                  )}
 
-              {featuredImageDetail && !variantFoundImage && (
-                <InnerImageZoom
-                  src={featuredImageDetail.images?.fallback?.src || ""}
-                  zoomSrc={product.featuredImage?.originalSrc || ""}
-                  fullscreenOnMobile={true}
-                  sources={featuredImageDetail.images?.sources}
-                  imgAttributes={{
-                    alt: product.featuredImage?.altText || product.title,
-                  }}
-                />
-              )}
+                  {featuredImageDetail && !variantFoundImage && (
+                    <InnerImageZoom
+                      src={featuredImageDetail.images?.fallback?.src || ""}
+                      zoomSrc={product.featuredImage?.originalSrc || ""}
+                      fullscreenOnMobile={true}
+                      sources={featuredImageDetail.images?.sources}
+                      imgAttributes={{
+                        alt: product.featuredImage?.altText || product.title,
+                      }}
+                    />
+                  )}
 
-              {variantFoundImage && props.values.variant !== "" && (
-                <SafeZoom>
-                  <GatsbyImage
-                    className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
-                    image={variantFoundImage}
-                    alt={
-                      variantFound.image.altText ||
-                      `${props.values.variant} ${product.title}`
-                    }
-                    loading="lazy"
-                  />
-                </SafeZoom>
-              )}
+                  {variantFoundImage && props.values.variant !== "" && (
+                    <SafeZoom>
+                      <GatsbyImage
+                        className="shadow-md cursor-zoom-in object-cover max-w-full my-4"
+                        image={variantFoundImage}
+                        alt={
+                          variantFound.image.altText ||
+                          `${props.values.variant} ${product.title}`
+                        }
+                        loading="lazy"
+                      />
+                    </SafeZoom>
+                  )}
+                </Box>
 
-              {!product.hasOnlyDefaultVariant && (
-                <>
-                  <Heading
-                    as="h3"
-                    size="md"
-                    fontWeight="bold"
-                    color="teal.600"
-                    mb="1.4rem"
-                  >
-                    Variations:
-                  </Heading>
+                {!product.hasOnlyDefaultVariant && (
                   <Flex
-                    flexDirection={["column", "row"]}
-                    mb="1.4rem"
-                    flexWrap={"wrap"}
+                    direction="column"
+                    gap={2}
+                    w={{ base: "100%", md: "5rem" }}
                   >
                     {product.variants.map((variant, index) => {
                       if (!variant.image) {
@@ -575,77 +571,82 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       const variantImage = getImage(variant.image);
                       return (
                         variantImage && (
-                          <div className="relative inline-block m-4">
+                          <Box key={index} className="w-20 relative">
                             <SafeZoom>
-                              <Box
-                                key={index}
-                                className="aspect-square w-40 mx-2 my-2"
-                              >
-                                <GatsbyImage
-                                  key={index}
-                                  image={variantImage}
-                                  alt={
-                                    variant.image.altText ||
-                                    `${variant.title} ${product.title}`
-                                  }
-                                  loading="lazy"
-                                  className="rounded-xl my-2 mx-1 object-cover w-full h-full"
-                                />
-                              </Box>
+                              <GatsbyImage
+                                image={variantImage}
+                                alt={
+                                  variant.image.altText ||
+                                  `${variant.title} ${product.title}`
+                                }
+                                loading="lazy"
+                                className="rounded object-cover w-full h-full"
+                              />
                             </SafeZoom>
-                          </div>
+                            <Text
+                              fontSize="xs"
+                              color="white"
+                              bg="blackAlpha.600"
+                              position="absolute"
+                              bottom={0}
+                              left={0}
+                              right={0}
+                              textAlign="center"
+                              py={0.5}
+                              className="rounded-b"
+                            >
+                              {variant.title}
+                            </Text>
+                          </Box>
                         )
                       );
                     })}
                   </Flex>
-                </>
-              )}
+                )}
+              </Flex>
 
               {product.mediaCount > 0 && (
                 <>
-                  <Heading
-                    as="h3"
-                    size="md"
-                    fontWeight="bold"
-                    color="teal.600"
-                    mb="1.4rem"
-                  >
-                    Details gallery:
-                  </Heading>
-                  <Flex flexDirection={["column", "row"]} flexWrap={"wrap"}>
-                    {product.media.map((mediaItem, index) => {
-                      if (mediaItem.mediaContentType !== "IMAGE") {
-                        return;
-                      }
-                      const mediaImage =
-                        mediaItem.preview?.image &&
-                        getImage(mediaItem?.preview?.image);
+                <Heading
+                  as="h3"
+                  size="md"
+                  fontWeight="bold"
+                  color="teal.600"
+                  mt={4}
+                  mb={2}
+                >
+                  Details gallery:
+                </Heading>
+                <Flex flexDirection={["column", "row"]} flexWrap="wrap">
+                  {product.media.map((mediaItem, index) => {
+                    if (mediaItem.mediaContentType !== "IMAGE") {
+                      return;
+                    }
+                    const mediaImage =
+                      mediaItem.preview?.image &&
+                      getImage(mediaItem?.preview?.image);
 
-                      return (
-                        mediaImage && (
-                          <div className="relative inline-block m-4">
-                            <SafeZoom>
-                              <Box
-                                key={index}
-                                className="aspect-square w-40 mx-2 my-2"
-                              >
-                                <GatsbyImage
-                                  key={index}
-                                  image={mediaImage}
-                                  alt={
-                                    mediaItem.preview?.image.altText ||
-                                    product.title
-                                  }
-                                  loading="lazy"
-                                  className=" my-2 mx-1 object-cover w-full h-full"
-                                />
-                              </Box>
-                            </SafeZoom>
-                          </div>
-                        )
-                      );
-                    })}
-                  </Flex>
+                    return (
+                      mediaImage && (
+                        <div key={`media-${index}`} className="relative inline-block m-2">
+                          <SafeZoom>
+                            <Box className="w-20">
+                              <GatsbyImage
+                                image={mediaImage}
+                                alt={
+                                  mediaItem.preview?.image.altText ||
+                                  product.title
+                                }
+                                loading="lazy"
+                                className="rounded object-cover w-full h-full"
+                              />
+                            </Box>
+                          </SafeZoom>
+                        </div>
+                      )
+                    );
+                  })}
+                </Flex>
                 </>
               )}
             </Container>
