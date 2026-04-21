@@ -155,9 +155,93 @@ describe("Collection page Template", () => {
     screen.getByText("This is the Collection description text");
     screen.getByText(/AUD/i);
     screen.getByText(/\$10/i);
-    screen.getByText(/view details/i);
+    screen.getByText(/more details/i);
     screen.getByRole("heading", { name: "Test product name" });
+    expect(screen.queryByText("From")).not.toBeInTheDocument();
     screen.getByRole("link", { name: "Home" });
+  });
+
+  it("renders 'From' label when product has multiple variants", () => {
+    const mockedPageContext = {
+      title: "This is the collection title",
+      products: [
+        {
+          id: "123e4ae6-3662-5fbd-a6d2-a3931a5fb862",
+          title: "Test product with variants",
+          handle: "test-product-handle",
+          description: "Product description goes here",
+          priceRangeV2: {
+            minVariantPrice: {
+              amount: 10.0,
+              currencyCode: "AUD",
+            },
+            maxVariantPrice: {
+              amount: 20.0,
+              currencyCode: "AUD",
+            },
+          },
+          featuredImage: {
+            altText: null,
+            gatsbyImageData: {
+              images: {
+                sources: [
+                  {
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                    type: "image/webp",
+                  },
+                ],
+                fallback: {
+                  src: mockedImageURL,
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                },
+              },
+              layout: "constrained",
+              width: 500,
+              height: 1111,
+            },
+          },
+          hasOnlyDefaultVariant: false,
+          totalVariants: 2,
+          variants: [
+            {
+              shopifyId: "gid://shopify/ProductVariant/111",
+              displayName: "Test product - Small",
+              title: "Small",
+              price: 10.0,
+              inventoryQuantity: 1,
+              selectedOptions: [{ name: "Size", value: "Small" }],
+              image: null,
+            },
+            {
+              shopifyId: "gid://shopify/ProductVariant/222",
+              displayName: "Test product - Large",
+              title: "Large",
+              price: 20.0,
+              inventoryQuantity: 1,
+              selectedOptions: [{ name: "Size", value: "Large" }],
+              image: null,
+            },
+          ],
+          mediaCount: 1,
+          media: [],
+          options: [
+            {
+              shopifyId: "gid://shopify/ProductOption/1234543212345",
+              name: "Size",
+              values: ["Small", "Large"],
+            },
+          ],
+        },
+      ],
+      description: "This is the Collection description text",
+      collectionHandle: "this-is-the-collection-handle",
+    };
+
+    render(<Collection pageContext={mockedPageContext} />);
+    screen.getByText("From");
+    screen.getByText(/\$10/i);
   });
 
   it("renders no price when price is 0", () => {
@@ -297,7 +381,7 @@ describe("Collection page Template", () => {
     };
     render(<Collection pageContext={mockedPageContext} />);
     expect(screen.queryByTestId("item-price-from")).toBeNull();
-    screen.getByText(/view details/i);
+    screen.getByText(/more details/i);
   });
 
   it("renders correctly when there are no products", () => {
