@@ -25,70 +25,75 @@ interface TileSliderCategoryProps {
 export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
   tile,
 }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const currentImage = tile.images[activeIndex];
+
   return (
-    <Swiper
-      className="custom-swiper-categories w-full relative"
-      modules={[Navigation, A11y]}
-      navigation={{
-        nextEl: `.next-${tile.id}`,
-        prevEl: `.prev-${tile.id}`,
-      }}
-      spaceBetween={0}
-      slidesPerGroup={1}
-      slidesPerView={1}
-      loop={true}
-      speed={0}
-      watchSlidesProgress={true}
-    >
-      {/* Custom navigation buttons */}
-      {tile.images.length > 1 && (
-        <>
-          <button
-            className={`prev-${tile.id} absolute left-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
-                   bg-white/70 rounded-full p-2 shadow
-                   text-md font-bold`}
-            aria-label="Previous image"
-          >
-            ‹
-          </button>
-          <button
-            className={`next-${tile.id} absolute right-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
-                   bg-white/70 rounded-full p-2 shadow
-                   text-md font-bold`}
-            aria-label="Next image"
-          >
-            ›
-          </button>
-        </>
-      )}
-      {tile.images.map((image, idx) => {
-        return (
-          <SwiperSlide key={idx} className="h-full w-full">
-            <div className="flex flex-col items-center">
-              <GatsbyImage
-                image={image.src as any} // Type assertion since src can be string or object
-                alt={image.alt}
-                className="aspect-[3/4] object-cover h-full w-full rounded-lg"
-              />
-              {/* Overlay title bar */}
-              <div
-                className="absolute bottom-0 left-0 w-full
-                     bg-black/60 text-white text-sm sm:text-base
-                     px-3 py-2 rounded-b-lg min-h-[4rem] flex items-center justify-center text-center"
-              >
-                <Link
-                  href={image.href}
-                  className="block"
-                >
-                  {image.productTitle}
-                </Link>
+    <div className="rounded-lg overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+      <Swiper
+        className="custom-swiper-categories w-full"
+        modules={[Navigation, A11y]}
+        navigation={{
+          nextEl: `.next-${tile.id}`,
+          prevEl: `.prev-${tile.id}`,
+        }}
+        spaceBetween={0}
+        slidesPerGroup={1}
+        slidesPerView={1}
+        loop={true}
+        speed={0}
+        watchSlidesProgress={true}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+      >
+        {tile.images.map((image, idx) => {
+          return (
+            <SwiperSlide key={idx} className="h-full w-full">
+              <div style={{ height: "360px", backgroundColor: "#000" }}>
+                <GatsbyImage
+                  image={image.src as any}
+                  alt={image.alt}
+                  className="w-full"
+                  objectFit="contain"
+                  style={{ height: "100%" }}
+                />
               </div>
-            </div>
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      {/* Caption bar */}
+      <div
+        className="flex items-center justify-between px-4 py-3"
+        style={{ backgroundColor: "#242424", minHeight: "4rem" }}
+      >
+        <div className="flex flex-col">
+          <Link
+            href={currentImage?.href ?? `/collections/${tile.handle}`}
+            className="text-white text-sm sm:text-base tracking-wide overflow-hidden"
+            style={{ color: "#fff", fontWeight: 300, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}
+          >
+            {currentImage?.productTitle ?? tile.title}
+          </Link>
+        </div>
+        {tile.images.length > 1 && (
+          <div className="flex items-center gap-2">
+            <button
+              className={`prev-${tile.id} rounded-full border border-white/30 flex items-center justify-center`}
+              style={{ width: "36px", height: "36px", color: "#fff" }}
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <button
+              className={`next-${tile.id} rounded-full border border-white/30 flex items-center justify-center`}
+              style={{ width: "36px", height: "36px", color: "#fff" }}
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
