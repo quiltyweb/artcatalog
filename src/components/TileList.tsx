@@ -71,6 +71,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                           style={{
                             filter: "brightness(1.2)",
                           }}
+                          loading="lazy"
                         />
                       ) : (
                         <StaticImage
@@ -81,6 +82,7 @@ const TileList: React.FunctionComponent<TileListProps> = ({
                           }}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
+                          loading="lazy"
                         />
                       )}
                       <Stack mt="2" spacing="3">

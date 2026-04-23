@@ -103,6 +103,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           alt={featuredImage?.altText ?? title}
                           objectFit="cover"
                           className="collection-card-image"
+                          loading="lazy"
                           style={{
                             aspectRatio: isLandscape(product) ? "3/2" : "2/3",
                             transition:
@@ -116,6 +117,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           }}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
+                          loading="lazy"
                         />
                       )}
                     </Box>

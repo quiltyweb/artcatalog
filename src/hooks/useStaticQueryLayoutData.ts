@@ -12,7 +12,7 @@ export function useStaticQueryLayoutData() {
               reference {
                 ... on StoreFrontShopify_MediaImage {
                   image {
-                    url
+                    url(transform: { preferredContentType: WEBP, maxWidth: 1920 })
                   }
                 }
               }

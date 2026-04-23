@@ -113,7 +113,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                 src={item.reference.image.url}
                 alt={item.alt_text}
                 className="object-cover h-full lg:w-full rounded-sm"
-                loading="eager"
+                loading={idx < 3 ? "eager" : "lazy"}
+                width={1920}
+                height={1080}
               />
 
               <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">

@@ -55,6 +55,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                   className="w-full"
                   objectFit="contain"
                   style={{ height: "100%" }}
+                  loading="lazy"
                 />
               </div>
             </SwiperSlide>
