@@ -175,7 +175,6 @@ describe("Single product Template", () => {
     screen.getByText(/\$10.00/i);
     screen.getByLabelText(/color/i);
     screen.getByLabelText(/quantity/i);
-    screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");

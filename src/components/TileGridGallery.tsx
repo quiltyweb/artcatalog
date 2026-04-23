@@ -56,7 +56,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
                 className="px-2 py-2 mt-1 mb-2 rounded block"
               >
                 <h4
-                  className="text-xl transform transition duration-200 ease-out hover:scale-105 hover:underline"
+                  className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
                   aria-label={`go to ${tile.title} category`}
                 >
                   {tile.title}

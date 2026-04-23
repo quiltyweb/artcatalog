@@ -401,19 +401,26 @@ type AdminShopify = {
   readonly catalogs: AdminShopify_CatalogConnection;
   /** The count of catalogs belonging to the shop. Limited to a maximum of 10000 by default. */
   readonly catalogsCount: Maybe<AdminShopify_Count>;
-  /** Returns a `Channel` resource by ID. */
+  /** Returns a [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) by ID. The channel must belong to the calling application. */
   readonly channel: Maybe<AdminShopify_Channel>;
-  /** The channels established on the target shop by the calling application. */
+  /** The list of [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) objects on the shop. When the calling application supports multi-channel, only channels established by the calling application are returned. Each channel represents an authenticated connection to an external selling platform such as a marketplace, social media platform, online store, or point-of-sale system. */
   readonly channels: AdminShopify_ChannelConnection;
   /**
    * Returns the visual customizations for checkout for a given [checkout profile](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile).
    *
    * To update checkout branding settings, use the [`checkoutBrandingUpsert`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/checkoutBrandingUpsert) mutation. Learn more about [customizing checkout's appearance](https://shopify.dev/docs/apps/build/checkout/styling).
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
    */
   readonly checkoutBranding: Maybe<AdminShopify_CheckoutBranding>;
-  /** Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor. */
+  /**
+   * Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor.
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
+   */
   readonly checkoutProfile: Maybe<AdminShopify_CheckoutProfile>;
-  /** List of checkout profiles on a shop. */
+  /**
+   * List of checkout profiles on a shop.
+   * @deprecated Use `checkoutAndAccountsConfigurations` instead.
+   */
   readonly checkoutProfiles: AdminShopify_CheckoutProfileConnection;
   /** Returns a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) resource by ID. */
   readonly codeDiscountNode: Maybe<AdminShopify_DiscountCodeNode>;
@@ -564,7 +571,7 @@ type AdminShopify = {
   readonly customerMergeJobStatus: Maybe<AdminShopify_CustomerMergeRequest>;
   /** Returns a preview of a customer merge request. */
   readonly customerMergePreview: AdminShopify_CustomerMergePreview;
-  /** Returns a CustomerPaymentMethod resource by its ID. */
+  /** Returns a vaulted customer payment method by its ID, including the instrument type (credit card, PayPal, etc.), billing address, and current status. Optionally includes revoked payment methods. Use this to look up a specific saved payment method for a customer — for example, to check whether a subscription's payment method is still valid or to display stored payment details. */
   readonly customerPaymentMethod: Maybe<AdminShopify_CustomerPaymentMethod>;
   /** List of the shop's customer saved searches. */
   readonly customerSavedSearches: AdminShopify_SavedSearchConnection;
@@ -706,7 +713,7 @@ type AdminShopify = {
   readonly files: AdminShopify_FileConnection;
   /** Returns the access policy for a finance app . */
   readonly financeAppAccessPolicy: AdminShopify_FinanceAppAccessPolicy;
-  /** Returns the KYC information for the shop's Shopify Payments account, used in embedded finance apps. */
+  /** Returns Know Your Customer (KYC) information for the shop's Shopify Payments account. KYC data includes verified identity and business details collected during onboarding. This is primarily used by embedded finance apps (e.g., Shopify Balance, Bill Pay) that need to verify the merchant's identity without requiring a separate KYC process. */
   readonly financeKycInformation: Maybe<AdminShopify_FinanceKycInformation>;
   /**
    * Retrieves a [`Fulfillment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Fulfillment) by its ID. A fulfillment is a record that the merchant has completed their work required for one or more line items in an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). It includes tracking information, [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, and the status of the fulfillment.
@@ -6531,6 +6538,8 @@ type AdminShopify_BulkProductResourceFeedbackCreateUserErrorCode =
   | 'LESS_THAN_OR_EQUAL_TO'
   /** The operation was attempted on too many feedback objects. The maximum number of feedback objects that you can operate on is 50. */
   | 'MAXIMUM_FEEDBACK_LIMIT_EXCEEDED'
+  /** The channel was not found or does not belong to this app. */
+  | 'NOT_FOUND'
   /** The feedback for a later version of this resource was already accepted. */
   | 'OUTDATED_FEEDBACK'
   /** The input value needs to be blank. */
@@ -8019,9 +8028,11 @@ type AdminShopify_CatalogUserErrorCode =
   | 'UNSUPPORTED_CATALOG_ACTION';
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel = AdminShopify_Node & {
   /** The underlying app used by the channel. */
@@ -8030,7 +8041,7 @@ type AdminShopify_Channel = AdminShopify_Node & {
   readonly collectionPublicationsV3: AdminShopify_ResourcePublicationConnection;
   /** The list of collections published to the channel. */
   readonly collections: AdminShopify_CollectionConnection;
-  /** The unique identifier for the channel. */
+  /** A unique, human-readable identifier for the channel within the shop. Set during [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) or auto-generated from the specification handle and account ID. Use with [`channelByHandle`](https://shopify.dev/docs/api/admin-graphql/latest/queries/channelByHandle) for lookups. */
   readonly handle: Scalars['String'];
   /** Whether the collection is available to the channel. */
   readonly hasCollection: Scalars['Boolean'];
@@ -8067,9 +8078,11 @@ type AdminShopify_Channel = AdminShopify_Node & {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_collectionPublicationsV3Args = {
   after: InputMaybe<Scalars['String']>;
@@ -8081,9 +8094,11 @@ type AdminShopify_Channel_collectionPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_collectionsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -8095,9 +8110,11 @@ type AdminShopify_Channel_collectionsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_hasCollectionArgs = {
   id: Scalars['ID'];
@@ -8105,9 +8122,11 @@ type AdminShopify_Channel_hasCollectionArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_productPublicationsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -8119,9 +8138,11 @@ type AdminShopify_Channel_productPublicationsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_productPublicationsV3Args = {
   after: InputMaybe<Scalars['String']>;
@@ -8133,9 +8154,11 @@ type AdminShopify_Channel_productPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_productsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -8147,9 +8170,11 @@ type AdminShopify_Channel_productsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 type AdminShopify_Channel_productsCountArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -22865,6 +22890,8 @@ type AdminShopify_FilesErrorCode =
   | 'INVALID_IMAGE_SOURCE_URL'
   /** Search query isn't supported. */
   | 'INVALID_QUERY'
+  /** Media cannot be modified. It is currently being modified by another operation. */
+  | 'MEDIA_CANNOT_BE_MODIFIED'
   /** Cannot create file with custom filename which does not match original source extension. */
   | 'MISMATCHED_FILENAME_AND_ORIGINAL_SOURCE'
   /** At least one argument is required. */
@@ -38260,7 +38287,7 @@ type AdminShopify_OrderCreateOrderInput = {
   readonly test: InputMaybe<Scalars['Boolean']>;
   /** The payment transactions to create for the order. */
   readonly transactions: InputMaybe<ReadonlyArray<AdminShopify_OrderCreateOrderTransactionInput>>;
-  /** The ID of the user logged into Shopify POS who processed the order, if applicable. */
+  /** The ID of the user who processed the order, if applicable. */
   readonly userId: InputMaybe<Scalars['ID']>;
 };
 
@@ -39355,19 +39382,25 @@ type AdminShopify_OrderTransaction = AdminShopify_Node & {
   /** Whether the transaction is a test transaction. */
   readonly test: Scalars['Boolean'];
   /**
-   * Specifies the available amount to capture on the gateway.
-   * Only available when an amount is capturable or manually mark as paid.
+   * The amount of the original authorization that remains unsettled.
+   * During a pending capture, this reflects the full outstanding balance including the pending amount.
+   * When no capture is pending, this equals the capturable amount.
+   * Only available when an amount is capturable or manually marked as paid.
    * @deprecated Use `totalUnsettledSet` instead.
    */
   readonly totalUnsettled: Maybe<Scalars['AdminShopify_Money']>;
   /**
-   * Specifies the available amount with currency to capture on the gateway in shop and presentment currencies.
-   * Only available when an amount is capturable or manually mark as paid.
+   * The amount of the original authorization that remains unsettled, in shop and presentment currencies.
+   * During a pending capture, this reflects the full outstanding balance including the pending amount.
+   * When no capture is pending, this equals the capturable amount.
+   * Only available when an amount is capturable or manually marked as paid.
    */
   readonly totalUnsettledSet: Maybe<AdminShopify_MoneyBag>;
   /**
-   * Specifies the available amount with currency to capture on the gateway.
-   * Only available when an amount is capturable or manually mark as paid.
+   * The amount with currency of the original authorization that remains unsettled.
+   * During a pending capture, this reflects the full outstanding balance including the pending amount.
+   * When no capture is pending, this equals the capturable amount.
+   * Only available when an amount is capturable or manually marked as paid.
    * @deprecated Use `totalUnsettledSet` instead.
    */
   readonly totalUnsettledV2: Maybe<AdminShopify_MoneyV2>;
@@ -49333,6 +49366,8 @@ type AdminShopify_SearchResultType =
   | 'DRAFT_ORDER'
   /** A file. */
   | 'FILE'
+  /** An inventory transfer. */
+  | 'INVENTORY_TRANSFER'
   | 'ORDER'
   /** A page. */
   | 'PAGE'
@@ -52071,6 +52106,8 @@ type AdminShopify_ShopPayPaymentRequestReceiptProcessingStatusErrorCode =
   | 'CARD_DECLINED'
   /** There is an error in the gateway or merchant configuration. */
   | 'CONFIG_ERROR'
+  /** Too many failed CVV verification attempts. */
+  | 'CVV_ATTEMPTS_EXCEEDED'
   /** The card is expired. */
   | 'EXPIRED_CARD'
   /** The card issuer has flagged the transaction as potentially fraudulent. */
@@ -52159,7 +52196,7 @@ type AdminShopify_ShopPlan = {
   readonly displayName: Scalars['String'];
   /** Whether the shop is a partner development shop for testing purposes. */
   readonly partnerDevelopment: Scalars['Boolean'];
-  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Agentic Enterprise, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
+  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Agentic Enterprise, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Staff Business, Starter, and Trial. */
   readonly publicDisplayName: Scalars['String'];
   /** Whether the shop has a Shopify Plus subscription. */
   readonly shopifyPlus: Scalars['Boolean'];
@@ -52244,7 +52281,7 @@ type AdminShopify_ShopPolicyUserError = AdminShopify_DisplayableError & {
 
 /** Return type for `shopResourceFeedbackCreate` mutation. */
 type AdminShopify_ShopResourceFeedbackCreatePayload = {
-  /** The shop feedback that's created. */
+  /** The shop feedback that's created. Returns `null` when `state: ACCEPTED` is used, because setting state to `ACCEPTED` clears the active feedback signal. A `null` value here indicates success, not an error. */
   readonly feedback: Maybe<AdminShopify_AppFeedback>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_ShopResourceFeedbackCreateUserError>;
@@ -53234,14 +53271,6 @@ type AdminShopify_ShopifyPaymentsTransactionType =
   | 'ADVANCE'
   /** The advance funding transaction type. */
   | 'ADVANCE_FUNDING'
-  /** The agentic_fee_tax_credit transaction type. */
-  | 'AGENTIC_FEE_TAX_CREDIT'
-  /** The agentic_fee_tax_credit_reversal transaction type. */
-  | 'AGENTIC_FEE_TAX_CREDIT_REVERSAL'
-  /** The agentic_fee_tax_debit transaction type. */
-  | 'AGENTIC_FEE_TAX_DEBIT'
-  /** The agentic_fee_tax_debit_reversal transaction type. */
-  | 'AGENTIC_FEE_TAX_DEBIT_REVERSAL'
   /** The anomaly_credit transaction type. */
   | 'ANOMALY_CREDIT'
   /** The anomaly_credit_reversal transaction type. */
@@ -66686,7 +66715,10 @@ type StoreFrontShopify_Cart = StoreFrontShopify_HasMetafields & StoreFrontShopif
    *
    */
   readonly deliveryGroups: StoreFrontShopify_CartDeliveryGroupConnection;
-  /** The discounts that have been applied to the entire cart. */
+  /**
+   * The discounts that have been applied to the entire cart.
+   * @deprecated Use `cart.lines[].discountAllocations(lineLevelOnly: false)` and `cart.deliveryGroups[].discountAllocations` instead.
+   */
   readonly discountAllocations: ReadonlyArray<StoreFrontShopify_CartDiscountAllocation>;
   /** The case-insensitive discount codes that the customer added at checkout. */
   readonly discountCodes: ReadonlyArray<StoreFrontShopify_CartDiscountCode>;
@@ -66815,7 +66847,10 @@ type StoreFrontShopify_CartAttributesUpdatePayload = {
  *
  */
 type StoreFrontShopify_CartAutomaticDiscountAllocation = StoreFrontShopify_CartDiscountAllocation & {
-  /** The discount that have been applied on the cart line. */
+  /**
+   * The discount that have been applied on the cart line.
+   * @deprecated Use `sourceDiscountApplication` instead.
+   */
   readonly discountApplication: StoreFrontShopify_CartDiscountApplication;
   /** The discounted amount that has been applied to the cart line. */
   readonly discountedAmount: StoreFrontShopify_MoneyV2;
@@ -66941,7 +66976,10 @@ type StoreFrontShopify_CartClonePayload = {
 type StoreFrontShopify_CartCodeDiscountAllocation = StoreFrontShopify_CartDiscountAllocation & {
   /** The code used to apply the discount. */
   readonly code: Scalars['String'];
-  /** The discount that have been applied on the cart line. */
+  /**
+   * The discount that have been applied on the cart line.
+   * @deprecated Use `sourceDiscountApplication` instead.
+   */
   readonly discountApplication: StoreFrontShopify_CartDiscountApplication;
   /** The discounted amount that has been applied to the cart line. */
   readonly discountedAmount: StoreFrontShopify_MoneyV2;
@@ -67054,7 +67092,10 @@ type StoreFrontShopify_CartCreatePayload = {
 
 /** The discounts automatically applied to the cart line based on prerequisites that have been met. */
 type StoreFrontShopify_CartCustomDiscountAllocation = StoreFrontShopify_CartDiscountAllocation & {
-  /** The discount that have been applied on the cart line. */
+  /**
+   * The discount that have been applied on the cart line.
+   * @deprecated Use `sourceDiscountApplication` instead.
+   */
   readonly discountApplication: StoreFrontShopify_CartDiscountApplication;
   /** The discounted amount that has been applied to the cart line. */
   readonly discountedAmount: StoreFrontShopify_MoneyV2;
@@ -67416,7 +67457,10 @@ type StoreFrontShopify_CartDirectPaymentMethodInput = {
  *
  */
 type StoreFrontShopify_CartDiscountAllocation = {
-  /** The discount that have been applied on the cart line. */
+  /**
+   * The discount that have been applied on the cart line.
+   * @deprecated Use `sourceDiscountApplication` instead.
+   */
   readonly discountApplication: StoreFrontShopify_CartDiscountApplication;
   /** The discounted amount that has been applied to the cart line. */
   readonly discountedAmount: StoreFrontShopify_MoneyV2;
@@ -71435,6 +71479,8 @@ type StoreFrontShopify_Metafield = StoreFrontShopify_Node & {
   readonly id: Scalars['ID'];
   /** The unique identifier for the metafield within its namespace. */
   readonly key: Scalars['String'];
+  /** Whether the metafield's type is a list type. Returns `true` for types like `list.color` or `list.single_line_text_field`. */
+  readonly list: Scalars['Boolean'];
   /** The container for a group of metafields that the metafield is associated with. */
   readonly namespace: Scalars['String'];
   /** The type of resource that the metafield is attached to. */

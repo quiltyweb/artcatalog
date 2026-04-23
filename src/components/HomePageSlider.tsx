@@ -95,7 +95,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             return; // skip the first automatic slide change
           }
           const firstVisible = swiper.slides.find((slide) =>
-            slide.classList.contains("swiper-slide-visible")
+            slide.classList.contains("swiper-slide-visible"),
           );
           if (firstVisible) {
             firstVisible.querySelector("a")?.focus();
@@ -103,7 +103,11 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         }}
       >
         {images.map((item, idx) => (
-          <SwiperSlide key={idx} className="h-full w-full p-2">
+          <SwiperSlide
+            key={idx}
+            className="h-full w-full"
+            style={{ padding: "0.5rem 0.25rem" }}
+          >
             <div className="flex flex-col items-center h-full w-full">
               <img
                 src={item.reference.image.url}
@@ -118,7 +122,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   className="slide-caption block
                     font-serif font-medium mb-1 text-lg"
                 >
-                  <p className="leading-snug line-clamp-2 min-h-[3.1rem]">{item.caption}</p>
+                  <p className="leading-snug line-clamp-2 min-h-[3.1rem]">
+                    {item.caption}
+                  </p>
                 </Link>
               </div>
             </div>

@@ -64,84 +64,91 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       )}
 
       {products && products.length !== 0 ? (
-        <SimpleGrid
-          columns={[1, 2, 3, 4]}
-          spacing="6"
-          justifyItems="center"
-          mb="2.4rem"
-        >
-          {products.map(
-            ({
+        (() => {
+          const isLandscape = (product: (typeof products)[0]) => {
+            const img = product.featuredImage;
+            return img?.originalSrc && img?.grid?.width && img?.grid?.height
+              ? img.grid.width > img.grid.height
+              : false;
+          };
+          const portraitProducts = products.filter((p) => !isLandscape(p));
+          const landscapeProducts = products.filter((p) => isLandscape(p));
+
+          const renderProductCard = (product: (typeof products)[0]) => {
+            const {
               id,
               featuredImage,
               title,
               handle,
+              hasOnlyDefaultVariant,
               priceRangeV2: {
                 minVariantPrice: { amount, currencyCode },
               },
-            }) => {
-              const featuredImageForGatsbyImage = getImage(
-                featuredImage?.grid ?? null
-              );
-              return (
-                <Link
-                  key={handle}
-                  to={`/collections/${collectionHandle}/${handle}`}
-                  aria-label={title}
-                >
-                  <Card
-                    key={`${id}-product-item`}
-                    boxShadow="md"
-                    height="100%"
-                    _hover={{
-                      transform: "scale(1.03)",
-                      transition: "transform .15s ease-in",
-                    }}
-                  >
-                    <CardBody>
-                      {featuredImageForGatsbyImage && featuredImage?.altText ? (
+            } = product;
+            const featuredImageForGatsbyImage = getImage(
+              featuredImage?.grid ?? null,
+            );
+            return (
+              <Link
+                key={handle}
+                to={`/collections/${collectionHandle}/${handle}`}
+                aria-label={title}
+              >
+                <Card key={`${id}-product-item`} boxShadow="md" height="100%">
+                  <CardBody>
+                    <Box overflow="hidden">
+                      {featuredImageForGatsbyImage ? (
                         <GatsbyImage
                           image={featuredImageForGatsbyImage}
-                          alt={featuredImage.altText}
+                          alt={featuredImage?.altText ?? title}
+                          objectFit="cover"
+                          className="collection-card-image"
                           style={{
-                            minHeight: "300px",
-                            maxHeight: "300px",
+                            aspectRatio: isLandscape(product) ? "3/2" : "2/3",
+                            transition:
+                              "transform 2s cubic-bezier(.215,.61,.355,1)",
                           }}
                         />
                       ) : (
                         <StaticImage
                           style={{
                             filter: "grayscale(1)",
-                            minHeight: "300px",
-                            maxHeight: "300px",
                           }}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                         />
                       )}
-                      <Stack mt="6" spacing="3">
-                        <Divider color="gray.300" />
+                    </Box>
+                    <Stack mt="6" spacing="3">
+                      <Divider color="gray.300" />
 
-                        <Heading
-                          as="h3"
-                          size="md"
-                          textTransform="capitalize"
-                          fontWeight={600}
-                          color={"pink.800"}
-                          minH="normal"
-                          padding={"0.5rem 0"}
-                        >
-                          {title}
-                        </Heading>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter
-                      alignItems="flex-end"
-                      display="flex"
-                      justifyContent="space-between"
-                      minH={20}
-                    >
-                      {amount !== 0 && (
+                      <Heading
+                        as="h3"
+                        size="md"
+                        textTransform="capitalize"
+                        fontWeight={600}
+                        color={"pink.800"}
+                        minH="normal"
+                        padding={"0.5rem 0"}
+                        className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                      >
+                        {title}
+                      </Heading>
+                    </Stack>
+                  </CardBody>
+                  <CardFooter
+                    alignItems="flex-end"
+                    display="flex"
+                    justifyContent="space-between"
+                    minH={20}
+                  >
+                    {amount !== 0 && (
+                      <Box>
+                        {!hasOnlyDefaultVariant && (
+                          <Text fontSize="xs" color="gray.500">
+                            From
+                          </Text>
+                        )}
                         <Text
                           data-testid="item-price"
                           fontSize="xl"
@@ -157,29 +164,55 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                           </Highlight>
                           {`$${amount}`}
                         </Text>
-                      )}
+                      </Box>
+                    )}
 
-                      <Text
-                        fontSize="md"
-                        textAlign="right"
-                        color={"pink.800"}
-                        marginLeft="auto"
-                      >
-                        view details <Icon as={ArrowForwardIcon} />
-                      </Text>
-                    </CardFooter>
-                  </Card>
-                </Link>
-              );
-            }
-          )}
-        </SimpleGrid>
+                    <Text
+                      fontSize="md"
+                      textAlign="right"
+                      color={"pink.800"}
+                      marginLeft="auto"
+                      className="translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                    >
+                      more details <Icon as={ArrowForwardIcon} />
+                    </Text>
+                  </CardFooter>
+                </Card>
+              </Link>
+            );
+          };
+
+          return (
+            <>
+              {portraitProducts.length > 0 && (
+                <SimpleGrid
+                  columns={[1, 2, 3, 4]}
+                  spacing="3"
+                  justifyItems="center"
+                  mb="0.4rem"
+                >
+                  {portraitProducts.map(renderProductCard)}
+                </SimpleGrid>
+              )}
+              {landscapeProducts.length > 0 && (
+                <SimpleGrid
+                  columns={[1, 2, 3, 4]}
+                  spacing="3"
+                  justifyItems="center"
+                  mb="0.4rem"
+                >
+                  {landscapeProducts.map(renderProductCard)}
+                </SimpleGrid>
+              )}
+            </>
+          );
+        })()
       ) : (
         <Text textAlign="center" mb="2.4rem">
           There are no products available.
         </Text>
       )}
-      <Box textAlign="center" mb="2.4rem">
+      <Box textAlign="center" mb="2.4rem" mt="2.4rem">
         <Link
           key={collectionHandle}
           to={`/product-categories/${collectionHandle}`}
@@ -201,8 +234,18 @@ export const Head = (props: any) => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
-      { "@type": "ListItem", position: 2, name: "All Categories", item: "https://www.brushella.art/collections/" },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.brushella.art/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "All Categories",
+        item: "https://www.brushella.art/collections/",
+      },
       { "@type": "ListItem", position: 3, name: title, item: canonical },
     ],
   };
@@ -213,7 +256,9 @@ export const Head = (props: any) => {
       description={`Browse the ${title} collection by Brushella — original artworks and fine art prints handcrafted by Chilean artist Gabriela.`}
       canonical={canonical}
     >
-      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
+      </script>
     </SEO>
   );
 };

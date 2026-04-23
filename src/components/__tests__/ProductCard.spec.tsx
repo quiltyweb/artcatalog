@@ -301,7 +301,6 @@ describe("ProductCard", () => {
     //   "Alternative text of featured Image of product goes here..."
     // );
     screen.getByText("Product description html goes here");
-    screen.getByRole("heading", { name: "Variations:" });
     screen.getByAltText("this is Alternative text for variant image");
     screen.getByRole("heading", { name: "Details gallery:" });
     screen.getByAltText("image media alternative text goes here");
@@ -451,9 +450,6 @@ describe("ProductCard", () => {
     render(<ProductCard product={mockedShopifyProductData.product} />);
 
     expect(screen.queryByRole("select")).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Variations:" })
-    ).not.toBeInTheDocument();
   });
 
   it("renders without media images gallery when product has no media", async () => {
@@ -1540,7 +1536,7 @@ describe("ProductCard", () => {
     );
   });
 
-  it("View Print Version link for original painting", async () => {
+  it("Buy This Print link for original painting", async () => {
     const mockedShopifyProductData = {
       product: {
         id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
@@ -1619,7 +1615,7 @@ describe("ProductCard", () => {
     );
 
     screen.getByRole("link", {
-      name: "View Print Version",
+      name: "Buy This Print",
     });
   });
 

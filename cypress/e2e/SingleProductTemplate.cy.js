@@ -107,7 +107,6 @@ describe("Collection Template mobile view", () => {
     cy.findByText(/\$10.00/i);
     cy.findByLabelText(/color/i);
     cy.findByLabelText(/quantity/i);
-    cy.findByRole("heading", { name: "Variations:" });
     cy.findByAltText("Original variant alt text");
     cy.findByAltText("Green variant alt text");
     cy.findByAltText("Pink variant alt text");
@@ -160,7 +159,7 @@ describe("Collection Template mobile view", () => {
 
     cy.findByLabelText(/quantity/i);
 
-    cy.findByRole("heading", { name: "Variations:" }).should("not.exist");
+    cy.findByAltText(/variant/i).should("not.exist");
   });
 
   it("Renders single product page without media image gallery when has no media ", () => {
@@ -233,7 +232,7 @@ describe("Collection Template mobile view", () => {
     }).should("have.attr", "disabled");
   });
 
-  it("clears warning message when a variant is selected", async () => {
+  it("clears warning message when a variant is selected", () => {
     cy.intercept(
       "GET",
       "/page-data/collections/prints/test-print-4/page-data.json",
