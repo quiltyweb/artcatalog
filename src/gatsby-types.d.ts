@@ -5980,6 +5980,8 @@ type AdminShopify_BillingAttemptUserErrorCode =
   | 'ORIGIN_TIME_BEFORE_CONTRACT_CREATION'
   /** Origin time needs to be within the selected billing cycle's start and end at date. */
   | 'ORIGIN_TIME_OUT_OF_RANGE'
+  /** Failed to process the billing attempt. */
+  | 'PROCESSING_FAILED'
   /** Billing attempt rate limit exceeded - try later. */
   | 'THROTTLED'
   /** Billing cycle selector cannot select upcoming billing cycle past limit. */
