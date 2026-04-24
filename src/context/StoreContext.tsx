@@ -6,8 +6,6 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import gql from "graphql-tag";
-import { print } from "graphql";
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import type {
   Cart,
@@ -62,7 +60,7 @@ type UpdateItemsToCartArgs = {
 // QUERIES AND MUTATIONS:
 // ***********************
 
-export const cartFieldsFragment = gql`
+const cartFieldsFragment = `
   fragment CartFields on Cart {
     id
     createdAt
@@ -116,7 +114,7 @@ export const cartFieldsFragment = gql`
   }
 `;
 
-const cartQuery = gql`
+const cartQuery = `
   ${cartFieldsFragment}
   query Cart($id: ID!) {
     cart(id: $id) {
@@ -125,7 +123,7 @@ const cartQuery = gql`
   }
 `;
 
-const createCartMutation = gql`
+const createCartMutation = `
   ${cartFieldsFragment}
   mutation CreateCart($cartInput: CartInput) {
     cartCreate(input: $cartInput) {
@@ -146,7 +144,7 @@ const createCartMutation = gql`
   }
 `;
 
-const cartLinesAddMutation = gql`
+const cartLinesAddMutation = `
   ${cartFieldsFragment}
   mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
@@ -167,7 +165,7 @@ const cartLinesAddMutation = gql`
   }
 `;
 
-const cartLinesUpdateMutation = gql`
+const cartLinesUpdateMutation = `
   ${cartFieldsFragment}
   mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
@@ -188,7 +186,7 @@ const cartLinesUpdateMutation = gql`
   }
 `;
 
-const cartLinesRemoveMutation = gql`
+const cartLinesRemoveMutation = `
   ${cartFieldsFragment}
   mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
@@ -246,7 +244,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
       });
 
       store.client
-        .request<QueryRoot>(print(cartQuery), {
+        .request<QueryRoot>(cartQuery, {
           variables: {
             id: existingCheckoutId,
           },
@@ -297,7 +295,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
         return { ...prevState, isLoading: true };
       });
       store.client
-        .request<Mutation>(print(createCartMutation), {
+        .request<Mutation>(createCartMutation, {
           variables: {
             input: {},
           },
@@ -370,7 +368,7 @@ function useAddItemToCart() {
       });
       setAddItemToCartLoading(true);
       return client
-        .request<Mutation>(print(cartLinesAddMutation), {
+        .request<Mutation>(cartLinesAddMutation, {
           variables: {
             cartId: cart?.id,
             lines: [
@@ -439,7 +437,7 @@ function useCartLinesUpdate() {
     });
     setUpdateItemsToCartLoading(true);
     return client
-      .request<Mutation>(print(cartLinesUpdateMutation), {
+      .request<Mutation>(cartLinesUpdateMutation, {
         variables: {
           cartId: cart?.id,
           lines: lines,
@@ -542,7 +540,7 @@ const useRemoveItemFromCart = () => {
     });
 
     client
-      .request<Mutation>(print(cartLinesRemoveMutation), {
+      .request<Mutation>(cartLinesRemoveMutation, {
         variables: {
           cartId: cart?.id,
           lineIds: [itemId],
