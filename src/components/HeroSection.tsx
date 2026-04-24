@@ -55,7 +55,7 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
 
         <Image
           src={
-            "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585&width=1334"
+            "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           }
           alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
           objectFit="cover"

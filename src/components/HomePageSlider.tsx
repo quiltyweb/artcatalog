@@ -25,19 +25,6 @@ type FlattenedImage = {
   category: string;
 };
 
-const buildSrcSet = (baseUrl: string) => {
-  const widths = [400, 640, 800, 1280];
-  return widths
-    .map((w) => {
-      const sep = baseUrl.includes("?") ? "&" : "?";
-      return `${baseUrl}${sep}width=${w} ${w}w`;
-    })
-    .join(", ");
-};
-
-// Mobile: 1 slide (100vw), 540px+: 2 slides (50vw), 768px+: 3 slides (33vw)
-const SLIDER_SIZES = "(min-width: 768px) 33vw, (min-width: 540px) 50vw, 100vw";
-
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
@@ -124,14 +111,11 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             <div className="flex flex-col items-center h-full w-full">
               <img
                 src={item.reference.image.url}
-                srcSet={buildSrcSet(item.reference.image.url)}
-                sizes={SLIDER_SIZES}
                 alt={item.alt_text}
                 className="object-cover h-full lg:w-full rounded-sm"
                 loading={idx < 3 ? "eager" : "lazy"}
-                fetchPriority={idx < 3 ? "high" : "low"}
-                width={634}
-                height={840}
+                width={1920}
+                height={1080}
               />
 
               <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">
