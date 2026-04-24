@@ -1,13 +1,6 @@
-import React, { lazy, Suspense } from "react";
-import type { UncontrolledProps } from "react-medium-image-zoom";
-
-const LazyZoom = lazy(() =>
-  import("react-medium-image-zoom").then((mod) => {
-    // @ts-expect-error CSS module import has no type declarations
-    import("react-medium-image-zoom/dist/styles.css");
-    return { default: mod.default };
-  })
-);
+import React from "react";
+import Zoom, { UncontrolledProps } from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 /**
  * A safe wrapper for react-medium-image-zoom that
@@ -28,9 +21,5 @@ export default function SafeZoom({ children, ...props }: SafeZoomProps) {
     return <>{children}</>;
   }
 
-  return (
-    <Suspense fallback={children}>
-      <LazyZoom {...props}>{children}</LazyZoom>
-    </Suspense>
-  );
+  return <Zoom {...props}>{children}</Zoom>;
 }
