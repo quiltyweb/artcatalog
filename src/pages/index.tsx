@@ -43,6 +43,67 @@ export const Head = (props: any) => {
     ],
   };
 
+  const storeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    name: "Brushella Art Store",
+    url: "https://www.brushella.art",
+    logo: "https://www.brushella.art/brushella-icon.svg",
+    image:
+      "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585",
+    description:
+      "Online art store featuring original paintings, fine art prints and home décor by Australian artist Gabriela.",
+    priceRange: "$$",
+    currenciesAccepted: "AUD",
+    paymentAccepted: "Credit Card, Shop Pay",
+    founder: {
+      "@type": "Person",
+      name: "Gabriela Ugalde",
+      jobTitle: "Artist",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Art & Home Decor",
+      itemListElement: [
+        {
+          "@type": "OfferCatalog",
+          name: "Original Paintings",
+          itemListElement: {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Product",
+              name: "Original Acrylic Paintings",
+            },
+          },
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Prints",
+          itemListElement: {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Product",
+              name: "Fine Art Prints",
+            },
+          },
+        },
+      ],
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.brushella.art",
+      },
+    ],
+  };
+
   return (
     <SEO
       pageTitle="Original Paintings & Fine Art Prints"
@@ -53,6 +114,12 @@ export const Head = (props: any) => {
       <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
       <script type="application/ld+json">
         {JSON.stringify(organizationSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(storeSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
       </script>
     </SEO>
   );
