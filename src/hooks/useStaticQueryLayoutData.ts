@@ -12,7 +12,7 @@ export function useStaticQueryLayoutData() {
               reference {
                 ... on StoreFrontShopify_MediaImage {
                   image {
-                    url(transform: { preferredContentType: WEBP, maxWidth: 1280 })
+                    url(transform: { preferredContentType: WEBP })
                   }
                 }
               }
@@ -82,7 +82,7 @@ export function useStaticQueryLayoutData() {
               altText
               originalSrc
               gridCategorySlider: gatsbyImageData(
-                width: 480
+                width: 400
                 layout: CONSTRAINED
                 # aspectRatio: 0.667
                 placeholder: BLURRED
