@@ -229,7 +229,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 export default Collection;
 
 export const Head = (props: any) => {
-  const { title } = props.pageContext;
+  const { title, products, collectionHandle, description } = props.pageContext;
   const canonical = `https://www.brushella.art${props.location.pathname}`;
 
   const breadcrumbSchema = {
@@ -252,6 +252,28 @@ export const Head = (props: any) => {
     ],
   };
 
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: title,
+    description:
+      description ||
+      `Browse the ${title} collection by Brushella.`,
+    url: canonical,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: products?.length ?? 0,
+      itemListElement:
+        products?.map((product: any, index: number) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `https://www.brushella.art/collections/${collectionHandle}/${product.handle}/`,
+          name: product.title,
+          image: product.featuredImage?.originalSrc,
+        })) ?? [],
+    },
+  };
+
   return (
     <SEO
       pageTitle={`${title} — Art Collection`}
@@ -260,6 +282,9 @@ export const Head = (props: any) => {
     >
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(collectionSchema)}
       </script>
     </SEO>
   );
