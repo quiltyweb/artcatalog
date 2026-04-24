@@ -1,6 +1,9 @@
-# All original artwork, images, and creative content on this site are protected by copyright
-# and are NOT licensed for AI training, machine learning datasets, or model development.
-# Unauthorized use of this content for AI training purposes is strictly prohibited.
+# All original artwork, images, text, and creative content on this site are the exclusive
+# property of Brushella (Gabriela Ugalde) and are protected by copyright law.
+# No content from this site may be used for artificial intelligence training, machine learning,
+# dataset creation, model development, or any form of automated data extraction without
+# explicit prior written consent from the copyright holder.
+# Contact: https://www.brushella.art/contact
 
 User-agent: *
 Allow: /

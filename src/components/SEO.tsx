@@ -34,6 +34,9 @@ const SEO: React.FunctionComponent<SEOProps> = ({
       <meta property="og:image" content={image} />
       <meta property="og:site_name" content={siteTitle} />
       {canonical && <meta property="og:url" content={canonical} />}
+      <meta name="copyright" content="Brushella (Gabriela Ugalde)" />
+      <meta name="dc.rights" content="All content copyright Brushella (Gabriela Ugalde). No use for AI/ML training permitted without written consent." />
+      <meta name="robots" content="noai, noimageai" />
       <link rel="preconnect" href="https://cdn.shopify.com" />
       {children}
     </>

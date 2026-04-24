@@ -39,6 +39,18 @@ exports[`SEO render children correctly 1`] = `
     content="Sitetitle prop"
     property="og:site_name"
   />
+  <meta
+    content="Brushella (Gabriela Ugalde)"
+    name="copyright"
+  />
+  <meta
+    content="All content copyright Brushella (Gabriela Ugalde). No use for AI/ML training permitted without written consent."
+    name="dc.rights"
+  />
+  <meta
+    content="noai, noimageai"
+    name="robots"
+  />
   <link
     href="https://cdn.shopify.com"
     rel="preconnect"
@@ -87,6 +99,18 @@ exports[`SEO render fallback values 1`] = `
   <meta
     content="Brushella"
     property="og:site_name"
+  />
+  <meta
+    content="Brushella (Gabriela Ugalde)"
+    name="copyright"
+  />
+  <meta
+    content="All content copyright Brushella (Gabriela Ugalde). No use for AI/ML training permitted without written consent."
+    name="dc.rights"
+  />
+  <meta
+    content="noai, noimageai"
+    name="robots"
   />
   <link
     href="https://cdn.shopify.com"
