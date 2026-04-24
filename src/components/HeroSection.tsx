@@ -60,6 +60,9 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
           alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
           objectFit="cover"
           maxW={{ base: "100%", sm: "100%", md: "100%", lg: "50%" }}
+          loading="lazy"
+          width={500}
+          height={667}
         />
         <Stack
           padding={{

@@ -267,6 +267,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           src={item.merchandise.image.url}
                           alt={item.merchandise.image.altText}
                           key={`${item.id}-${item.merchandise.title}`}
+                          loading="lazy"
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
@@ -288,6 +289,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           height={60}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
+                          loading="lazy"
                         />
                       )}
                     </Td>
@@ -359,6 +361,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           key={`${item.id}-${item.merchandise.title}`}
                           src={item.merchandise.image.url}
                           alt={item.merchandise.image.altText}
+                          loading="lazy"
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
@@ -380,6 +383,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           height={60}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
+                          loading="lazy"
                         />
                       )}
                     </Td>

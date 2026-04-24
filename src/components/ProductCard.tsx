@@ -520,6 +520,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       data-testid="no-image-found"
                       src={notFoundImage}
                       alt="No image available"
+                      loading="eager"
                       style={{
                         filter: "grayscale(1)",
                         width: "500px",
@@ -539,6 +540,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       sources={featuredImageDetail.images?.sources}
                       imgAttributes={{
                         alt: product.featuredImage?.altText || product.title,
+                        loading: "eager",
                       }}
                     />
                   )}
