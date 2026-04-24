@@ -52,7 +52,7 @@ export const Head = (props: any) => {
     image:
       "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585",
     description:
-      "Online art store featuring original paintings, fine art prints and home décor by Australian artist Gabriela.",
+      "Online art store featuring original paintings, fine art prints and home décor by Chilean artist Brushella.",
     priceRange: "$$",
     currenciesAccepted: "AUD",
     paymentAccepted: "Credit Card, Shop Pay",
