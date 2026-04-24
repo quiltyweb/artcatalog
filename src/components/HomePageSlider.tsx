@@ -25,6 +25,11 @@ type FlattenedImage = {
   category: string;
 };
 
+const withWidth = (url: string, width: number) => {
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}width=${width}`;
+};
+
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
@@ -109,14 +114,25 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             style={{ padding: "0.5rem 0.25rem" }}
           >
             <div className="flex flex-col items-center h-full w-full">
-              <img
-                src={item.reference.image.url}
-                alt={item.alt_text}
-                className="object-cover h-full lg:w-full rounded-sm"
-                loading={idx < 3 ? "eager" : "lazy"}
-                width={1920}
-                height={1080}
-              />
+              <picture>
+                <source
+                  media="(max-width: 539px)"
+                  srcSet={withWidth(item.reference.image.url, 750)}
+                />
+                <source
+                  media="(max-width: 767px)"
+                  srcSet={withWidth(item.reference.image.url, 800)}
+                />
+                <img
+                  src={withWidth(item.reference.image.url, 1280)}
+                  alt={item.alt_text}
+                  className="object-cover h-full lg:w-full rounded-sm"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  fetchPriority={idx === 0 ? "high" : "auto"}
+                  width={634}
+                  height={840}
+                />
+              </picture>
 
               <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">
                 <Link
