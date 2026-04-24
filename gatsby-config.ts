@@ -103,6 +103,18 @@ const config: GatsbyConfig = {
         ],
       },
     },
+    ...(process.env.ANALYZE_BUNDLE
+      ? [
+          {
+            resolve: "gatsby-plugin-webpack-bundle-analyser-v2",
+            options: {
+              analyzerMode: "static",
+              reportFilename: "bundle-report.html",
+              openAnalyzer: true,
+            },
+          },
+        ]
+      : []),
   ],
   graphqlTypegen: true,
 };
