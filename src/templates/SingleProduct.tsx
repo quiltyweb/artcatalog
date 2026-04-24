@@ -74,6 +74,13 @@ export const Head = (props: any) => {
       "@type": "Brand",
       name: "Brushella",
     },
+    copyrightHolder: {
+      "@type": "Person",
+      name: "Gabriela Ugalde",
+    },
+    copyrightNotice: "© Brushella (Gabriela Ugalde). All rights reserved.",
+    acquireLicensePage: "https://www.brushella.art/contact",
+    creditText: "Artwork by Brushella (Gabriela Ugalde)",
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: product.priceRangeV2.minVariantPrice.currencyCode,
