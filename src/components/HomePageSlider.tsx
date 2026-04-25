@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import { Link } from "gatsby";
@@ -34,8 +34,19 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
 }) => {
+  const animated = typeof window !== "undefined"
+    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const [loading, setLoading] = useState(initialLoading);
+  const [revealed, setRevealed] = useState(false);
+  const [activeStart, setActiveStart] = useState(0);
+  const [revealKey, setRevealKey] = useState(0);
   const hasInteractedRef = React.useRef(false);
+
+  useEffect(() => {
+    setRevealed(false);
+    const timer = setTimeout(() => setRevealed(true), 50);
+    return () => clearTimeout(timer);
+  }, [revealKey]);
 
   return (
     <section
@@ -87,11 +98,16 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           onlyInViewport: true,
         }}
         watchSlidesProgress={true} // enables progress tracking
-        onInit={() => {
+        onInit={(swiper) => {
           setLoading(false);
+          setActiveStart(swiper.realIndex);
+          setRevealKey((k) => k + 1);
           (document.activeElement as HTMLElement)?.blur();
         }}
         onSlideChange={(swiper) => {
+          setActiveStart(swiper.realIndex);
+          setRevealKey((k) => k + 1);
+
           if (window.innerWidth < 768) {
             return;
           }
@@ -113,7 +129,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             className="h-full w-full"
             style={{ padding: "0.5rem 0.25rem" }}
           >
-            <div className="flex flex-col items-center h-full w-full">
+            <div
+              className="flex flex-col items-center h-full w-full"
+              style={animated ? (() => {
+                // staggered fade-in per visible group
+                const posInGroup = ((idx - activeStart) % images.length + images.length) % images.length;
+                const delay = posInGroup * 0.35;
+                return {
+                  opacity: revealed ? 1 : 0,
+                  transform: revealed ? "translateY(0)" : "translateY(12px)",
+                  transition: revealed
+                    ? `opacity 1s ease-out ${delay}s, transform 1s ease-out ${delay}s`
+                    : "none",
+                };
+              })() : undefined}
+            >
               <picture>
                 <source
                   media="(max-width: 539px)"
