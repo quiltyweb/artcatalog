@@ -34,8 +34,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
 }) => {
-  const animated = typeof window !== "undefined"
-    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [animated, setAnimated] = useState(false);
   const [loading, setLoading] = useState(initialLoading);
   const [revealed, setRevealed] = useState(false);
   const [activeStart, setActiveStart] = useState(0);
@@ -43,10 +42,15 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const hasInteractedRef = React.useRef(false);
 
   useEffect(() => {
+    setAnimated(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (!animated) return;
     setRevealed(false);
     const timer = setTimeout(() => setRevealed(true), 50);
     return () => clearTimeout(timer);
-  }, [revealKey]);
+  }, [revealKey, animated]);
 
   return (
     <section
