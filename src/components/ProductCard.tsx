@@ -105,7 +105,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     product: product,
     quantity: 1,
     variant: product.hasOnlyDefaultVariant
-      ? product.variants[0].selectedOptions[0].value
+      ? product.variants[0]?.selectedOptions[0]?.value ?? ""
       : "",
   };
 

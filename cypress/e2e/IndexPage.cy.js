@@ -118,9 +118,7 @@ describe("Home page mobile", () => {
         "Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
       );
       cy.findByRole("heading", { name: /Welcome to Brushella's Art Store/i });
-      cy.findByText(
-        "Your one-stop online shop where craftsmanship meets creativity!"
-      );
+      cy.findByText("Where craftsmanship meets creativity!");
       cy.findByRole("link", { name: "Explore the Collection" });
       cy.findByText(
         /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
