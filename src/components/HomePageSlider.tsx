@@ -135,18 +135,27 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           >
             <div
               className="flex flex-col items-center h-full w-full"
-              style={animated ? (() => {
-                // staggered fade-in per visible group
-                const posInGroup = ((idx - activeStart) % images.length + images.length) % images.length;
-                const delay = posInGroup * 0.35;
-                return {
-                  opacity: revealed ? 1 : 0,
-                  transform: revealed ? "translateY(0)" : "translateY(12px)",
-                  transition: revealed
-                    ? `opacity 1s ease-out ${delay}s, transform 1s ease-out ${delay}s`
-                    : "none",
-                };
-              })() : undefined}
+              style={
+                animated
+                  ? (() => {
+                      // staggered fade-in per visible group
+                      const posInGroup =
+                        (((idx - activeStart) % images.length) +
+                          images.length) %
+                        images.length;
+                      const delay = posInGroup * 0.35;
+                      return {
+                        opacity: revealed ? 1 : 0,
+                        transform: revealed
+                          ? "translateY(0)"
+                          : "translateY(12px)",
+                        transition: revealed
+                          ? `opacity 1s ease-out ${delay}s, transform 1s ease-out ${delay}s`
+                          : "none",
+                      };
+                    })()
+                  : undefined
+              }
             >
               <picture>
                 <source
