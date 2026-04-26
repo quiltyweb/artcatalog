@@ -34,9 +34,12 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
         textAlign="center"
         fontWeight="bold"
       >
-        Your one-stop online shop where craftsmanship meets creativity!
+        Where craftsmanship meets creativity!
       </Text>
-      <CallToActionButton title="Explore the Collection" link="#all-categories-title" />
+      <CallToActionButton
+        title="Explore the Collection"
+        link="#all-categories-title"
+      />
     </CardHeader>
   );
 };
@@ -76,23 +79,17 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
           {isDektop && <HeaderCallToAction />}
           <CardBody p="0">
             <Text fontSize="1.13rem" textAlign="left" lineHeight="1.7rem">
-              A curated collection boasts an array of charming products, all
-              featuring designs sourced from Brushella's original paintings,
-              that will elevate your home and lifestyle. Discover delightful tea
-              towels, perfect for adding a splash of personality to your
-              kitchen, or cozy up with plush blankets and neck warmers "Warmies"
-              that promise warmth and comfort. Sip your favorite beverage from
-              Brushella's enchanting magic mugs, and let your personality shine
-              through unique "Scoodies" and stylish pillowcases. <br />
-              For those looking to adorn their spaces with a unique, intricate,
-              and original piece of art, browse Brushella's original paintings
-              that encapsulate the essence of art colorfully and vibrantly,
-              bringing joy and happiness to your life. Brushella prides on her
-              handcrafted creations, each infused with love and attention to
-              detail. <br />
-              She also offers Exclusive Commission Services, including Stunning
-              Murals, Sign Writing, and High-Quality Archival Prints of her
-              original paintings to bring your vision to life.
+              Immerse yourself into a world of materialised creations flowing
+              from the one human mind, and brought to life with the one pair of
+              human hands. The collection you will find in this space has been
+              meaningfully created, drawing upon Gabriella's deepest raw
+              feelings, expansive visions, and life experiences, transformed
+              into something beautiful and full of life. Discover everything
+              from unique treasures and household items designed to bring the
+              magical into your home, to a range of original artworks and
+              prints. Hand-knitted goodies and resin little trinkets, all
+              infused with a touch of love and awareness, from Gabriella's heart
+              to yours.
             </Text>
             <Text
               fontSize="1.13rem"
