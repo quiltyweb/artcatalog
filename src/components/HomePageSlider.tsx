@@ -85,8 +85,13 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           },
 
           768: {
-            slidesPerView: 3, // show 3 slides on desktop
-            slidesPerGroup: 3, // move 3 at a time on desktop
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+          },
+
+          1024: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
           },
         }}
         style={{ height: "calc(100vh - 84px)" }}
@@ -157,7 +162,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   : undefined
               }
             >
-              <picture>
+              <picture className="h-full w-full">
                 <source
                   media="(max-width: 539px)"
                   srcSet={withWidth(item.reference.image.url, 750)}
@@ -183,7 +188,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   className="slide-caption block
                     font-serif font-medium mb-1 text-lg"
                 >
-                  <p className="leading-snug line-clamp-2 min-h-[3.1rem]">
+                  <p className="leading-snug line-clamp-2 min-h-fit">
                     {item.caption}
                   </p>
                 </Link>
