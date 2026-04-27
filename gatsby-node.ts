@@ -256,3 +256,21 @@ export const createPages: GatsbyNode["createPages"] = async ({
       });
     });
 };
+
+export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
+  stage,
+  actions,
+}) => {
+  if (stage === "build-html" || stage === "develop-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /swiper/,
+            use: "null-loader",
+          },
+        ],
+      },
+    });
+  }
+};
