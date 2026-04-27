@@ -261,6 +261,18 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
   stage,
   actions,
 }) => {
+  actions.setWebpackConfig({
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto",
+        },
+      ],
+    },
+  });
+
   if (stage === "build-html" || stage === "develop-html") {
     actions.setWebpackConfig({
       module: {
