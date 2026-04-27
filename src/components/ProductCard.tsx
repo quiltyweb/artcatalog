@@ -105,7 +105,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     product: product,
     quantity: 1,
     variant: product.hasOnlyDefaultVariant
-      ? product.variants[0]?.selectedOptions[0]?.value ?? ""
+      ? product.variants[0].selectedOptions[0].value
       : "",
   };
 
@@ -128,9 +128,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         }
         setSubmitting(true);
 
-        const selectedVariant = product.variants.find((variant) => {
-          return variant.title.toLowerCase() === values.variant.toLowerCase();
-        });
+        const selectedVariant = product.hasOnlyDefaultVariant
+          ? product.variants[0]
+          : product.variants.find((variant) => {
+              return (
+                variant.title.toLowerCase() === values.variant.toLowerCase()
+              );
+            });
 
         if (!selectedVariant) {
           setSubmitting(false);
@@ -198,12 +202,14 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           value: product.priceRangeV2.minVariantPrice.amount,
         });
 
-        const variantFound = props.values.product.variants.find((variant) => {
-          return (
-            variant.selectedOptions[0].value.toLowerCase() ==
-            props.values.variant.toLowerCase()
-          );
-        });
+        const variantFound = product.hasOnlyDefaultVariant
+          ? product.variants[0]
+          : props.values.product.variants.find((variant) => {
+              return (
+                variant.selectedOptions[0].value.toLowerCase() ==
+                props.values.variant.toLowerCase()
+              );
+            });
         const variantFoundImage =
           variantFound?.image && getImage(variantFound.image);
 
@@ -510,10 +516,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               </CardBody>
             </Container>
             <Container p="4">
-              <Flex
-                direction={{ base: "column", md: "row" }}
-                gap={4}
-              >
+              <Flex direction={{ base: "column", md: "row" }} gap={4}>
                 <Box id="main-image" flex="1">
                   {!featuredImageDetail && !variantFoundImage && (
                     <Image
@@ -609,46 +612,49 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
               {product.mediaCount > 0 && (
                 <>
-                <Heading
-                  as="h3"
-                  size="md"
-                  fontWeight="bold"
-                  color="teal.600"
-                  mt={4}
-                  mb={2}
-                >
-                  Details gallery:
-                </Heading>
-                <Flex flexDirection={["column", "row"]} flexWrap="wrap">
-                  {product.media.map((mediaItem, index) => {
-                    if (mediaItem.mediaContentType !== "IMAGE") {
-                      return;
-                    }
-                    const mediaImage =
-                      mediaItem.preview?.image &&
-                      getImage(mediaItem?.preview?.image);
+                  <Heading
+                    as="h3"
+                    size="md"
+                    fontWeight="bold"
+                    color="teal.600"
+                    mt={4}
+                    mb={2}
+                  >
+                    Details gallery:
+                  </Heading>
+                  <Flex flexDirection={["column", "row"]} flexWrap="wrap">
+                    {product.media.map((mediaItem, index) => {
+                      if (mediaItem.mediaContentType !== "IMAGE") {
+                        return;
+                      }
+                      const mediaImage =
+                        mediaItem.preview?.image &&
+                        getImage(mediaItem?.preview?.image);
 
-                    return (
-                      mediaImage && (
-                        <div key={`media-${index}`} className="relative inline-block m-2">
-                          <SafeZoom>
-                            <Box className="w-20">
-                              <GatsbyImage
-                                image={mediaImage}
-                                alt={
-                                  mediaItem.preview?.image.altText ||
-                                  product.title
-                                }
-                                loading="lazy"
-                                className="rounded object-cover w-full h-full"
-                              />
-                            </Box>
-                          </SafeZoom>
-                        </div>
-                      )
-                    );
-                  })}
-                </Flex>
+                      return (
+                        mediaImage && (
+                          <div
+                            key={`media-${index}`}
+                            className="relative inline-block m-2"
+                          >
+                            <SafeZoom>
+                              <Box className="w-20">
+                                <GatsbyImage
+                                  image={mediaImage}
+                                  alt={
+                                    mediaItem.preview?.image.altText ||
+                                    product.title
+                                  }
+                                  loading="lazy"
+                                  className="rounded object-cover w-full h-full"
+                                />
+                              </Box>
+                            </SafeZoom>
+                          </div>
+                        )
+                      );
+                    })}
+                  </Flex>
                 </>
               )}
             </Container>
