@@ -235,15 +235,57 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
     return id;
   })();
 
+  const createNewCart = useCallback(() => {
+    setStore((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+    clientV2
+      .request<Mutation>(createCartMutation, {
+        variables: {
+          input: {},
+        },
+      })
+      .then(({ data, errors }) => {
+        if (errors) {
+          setStore((prevState) => {
+            return { ...prevState, isLoading: false, hasResponseError: true };
+          });
+          return;
+        }
+        if (data && data.cartCreate && data.cartCreate.cart) {
+          localStorage.setItem(
+            SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+            data.cartCreate.cart.id,
+          );
+          localStorage.setItem(
+            SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
+            Date.now().toString(),
+          );
+          setStore((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              cart: data.cartCreate?.cart,
+            };
+          });
+        }
+      })
+      .catch(() => {
+        setStore((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          hasResponseError: true,
+        }));
+      });
+  }, []);
+
   useEffect(() => {
     if (existingCheckoutId) {
-      // retrieve existing cart
-
       setStore((prevState) => {
         return { ...prevState, isLoading: true };
       });
 
-      store.client
+      clientV2
         .request<QueryRoot>(cartQuery, {
           variables: {
             id: existingCheckoutId,
@@ -258,75 +300,37 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
           }
 
           if (!data?.cart) {
-            // if no cart found, remove invalid cart id from local storage
-            typeof window !== "undefined" &&
-              localStorage.removeItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
-            setStore((prevState) => {
-              return { ...prevState, isLoading: false };
-            });
+            localStorage.removeItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
+            localStorage.removeItem(SHOPIFY_CHECKOUT_TIMESTAMP_KEY);
+            createNewCart();
             return;
           }
 
-          if (data && data.cart) {
-            typeof window !== "undefined" &&
-              localStorage.setItem(
-                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-                data.cart.id,
-              );
-            typeof window !== "undefined" &&
-              localStorage.setItem(
-                SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
-                Date.now().toString(),
-              );
-            setStore((prevState) => {
-              return {
-                ...prevState,
-                isLoading: false,
-                cart: data.cart,
-              };
-            });
-          }
-        });
-    }
-
-    if (!existingCheckoutId) {
-      // create new cart
-      setStore((prevState) => {
-        return { ...prevState, isLoading: true };
-      });
-      store.client
-        .request<Mutation>(createCartMutation, {
-          variables: {
-            input: {},
-          },
+          localStorage.setItem(
+            SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
+            data.cart.id,
+          );
+          localStorage.setItem(
+            SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
+            Date.now().toString(),
+          );
+          setStore((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              cart: data.cart,
+            };
+          });
         })
-        .then(({ data, errors }) => {
-          if (errors) {
-            setStore((prevState) => {
-              return { ...prevState, isLoading: false, hasResponseError: true };
-            });
-            return;
-          }
-          if (data && data.cartCreate && data.cartCreate.cart) {
-            typeof window !== "undefined" &&
-              localStorage.setItem(
-                SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY,
-                data.cartCreate.cart.id,
-              );
-            typeof window !== "undefined" &&
-              localStorage.setItem(
-                SHOPIFY_CHECKOUT_TIMESTAMP_KEY,
-                Date.now().toString(),
-              );
-            setStore((prevState) => {
-              return {
-                ...prevState,
-                isLoading: false,
-                cart: data.cartCreate?.cart,
-              };
-            });
-          }
+        .catch(() => {
+          setStore((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            hasResponseError: true,
+          }));
         });
+    } else {
+      createNewCart();
     }
   }, []);
 
