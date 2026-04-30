@@ -42,22 +42,24 @@ const Test3dAfterGriefPage: React.FC = (): React.ReactElement => {
 
   const product = data.allShopifyProduct.nodes[0];
   const model3d = product?.media.find(
-    (m) => m.mediaContentType === "MODEL_3D"
+    (m: { mediaContentType: string }) => m.mediaContentType === "MODEL_3D",
   ) as
     | { id: string; alt: string | null; sources?: Model3dSource[] }
     | undefined;
   const glbSource = model3d?.sources?.find(
-    (s) => s.format?.toLowerCase() === "glb" || s.mimeType === "model/gltf-binary"
+    (s: Model3dSource) =>
+      s.format?.toLowerCase() === "glb" || s.mimeType === "model/gltf-binary",
   );
 
+  // https://developers.google.com/ar/develop/scene-viewer#intent_versioning
   const sceneViewerHref =
     glbSource && product
       ? `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
-          glbSource.url
-        )}&mode=ar_preferred&title=${encodeURIComponent(
-          product.title
+          glbSource.url,
+        )}&mode=ar_preferred&enable_vertical_placement=true&title=${encodeURIComponent(
+          product.title,
         )}#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(
-          PRODUCT_FALLBACK_URL
+          PRODUCT_FALLBACK_URL,
         )};end;`
       : null;
 
@@ -89,10 +91,13 @@ const Test3dAfterGriefPage: React.FC = (): React.ReactElement => {
             src={glbSource.url}
             alt={model3d?.alt ?? product!.title}
             ar
+            ar-placement="wall"
             ar-modes="scene-viewer webxr quick-look"
             camera-controls
             auto-rotate
-            shadow-intensity="1"
+            ar-scale="fixed"
+            environment-image="neutral"
+            shadow-intensity="0.8"
             style={{
               width: "100%",
               height: "560px",
@@ -116,11 +121,7 @@ const Test3dAfterGriefPage: React.FC = (): React.ReactElement => {
                 background: "#f5f5f5",
               }}
             >
-              {JSON.stringify(
-                { source: glbSource, sceneViewerHref },
-                null,
-                2
-              )}
+              {JSON.stringify({ source: glbSource, sceneViewerHref }, null, 2)}
             </pre>
           </details>
         </>
