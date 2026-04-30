@@ -111,6 +111,18 @@ const MOCKED_IMAGES_PROPS = [
     },
     title: "Parrot",
   },
+  {
+    alt_text: "testing 7",
+    caption: "No link caption.",
+    category: "prints",
+    image: "gid://fake/MediaImage/34432890437841",
+    reference: {
+      image: {
+        url: "https://fake.images.fake/s/files/1/0586/9892/4240/files/no_link.jpg?v=1751945326",
+      },
+    },
+    title: "No link",
+  },
 ];
 
 beforeEach(() => {
@@ -159,7 +171,7 @@ describe("HomePageSlider", () => {
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
     );
 
-    MOCKED_IMAGES_PROPS.forEach((item, index) => {
+    MOCKED_IMAGES_PROPS.filter((item) => item.link).forEach((item) => {
       expect(
         screen.getByRole("link", { name: item.caption })
       ).toBeInTheDocument();
@@ -168,5 +180,18 @@ describe("HomePageSlider", () => {
         "https://www.brushella.art/"
       );
     });
+  });
+
+  it("renders caption as plain text when an image has no link", () => {
+    render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
+
+    const noLinkItem = MOCKED_IMAGES_PROPS.find((item) => !item.link);
+    expect(noLinkItem).toBeDefined();
+    expect(screen.getByText(noLinkItem!.caption)).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: noLinkItem!.caption })
+    ).not.toBeInTheDocument();
   });
 });

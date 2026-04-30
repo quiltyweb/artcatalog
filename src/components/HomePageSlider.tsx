@@ -16,7 +16,7 @@ type FlattenedImage = {
     };
   };
   alt_text: string;
-  link: {
+  link?: {
     text: string;
     url: string;
   };
@@ -183,15 +183,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               </picture>
 
               <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">
-                <Link
-                  to={item.link.url}
-                  className="slide-caption block
-                    font-serif font-medium mb-1 text-lg"
-                >
-                  <p className="leading-snug line-clamp-2 min-h-fit">
+                {item.link?.url ? (
+                  <Link
+                    to={item.link.url}
+                    className="slide-caption block
+                      font-serif font-medium mb-1 text-lg"
+                  >
+                    <p className="leading-snug line-clamp-2 min-h-fit">
+                      {item.caption}
+                    </p>
+                  </Link>
+                ) : (
+                  <p className="slide-caption font-serif font-medium mb-1 text-lg leading-snug line-clamp-2 min-h-fit">
                     {item.caption}
                   </p>
-                </Link>
+                )}
               </div>
             </div>
           </SwiperSlide>

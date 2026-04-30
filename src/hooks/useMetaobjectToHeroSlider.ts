@@ -8,7 +8,7 @@ type FlattenedImage = {
     };
   };
   alt_text: string;
-  link: {
+  link?: {
     text: string;
     url: string;
   };
