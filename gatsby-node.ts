@@ -28,7 +28,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
       allShopifyCollection(
         filter: {
-          handle: { in: ["prints", "original-paintings"] }
+          handle: { in: ["prints", "original-paintings", "human-nature", "bloom"] }
           products: { elemMatch: { status: { eq: ACTIVE } } }
         }
       ) {
@@ -38,6 +38,16 @@ export const createPages: GatsbyNode["createPages"] = async ({
           handle
           description
           descriptionHtml
+          image {
+            altText
+            originalSrc
+            gatsbyImageData(
+              layout: CONSTRAINED
+              width: 1000
+              placeholder: BLURRED
+              formats: [AUTO, WEBP]
+            )
+          }
           products {
             id
             shopifyId
@@ -162,15 +172,26 @@ export const createPages: GatsbyNode["createPages"] = async ({
     );
     return;
   }
+  const SPECIAL_COLLECTION_HANDLES = [
+    "human-nature",
+    "bloom",
+  ];
+
   collectionsAndProductsResult.data?.allShopifyCollection.nodes.map((node) => {
+    const isSpecial = SPECIAL_COLLECTION_HANDLES.includes(node.handle);
     createPage({
       path: `/collections/${node.handle}`,
-      component: path.resolve(`./src/templates/Collection.tsx`),
+      component: path.resolve(
+        isSpecial
+          ? `./src/templates/SpecialCollection.tsx`
+          : `./src/templates/Collection.tsx`
+      ),
       context: {
         title: node.title,
         products: node.products,
         description: node.description,
         collectionHandle: node.handle,
+        image: node.image,
       },
     });
 
