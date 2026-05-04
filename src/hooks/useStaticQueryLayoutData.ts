@@ -15,6 +15,10 @@ export function useStaticQueryLayoutData() {
                     url(transform: { preferredContentType: WEBP, maxWidth: 1920 })
                   }
                 }
+                ... on StoreFrontShopify_Collection {
+                  handle
+                  title
+                }
               }
             }
           }

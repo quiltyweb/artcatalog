@@ -23,6 +23,10 @@ type FlattenedImage = {
   title: string;
   caption: string;
   category: string;
+  collection?: {
+    handle: string;
+    title: string;
+  };
 };
 
 const withWidth = (url: string, width: number) => {
@@ -183,9 +187,13 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               </picture>
 
               <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">
-                {item.link?.url ? (
+                {item.collection?.handle || item.link?.url ? (
                   <Link
-                    to={item.link.url}
+                    to={
+                      item.collection?.handle
+                        ? `/collections/${item.collection.handle}`
+                        : (item.link!.url)
+                    }
                     className="slide-caption block
                       font-serif font-medium mb-1 text-lg"
                   >
