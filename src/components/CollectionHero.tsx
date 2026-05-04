@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, Container, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { TbAugmentedReality } from "react-icons/tb";
+import DOMPurify from "dompurify";
 
 type CollectionHeroProps = {
   title: string;
@@ -113,13 +114,17 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
             {title} Collection
           </Heading>
           {description && (
-            <Text
+            <Box
               fontSize={{ base: "md", md: "lg" }}
               color="gray.700"
               lineHeight="1.7"
-            >
-              {description}
-            </Text>
+              dangerouslySetInnerHTML={{
+                __html:
+                  typeof window !== "undefined"
+                    ? DOMPurify.sanitize(description)
+                    : description,
+              }}
+            />
           )}
           <Text
             fontSize={{ base: "sm", md: "md" }}
