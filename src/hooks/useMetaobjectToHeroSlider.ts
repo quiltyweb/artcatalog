@@ -15,6 +15,10 @@ type FlattenedImage = {
   title: string;
   caption: string;
   category: string;
+  collection?: {
+    handle: string;
+    title: string;
+  };
   order?: string;
 };
 
@@ -27,6 +31,17 @@ export function useMetaobjectToHeroSlider() {
             if (field.key === "image" && field.reference !== null) {
               acc[field.key] = field.value;
               acc["reference"] = field.reference;
+              return acc;
+            }
+            if (
+              field.key === "collection" &&
+              field.reference &&
+              "handle" in field.reference
+            ) {
+              acc["collection"] = {
+                handle: field.reference.handle,
+                title: field.reference.title,
+              };
               return acc;
             }
             if (field.key === "link") {

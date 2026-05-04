@@ -29,6 +29,10 @@ const MOCKED_IMAGES_PROPS = [
       text: " Human Nature collection.",
       url: "https://www.brushella.art/",
     },
+    collection: {
+      handle: "human-nature",
+      title: "Human Nature",
+    },
     title: "After Grief human nature collection",
   },
   {
@@ -44,6 +48,10 @@ const MOCKED_IMAGES_PROPS = [
     link: {
       text: " Human Nature collection",
       url: "https://www.brushella.art/",
+    },
+    collection: {
+      handle: "human-nature",
+      title: "Human Nature",
     },
     title: "A moment without thoughts human nature collection",
   },
@@ -61,6 +69,10 @@ const MOCKED_IMAGES_PROPS = [
       text: " Human Nature collection.",
       url: "https://www.brushella.art/",
     },
+    collection: {
+      handle: "human-nature",
+      title: "Human Nature",
+    },
     title: "Prana human nature collection",
   },
   {
@@ -76,6 +88,10 @@ const MOCKED_IMAGES_PROPS = [
     link: {
       text: "Jungle collection.",
       url: "https://www.brushella.art/",
+    },
+    collection: {
+      handle: "bloom",
+      title: "Bloom",
     },
     title: "Leopard",
   },
@@ -93,6 +109,10 @@ const MOCKED_IMAGES_PROPS = [
       text: "Jungle collection",
       url: "https://www.brushella.art/",
     },
+    collection: {
+      handle: "bloom",
+      title: "Bloom",
+    },
     title: "Tucan",
   },
   {
@@ -108,6 +128,10 @@ const MOCKED_IMAGES_PROPS = [
     link: {
       text: "Jungle collection",
       url: "https://www.brushella.art/",
+    },
+    collection: {
+      handle: "bloom",
+      title: "Bloom",
     },
     title: "Parrot",
   },
@@ -165,21 +189,42 @@ describe("HomePageSlider", () => {
     });
   });
 
-  // TODO: make the link dynamic to the category of the image
-  it("renders all images with visible caption title as a hardcoded link to original paintings", () => {
+  it("renders each caption as a link to its referenced collection page", () => {
     render(
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
     );
 
-    MOCKED_IMAGES_PROPS.filter((item) => item.link).forEach((item) => {
+    MOCKED_IMAGES_PROPS.filter((item) => item.collection).forEach((item) => {
       expect(
         screen.getByRole("link", { name: item.caption })
       ).toBeInTheDocument();
       expect(screen.getByRole("link", { name: item.caption })).toHaveAttribute(
         "href",
-        "https://www.brushella.art/"
+        `/collections/${item.collection!.handle}`
       );
     });
+  });
+
+  it("falls back to link.url when no collection reference is set", () => {
+    const imagesWithoutCollection = MOCKED_IMAGES_PROPS.map((item) => {
+      const next = { ...item };
+      delete (next as { collection?: unknown }).collection;
+      return next;
+    });
+    render(
+      <HomePageSlider
+        images={imagesWithoutCollection}
+        initialLoading={false}
+      />
+    );
+
+    imagesWithoutCollection
+      .filter((item) => item.link)
+      .forEach((item) => {
+        expect(
+          screen.getByRole("link", { name: item.caption })
+        ).toHaveAttribute("href", item.link!.url);
+      });
   });
 
   it("renders caption as plain text when an image has no link", () => {
