@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import { Link } from "gatsby";
+import { motion, useReducedMotion } from "motion/react";
 // Slider CSS styles loaded globally in Layout
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
@@ -40,6 +41,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
 }) => {
   const [loading, setLoading] = useState(initialLoading);
   const hasInteractedRef = React.useRef(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
@@ -55,7 +57,12 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         </div>
       )}
 
-      <Swiper
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={reduceMotion ? false : { opacity: loading ? 0 : 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+      >
+        <Swiper
         id="homepage-slider-1"
         className="custom-swiper relative w-full bg-black/95"
         data-testid="homepage-slider-1"
@@ -182,7 +189,8 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                    text-lg font-bold text-white`}
           aria-label="Next image"
         />
-      </Swiper>
+        </Swiper>
+      </motion.div>
     </section>
   );
 };
