@@ -6,13 +6,11 @@ import {
   Heading,
   Stack,
   Text,
-  Image,
   CardHeader,
   useMediaQuery,
-  LinkBox,
-  LinkOverlay,
 } from "@chakra-ui/react";
 import CallToActionButton from "./CallToActionButton";
+import { motion } from "motion/react";
 
 const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
   return (
@@ -55,18 +53,19 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         overflow="hidden"
       >
         {!isDektop && <HeaderCallToAction />}
-
-        <Image
+        <motion.img
           src={
             "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           }
-          alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "100%", md: "100%", lg: "50%" }}
-          loading="lazy"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1, transition: { duration: 2 } }}
+          transition={{ duration: 2 }}
           width={500}
           height={667}
-        />
+          loading="lazy"
+          className="mx-auto max-w-full min-[992px]:max-w-[50%] object-contain min-[992px]:object-cover"
+          alt="Black and white portrait of Gabriela Ugalde, author of Brushella's art store, holding a brush and painting a colorful stroke across her face."
+        ></motion.img>
         <Stack
           padding={{
             base: "1rem",
@@ -78,7 +77,11 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         >
           {isDektop && <HeaderCallToAction />}
           <CardBody p="0">
-            <Text fontSize="1.13rem" textAlign="left" lineHeight="1.7rem">
+            <Text
+              fontSize="1.13rem"
+              lineHeight="1.7rem"
+              className="mx-auto max-w-full max-w-[500px] min-[992px]:max-w-[100%] text-center"
+            >
               Immerse yourself into a world of materialised creations flowing
               from the one human mind, and brought to life with the one pair of
               human hands. The collection you will find in this space has been
