@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import { Link } from "gatsby";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useAnimationControls, useReducedMotion } from "motion/react";
 // Slider CSS styles loaded globally in Layout
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
@@ -42,6 +42,33 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const [loading, setLoading] = useState(initialLoading);
   const hasInteractedRef = React.useRef(false);
   const reduceMotion = useReducedMotion();
+  const controls = useAnimationControls();
+  const captionControls = useAnimationControls();
+
+  const springTransition = (delay: number) => ({
+    type: "spring" as const,
+    stiffness: 30,
+    damping: 6,
+    delay,
+  });
+
+  useEffect(() => {
+    if (loading || reduceMotion) return;
+    controls.set({ opacity: 0, y: "5%" });
+    captionControls.set({ opacity: 0 });
+    controls
+      .start((custom: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: springTransition(custom * 0.28),
+      }))
+      .then(() => {
+        captionControls.start({
+          opacity: 1,
+          transition: { duration: 0.4, ease: "easeOut" },
+        });
+      });
+  }, [loading, reduceMotion, controls, captionControls]);
 
   return (
     <section
@@ -57,12 +84,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         </div>
       )}
 
-      <motion.div
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={reduceMotion ? false : { opacity: loading ? 0 : 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-      >
-        <Swiper
+      <Swiper
         id="homepage-slider-1"
         className="custom-swiper relative w-full bg-black/95"
         data-testid="homepage-slider-1"
@@ -108,13 +130,18 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           (document.activeElement as HTMLElement)?.blur();
         }}
         onSlideChange={(swiper) => {
-          if (window.innerWidth < 768) {
-            return;
-          }
           if (!hasInteractedRef.current) {
             hasInteractedRef.current = true;
             return; // skip the first automatic slide change
           }
+          if (!reduceMotion) {
+            controls.set({ opacity: 0 });
+            controls.start({
+              opacity: 1,
+              transition: { duration: 0.9, ease: "easeOut" },
+            });
+          }
+          if (window.innerWidth < 768) return;
           const firstVisible = swiper.slides.find((slide) =>
             slide.classList.contains("swiper-slide-visible"),
           );
@@ -129,7 +156,12 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             className="h-full w-full"
             style={{ padding: "0.5rem 0.25rem" }}
           >
-            <div className="flex flex-col items-center h-full w-full">
+            <motion.div
+              className="flex flex-col items-center h-full w-full"
+              custom={idx}
+              initial={reduceMotion ? false : { opacity: 0, y: "5%" }}
+              animate={reduceMotion ? false : controls}
+            >
               <picture className="h-full w-full">
                 <source
                   media="(max-width: 539px)"
@@ -142,7 +174,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                 <img
                   src={withWidth(item.reference.image.url, 1280)}
                   alt={item.alt_text}
-                  className="object-cover h-full lg:w-full rounded-sm"
+                  className="object-cover h-full lg:w-full rounded"
                   loading={idx === 0 ? "eager" : "lazy"}
                   fetchPriority={idx === 0 ? "high" : "auto"}
                   width={634}
@@ -150,7 +182,11 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                 />
               </picture>
 
-              <div className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white  px-4 py-2 rounded-lg">
+              <motion.div
+                className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white px-4 py-2 rounded-lg"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={reduceMotion ? false : captionControls}
+              >
                 {item.collection?.handle || item.link?.url ? (
                   <Link
                     to={
@@ -170,8 +206,8 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                     {item.caption}
                   </p>
                 )}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </SwiperSlide>
         ))}
 
@@ -189,8 +225,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                    text-lg font-bold text-white`}
           aria-label="Next image"
         />
-        </Swiper>
-      </motion.div>
+      </Swiper>
     </section>
   );
 };

@@ -49,11 +49,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         as="header"
         gap="1rem"
         color="#FFFFFF"
-        bg={"blackAlpha.900"}
         area={"header"}
         px={7}
         py={3}
         width="100%"
+        className={"bg-black/95"}
       >
         <Nav
           site={layoutData?.site}
