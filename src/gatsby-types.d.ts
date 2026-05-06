@@ -38260,7 +38260,7 @@ type AdminShopify_OrderCreateOrderInput = {
   readonly poNumber: InputMaybe<Scalars['String']>;
   /** The presentment currency that was used to display prices to the customer. This must be specified if any presentment currencies are used in the order. */
   readonly presentmentCurrency: InputMaybe<AdminShopify_CurrencyCode>;
-  /** The date and time ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format) when an order was processed. This value is the date that appears on your orders and that's used in the analytic reports. If you're importing orders from an app or another platform, then you can set processed_at to a date and time in the past to match when the original order was created. */
+  /** The date and time ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format) when an order was processed. This value is the date that appears on your orders and that's used in the analytic reports. If you're importing orders from an app or another platform, then you can set processed_at to a date and time in the past to match when the original order was created. As of API version 2026-07, values in the future are clamped to the current time. In earlier versions, future values return a `PROCESSED_AT_INVALID` error. */
   readonly processedAt: InputMaybe<Scalars['AdminShopify_DateTime']>;
   /** The website where the customer clicked a link to the shop. */
   readonly referringSite: InputMaybe<Scalars['AdminShopify_URL']>;
@@ -67962,7 +67962,11 @@ type StoreFrontShopify_CartMetafieldDeletePayload = {
 
 /** The input fields for a cart metafield value to set. */
 type StoreFrontShopify_CartMetafieldsSetInput = {
-  /** The key name of the cart metafield. */
+  /**
+   * The key name of the cart metafield. This can either be a composite key (`namespace.key`) or a simple key
+   * that relies on the default app-reserved namespace.
+   *
+   */
   readonly key: Scalars['String'];
   /** The ID of the cart resource. */
   readonly ownerId: Scalars['ID'];

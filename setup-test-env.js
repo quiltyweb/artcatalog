@@ -2,6 +2,12 @@
 import "@testing-library/jest-dom/extend-expect";
 import "cross-fetch/polyfill";
 
+global.IntersectionObserver = class IntersectionObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+
 global.matchMedia =
   global.matchMedia ||
   function () {
