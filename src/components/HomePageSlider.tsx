@@ -35,15 +35,33 @@ const withWidth = (url: string, width: number) => {
   return `${url}${sep}width=${width}`;
 };
 
+// Module-level flag — survives unmount/remount across SPA navigation
+// so the epic reveal only plays once per page-load lifetime.
+let hasPlayedEntrance = false;
+
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
 }) => {
-  const [loading, setLoading] = useState(initialLoading);
-  const hasInteractedRef = React.useRef(false);
   const reduceMotion = useReducedMotion();
+  const [shouldAnimate] = useState(() => !hasPlayedEntrance && !reduceMotion);
+  const [loading, setLoading] = useState(initialLoading);
+  const [epicMode, setEpicMode] = useState(shouldAnimate);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const loadedIdxRef = React.useRef<Set<number>>(new Set());
+  const hasInteractedRef = React.useRef(false);
   const controls = useAnimationControls();
-  const captionControls = useAnimationControls();
+  const sectionControls = useAnimationControls();
+
+  const markImageLoaded = (idx: number) => {
+    if (loadedIdxRef.current.has(idx)) return;
+    loadedIdxRef.current.add(idx);
+    if (loadedIdxRef.current.size >= images.length) {
+      setImagesLoaded(true);
+    }
+  };
+
+  const showLoader = loading || !imagesLoaded;
 
   const springTransition = (delay: number) => ({
     type: "spring" as const,
@@ -53,9 +71,10 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   });
 
   useEffect(() => {
-    if (loading || reduceMotion) return;
+    if (!shouldAnimate || loading || !imagesLoaded) return;
+    hasPlayedEntrance = true;
     controls.set({ opacity: 0, y: "5%" });
-    captionControls.set({ opacity: 0 });
+    sectionControls.set({ height: "100vh", marginTop: "-84px" });
     controls
       .start((custom: number) => ({
         opacity: 1,
@@ -63,20 +82,26 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         transition: springTransition(custom * 0.28),
       }))
       .then(() => {
-        captionControls.start({
-          opacity: 1,
-          transition: { duration: 0.4, ease: "easeOut" },
-        });
+        sectionControls
+          .start({
+            height: "calc(100vh - 84px)",
+            marginTop: 0,
+            transition: { duration: 0.1, ease: "easeOut" },
+          })
+          .then(() => setEpicMode(false));
       });
-  }, [loading, reduceMotion, controls, captionControls]);
+  }, [shouldAnimate, loading, imagesLoaded, controls, sectionControls]);
 
   return (
-    <section
+    <motion.section
       aria-live="off"
       aria-label="Featured work slider"
-      className="group relative"
+      className={`group relative ${epicMode ? "z-50" : ""}`}
+      style={{ height: "calc(100vh - 84px)" }}
+      initial={shouldAnimate ? { height: "100vh", marginTop: "-84px" } : false}
+      animate={shouldAnimate ? sectionControls : false}
     >
-      {loading && (
+      {showLoader && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900">
             <div className="sr-only">Featured work slider is loading</div>
@@ -112,7 +137,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             slidesPerGroup: 3,
           },
         }}
-        style={{ height: "calc(100vh - 84px)" }}
+        style={{ height: "100%" }}
         loop={true}
         speed={0} // instant transition
         a11y={{
@@ -134,13 +159,6 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             hasInteractedRef.current = true;
             return; // skip the first automatic slide change
           }
-          if (!reduceMotion) {
-            controls.set({ opacity: 0 });
-            controls.start({
-              opacity: 1,
-              transition: { duration: 0.9, ease: "easeOut" },
-            });
-          }
           if (window.innerWidth < 768) return;
           const firstVisible = swiper.slides.find((slide) =>
             slide.classList.contains("swiper-slide-visible"),
@@ -159,8 +177,8 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             <motion.div
               className="flex flex-col items-center h-full w-full"
               custom={idx}
-              initial={reduceMotion ? false : { opacity: 0, y: "5%" }}
-              animate={reduceMotion ? false : controls}
+              initial={shouldAnimate ? { opacity: 0, y: "5%" } : false}
+              animate={shouldAnimate ? controls : false}
             >
               <picture className="h-full w-full">
                 <source
@@ -172,27 +190,31 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   srcSet={withWidth(item.reference.image.url, 800)}
                 />
                 <img
+                  ref={(node) => {
+                    if (node?.complete && node.naturalWidth > 0) {
+                      markImageLoaded(idx);
+                    }
+                  }}
+                  onLoad={() => markImageLoaded(idx)}
+                  onError={() => markImageLoaded(idx)}
                   src={withWidth(item.reference.image.url, 1280)}
                   alt={item.alt_text}
                   className="object-cover h-full lg:w-full rounded"
-                  loading={idx === 0 ? "eager" : "lazy"}
-                  fetchPriority={idx === 0 ? "high" : "auto"}
+                  loading="eager"
                   width={634}
                   height={840}
                 />
               </picture>
 
-              <motion.div
-                className="absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white px-4 py-2 rounded-lg"
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={reduceMotion ? false : captionControls}
+              <div
+                className={`absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white px-4 py-2 rounded-lg transition-opacity duration-300 ${epicMode ? "opacity-0" : "opacity-100"}`}
               >
                 {item.collection?.handle || item.link?.url ? (
                   <Link
                     to={
                       item.collection?.handle
                         ? `/collections/${item.collection.handle}`
-                        : (item.link!.url)
+                        : item.link!.url
                     }
                     className="slide-caption block
                       font-serif font-medium mb-1 text-lg"
@@ -206,7 +228,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                     {item.caption}
                   </p>
                 )}
-              </motion.div>
+              </div>
             </motion.div>
           </SwiperSlide>
         ))}
@@ -215,17 +237,19 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
                    bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white`}
+                   text-lg font-bold text-white
+                   transition-opacity duration-300 ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
           aria-label="Previous image"
         />
         <button
           className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
                    bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white`}
+                   text-lg font-bold text-white
+                   transition-opacity duration-300 ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
           aria-label="Next image"
         />
       </Swiper>
-    </section>
+    </motion.section>
   );
 };

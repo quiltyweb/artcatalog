@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { HomePageSlider } from "../HomePageSlider";
 
@@ -163,7 +163,10 @@ describe("HomePageSlider", () => {
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
     );
 
-    expect(screen.getAllByRole("img")).toHaveLength(MOCKED_IMAGES_PROPS.length);
+    const imgs = screen.getAllByRole("img");
+    imgs.forEach((img) => fireEvent.load(img));
+
+    expect(imgs).toHaveLength(MOCKED_IMAGES_PROPS.length);
     expect(
       screen.queryByText("Featured work slider is loading")
     ).not.toBeInTheDocument();
