@@ -1319,9 +1319,9 @@ type AdminShopify = {
    * Use the optional `published` argument to filter for only the locales that are visible to customers. The response includes the ISO locale code, whether it's the shop's primary locale, and which [`MarketWebPresence`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MarketWebPresence) objects use each locale.
    */
   readonly shopLocales: ReadonlyArray<AdminShopify_ShopLocale>;
-  /** Returns a Shop Pay payment request receipt. */
+  /** Returns a single Shop Pay payment request receipt by its ID. Payment request receipts document completed Shop Pay transactions, including the amount, customer details, and payment status. Use this to look up a specific Shop Pay transaction for order reconciliation or customer support. */
   readonly shopPayPaymentRequestReceipt: Maybe<AdminShopify_ShopPayPaymentRequestReceipt>;
-  /** Returns a list of Shop Pay payment request receipts. */
+  /** Returns a paginated list of Shop Pay payment request receipts for the shop. Each receipt documents a completed Shop Pay transaction. Use this to review Shop Pay transaction history, generate reports, or audit Shop Pay payment activity. */
   readonly shopPayPaymentRequestReceipts: Maybe<AdminShopify_ShopPayPaymentRequestReceiptConnection>;
   /**
    * Returns a Shopify Function by its ID.
