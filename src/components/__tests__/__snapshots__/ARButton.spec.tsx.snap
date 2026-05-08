@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ARButton renders nothing on non-Android devices 1`] = `<DocumentFragment />`;
+
+exports[`ARButton renders nothing while SSR / before mount (null) 1`] = `<DocumentFragment />`;
+
+exports[`ARButton renders the AR icon button on Android devices 1`] = `
+<DocumentFragment>
+  <a
+    aria-label="View AR"
+    class="chakra-button css-gg5z3"
+    href="intent://arvr.google.com/scene-viewer/1.1?file=https%3A%2F%2Fexample.com%2Fmodel.glb&mode=ar_only&title=Test+Artwork&link=https%3A%2F%2Fexample.com%2Fproduct&resizable=false&enable_vertical_placement=true#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https%3A%2F%2Fexample.com%2Fproduct;end;"
+    rel="ar"
+    title="View AR"
+  >
+    <svg
+      aria-hidden="true"
+      color="#fff"
+      fill="none"
+      focusable="false"
+      height="25"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      style="color: rgb(255, 255, 255);"
+      viewBox="0 0 24 24"
+      width="25"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+        stroke="none"
+      />
+      <path
+        d="M4 8v-2a2 2 0 0 1 2 -2h2"
+      />
+      <path
+        d="M4 16v2a2 2 0 0 0 2 2h2"
+      />
+      <path
+        d="M16 4h2a2 2 0 0 1 2 2v2"
+      />
+      <path
+        d="M16 20h2a2 2 0 0 0 2 -2v-2"
+      />
+      <path
+        d="M12 12.5l4 -2.5"
+      />
+      <path
+        d="M8 10l4 2.5v4.5l4 -2.5v-4.5l-4 -2.5z"
+      />
+      <path
+        d="M8 10v4.5l4 2.5"
+      />
+    </svg>
+  </a>
+</DocumentFragment>
+`;

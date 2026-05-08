@@ -31,6 +31,10 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks();
+  Object.defineProperty(navigator, "userAgent", {
+    value: "",
+    configurable: true,
+  });
 });
 
 const baseProduct = {
@@ -86,7 +90,7 @@ describe("SpecialCollection page Template", () => {
 
     // No "Read more" link
     expect(
-      screen.queryByRole("link", { name: /Read more/i })
+      screen.queryByRole("link", { name: /Read more/i }),
     ).not.toBeInTheDocument();
 
     // Full product card renders below the hero
@@ -94,20 +98,8 @@ describe("SpecialCollection page Template", () => {
     screen.getByText(/AUD/i);
     screen.getByText(/\$10/i);
     expect(
-      screen.getByRole("link", { name: "Test product name" })
+      screen.getByRole("link", { name: "Test product name" }),
     ).toHaveAttribute("href", "/collections/human-nature/test-product-handle");
-
-    // AR badge with placeholder Google Scene Viewer deep link
-    const arLink = screen.getByRole("link", {
-      name: /View Test product name in augmented reality/i,
-    });
-    expect(arLink).toHaveAttribute(
-      "href",
-      "https://arvr.google.com/scene-viewer/1.0?file=PLACEHOLDER_test-product-handle"
-    );
-    expect(arLink).toHaveAttribute("target", "_blank");
-    expect(arLink).toHaveAttribute("rel", "noopener noreferrer");
-    expect(arLink.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders the human-nature fallback description when none is provided", () => {
@@ -125,7 +117,7 @@ describe("SpecialCollection page Template", () => {
     render(<SpecialCollection pageContext={mockedPageContext as any} />);
 
     expect(
-      screen.getByText(/meditation on the body's quiet wonders/i)
+      screen.getByText(/meditation on the body's quiet wonders/i),
     ).toBeInTheDocument();
   });
 
@@ -145,5 +137,75 @@ describe("SpecialCollection page Template", () => {
     render(<SpecialCollection pageContext={mockedPageContext as any} />);
     screen.getByText("There are no products available.");
     screen.getByRole("heading", { name: "Bloom Collection" });
+  });
+
+  it("does not render the AR button on non-Android (desktop) devices", () => {
+    const productWithGlb = {
+      ...baseProduct,
+      media: [
+        {
+          mediaContentType: "MODEL_3D",
+          sources: [
+            { format: "glb", url: "https://cdn.example.com/model.glb" },
+          ],
+        },
+      ],
+    };
+
+    const mockedPageContext = {
+      title: "Human Nature",
+      description: "A collection inspired by the human condition.",
+      collectionHandle: "human-nature",
+      image: null,
+      products: [productWithGlb],
+    };
+
+    render(<SpecialCollection pageContext={mockedPageContext as any} />);
+
+    expect(
+      screen.queryByRole("link", { name: /View AR/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders the AR button on Android devices when a GLB model is available", () => {
+    Object.defineProperty(navigator, "userAgent", {
+      value:
+        "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36",
+      configurable: true,
+    });
+
+    const productWithGlb = {
+      ...baseProduct,
+      media: [
+        {
+          mediaContentType: "MODEL_3D",
+          sources: [
+            { format: "glb", url: "https://cdn.example.com/model.glb" },
+          ],
+        },
+      ],
+    };
+
+    const mockedPageContext = {
+      title: "Human Nature",
+      description: "A collection inspired by the human condition.",
+      collectionHandle: "human-nature",
+      image: null,
+      products: [productWithGlb],
+    };
+
+    render(<SpecialCollection pageContext={mockedPageContext as any} />);
+
+    const arLink = screen.getByRole("link", { name: /View AR/i });
+    expect(arLink).toBeInTheDocument();
+    expect(arLink).toHaveAttribute(
+      "href",
+      expect.stringContaining("arvr.google.com/scene-viewer"),
+    );
+
+    expect(arLink).toHaveAttribute(
+      "href",
+      expect.stringContaining("cdn.example.com%2Fmodel.glb"),
+    );
   });
 });

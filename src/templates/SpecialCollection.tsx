@@ -15,13 +15,16 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  LinkOverlay,
+  LinkBox,
 } from "@chakra-ui/react";
 import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
-import { Link } from "gatsby";
+import { Link as GatsbyLink } from "gatsby";
 import SEO from "../components/SEO";
 import CollectionHero from "../components/CollectionHero";
+import ARButton from "../components/ARButton";
+
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { TbAugmentedReality } from "react-icons/tb";
 
 type SpecialCollectionProps = {
   pageContext: {
@@ -93,39 +96,40 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
               const featuredImageForGatsbyImage = getImage(
                 featuredImage?.grid ?? null,
               );
-              const arHref = `https://arvr.google.com/scene-viewer/1.0?file=PLACEHOLDER_${handle}`;
+
+              const glbUrl: string =
+                product.media
+                  ?.find((m) => m.mediaContentType === "MODEL_3D")
+                  // @ts-expect-error sources exists on ShopifyModel3d via inline fragment
+                  ?.sources?.find(
+                    (s: { format: string; url: string }) => s.format === "glb",
+                  )?.url ?? "";
+
               return (
                 <Card
                   key={`${id}-product-item`}
                   position="relative"
                   boxShadow="md"
                   height="100%"
+                  as={LinkBox}
                 >
                   <Box
-                    as="a"
-                    href={arHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View ${productTitle} in augmented reality`}
                     position="absolute"
                     top="0.75rem"
                     right="0.75rem"
                     zIndex={2}
-                    display="inline-flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    bg="pink.800"
-                    color="white"
-                    p="0.4rem"
-                    borderRadius="md"
-                    boxShadow="sm"
-                    _hover={{ bg: "teal.500" }}
-                    _focus={{ bg: "teal.500", outline: "2px solid white" }}
                   >
-                    <Icon as={TbAugmentedReality} boxSize="1.25rem" />
+                    {glbUrl && (
+                      <ARButton
+                        glbUrl={glbUrl}
+                        productTitle={productTitle}
+                        browserFallbackUrl={`https://www.brushella.art/collections/${collectionHandle}`}
+                      />
+                    )}
                   </Box>
-                  <Link
+                  <LinkOverlay
                     key={handle}
+                    as={GatsbyLink}
                     to={`/collections/${collectionHandle}/${handle}`}
                     aria-label={productTitle}
                   >
@@ -199,17 +203,20 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                           </Text>
                         </Box>
                       )}
-                      <Text
-                        fontSize="md"
-                        textAlign="right"
-                        color={"pink.800"}
-                        marginLeft="auto"
-                        className="translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
-                      >
-                        more details <Icon as={ArrowForwardIcon} />
-                      </Text>
+                      <Box>
+                        <Text
+                          fontSize="md"
+                          textAlign="right"
+                          color={"pink.800"}
+                          marginLeft="auto"
+                          cursor={"pointer"}
+                          className="translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                        >
+                          more details <Icon as={ArrowForwardIcon} />
+                        </Text>
+                      </Box>
                     </CardFooter>
-                  </Link>
+                  </LinkOverlay>
                 </Card>
               );
             };
