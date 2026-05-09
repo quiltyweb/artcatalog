@@ -48,6 +48,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const [loading, setLoading] = useState(initialLoading);
   const [epicMode, setEpicMode] = useState(shouldAnimate);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [hoverReady, setHoverReady] = useState(() => !shouldAnimate);
   const loadedIdxRef = React.useRef<Set<number>>(new Set());
   const hasInteractedRef = React.useRef(false);
   const controls = useAnimationControls();
@@ -82,6 +83,8 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
       transition: { duration: 1, delay: 1, ease: "easeOut" },
     });
 
+    let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
+
     controls
       .start((custom: number) => ({
         opacity: 1,
@@ -95,7 +98,16 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           transition: { duration: 0.4, ease: "easeInOut" },
         }),
       )
-      .then(() => setEpicMode(false));
+      .then(() => {
+        setEpicMode(false);
+        // Captions fade in over 1.5s and buttons over 700ms+300ms delay,
+        // so wait for the slower of the two before enabling hover scale.
+        hoverReadyTimeout = setTimeout(() => setHoverReady(true), 1500);
+      });
+
+    return () => {
+      if (hoverReadyTimeout) clearTimeout(hoverReadyTimeout);
+    };
   }, [shouldAnimate, loading, imagesLoaded, controls, sectionControls]);
 
   return (
@@ -190,7 +202,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               }
               animate={shouldAnimate ? controls : false}
             >
-              <picture className="flex-1 min-h-0 w-full">
+              <picture className="flex-1 min-h-0 w-full overflow-hidden rounded">
                 <source
                   media="(max-width: 539px)"
                   srcSet={withWidth(item.reference.image.url, 750)}
@@ -209,7 +221,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   onError={() => markImageLoaded(idx)}
                   src={withWidth(item.reference.image.url, 1280)}
                   alt={item.alt_text}
-                  className="object-cover h-full w-full rounded"
+                  className={`object-cover h-full w-full transition-transform duration-700 ease-out ${
+                    hoverReady ? "hover:scale-[1.02]" : ""
+                  }`}
                   loading="eager"
                   width={634}
                   height={840}
