@@ -10,3 +10,4 @@
  .swiper-slide:not(.swiper-slide-visible) {
   visibility: hidden;       /* also removes from tab order */
 }
+

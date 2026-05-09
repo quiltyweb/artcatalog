@@ -73,23 +73,29 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   useEffect(() => {
     if (!shouldAnimate || loading || !imagesLoaded) return;
     hasPlayedEntrance = true;
-    controls.set({ opacity: 0, y: "5%" });
+    controls.set({ opacity: 0, y: "5%", filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
+
+    // Color reveal runs in parallel with the spring entrance.
+    controls.start({
+      filter: "grayscale(0)",
+      transition: { duration: 1, delay: 1, ease: "easeOut" },
+    });
+
     controls
       .start((custom: number) => ({
         opacity: 1,
         y: 0,
         transition: springTransition(custom * 0.28),
       }))
-      .then(() => {
-        sectionControls
-          .start({
-            height: "calc(100vh - 84px)",
-            marginTop: 0,
-            transition: { duration: 0.1, ease: "easeOut" },
-          })
-          .then(() => setEpicMode(false));
-      });
+      .then(() =>
+        sectionControls.start({
+          height: "calc(100vh - 84px)",
+          marginTop: 0,
+          transition: { duration: 0.4, ease: "easeInOut" },
+        }),
+      )
+      .then(() => setEpicMode(false));
   }, [shouldAnimate, loading, imagesLoaded, controls, sectionControls]);
 
   return (
@@ -172,15 +178,19 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           <SwiperSlide
             key={idx}
             className="h-full w-full"
-            style={{ padding: "0.5rem 0.25rem" }}
+            style={{ padding: "0.15rem" }}
           >
             <motion.div
               className="flex flex-col items-center h-full w-full"
               custom={idx}
-              initial={shouldAnimate ? { opacity: 0, y: "5%" } : false}
+              initial={
+                shouldAnimate
+                  ? { opacity: 0, y: "5%", filter: "grayscale(1)" }
+                  : false
+              }
               animate={shouldAnimate ? controls : false}
             >
-              <picture className="h-full w-full">
+              <picture className="flex-1 min-h-0 w-full">
                 <source
                   media="(max-width: 539px)"
                   srcSet={withWidth(item.reference.image.url, 750)}
@@ -199,36 +209,46 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   onError={() => markImageLoaded(idx)}
                   src={withWidth(item.reference.image.url, 1280)}
                   alt={item.alt_text}
-                  className="object-cover h-full lg:w-full rounded"
+                  className="object-cover h-full w-full rounded"
                   loading="eager"
                   width={634}
                   height={840}
                 />
               </picture>
 
-              <div
-                className={`absolute bottom-10 left-4 max-w-[80%] bg-black/70 text-white px-4 py-2 rounded-lg transition-opacity duration-300 ${epicMode ? "opacity-0" : "opacity-100"}`}
-              >
-                {item.collection?.handle || item.link?.url ? (
-                  <Link
-                    to={
-                      item.collection?.handle
-                        ? `/collections/${item.collection.handle}`
-                        : item.link!.url
-                    }
-                    className="slide-caption block
-                      font-serif font-medium mb-1 text-lg"
-                  >
-                    <p className="leading-snug line-clamp-2 min-h-fit">
-                      {item.caption}
-                    </p>
-                  </Link>
-                ) : (
-                  <p className="slide-caption font-serif font-medium mb-1 text-lg leading-snug line-clamp-2 min-h-fit">
-                    {item.caption}
-                  </p>
-                )}
-              </div>
+              {!epicMode && (
+                <motion.div
+                  initial={shouldAnimate ? { opacity: 0, height: 0 } : false}
+                  animate={
+                    shouldAnimate ? { opacity: 1, height: "auto" } : false
+                  }
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  style={{ overflow: "hidden" }}
+                  className="shrink-0 w-full"
+                >
+                  <div className="flex items-center justify-center max-w-[90%] min-h-[2lh] text-white text-center px-1 py-1 mx-auto">
+                    {item.collection?.handle || item.link?.url ? (
+                      <Link
+                        to={
+                          item.collection?.handle
+                            ? `/collections/${item.collection.handle}`
+                            : item.link!.url
+                        }
+                        className="slide-caption block
+                          font-serif font-medium mb-1 text-sm"
+                      >
+                        <p className="leading-snug line-clamp-2">
+                          {item.caption}
+                        </p>
+                      </Link>
+                    ) : (
+                      <p className="slide-caption font-serif font-medium mb-1 text-sm leading-snug line-clamp-2">
+                        {item.caption}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </SwiperSlide>
         ))}
@@ -236,19 +256,77 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         <button
           className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
-                   bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white
-                   transition-opacity duration-300 ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
+                   bg-transparent flex items-center justify-center
+                   [&::after]:hidden
+                   transition-opacity duration-700 delay-300 ${
+                     epicMode ? "opacity-0 pointer-events-none" : ""
+                   }`}
           aria-label="Previous image"
-        />
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+            className="w-10 h-10 drop-shadow"
+          >
+            <mask id="hp-prev-arrow">
+              <rect width="40" height="40" fill="white" />
+              <polyline
+                points="24 28 14 20 24 12"
+                stroke="black"
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </mask>
+            <circle
+              cx="20"
+              cy="20"
+              r="20"
+              fill="white"
+              fillOpacity="0.7"
+              mask="url(#hp-prev-arrow)"
+            />
+          </svg>
+        </button>
         <button
           className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
-                   bg-black/70 rounded-full p-2 shadow
-                   text-lg font-bold text-white
-                   transition-opacity duration-300 ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
+                   bg-transparent flex items-center justify-center
+                   [&::after]:hidden
+                   transition-opacity duration-700 delay-300 ${
+                     epicMode ? "opacity-0 pointer-events-none" : ""
+                   }`}
           aria-label="Next image"
-        />
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+            className="w-10 h-10 drop-shadow"
+          >
+            <mask id="hp-next-arrow">
+              <rect width="40" height="40" fill="white" />
+              <polyline
+                points="16 12 26 20 16 28"
+                stroke="black"
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </mask>
+            <circle
+              cx="20"
+              cy="20"
+              r="20"
+              fill="white"
+              fillOpacity="0.7"
+              mask="url(#hp-next-arrow)"
+            />
+          </svg>
+        </button>
       </Swiper>
     </motion.section>
   );
