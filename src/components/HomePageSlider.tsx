@@ -48,6 +48,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const [loading, setLoading] = useState(initialLoading);
   const [epicMode, setEpicMode] = useState(shouldAnimate);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  // Guarantees the loader is visible for at least N ms — prevents
+  // it from flashing past in a single frame when images are cached.
+  const [minLoaderHeld, setMinLoaderHeld] = useState(true);
   const [hoverReady, setHoverReady] = useState(() => !shouldAnimate);
   const loadedIdxRef = React.useRef<Set<number>>(new Set());
   const hasInteractedRef = React.useRef(false);
@@ -62,7 +65,12 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     }
   };
 
-  const showLoader = loading || !imagesLoaded;
+  const showLoader = loading || !imagesLoaded || minLoaderHeld;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMinLoaderHeld(false), 700);
+    return () => clearTimeout(t);
+  }, []);
 
   const springTransition = (delay: number) => ({
     type: "spring" as const,
@@ -121,7 +129,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     >
       {showLoader && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white-900">
+          <div className="animate-spin rounded-full h-12 w-12 border-2 border-white/30 border-t-white">
             <div className="sr-only">Featured work slider is loading</div>
           </div>
         </div>
