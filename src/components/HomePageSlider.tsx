@@ -80,7 +80,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     // Color reveal runs in parallel with the spring entrance.
     controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 1, delay: 1, ease: "easeOut" },
+      transition: { duration: 2.2, delay: 1, ease: "easeOut" },
     });
 
     let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
