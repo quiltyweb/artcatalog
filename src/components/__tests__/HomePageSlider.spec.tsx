@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { HomePageSlider } from "../HomePageSlider";
 
@@ -159,14 +159,24 @@ afterEach(() => {
 
 describe("HomePageSlider", () => {
   it("renders Swiper with correct number of slides", () => {
+    jest.useFakeTimers();
     render(
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
     );
 
-    expect(screen.getAllByRole("img")).toHaveLength(MOCKED_IMAGES_PROPS.length);
+    const imgs = screen.getAllByRole("img");
+    imgs.forEach((img) => fireEvent.load(img));
+
+    // Pass the loader's minimum-display window AND the logo-intro timer (2500ms)
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(imgs).toHaveLength(MOCKED_IMAGES_PROPS.length);
     expect(
       screen.queryByText("Featured work slider is loading")
     ).not.toBeInTheDocument();
+    jest.useRealTimers();
   });
 
   it("renders Swiper loading state", async () => {
