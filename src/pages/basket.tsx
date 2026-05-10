@@ -1,9 +1,5 @@
 import React from "react";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -43,30 +39,14 @@ import { formatPrice } from "../utils/formatPrice";
 
 const BreadcrumbMenuCart = () => {
   return (
-    <>
-      <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">Cart</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb>
-      <Alert
-        role="note"
-        status="info"
-        flexDir={["column", "row"]}
-        aria-labelledby="message"
-      >
-        <AlertIcon />
-        <AlertTitle id="message">
-          Brushella.art is under construction.
-        </AlertTitle>
-        <AlertDescription>
-          This store can’t accept payments right now.
-        </AlertDescription>
-      </Alert>
-    </>
+    <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbItem isCurrentPage>
+        <BreadcrumbLink href="#">Cart</BreadcrumbLink>
+      </BreadcrumbItem>
+    </Breadcrumb>
   );
 };
 
