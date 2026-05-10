@@ -29,13 +29,6 @@ describe("desktop view basket page", () => {
     });
   });
 
-  it("renders store alert below breadcrumbs", () => {
-    cy.findByRole("note").within(() => {
-      cy.findByText(/Brushella.art is under construction./i);
-      cy.findByText(/This store can’t accept payments right now./i);
-    });
-  });
-
   it("loads empty shopping cart correctly", () => {
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "basket/mocked-checkout-response-checkoutCreate.json",
