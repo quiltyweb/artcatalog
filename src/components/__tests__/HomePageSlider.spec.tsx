@@ -167,9 +167,9 @@ describe("HomePageSlider", () => {
     const imgs = screen.getAllByRole("img");
     imgs.forEach((img) => fireEvent.load(img));
 
-    // Pass the loader's minimum-display window
+    // Pass the loader's minimum-display window AND the logo-intro timer (2500ms)
     act(() => {
-      jest.advanceTimersByTime(800);
+      jest.advanceTimersByTime(3000);
     });
 
     expect(imgs).toHaveLength(MOCKED_IMAGES_PROPS.length);

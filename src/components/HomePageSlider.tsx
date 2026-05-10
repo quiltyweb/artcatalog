@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import { Link } from "gatsby";
 import { motion, useAnimationControls, useReducedMotion } from "motion/react";
+import LogoSVG from "../images/svg/brushella-black-bg.svg";
 // Slider CSS styles loaded globally in Layout
 type HomePageSliderProps = {
   images: Array<FlattenedImage>;
@@ -51,6 +52,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   // Guarantees the loader is visible for at least N ms — prevents
   // it from flashing past in a single frame when images are cached.
   const [minLoaderHeld, setMinLoaderHeld] = useState(true);
+  // Brand-logo intro: fades in, holds 1.5s, fades out — runs only on
+  // the first home visit (same condition as shouldAnimate).
+  const [logoIntroDone, setLogoIntroDone] = useState(() => !shouldAnimate);
   const [hoverReady, setHoverReady] = useState(() => !shouldAnimate);
   const loadedIdxRef = React.useRef<Set<number>>(new Set());
   const hasInteractedRef = React.useRef(false);
@@ -65,27 +69,29 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     }
   };
 
-  const showLoader = loading || !imagesLoaded || minLoaderHeld;
+  const showLoader =
+    loading || !imagesLoaded || minLoaderHeld || !logoIntroDone;
 
   useEffect(() => {
     const t = setTimeout(() => setMinLoaderHeld(false), 700);
     return () => clearTimeout(t);
   }, []);
 
-  const springTransition = (delay: number) => ({
-    type: "spring" as const,
-    stiffness: 30,
-    damping: 6,
-    delay,
-  });
+  // Mirror the keyframe duration used for the logo motion below
+  // (fade in 0.5s + hold 1.5s + fade out 0.5s = 2.5s).
+  useEffect(() => {
+    if (!shouldAnimate) return;
+    const t = setTimeout(() => setLogoIntroDone(true), 2500);
+    return () => clearTimeout(t);
+  }, [shouldAnimate]);
 
   useEffect(() => {
-    if (!shouldAnimate || loading || !imagesLoaded) return;
+    if (!shouldAnimate || loading || !imagesLoaded || !logoIntroDone) return;
     hasPlayedEntrance = true;
-    controls.set({ opacity: 0, y: "5%", filter: "grayscale(1)" });
+    controls.set({ opacity: 0, filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
 
-    // Color reveal runs in parallel with the spring entrance.
+    // Color reveal runs in parallel with the fade-in entrance.
     controls.start({
       filter: "grayscale(0)",
       transition: { duration: 2.2, delay: 1, ease: "easeOut" },
@@ -96,8 +102,11 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     controls
       .start((custom: number) => ({
         opacity: 1,
-        y: 0,
-        transition: springTransition(custom * 0.28),
+        transition: {
+          duration: 1,
+          delay: custom * 0.28,
+          ease: "easeOut",
+        },
       }))
       .then(() =>
         sectionControls.start({
@@ -116,7 +125,14 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     return () => {
       if (hoverReadyTimeout) clearTimeout(hoverReadyTimeout);
     };
-  }, [shouldAnimate, loading, imagesLoaded, controls, sectionControls]);
+  }, [
+    shouldAnimate,
+    loading,
+    imagesLoaded,
+    logoIntroDone,
+    controls,
+    sectionControls,
+  ]);
 
   return (
     <motion.section
@@ -129,9 +145,34 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     >
       {showLoader && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-2 border-white/30 border-t-white">
-            <div className="sr-only">Featured work slider is loading</div>
-          </div>
+          {!logoIntroDone ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 1, 0] }}
+              transition={{
+                duration: 2.5,
+                times: [0, 0.2, 0.8, 1],
+                ease: "easeInOut",
+              }}
+              style={{
+                width: "40vmin",
+                height: "40vmin",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <LogoSVG
+                aria-label="Brushella"
+                style={{ width: "100%", height: "100%" }}
+              />
+              <span className="sr-only">Brushella — loading</span>
+            </motion.div>
+          ) : (
+            <div className="animate-spin rounded-full h-12 w-12 border-2 border-white/30 border-t-white">
+              <div className="sr-only">Featured work slider is loading</div>
+            </div>
+          )}
         </div>
       )}
 
@@ -205,7 +246,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               custom={idx}
               initial={
                 shouldAnimate
-                  ? { opacity: 0, y: "5%", filter: "grayscale(1)" }
+                  ? { opacity: 0, filter: "grayscale(1)" }
                   : false
               }
               animate={shouldAnimate ? controls : false}
