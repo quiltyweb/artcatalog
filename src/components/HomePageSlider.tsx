@@ -56,6 +56,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   // the first home visit (same condition as shouldAnimate).
   const [logoIntroDone, setLogoIntroDone] = useState(() => !shouldAnimate);
   const [hoverReady, setHoverReady] = useState(() => !shouldAnimate);
+  const [skipped, setSkipped] = useState(false);
   const loadedIdxRef = React.useRef<Set<number>>(new Set());
   const hasInteractedRef = React.useRef(false);
   const controls = useAnimationControls();
@@ -72,6 +73,23 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const showLoader =
     loading || !imagesLoaded || minLoaderHeld || !logoIntroDone;
 
+  const showSkipButton = shouldAnimate && !hoverReady;
+
+  const skipAnimation = () => {
+    hasPlayedEntrance = true;
+    setSkipped(true);
+    setMinLoaderHeld(false);
+    setLogoIntroDone(true);
+    setLoading(false);
+    setImagesLoaded(true);
+    setEpicMode(false);
+    setHoverReady(true);
+    controls.stop();
+    sectionControls.stop();
+    controls.set({ opacity: 1, filter: "grayscale(0)" });
+    sectionControls.set({ height: "calc(100vh - 84px)", marginTop: 0 });
+  };
+
   useEffect(() => {
     const t = setTimeout(() => setMinLoaderHeld(false), 700);
     return () => clearTimeout(t);
@@ -86,6 +104,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   }, [shouldAnimate]);
 
   useEffect(() => {
+    if (skipped) return;
     if (!shouldAnimate || loading || !imagesLoaded || !logoIntroDone) return;
     hasPlayedEntrance = true;
     controls.set({ opacity: 0, filter: "grayscale(1)" });
@@ -112,20 +131,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
-          transition: { duration: 0.4, ease: "easeInOut" },
+          transition: { duration: 0.2, ease: "easeInOut" },
         }),
       )
       .then(() => {
         setEpicMode(false);
-        // Captions fade in over 1.5s and buttons over 700ms+300ms delay,
-        // so wait for the slower of the two before enabling hover scale.
-        hoverReadyTimeout = setTimeout(() => setHoverReady(true), 1500);
+        // Captions and nav buttons now fade in over 200ms — wait that
+        // long before enabling hover scale.
+        hoverReadyTimeout = setTimeout(() => setHoverReady(true), 200);
       });
 
     return () => {
       if (hoverReadyTimeout) clearTimeout(hoverReadyTimeout);
     };
   }, [
+    skipped,
     shouldAnimate,
     loading,
     imagesLoaded,
@@ -145,6 +165,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
       initial={shouldAnimate ? { height: "100vh", marginTop: "-84px" } : false}
       animate={shouldAnimate ? sectionControls : false}
     >
+      {showSkipButton && (
+        <button
+          type="button"
+          onClick={skipAnimation}
+          className="absolute bottom-4 right-4 z-20 pointer-events-auto
+                     text-white/60 hover:text-white/90 text-xs
+                     px-2 py-1 underline underline-offset-4 decoration-white/30
+                     hover:decoration-white/70 transition-colors
+                     focus:outline-none focus-visible:ring-1 focus-visible:ring-white/50"
+          aria-label="Skip intro animation"
+        >
+          Skip animation
+        </button>
+      )}
+
       {showLoader && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/95 z-10">
           {!logoIntroDone ? (
@@ -287,11 +322,11 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                   animate={
                     shouldAnimate ? { opacity: 1, height: "auto" } : false
                   }
-                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  transition={{ duration: skipped ? 0 : 0.1, ease: "easeOut" }}
                   style={{ overflow: "hidden" }}
                   className="shrink-0 w-full"
                 >
-                  <div className="flex items-center justify-center max-w-[90%] min-h-[2lh] text-white text-center px-1 py-1 mx-auto">
+                  <div className="flex items-center justify-center max-w-[90%] min-h-[1lh] text-white text-center p-1 mx-auto">
                     {item.collection?.handle || item.link?.url ? (
                       <Link
                         to={
@@ -300,14 +335,14 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                             : item.link!.url
                         }
                         className="slide-caption block
-                          font-serif font-medium mb-1 text-sm"
+                          font-serif font-medium text-sm"
                       >
                         <p className="leading-snug line-clamp-2">
                           {item.caption}
                         </p>
                       </Link>
                     ) : (
-                      <p className="slide-caption font-serif font-medium mb-1 text-sm leading-snug line-clamp-2">
+                      <p className="slide-caption font-serif font-medium text-sm leading-snug line-clamp-2">
                         {item.caption}
                       </p>
                     )}
@@ -322,8 +357,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
                    bg-transparent flex items-center justify-center
+                   rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white
                    [&::after]:hidden
-                   transition-opacity duration-700 delay-300 ${
+                   transition-opacity duration-200 ${
                      epicMode
                        ? "opacity-0 pointer-events-none"
                        : "opacity-50 hover:opacity-100 active:opacity-100"
@@ -361,8 +397,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
                    group-focus-within:opacity-100
                    bg-transparent flex items-center justify-center
+                   rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white
                    [&::after]:hidden
-                   transition-opacity duration-700 delay-300 ${
+                   transition-opacity duration-200 ${
                      epicMode
                        ? "opacity-0 pointer-events-none"
                        : "opacity-50 hover:opacity-100 active:opacity-100"
