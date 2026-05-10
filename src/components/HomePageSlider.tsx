@@ -322,7 +322,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                    bg-transparent flex items-center justify-center
                    [&::after]:hidden
                    transition-opacity duration-700 delay-300 ${
-                     epicMode ? "opacity-0 pointer-events-none" : ""
+                     epicMode
+                       ? "opacity-0 pointer-events-none"
+                       : "opacity-50 hover:opacity-100 active:opacity-100"
                    }`}
           aria-label="Previous image"
         >
@@ -359,7 +361,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
                    bg-transparent flex items-center justify-center
                    [&::after]:hidden
                    transition-opacity duration-700 delay-300 ${
-                     epicMode ? "opacity-0 pointer-events-none" : ""
+                     epicMode
+                       ? "opacity-0 pointer-events-none"
+                       : "opacity-50 hover:opacity-100 active:opacity-100"
                    }`}
           aria-label="Next image"
         >
