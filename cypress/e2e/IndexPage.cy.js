@@ -182,3 +182,49 @@ describe("Home page mobile", () => {
     cy.findByRole("heading", { name: /Original Paintings/i });
   });
 });
+
+describe("Home page with prefers-reduced-motion: reduce", () => {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.viewport("macbook-16");
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "mocked-checkout-response-checkoutCreate.json",
+    }).as("checkoutCreate");
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+        // Force the prefers-reduced-motion: reduce media query so motion's
+        // useReducedMotion() returns true and the homepage skips the
+        // entrance animation entirely.
+        const noop = () => undefined;
+        Object.defineProperty(win, "matchMedia", {
+          writable: true,
+          value: (query) => ({
+            matches: query === "(prefers-reduced-motion: reduce)",
+            media: query,
+            onchange: null,
+            addListener: noop,
+            removeListener: noop,
+            addEventListener: noop,
+            removeEventListener: noop,
+            dispatchEvent: () => false,
+          }),
+        });
+      },
+    });
+    cy.wait("@checkoutCreate");
+  });
+
+  it("renders the homepage slider immediately without the epic intro", () => {
+    // The slider is in the DOM with all its slides as soon as the page
+    // hydrates — no loader hold, no logo intro, no spring/grey-to-color.
+    cy.findByTestId("homepage-slider-1").within(() => {
+      cy.findAllByRole("img");
+      cy.findByRole("button", { name: "Previous slide" }).should("be.visible");
+      cy.findByRole("button", { name: "Next slide" }).should("be.visible");
+    });
+
+    // The loading announcement should not be present after a brief moment.
+    cy.findByText("Featured work slider is loading").should("not.exist");
+  });
+});
