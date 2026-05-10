@@ -103,3 +103,6 @@ cypress/fixtures/example.json
 
 #settings
 .vscode/settings.json
+
+# Claude Code runtime state (per-machine, per-process)
+.claude/scheduled_tasks.lock
