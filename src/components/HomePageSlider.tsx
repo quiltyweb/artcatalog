@@ -138,7 +138,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     <motion.section
       aria-live="off"
       aria-label="Featured work slider"
-      className={`group relative ${epicMode ? "z-50" : ""}`}
+      className={`group relative ${
+        epicMode ? "z-50 pointer-events-none epic-mode-active" : ""
+      }`}
       style={{ height: "calc(100vh - 84px)" }}
       initial={shouldAnimate ? { height: "100vh", marginTop: "-84px" } : false}
       animate={shouldAnimate ? sectionControls : false}

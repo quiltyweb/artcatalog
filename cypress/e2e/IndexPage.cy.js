@@ -187,44 +187,59 @@ describe("Home page with prefers-reduced-motion: reduce", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.viewport("macbook-16");
+
+    // Tell the browser engine itself to emulate prefers-reduced-motion: reduce.
+    // This mutates the actual media-query state that motion's library
+    // reads via window.matchMedia, which a JS-side override wouldn't reach
+    // because motion captures its mql reference at module load.
+    cy.wrap(
+      Cypress.automation("remote:debugger:protocol", {
+        command: "Emulation.setEmulatedMedia",
+        params: {
+          features: [{ name: "prefers-reduced-motion", value: "reduce" }],
+        },
+      }),
+    );
+
     cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
       fixture: "mocked-checkout-response-checkoutCreate.json",
     }).as("checkoutCreate");
     cy.visit("/", {
       onBeforeLoad(win) {
         win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
-        // Force the prefers-reduced-motion: reduce media query so motion's
-        // useReducedMotion() returns true and the homepage skips the
-        // entrance animation entirely.
-        const noop = () => undefined;
-        Object.defineProperty(win, "matchMedia", {
-          writable: true,
-          value: (query) => ({
-            matches: query === "(prefers-reduced-motion: reduce)",
-            media: query,
-            onchange: null,
-            addListener: noop,
-            removeListener: noop,
-            addEventListener: noop,
-            removeEventListener: noop,
-            dispatchEvent: () => false,
-          }),
-        });
       },
     });
     cy.wait("@checkoutCreate");
   });
 
+  afterEach(() => {
+    // Clear the emulated media so it doesn't leak into later specs.
+    cy.wrap(
+      Cypress.automation("remote:debugger:protocol", {
+        command: "Emulation.setEmulatedMedia",
+        params: { features: [] },
+      }),
+    );
+  });
+
   it("renders the homepage slider immediately without the epic intro", () => {
-    // The slider is in the DOM with all its slides as soon as the page
-    // hydrates — no loader hold, no logo intro, no spring/grey-to-color.
+    // Sanity: the browser actually reports reduce motion.
+    cy.window().then((win) => {
+      expect(
+        win.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      ).to.equal(true);
+    });
+
+    // Slider chrome (prev/next buttons) is reachable straight away —
+    // no loader hold beyond the minimum window, no logo intro, no spring
+    // or grey→color reveal.
     cy.findByTestId("homepage-slider-1").within(() => {
       cy.findAllByRole("img");
       cy.findByRole("button", { name: "Previous slide" }).should("be.visible");
       cy.findByRole("button", { name: "Next slide" }).should("be.visible");
     });
 
-    // The loading announcement should not be present after a brief moment.
+    // Loading announcement is not present after loader's min-display window.
     cy.findByText("Featured work slider is loading").should("not.exist");
   });
 });

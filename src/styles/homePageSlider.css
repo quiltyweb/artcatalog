@@ -11,3 +11,10 @@
   visibility: hidden;       /* also removes from tab order */
 }
 
+/* During the homepage epic-mode entrance the section overlaps the
+   navbar; ensure no slide intercepts clicks meant for the navbar. */
+ .epic-mode-active .swiper-slide,
+ .epic-mode-active .swiper-slide.swiper-slide-visible {
+  pointer-events: none;
+}
+
