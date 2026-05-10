@@ -113,7 +113,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     // Color reveal runs in parallel with the fade-in entrance.
     controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 2.2, delay: 1, ease: "easeOut" },
+      transition: { duration: 2, ease: "easeOut" },
     });
 
     let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -122,8 +122,8 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
       .start((custom: number) => ({
         opacity: 1,
         transition: {
-          duration: 1,
-          delay: custom * 0.28,
+          duration: 0.4,
+          delay: custom * 0.1,
           ease: "easeOut",
         },
       }))
@@ -131,7 +131,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
-          transition: { duration: 0.2, ease: "easeInOut" },
+          transition: { duration: 0.2, delay: 1.3, ease: "easeInOut" },
         }),
       )
       .then(() => {
@@ -282,9 +282,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               className="flex flex-col items-center h-full w-full"
               custom={idx}
               initial={
-                shouldAnimate
-                  ? { opacity: 0, filter: "grayscale(1)" }
-                  : false
+                shouldAnimate ? { opacity: 0, filter: "grayscale(1)" } : false
               }
               animate={shouldAnimate ? controls : false}
             >
