@@ -15,6 +15,27 @@ Disallow: /404.html
 
 Sitemap: https://www.brushella.art/sitemap-index.xml
 
+# Allow user-initiated AI assistants and AI search indexers (discoverability).
+# These fetch pages on behalf of a real person asking a question, or build
+# search indexes that surface this site in AI-powered search results.
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
 # Disallow AI training crawlers
 User-agent: GPTBot
 Disallow: /
@@ -31,10 +52,34 @@ Disallow: /
 User-agent: Claude-Web
 Disallow: /
 
+User-agent: ClaudeBot
+Disallow: /
+
 User-agent: cohere-ai
 Disallow: /
 
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
 User-agent: FacebookBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+User-agent: DuckAssistBot
+Disallow: /
+
+User-agent: Timpibot
 Disallow: /
 
 User-agent: Omgilibot
