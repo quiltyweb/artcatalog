@@ -28,7 +28,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
       allShopifyCollection(
         filter: {
-          handle: { in: ["prints", "original-paintings", "human-nature", "bloom"] }
+          handle: {
+            in: ["prints", "original-paintings", "human-nature", "bloom"]
+          }
           products: { elemMatch: { status: { eq: ACTIVE } } }
         }
       ) {
@@ -134,6 +136,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
                   transformedSrc
                 }
               }
+              ... on ShopifyModel3d {
+                sources {
+                  url
+                  format
+                  mimeType
+                }
+              }
             }
             options {
               shopifyId
@@ -159,7 +168,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   const collectionsAndProductsResult =
     await graphql<Queries.CollectionsAndProductsIntoPagesQuery>(
-      print(COLLECTIONS_AND_PRODUCTS_DATA)
+      print(COLLECTIONS_AND_PRODUCTS_DATA),
     );
 
   if (
@@ -168,14 +177,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
   ) {
     reporter.panicOnBuild(
       `There was an error loading the createPages query results for CollectionsAndProductsIntoPages`,
-      collectionsAndProductsResult.errors
+      collectionsAndProductsResult.errors,
     );
     return;
   }
-  const SPECIAL_COLLECTION_HANDLES = [
-    "human-nature",
-    "bloom",
-  ];
+  const SPECIAL_COLLECTION_HANDLES = ["human-nature", "bloom"];
 
   collectionsAndProductsResult.data?.allShopifyCollection.nodes.map((node) => {
     const isSpecial = SPECIAL_COLLECTION_HANDLES.includes(node.handle);
@@ -184,7 +190,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
       component: path.resolve(
         isSpecial
           ? `./src/templates/SpecialCollection.tsx`
-          : `./src/templates/Collection.tsx`
+          : `./src/templates/Collection.tsx`,
       ),
       context: {
         title: node.title,
@@ -199,7 +205,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
       const printVersionGID = product.printVersion?.value;
       const printVersionItem =
         collectionsAndProductsResult.data?.allShopifyProduct.nodes.find(
-          (printNode) => printNode.shopifyId === printVersionGID
+          (printNode) => printNode.shopifyId === printVersionGID,
         );
       createPage({
         path: `/collections/${node.handle}/${product.handle}`,
@@ -240,7 +246,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   if (adminContentResult.errors || !adminContentResult.data) {
     reporter.panicOnBuild(
       `There was an error loading the createPages query results for AdminContentIntoPages`,
-      adminContentResult.errors
+      adminContentResult.errors,
     );
     return;
   }
@@ -251,7 +257,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   ];
   const createPageFromField = (
     type: string,
-    field: Queries.AdminContentIntoPagesQuery["adminshopify"]["metaobjectDefinitions"]["nodes"][0]["metaobjects"]["nodes"][0]["fields"][0]
+    field: Queries.AdminContentIntoPagesQuery["adminshopify"]["metaobjectDefinitions"]["nodes"][0]["metaobjects"]["nodes"][0]["fields"][0],
   ) => {
     const pathRoot = `/${kebabCase(type)}`;
     const fieldKey = `${kebabCase(field.key)}`;
