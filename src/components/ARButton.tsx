@@ -1,20 +1,51 @@
 import React from "react";
-import { IconButton } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import { TbAugmentedReality as ARIcon } from "react-icons/tb";
 import { useIsAndroid } from "../hooks/useIsAndroid";
+import { useIsIOS } from "../hooks/useIsIOS";
 
 interface ARButtonProps {
+  /** The Shopify Android 3D model URL */
   glbUrl: string;
+  /** The Shopify iOS 3D model URL. Sourced via Digital Ocean CDN. */
+  usdzUrl?: string;
   productTitle: string;
   browserFallbackUrl: string;
 }
 
 const ARButton: React.FC<ARButtonProps> = ({
   glbUrl,
+  usdzUrl,
   productTitle,
   browserFallbackUrl,
 }) => {
   const isAndroid = useIsAndroid();
+  const isIOS = useIsIOS();
+
+  if (isIOS && usdzUrl) {
+    return (
+      <Box
+        as="a"
+        href={usdzUrl}
+        rel="ar"
+        aria-label="View AR"
+        title="View AR"
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+        bgColor="#702459"
+        color="#fff"
+        borderRadius="md"
+        w="10"
+        h="10"
+        _hover={{ bgColor: "#319795" }}
+      >
+        {/* AR Quick Look requires <img> as the direct first child of <a rel="ar"> */}
+        <img src="" alt="" style={{ display: "none" }} />
+        <ARIcon size={25} color="#fff" aria-hidden />
+      </Box>
+    );
+  }
 
   // SSR / non-Android => render nothing
   if (!isAndroid) return null;
@@ -44,7 +75,6 @@ const ARButton: React.FC<ARButtonProps> = ({
       aria-label="View AR"
       bgColor="#702459"
       icon={<ARIcon size={25} color="#fff" aria-hidden />}
-      fontSize={"xs"}
       color="#fff"
       borderRadius="md"
       _hover={{ bgColor: "#319795" }}
