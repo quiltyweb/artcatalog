@@ -527,7 +527,9 @@ const useCheckoutUrl = () => {
     return;
   }
   const openCheckoutUrl = () => {
-    window.open(cart.checkoutUrl);
+    const url = new URL(cart.checkoutUrl);
+    url.searchParams.set("return_to", "https://www.brushella.art");
+    window.open(url.toString());
   };
   return openCheckoutUrl;
 };

@@ -213,7 +213,7 @@ describe("mobile view basket page", () => {
     cy.findByRole("button", { name: /proceed to checkout/i }).click();
     cy.get("@windowOpen").should(
       "be.calledWith",
-      "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd"
+      "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd&return_to=https%3A%2F%2Fwww.brushella.art"
     );
   });
 });
