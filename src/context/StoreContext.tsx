@@ -529,6 +529,7 @@ const useCheckoutUrl = () => {
   const openCheckoutUrl = () => {
     const url = new URL(cart.checkoutUrl);
     url.searchParams.set("return_to", "https://www.brushella.art");
+    url.searchParams.set("logged_in", "false");
     window.open(url.toString());
   };
   return openCheckoutUrl;
