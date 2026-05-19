@@ -97,13 +97,19 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                 featuredImage?.grid ?? null,
               );
 
+              const model3d = product.media?.find(
+                (m) => m.mediaContentType === "MODEL_3D",
+              );
+
               const glbUrl: string =
-                product.media
-                  ?.find((m) => m.mediaContentType === "MODEL_3D")
-                  // @ts-expect-error sources exists on ShopifyModel3d via inline fragment
-                  ?.sources?.find(
-                    (s: { format: string; url: string }) => s.format === "glb",
-                  )?.url ?? "";
+                // @ts-expect-error sources exists on ShopifyModel3d via inline fragment
+                model3d?.sources?.find(
+                  (s: { format: string; url: string }) => s.format === "glb",
+                )?.url ?? "";
+
+              const usdzUrl: string =
+                product.metafields?.find((f) => f?.key === "ios_3d_url")
+                  ?.value ?? "";
 
               return (
                 <Card
@@ -119,9 +125,10 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                     right="0.75rem"
                     zIndex={2}
                   >
-                    {glbUrl && (
+                    {(glbUrl || usdzUrl) && (
                       <ARButton
                         glbUrl={glbUrl}
+                        usdzUrl={usdzUrl}
                         productTitle={productTitle}
                         browserFallbackUrl={`https://www.brushella.art/collections/${collectionHandle}`}
                       />
