@@ -65,7 +65,6 @@ describe("BasketPage", () => {
     );
     screen.getByRole("heading", { name: "Shopping Cart" });
     screen.getByRole("table");
-    screen.getByRole("heading", { name: "Quotation form" });
   });
 
   it("renders all visible table headers with its values on each table cell", () => {
@@ -394,36 +393,4 @@ describe("BasketPage", () => {
     screen.getByRole("button", { name: /proceed to checkout/i });
   });
 
-  it("renders quote form when cart count is greater than zero items", () => {
-    useCartTotals.mockImplementation(() => ({
-      currencyCode: "AUD",
-      cartSubtotalPriceWithFormat: "$0.00",
-    }));
-    useLineItemsCount.mockImplementation(() => 1);
-    useCheckoutLineItems.mockImplementation((): any => [
-      {
-        id: "gid://shopify/CartLine/d022405f-df58-4fb1-a336-0170e37ac654?cart=Z2NwLWFzaWEtc291dGhlYXN0MTowMUpYWVBFNks4WEVYMFpGMFowN1NUUU5OMA",
-        quantity: 0,
-        merchandise: {
-          __typename: "ProductVariant",
-          id: "gid://shopify/ProductVariant/44611069346000",
-          title: "Default Title",
-          product: {
-            title: "product title",
-          },
-          image: null,
-          price: {
-            amount: "0.0",
-            currencyCode: "AUD",
-          },
-          unitPrice: null,
-        },
-      },
-    ]);
-    render(<BasketPage />);
-    screen.getByRole("heading", { name: "Quotation form" });
-    screen.getByLabelText("Full Name");
-    screen.getByLabelText("Email address");
-    screen.getByRole("button", { name: "Request a Quote" });
-  });
 });

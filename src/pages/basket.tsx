@@ -32,7 +32,6 @@ import {
 import { StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
 import { DeleteIcon } from "@chakra-ui/icons";
-import QuoteForm from "../components/QuoteForm";
 import CallToActionButton from "../components/CallToActionButton";
 import { Link } from "gatsby";
 import { formatPrice } from "../utils/formatPrice";
@@ -451,9 +450,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
         />
       )}
 
-      {cartTotals && cartCount > 0 && (
-        <QuoteForm checkoutLineItems={checkoutLineItems} />
-      )}
     </Container>
   );
 };

@@ -41,8 +41,6 @@ describe("desktop view basket page", () => {
     cy.findByRole("heading", { name: "Your cart is empty." });
     cy.findByRole("table").should("not.exist");
     cy.findByRole("button", { name: "Proceed to Checkout" }).should("not.exist");
-    cy.findByRole("heading", { name: "Quotation form" }).should("not.exist");
-    cy.findByRole("button", { name: /Request a Quote/i }).should("not.exist");
   });
 
   it("loads shopping cart with 1 item on desktop view", () => {
@@ -109,23 +107,6 @@ describe("desktop view basket page", () => {
     });
   });
 
-  it("loads quote form when cart has products in it", () => {
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
-    cy.findByRole("heading", { name: "Shopping Cart" });
-    cy.findByRole("heading", { name: "Your cart is empty." });
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-query-cart-with-two-items.json",
-    }).as("queryCart");
-    cy.reload();
-    cy.wait("@queryCart");
-    cy.findByRole("table", { name: /2 items in your cart/ });
-    cy.findByRole("heading", { name: "Quotation form" });
-    cy.findByRole("button", { name: /Request a Quote/i });
-  });
 });
 
 describe("mobile view basket page", () => {
@@ -159,8 +140,6 @@ describe("mobile view basket page", () => {
     cy.findByRole("table", {
       name: /2 items in your cart. Subtotal is \$0.00 AUD./,
     });
-    cy.findByRole("heading", { name: "Quotation form" });
-    cy.findByRole("button", { name: /Request a Quote/i });
     cy.injectAxe();
     cy.checkA11y({
       exclude: [".chakra-portal", "#__chakra_env"],
@@ -214,71 +193,6 @@ describe("mobile view basket page", () => {
     cy.get("@windowOpen").should(
       "be.calledWith",
       "https://fake-brushella-dev.myshopify.fake/58698924240/checkouts/123458d38a38eac6e1f1374d648ecd93?key=12345cf8cac27ac85619932812ddddbd&return_to=https%3A%2F%2Fwww.brushella.art&logged_in=false"
-    );
-  });
-});
-
-// TODO: remove this describe when checkout feature is PROD ready
-describe("mobile view Basket page with Quote form ", () => {
-  beforeEach(() => {
-    cy.clearLocalStorage();
-    cy.viewport("iphone-4");
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-checkout-response-checkoutCreate.json",
-    }).as("checkoutCreate");
-    cy.visit("/basket");
-    cy.wait("@checkoutCreate");
-  });
-
-  it("render user errors in quote form correctly when submit with no data", () => {
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-query-cart-with-two-items.json",
-    }).as("queryCart");
-    cy.visit("/basket");
-    cy.wait("@queryCart");
-    cy.findByRole("button", { name: /Request a Quote/i }).click();
-    cy.get("main").scrollIntoView();
-    cy.findByText("Name is Required");
-    cy.findByText("Email is Required");
-  });
-
-  it("sends quote correctly with 1 item", () => {
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-query-cart-with-two-items.json",
-    }).as("queryCart");
-    cy.reload();
-    cy.wait("@queryCart");
-    cy.findByLabelText("Full Name").type("name goes here");
-    cy.findByLabelText("Email address").type("email@email.com");
-    cy.intercept(
-      "POST",
-      "https://www.formbackend.com/f/a89f490517ad6461",
-      "success"
-    ).as("formbackendSuccess");
-    cy.findByRole("button", { name: /Request a Quote/i }).click();
-    cy.wait("@formbackendSuccess");
-    cy.get("main").scrollIntoView();
-    cy.findByText(
-      /Your quote was sent succesfully with the following items: 1 test print \(not for sale\) - Plastic, 1 test print \(not for sale\) - Wood/i
-    );
-  });
-
-  it("renders error message when quote failed to be sent", () => {
-    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
-      fixture: "basket/mocked-query-cart-with-two-items.json",
-    }).as("queryCart");
-    cy.reload();
-    cy.wait("@queryCart");
-    cy.findByLabelText("Full Name").type("name goes here");
-    cy.findByLabelText("Email address").type("email@email.com");
-    cy.intercept("POST", "https://www.formbackend.com/f/a89f490517ad6461", {
-      statusCode: 500,
-    }).as("formbackendFailure");
-    cy.findByRole("button", { name: /Request a Quote/i }).click();
-    cy.wait("@formbackendFailure");
-    cy.get("main").scrollIntoView();
-    cy.findByText(
-      "There was an error sending your quote. Please try again later."
     );
   });
 });
