@@ -48,7 +48,7 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
         {tile.images.map((image, idx) => {
           return (
             <SwiperSlide key={idx} className="h-full w-full">
-              <div style={{ height: "360px", backgroundColor: "#000" }}>
+              <div className="relative" style={{ height: "360px", backgroundColor: "#000" }}>
                 <GatsbyImage
                   image={image.src as any}
                   alt={image.alt}
@@ -56,6 +56,12 @@ export const TileSliderCategory: React.FC<TileSliderCategoryProps> = ({
                   objectFit="contain"
                   style={{ height: "100%" }}
                   loading="lazy"
+                />
+                <a
+                  href={image.href}
+                  className="absolute inset-0"
+                  tabIndex={-1}
+                  aria-hidden="true"
                 />
               </div>
             </SwiperSlide>
