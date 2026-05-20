@@ -45,7 +45,15 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   initialLoading = true,
 }) => {
   const reduceMotion = useReducedMotion();
-  const [shouldAnimate] = useState(() => !hasPlayedEntrance && !reduceMotion);
+  // Claim the entrance slot at mount, not when the animation effect fires.
+  // Otherwise, navigating away during the 2.5s logo intro (before the effect
+  // sets the flag) leaves hasPlayedEntrance=false and the animation replays
+  // on return.
+  const [shouldAnimate] = useState(() => {
+    if (hasPlayedEntrance || reduceMotion) return false;
+    hasPlayedEntrance = true;
+    return true;
+  });
   const [loading, setLoading] = useState(initialLoading);
   const [epicMode, setEpicMode] = useState(shouldAnimate);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -76,7 +84,6 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const showSkipButton = shouldAnimate && !hoverReady;
 
   const skipAnimation = () => {
-    hasPlayedEntrance = true;
     setSkipped(true);
     setMinLoaderHeld(false);
     setLogoIntroDone(true);
@@ -115,7 +122,6 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   useEffect(() => {
     if (skipped) return;
     if (!shouldAnimate || loading || !imagesLoaded || !logoIntroDone) return;
-    hasPlayedEntrance = true;
     controls.set({ opacity: 0, filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
 

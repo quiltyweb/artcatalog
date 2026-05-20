@@ -42,13 +42,10 @@ const IMAGES = [
 ];
 
 describe("HomePageSlider — epic-mode-active body class", () => {
-  it("adds epic-mode-active to body when animation is running", () => {
+  it("adds epic-mode-active to body during animation and removes it on skip", () => {
     render(<HomePageSlider images={IMAGES} initialLoading={true} />);
-    expect(document.body.classList.contains("epic-mode-active")).toBe(true);
-  });
 
-  it("removes epic-mode-active from body when skip is clicked", () => {
-    render(<HomePageSlider images={IMAGES} initialLoading={true} />);
+    expect(document.body.classList.contains("epic-mode-active")).toBe(true);
 
     act(() => {
       fireEvent.click(
