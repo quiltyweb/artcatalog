@@ -297,33 +297,47 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               }
               animate={shouldAnimate ? controls : false}
             >
-              <picture className="flex-1 min-h-0 w-full overflow-hidden rounded">
-                <source
-                  media="(max-width: 539px)"
-                  srcSet={withWidth(item.reference.image.url, 750)}
-                />
-                <source
-                  media="(max-width: 767px)"
-                  srcSet={withWidth(item.reference.image.url, 800)}
-                />
-                <img
-                  ref={(node) => {
-                    if (node?.complete && node.naturalWidth > 0) {
-                      markImageLoaded(idx);
+              <div className="relative flex-1 min-h-0 w-full overflow-hidden rounded">
+                <picture className="h-full w-full">
+                  <source
+                    media="(max-width: 539px)"
+                    srcSet={withWidth(item.reference.image.url, 750)}
+                  />
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={withWidth(item.reference.image.url, 800)}
+                  />
+                  <img
+                    ref={(node) => {
+                      if (node?.complete && node.naturalWidth > 0) {
+                        markImageLoaded(idx);
+                      }
+                    }}
+                    onLoad={() => markImageLoaded(idx)}
+                    onError={() => markImageLoaded(idx)}
+                    src={withWidth(item.reference.image.url, 1280)}
+                    alt={item.alt_text}
+                    className={`object-cover h-full w-full transition-transform duration-700 ease-out ${
+                      hoverReady ? "hover:scale-[1.02]" : ""
+                    }`}
+                    loading="eager"
+                    width={634}
+                    height={840}
+                  />
+                </picture>
+                {(item.collection?.handle || item.link?.url) && (
+                  <Link
+                    to={
+                      item.collection?.handle
+                        ? `/collections/${item.collection.handle}`
+                        : item.link!.url
                     }
-                  }}
-                  onLoad={() => markImageLoaded(idx)}
-                  onError={() => markImageLoaded(idx)}
-                  src={withWidth(item.reference.image.url, 1280)}
-                  alt={item.alt_text}
-                  className={`object-cover h-full w-full transition-transform duration-700 ease-out ${
-                    hoverReady ? "hover:scale-[1.02]" : ""
-                  }`}
-                  loading="eager"
-                  width={634}
-                  height={840}
-                />
-              </picture>
+                    className="absolute inset-0"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
 
               {!epicMode && (
                 <motion.div
