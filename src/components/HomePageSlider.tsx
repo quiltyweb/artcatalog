@@ -107,8 +107,12 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
       document.body.classList.add("epic-mode-active");
     } else {
       document.body.classList.remove("epic-mode-active");
+      document.body.classList.remove("epic-mode-descending");
     }
-    return () => document.body.classList.remove("epic-mode-active");
+    return () => {
+      document.body.classList.remove("epic-mode-active");
+      document.body.classList.remove("epic-mode-descending");
+    };
   }, [epicMode]);
 
   // Mirror the keyframe duration used for the logo motion below
@@ -144,13 +148,16 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
 
     // Wait for both fade-in and colour transition before descending.
     Promise.all([colourPromise, opacityPromise])
-      .then(() =>
-        sectionControls.start({
+      .then(() => {
+        // Signal the descend phase so desktop can hide the transitory
+        // hamburger/cart styling before the real nav becomes visible.
+        document.body.classList.add("epic-mode-descending");
+        return sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
           transition: { duration: 0.2, ease: "easeInOut" },
-        }),
-      )
+        });
+      })
       .then(() => {
         setEpicMode(false);
         // Captions and nav buttons now fade in over 200ms — wait that
