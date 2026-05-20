@@ -128,7 +128,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     const opacityPromise = controls.start((custom: number) => ({
       opacity: 1,
       transition: {
-        duration: 0.4,
+        duration: 0.8,
         delay: custom * 0.1,
         ease: "easeOut",
       },
