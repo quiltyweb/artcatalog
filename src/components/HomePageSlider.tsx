@@ -119,28 +119,30 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     controls.set({ opacity: 0, filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
 
-    // Color reveal runs in parallel with the fade-in entrance.
-    controls.start({
+    // Color reveal: holds greyscale for 1.5s then transitions to full colour over 3s.
+    const colourPromise = controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 2, ease: "easeOut" },
+      transition: { duration: 3, delay: 1.5, ease: "easeOut" },
     });
+
+    const opacityPromise = controls.start((custom: number) => ({
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        delay: custom * 0.1,
+        ease: "easeOut",
+      },
+    }));
 
     let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
 
-    controls
-      .start((custom: number) => ({
-        opacity: 1,
-        transition: {
-          duration: 0.4,
-          delay: custom * 0.1,
-          ease: "easeOut",
-        },
-      }))
+    // Wait for both fade-in and colour transition before descending.
+    Promise.all([colourPromise, opacityPromise])
       .then(() =>
         sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
-          transition: { duration: 0.2, delay: 1.3, ease: "easeInOut" },
+          transition: { duration: 0.2, ease: "easeInOut" },
         }),
       )
       .then(() => {
