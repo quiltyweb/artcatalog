@@ -171,7 +171,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
           >
             <DrawerCloseButton />
             <DrawerHeader width={40}></DrawerHeader>
-            <DrawerBody>
+            <DrawerBody id="mobile-drawer-body">
               <CategoriesListMenu
                 allShopifyCollectionNodes={allShopifyCollectionNodes}
                 handleClickOnClose={handleClickOnClose}
@@ -184,6 +184,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
       </Box>
 
       <IconButton
+        id="mobile-menu-btn"
         display={["block", "block", "block", "none", "none", "none", "none"]}
         onClick={handleClickOnOpen}
         aria-label="menu"

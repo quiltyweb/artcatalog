@@ -18,3 +18,24 @@
   pointer-events: none;
 }
 
+/* Force column layout in the drawer during the animation on desktop */
+body.epic-mode-active #mobile-drawer-body .chakra-stack {
+  flex-direction: column !important;
+}
+
+/* Float the hamburger button above the epic-mode animation on all screen sizes */
+body.epic-mode-active #mobile-menu-btn {
+  display: block !important;
+  position: fixed;
+  top: 12px;
+  right: 28px;
+  z-index: 60;
+  pointer-events: auto;
+  opacity: 0.4;
+}
+
+body.epic-mode-active #mobile-menu-btn:hover,
+body.epic-mode-active #mobile-menu-btn:focus {
+  background: transparent !important;
+}
+

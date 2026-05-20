@@ -95,6 +95,15 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    if (epicMode) {
+      document.body.classList.add("epic-mode-active");
+    } else {
+      document.body.classList.remove("epic-mode-active");
+    }
+    return () => document.body.classList.remove("epic-mode-active");
+  }, [epicMode]);
+
   // Mirror the keyframe duration used for the logo motion below
   // (fade in 0.5s + hold 1.5s + fade out 0.5s = 2.5s).
   useEffect(() => {
