@@ -170,8 +170,7 @@ describe("Home page mobile", () => {
   });
   // TODO: UPDATE this test to check on all categories.
   it("TileSliderCategory images have a mouse-navigable overlay link hidden from keyboard and screen readers", () => {
-    cy.findByRole("heading", { name: "Browse Brushella's World" })
-      .closest("section")
+    cy.get('section[aria-labelledby="all-categories-title"]')
       .find('a[aria-hidden="true"]')
       .should("have.length.greaterThan", 0)
       .each(($link) => {

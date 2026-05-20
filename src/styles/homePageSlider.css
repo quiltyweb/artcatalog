@@ -23,14 +23,21 @@ body.epic-mode-active #mobile-drawer-body .chakra-stack {
   flex-direction: column !important;
 }
 
-/* Float the hamburger button above the epic-mode animation on all screen sizes */
+/* Lift the hamburger button above the epic-mode animation on all screen sizes.
+   Using position:relative (not fixed) keeps it in the normal flex flow next to
+   the cart, so it doesn't overlay the cart icon. */
 body.epic-mode-active #mobile-menu-btn {
   display: block !important;
-  position: fixed;
-  top: 12px;
-  right: 28px;
+  position: relative;
   z-index: 60;
   pointer-events: auto;
+  opacity: 0.4;
+}
+
+/* Lift the cart link too, so it remains clickable while the slider is on top. */
+body.epic-mode-active #cart-link {
+  position: relative;
+  z-index: 60;
   opacity: 0.4;
 }
 
