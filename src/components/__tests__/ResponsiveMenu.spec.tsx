@@ -38,4 +38,28 @@ describe("ResponsiveMenu", () => {
     screen.getByLabelText("whatsApp");
     screen.getByLabelText("instagram");
   });
+
+  it("hamburger button has stable id for CSS targeting during animation", () => {
+    render(
+      <ResponsiveMenu
+        isOpen={false}
+        allShopifyCollectionNodes={[]}
+        handleClickOnOpen={jest.fn()}
+        handleClickOnClose={jest.fn()}
+      />
+    );
+    expect(document.getElementById("mobile-menu-btn")).toBeInTheDocument();
+  });
+
+  it("drawer body has stable id for CSS targeting during animation", () => {
+    render(
+      <ResponsiveMenu
+        isOpen={true}
+        allShopifyCollectionNodes={[]}
+        handleClickOnOpen={jest.fn()}
+        handleClickOnClose={jest.fn()}
+      />
+    );
+    expect(document.getElementById("mobile-drawer-body")).toBeInTheDocument();
+  });
 });

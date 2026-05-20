@@ -92,4 +92,9 @@ describe("HomePageSlider — reduced motion", () => {
 
     jest.useRealTimers();
   });
+
+  it("does not add epic-mode-active to body when reduced motion is enabled", () => {
+    render(<HomePageSlider images={IMAGES} initialLoading={false} />);
+    expect(document.body.classList.contains("epic-mode-active")).toBe(false);
+  });
 });

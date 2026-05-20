@@ -70,4 +70,36 @@ describe("TileSliderCategory", () => {
     screen.getByRole("button", { name: "Previous image" });
     screen.getByRole("button", { name: "Next image" });
   });
+
+  it("renders an aria-hidden overlay link for each slide image pointing to the image href", () => {
+    const mockedTile = {
+      id: "mini-slider-tile-1",
+      title: "Original Paintings test title",
+      handle: "original-paintings",
+      images: [
+        {
+          src: "https://testing.test/asset.jpg",
+          alt: "alt text 1",
+          href: "/collections/original-paintings/product-one",
+        },
+        {
+          src: "https://testing.test/asset2.jpg",
+          alt: "alt text 2",
+          href: "/collections/original-paintings/product-two",
+        },
+      ],
+    };
+    const { container } = render(<TileSliderCategory tile={mockedTile} />);
+    const overlays = container.querySelectorAll('a[aria-hidden="true"]');
+    expect(overlays).toHaveLength(2);
+    expect(overlays[0]).toHaveAttribute(
+      "href",
+      "/collections/original-paintings/product-one"
+    );
+    expect(overlays[0]).toHaveAttribute("tabindex", "-1");
+    expect(overlays[1]).toHaveAttribute(
+      "href",
+      "/collections/original-paintings/product-two"
+    );
+  });
 });
