@@ -89,4 +89,5 @@ describe("HomePageSlider — skip animation button", () => {
 
     jest.useRealTimers();
   });
+
 });

@@ -169,6 +169,16 @@ describe("Home page mobile", () => {
     cy.findByRole("heading", { name: /contact me/i });
   });
   // TODO: UPDATE this test to check on all categories.
+  it("TileSliderCategory images have a mouse-navigable overlay link hidden from keyboard and screen readers", () => {
+    cy.get('section[aria-labelledby="all-categories-title"]')
+      .find('a[aria-hidden="true"]')
+      .should("have.length.greaterThan", 0)
+      .each(($link) => {
+        cy.wrap($link).should("have.attr", "tabindex", "-1");
+        cy.wrap($link).should("have.attr", "href");
+      });
+  });
+
   it("Navigates from mobile menu to each category page", () => {
     cy.intercept(
       "GET",
@@ -241,5 +251,23 @@ describe("Home page with prefers-reduced-motion: reduce", () => {
 
     // Loading announcement is not present after loader's min-display window.
     cy.findByText("Featured work slider is loading").should("not.exist");
+  });
+
+  it("hamburger button is not visible on desktop when animation is not active", () => {
+    // With reduced motion the epic animation never runs, so epic-mode-active
+    // is never added to body — the hamburger must remain hidden on desktop.
+    cy.get("#mobile-menu-btn").should("not.be.visible");
+  });
+
+  it("slider images each have a mouse-navigable overlay link hidden from keyboard and screen readers", () => {
+    // Animation is skipped so the slider is immediately interactive.
+    cy.findByTestId("homepage-slider-1").within(() => {
+      cy.get('a[aria-hidden="true"]')
+        .should("have.length.greaterThan", 0)
+        .each(($link) => {
+          cy.wrap($link).should("have.attr", "tabindex", "-1");
+          cy.wrap($link).should("have.attr", "href");
+        });
+    });
   });
 });

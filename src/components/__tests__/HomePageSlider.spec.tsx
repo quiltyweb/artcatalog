@@ -249,4 +249,44 @@ describe("HomePageSlider", () => {
       screen.queryByRole("link", { name: noLinkItem!.caption })
     ).not.toBeInTheDocument();
   });
+
+  it("renders an aria-hidden image overlay link for each slide that has a collection or link", () => {
+    const { container } = render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
+    const overlays = container.querySelectorAll('a[aria-hidden="true"]');
+    const linkedItems = MOCKED_IMAGES_PROPS.filter(
+      (item) => item.collection?.handle || item.link?.url
+    );
+    expect(overlays).toHaveLength(linkedItems.length);
+  });
+
+  it("image overlay links point to the correct href and are not keyboard-focusable", () => {
+    const { container } = render(
+      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />
+    );
+    const overlays = container.querySelectorAll('a[aria-hidden="true"]');
+    const linkedItems = MOCKED_IMAGES_PROPS.filter(
+      (item) => item.collection?.handle || item.link?.url
+    );
+    overlays.forEach((overlay, idx) => {
+      const item = linkedItems[idx];
+      const expectedHref = item.collection?.handle
+        ? `/collections/${item.collection.handle}`
+        : item.link!.url;
+      expect(overlay).toHaveAttribute("href", expectedHref);
+      expect(overlay).toHaveAttribute("tabindex", "-1");
+    });
+  });
+
+  it("does not render an image overlay link for slides without a link or collection", () => {
+    const noLinkImages = MOCKED_IMAGES_PROPS.filter(
+      (item) => !item.collection?.handle && !item.link?.url
+    );
+    expect(noLinkImages.length).toBeGreaterThan(0);
+    const { container } = render(
+      <HomePageSlider images={noLinkImages} initialLoading={false} />
+    );
+    expect(container.querySelectorAll('a[aria-hidden="true"]')).toHaveLength(0);
+  });
 });

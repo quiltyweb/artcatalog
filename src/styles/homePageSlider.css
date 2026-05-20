@@ -13,8 +13,50 @@
 
 /* During the homepage epic-mode entrance the section overlaps the
    navbar; ensure no slide intercepts clicks meant for the navbar. */
- .epic-mode-active .swiper-slide,
- .epic-mode-active .swiper-slide.swiper-slide-visible {
+ section.epic-mode-active .swiper-slide,
+ section.epic-mode-active .swiper-slide.swiper-slide-visible {
   pointer-events: none;
+}
+
+/* Force column layout in the drawer during the animation on desktop */
+body.epic-mode-active #mobile-drawer-body .chakra-stack {
+  flex-direction: column !important;
+}
+
+/* Lift the hamburger button above the epic-mode animation on all screen sizes.
+   Using position:relative (not fixed) keeps it in the normal flex flow next to
+   the cart, so it doesn't overlay the cart icon. */
+body.epic-mode-active #mobile-menu-btn {
+  display: block !important;
+  position: relative;
+  z-index: 60;
+  pointer-events: auto;
+  opacity: 0.4;
+}
+
+/* Lift the cart link too, so it remains clickable while the slider is on top. */
+body.epic-mode-active #cart-link {
+  position: relative;
+  z-index: 60;
+  opacity: 0.4;
+}
+
+body.epic-mode-active #mobile-menu-btn:hover,
+body.epic-mode-active #mobile-menu-btn:focus {
+  background: transparent !important;
+}
+
+/* When the slider starts descending on desktop, hide the transitory floating
+   hamburger and drop the cart back to its normal styling so they don't
+   overlap with the real desktop nav becoming visible behind the slider.
+   Mobile keeps the transitory styling until epic-mode-active is removed. */
+@media (min-width: 992px) {
+  body.epic-mode-descending #mobile-menu-btn {
+    display: none !important;
+  }
+  body.epic-mode-descending #cart-link {
+    opacity: 1;
+    z-index: auto;
+  }
 }
 

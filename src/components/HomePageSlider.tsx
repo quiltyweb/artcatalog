@@ -45,7 +45,15 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   initialLoading = true,
 }) => {
   const reduceMotion = useReducedMotion();
-  const [shouldAnimate] = useState(() => !hasPlayedEntrance && !reduceMotion);
+  // Claim the entrance slot at mount, not when the animation effect fires.
+  // Otherwise, navigating away during the 2.5s logo intro (before the effect
+  // sets the flag) leaves hasPlayedEntrance=false and the animation replays
+  // on return.
+  const [shouldAnimate] = useState(() => {
+    if (hasPlayedEntrance || reduceMotion) return false;
+    hasPlayedEntrance = true;
+    return true;
+  });
   const [loading, setLoading] = useState(initialLoading);
   const [epicMode, setEpicMode] = useState(shouldAnimate);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -76,7 +84,6 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   const showSkipButton = shouldAnimate && !hoverReady;
 
   const skipAnimation = () => {
-    hasPlayedEntrance = true;
     setSkipped(true);
     setMinLoaderHeld(false);
     setLogoIntroDone(true);
@@ -95,6 +102,19 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    if (epicMode) {
+      document.body.classList.add("epic-mode-active");
+    } else {
+      document.body.classList.remove("epic-mode-active");
+      document.body.classList.remove("epic-mode-descending");
+    }
+    return () => {
+      document.body.classList.remove("epic-mode-active");
+      document.body.classList.remove("epic-mode-descending");
+    };
+  }, [epicMode]);
+
   // Mirror the keyframe duration used for the logo motion below
   // (fade in 0.5s + hold 1.5s + fade out 0.5s = 2.5s).
   useEffect(() => {
@@ -106,34 +126,38 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   useEffect(() => {
     if (skipped) return;
     if (!shouldAnimate || loading || !imagesLoaded || !logoIntroDone) return;
-    hasPlayedEntrance = true;
     controls.set({ opacity: 0, filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
 
-    // Color reveal runs in parallel with the fade-in entrance.
-    controls.start({
+    // Color reveal: holds greyscale for 1.5s then transitions to full colour over 3s.
+    const colourPromise = controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 2, ease: "easeOut" },
+      transition: { duration: 3, delay: 1.5, ease: "easeOut" },
     });
+
+    const opacityPromise = controls.start((custom: number) => ({
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.1,
+        ease: "easeOut",
+      },
+    }));
 
     let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
 
-    controls
-      .start((custom: number) => ({
-        opacity: 1,
-        transition: {
-          duration: 0.4,
-          delay: custom * 0.1,
-          ease: "easeOut",
-        },
-      }))
-      .then(() =>
-        sectionControls.start({
+    // Wait for both fade-in and colour transition before descending.
+    Promise.all([colourPromise, opacityPromise])
+      .then(() => {
+        // Signal the descend phase so desktop can hide the transitory
+        // hamburger/cart styling before the real nav becomes visible.
+        document.body.classList.add("epic-mode-descending");
+        return sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
-          transition: { duration: 0.2, delay: 1.3, ease: "easeInOut" },
-        }),
-      )
+          transition: { duration: 0.2, ease: "easeInOut" },
+        });
+      })
       .then(() => {
         setEpicMode(false);
         // Captions and nav buttons now fade in over 200ms — wait that
@@ -286,33 +310,47 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               }
               animate={shouldAnimate ? controls : false}
             >
-              <picture className="flex-1 min-h-0 w-full overflow-hidden rounded">
-                <source
-                  media="(max-width: 539px)"
-                  srcSet={withWidth(item.reference.image.url, 750)}
-                />
-                <source
-                  media="(max-width: 767px)"
-                  srcSet={withWidth(item.reference.image.url, 800)}
-                />
-                <img
-                  ref={(node) => {
-                    if (node?.complete && node.naturalWidth > 0) {
-                      markImageLoaded(idx);
+              <div className="relative flex-1 min-h-0 w-full overflow-hidden rounded">
+                <picture className="h-full w-full">
+                  <source
+                    media="(max-width: 539px)"
+                    srcSet={withWidth(item.reference.image.url, 750)}
+                  />
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={withWidth(item.reference.image.url, 800)}
+                  />
+                  <img
+                    ref={(node) => {
+                      if (node?.complete && node.naturalWidth > 0) {
+                        markImageLoaded(idx);
+                      }
+                    }}
+                    onLoad={() => markImageLoaded(idx)}
+                    onError={() => markImageLoaded(idx)}
+                    src={withWidth(item.reference.image.url, 1280)}
+                    alt={item.alt_text}
+                    className={`object-cover h-full w-full transition-transform duration-700 ease-out ${
+                      hoverReady ? "hover:scale-[1.02]" : ""
+                    }`}
+                    loading="eager"
+                    width={634}
+                    height={840}
+                  />
+                </picture>
+                {(item.collection?.handle || item.link?.url) && (
+                  <Link
+                    to={
+                      item.collection?.handle
+                        ? `/collections/${item.collection.handle}`
+                        : item.link!.url
                     }
-                  }}
-                  onLoad={() => markImageLoaded(idx)}
-                  onError={() => markImageLoaded(idx)}
-                  src={withWidth(item.reference.image.url, 1280)}
-                  alt={item.alt_text}
-                  className={`object-cover h-full w-full transition-transform duration-700 ease-out ${
-                    hoverReady ? "hover:scale-[1.02]" : ""
-                  }`}
-                  loading="eager"
-                  width={634}
-                  height={840}
-                />
-              </picture>
+                    className="absolute inset-0"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
 
               {!epicMode && (
                 <motion.div

@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import CallToActionButton from "./CallToActionButton";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
   return (
@@ -44,6 +44,7 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
 
 const HeroSection: React.FunctionComponent = (): React.ReactElement => {
   const [isDektop] = useMediaQuery("(min-width: 992px)");
+  const reduceMotion = useReducedMotion();
   return (
     <Container as="section" maxW="1200px" padding={"4rem 0"}>
       <Card
@@ -57,8 +58,8 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
           src={
             "https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
           }
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1, transition: { duration: 2 } }}
+          initial={reduceMotion ? undefined : { opacity: 0 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, transition: { duration: 2 } }}
           transition={{ duration: 2 }}
           width={500}
           height={667}

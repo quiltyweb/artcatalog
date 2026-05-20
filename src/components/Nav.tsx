@@ -56,6 +56,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
           handleClickOnClose={handleClickOnClose}
         />
         <Link
+          id="cart-link"
           as={GatsbyLink}
           to="/basket"
           display="flex"
