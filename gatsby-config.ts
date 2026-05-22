@@ -104,6 +104,13 @@ const config: GatsbyConfig = {
         ],
       },
     },
+    {
+      resolve: "@sentry/gatsby",
+      options: {
+        dsn: process.env.SENTRY_DSN,
+        deleteSourcemapsAfterUpload: true,
+      },
+    },
     ...(process.env.ANALYZE_BUNDLE
       ? [
           {
