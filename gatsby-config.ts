@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+import adapter from "gatsby-adapter-netlify";
 import dotenv from "dotenv";
 
 dotenv.config({
@@ -117,6 +118,7 @@ const config: GatsbyConfig = {
       : []),
   ],
   graphqlTypegen: true,
+  adapter: adapter(),
 };
 
 export default config;
