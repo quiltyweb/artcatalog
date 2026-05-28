@@ -53,7 +53,7 @@ const ARButton: React.FC<ARButtonProps> = ({
   // Documentation: https://developers.google.com/ar/develop/scene-viewer#supported_intent_parameters
   const intentLinkParams = new URLSearchParams({
     file: glbUrl,
-    mode: "ar_only",
+    mode: "3d_preferred",
     title: productTitle,
     link: browserFallbackUrl,
     resizable: "false",

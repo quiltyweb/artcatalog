@@ -11,7 +11,7 @@ exports[`ARButton renders the AR icon button on Android devices 1`] = `
   <a
     aria-label="View AR"
     class="chakra-button css-1mcr2uc"
-    href="intent://arvr.google.com/scene-viewer/1.1?file=https%3A%2F%2Fexample.com%2Fmodel.glb&mode=ar_only&title=Test+Artwork&link=https%3A%2F%2Fexample.com%2Fproduct&resizable=false&enable_vertical_placement=true#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https%3A%2F%2Fexample.com%2Fproduct;end;"
+    href="intent://arvr.google.com/scene-viewer/1.1?file=https%3A%2F%2Fexample.com%2Fmodel.glb&mode=3d_preferred&title=Test+Artwork&link=https%3A%2F%2Fexample.com%2Fproduct&resizable=false&enable_vertical_placement=true#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https%3A%2F%2Fexample.com%2Fproduct;end;"
     rel="ar"
     title="View AR"
   >
