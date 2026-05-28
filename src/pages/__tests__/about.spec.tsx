@@ -29,9 +29,7 @@ describe("AboutPage", () => {
       },
     };
     render(<AboutPage data={aboutPageMockedData} />);
-    screen.getByAltText(
-      "Gabriela painting on a large canvas in her art studio"
-    );
+    screen.getByAltText(/Gabriela with a subtle smile/);
     screen.getByRole("link", { name: "Home" });
     screen.getByRole("heading", {
       name: "About Me",

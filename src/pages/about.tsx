@@ -34,17 +34,20 @@ const AboutPage: React.FunctionComponent<PageProps<Queries.AboutPageQuery>> = ({
         <Box
           className="prose prose-lg max-w-none mb-6"
           dangerouslySetInnerHTML={{
-            __html: typeof window !== "undefined" ? DOMPurify.sanitize(storefrontshopify.page?.body || "") : storefrontshopify.page?.body || "",
+            __html:
+              typeof window !== "undefined"
+                ? DOMPurify.sanitize(storefrontshopify.page?.body || "")
+                : storefrontshopify.page?.body || "",
           }}
         />
         <StaticImage
           style={{
             borderRadius: "md",
           }}
-          alt="Gabriela painting on a large canvas in her art studio"
-          src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/web-asset-author.jpg?v=1729679585"
+          alt="Gabriela with a subtle smile, wearing a bright pink cardigan over a black and white graphic t-shirt with black pants on a light gray background "
+          src="https://cdn.shopify.com/s/files/1/0586/9892/4240/files/Gabriela-Brushella.jpg?v=1779770786"
           width={500}
-          loading="eager"
+          loading="lazy"
         />
       </SimpleGrid>
     </Container>
@@ -59,7 +62,12 @@ export const Head = (props: HeadProps<any>) => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.brushella.art/" },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.brushella.art/",
+      },
       { "@type": "ListItem", position: 2, name: "About Me", item: canonical },
     ],
   };
@@ -72,7 +80,9 @@ export const Head = (props: HeadProps<any>) => {
       image={props.data.site.siteMetadata.image}
       canonical={canonical}
     >
-      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
+      </script>
     </SEO>
   );
 };
