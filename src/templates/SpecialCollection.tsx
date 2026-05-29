@@ -139,8 +139,11 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                     as={GatsbyLink}
                     to={`/collections/${collectionHandle}/${handle}`}
                     aria-label={productTitle}
+                    display="flex"
+                    flexDirection="column"
+                    height="100%"
                   >
-                    <CardBody>
+                    <CardBody flex="1">
                       <Box overflow="hidden">
                         {featuredImageForGatsbyImage ? (
                           <GatsbyImage
