@@ -198,4 +198,31 @@ describe("Collections page", () => {
     screen.getByRole("article", { name: /Original Paintings slider/i });
     screen.getByRole("article", { name: /Prints slider/i });
   });
+
+  it("renders Bloom and Human Nature special collection tiles", () => {
+    mockedUseCollectionToSlider.mockReturnValue([
+      {
+        id: "id-bloom",
+        title: "Bloom",
+        handle: "bloom",
+        images: [],
+      },
+      {
+        id: "id-human-nature",
+        title: "Human Nature",
+        handle: "human-nature",
+        images: [],
+      },
+    ]);
+
+    render(<CollectionsPage />);
+    screen.getByRole("article", { name: /Bloom slider/i });
+    screen.getByRole("article", { name: /Human Nature slider/i });
+    expect(
+      screen.getByRole("link", { name: /go to Bloom category/i })
+    ).toHaveAttribute("href", "/collections/bloom/");
+    expect(
+      screen.getByRole("link", { name: /go to Human Nature category/i })
+    ).toHaveAttribute("href", "/collections/human-nature/");
+  });
 });

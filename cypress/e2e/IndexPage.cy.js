@@ -41,6 +41,8 @@ describe("Home page desktop", () => {
       for (var category_name of MOCKED_CATEGORIES) {
         cy.findByRole("link", { name: category_name });
       }
+      cy.findByRole("link", { name: "Bloom" }).should("not.exist");
+      cy.findByRole("link", { name: "Human Nature" }).should("not.exist");
     });
   });
 });
@@ -96,6 +98,8 @@ describe("Home page mobile", () => {
       for (var category_name of MOCKED_CATEGORIES) {
         cy.findByRole("link", { name: category_name });
       }
+      cy.findByRole("link", { name: "Bloom" });
+      cy.findByRole("link", { name: "Human Nature" });
       cy.findByRole("link", { name: /About Me/i });
       cy.findByRole("link", { name: /contact/i });
       cy.findByRole("link", { name: "facebook" });
@@ -129,6 +133,8 @@ describe("Home page mobile", () => {
       });
       cy.findByAltText("alt text for print featuredImage");
       cy.findByRole("link", { name: "go to Original Paintings category" });
+      cy.findByRole("link", { name: "go to Bloom category" });
+      cy.findByRole("link", { name: "go to Human Nature category" });
     });
   });
 
