@@ -57,7 +57,19 @@ describe("Collections Page mobile", () => {
       cy.findByRole("heading", { name: "All Categories" });
       cy.findAllByText("Prints").should("have.length.at.least", 1);
       cy.findAllByText("Original Paintings").should("have.length.at.least", 1);
-      cy.findAllByRole("article").should("have.length", 2);
+      cy.findAllByText("Bloom").should("have.length.at.least", 1);
+      cy.findAllByText("Human Nature").should("have.length.at.least", 1);
+      cy.findAllByRole("article").should("have.length", 4);
+      cy.findByRole("link", { name: /go to Bloom category/i }).should(
+        "have.attr",
+        "href",
+        "/collections/bloom/",
+      );
+      cy.findByRole("link", { name: /go to Human Nature category/i }).should(
+        "have.attr",
+        "href",
+        "/collections/human-nature/",
+      );
     });
   });
 

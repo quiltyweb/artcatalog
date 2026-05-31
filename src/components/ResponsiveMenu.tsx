@@ -134,12 +134,17 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   );
 };
 
+const SPECIAL_COLLECTION_HANDLES = ["bloom", "human-nature"];
+
 const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
   allShopifyCollectionNodes,
   isOpen,
   handleClickOnOpen,
   handleClickOnClose,
 }): React.ReactElement => {
+  const desktopCollectionNodes = allShopifyCollectionNodes?.filter(
+    (node) => !SPECIAL_COLLECTION_HANDLES.includes(node.handle),
+  );
   return (
     <>
       <Box
@@ -147,7 +152,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
         display={["none", "none", "none", "block", "block", "block", "block"]}
       >
         <CategoriesListMenu
-          allShopifyCollectionNodes={allShopifyCollectionNodes}
+          allShopifyCollectionNodes={desktopCollectionNodes}
           handleClickOnClose={handleClickOnClose}
         />
       </Box>
