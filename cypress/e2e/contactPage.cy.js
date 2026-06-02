@@ -63,6 +63,12 @@ describe("contact Page mobile", () => {
     cy.findByRole("button", { name: "Send Enquiry" });
   });
 
+  it("exposes hello@brushella.art as a mailto link", () => {
+    cy.findByTestId("contact-email-link")
+      .should("have.text", "hello@brushella.art")
+      .and("have.attr", "href", "mailto:hello@brushella.art");
+  });
+
   it("shows user errors when form has no data", () => {
     cy.findByRole("button", { name: "Send Enquiry" }).click();
     cy.get("main").scrollIntoView();
