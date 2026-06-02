@@ -48,4 +48,12 @@ describe("ContactPage", () => {
     screen.getByRole("button", { name: "Send Enquiry" });
     screen.getByRole("link", { name: "Home" });
   });
+
+  it("renders the obfuscated email link after client-side hydration", async () => {
+    render(<ContactPage />);
+
+    const link = await screen.findByTestId("contact-email-link");
+    expect(link).toHaveTextContent("hello@brushella.art");
+    expect(link).toHaveAttribute("href", "mailto:hello@brushella.art");
+  });
 });
