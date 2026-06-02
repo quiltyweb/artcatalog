@@ -127,6 +127,7 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
             />
           )}
           <Text
+            display={{ base: "block", lg: "none" }}
             fontSize={{ base: "sm", md: "md" }}
             color="pink.800"
             fontWeight={600}

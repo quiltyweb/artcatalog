@@ -86,6 +86,58 @@ describe("CollectionHero", () => {
     ).toBeInTheDocument();
   });
 
+  it("applies a responsive display rule that hides the AR note from lg up", () => {
+    render(
+      <CollectionHero
+        title="Human Nature"
+        image={{
+          altText: "alt",
+          gatsbyImageData: mockedGatsbyImageData,
+          originalSrc: mockedImageURL,
+        }}
+      />
+    );
+
+    const note = screen.getByText(/look for this AR icon/i).closest("p");
+    expect(note).not.toBeNull();
+
+    const noteClasses = (note!.className || "").split(/\s+/).filter(Boolean);
+
+    const collectCss = (rules: CSSRuleList | undefined): string => {
+      if (!rules) return "";
+      let out = "";
+      for (let i = 0; i < rules.length; i++) {
+        const rule = rules[i] as CSSRule & { cssRules?: CSSRuleList };
+        out += rule.cssText + "\n";
+        if (rule.cssRules) out += collectCss(rule.cssRules);
+      }
+      return out;
+    };
+
+    const allCss = Array.from(document.styleSheets)
+      .map((s) => {
+        try {
+          return collectCss(s.cssRules);
+        } catch {
+          return "";
+        }
+      })
+      .join("\n");
+
+    const displayRule = noteClasses
+      .map((cls) => {
+        const match = allCss.match(
+          new RegExp(`\\.${cls}\\s+display\\s*\\{[^}]*\\}`, "i")
+        );
+        return match?.[0] ?? "";
+      })
+      .find(Boolean);
+
+    expect(displayRule).toBeDefined();
+    expect(displayRule).toMatch(/base:\s*block/i);
+    expect(displayRule).toMatch(/lg:\s*none/i);
+  });
+
   it("does not render description when none is provided", () => {
     render(
       <CollectionHero
