@@ -36,6 +36,28 @@ interface FormValues {
   message: string;
 }
 
+const EmailLink: React.FunctionComponent = (): React.ReactElement | null => {
+  const [email, setEmail] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const user = ["h", "e", "l", "l", "o"].join("");
+    const domain = ["brushella", "art"].join(".");
+    setEmail(`${user}@${domain}`);
+  }, []);
+
+  if (!email) return null;
+
+  return (
+    <a
+      href={`mailto:${email}`}
+      style={{ textDecoration: "underline" }}
+      data-testid="contact-email-link"
+    >
+      {email}
+    </a>
+  );
+};
+
 const ContactPage: React.FunctionComponent = (): React.ReactElement => (
   <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
     <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
@@ -67,6 +89,14 @@ const ContactPage: React.FunctionComponent = (): React.ReactElement => (
       </a>
       , do not hesitate to contact me via the contact form below. Please allow 3
       to 5 bussiness days to answer.
+    </Text>
+    <Text
+      maxWidth={["100%", "100%", "60%"]}
+      mb="2.4rem"
+      lineHeight={7}
+      fontWeight={"medium"}
+    >
+      Prefer email? Reach me at <EmailLink />.
     </Text>
     <Box maxW="lg">
       <Formik
