@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
+          cache: "npm"
 
       - name: Validate required secrets
         run: |
@@ -28,8 +29,16 @@ jobs:
             exit 1
           fi
 
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cypress-${{ runner.os }}-
+
       - name: Install npm packages
-        run: npm install
+        run: npm ci
 
       - name: TypeScript check
         run: npx tsc --noEmit
@@ -52,9 +61,3 @@ jobs:
         with:
           name: cypress-screenshots
           path: ./cypress/screenshots/
-
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-videos
-          path: ./cypress/videos/
