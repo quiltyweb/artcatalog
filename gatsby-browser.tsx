@@ -8,6 +8,8 @@ import "@fontsource-variable/source-sans-3";
 import "./src/styles/global.css";
 import { LayoutDataProvider } from "./src/context/LayoutContext";
 import ErrorBoundary from "./src/components/ErrorBoundary";
+import ConsentBanner from "./src/components/ConsentBanner";
+import AnalyticsLoader from "./src/components/AnalyticsLoader";
 
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
@@ -28,6 +30,17 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
     <>
       <SkipToContentLink />
       <Layout {...props}>{element}</Layout>
+      <AnalyticsLoader />
+      <ConsentBanner />
     </>
   );
+};
+
+export const onRouteUpdate: GatsbyBrowser["onRouteUpdate"] = ({ location }) => {
+  if (typeof window === "undefined") return;
+  if (typeof window.gtag !== "function") return;
+  if (!process.env.GATSBY_GA_MEASUREMENT_ID) return;
+  window.gtag("event", "page_view", {
+    page_path: location.pathname + location.search,
+  });
 };
