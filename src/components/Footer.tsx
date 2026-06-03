@@ -12,6 +12,7 @@ import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Link as GatsbyLink } from "gatsby";
 import styled from "styled-components";
 import { kebabCase } from "lodash";
+import { useConsent } from "../hooks/useConsent";
 
 type FooterProps = {
   legalContent?: Queries.LayoutGlobalDataQuery["adminshopify"]["legalContent"];
@@ -37,6 +38,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
   legalContent,
 }): React.ReactElement => {
   const year = new Date().getFullYear();
+  const { reset: resetConsent } = useConsent();
   return (
     <Box data-testid="footer">
       <Box as="section" p="4" aria-labelledby="quicklinks">
@@ -82,6 +84,19 @@ const Footer: React.FunctionComponent<FooterProps> = ({
           </ListItem>
           <ListItem key={"all-products"} p="0 1rem 1rem 0">
             <FooterLink to="/collections">All Categories</FooterLink>
+          </ListItem>
+          <ListItem key={"cookie-settings"} p="0 1rem 1rem 0">
+            <Link
+              as="button"
+              type="button"
+              onClick={resetConsent}
+              color="#2b2b35"
+              fontWeight="medium"
+              textTransform="capitalize"
+              _hover={{ color: "#6591a2", textDecoration: "underline" }}
+            >
+              Cookie Settings
+            </Link>
           </ListItem>
         </UnorderedList>
       </Box>
