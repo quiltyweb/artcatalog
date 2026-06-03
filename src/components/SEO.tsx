@@ -17,10 +17,13 @@ const SEO: React.FunctionComponent<SEOProps> = ({
   canonical,
   children,
 }): React.ReactElement => {
+  const titlePrefix =
+    process.env.NODE_ENV === "development" ? "[DEV] " : "";
   return (
     <>
       <html lang="en" />
       <title>
+        {titlePrefix}
         {pageTitle} | {siteTitle}
       </title>
       <meta name="description" content={description} />
@@ -29,7 +32,7 @@ const SEO: React.FunctionComponent<SEOProps> = ({
       <link rel="icon" href={image} type="image/svg+xml" sizes="any" />
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={`${pageTitle} | ${siteTitle}`} />
+      <meta property="og:title" content={`${titlePrefix}${pageTitle} | ${siteTitle}`} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:site_name" content={siteTitle} />

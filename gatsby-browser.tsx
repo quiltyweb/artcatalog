@@ -10,6 +10,7 @@ import { LayoutDataProvider } from "./src/context/LayoutContext";
 import ErrorBoundary from "./src/components/ErrorBoundary";
 import ConsentBanner from "./src/components/ConsentBanner";
 import AnalyticsLoader from "./src/components/AnalyticsLoader";
+import DevModeRibbon from "./src/components/DevModeRibbon";
 
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
@@ -32,6 +33,7 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
       <Layout {...props}>{element}</Layout>
       <AnalyticsLoader />
       <ConsentBanner />
+      <DevModeRibbon />
     </>
   );
 };
