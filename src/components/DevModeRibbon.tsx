@@ -3,6 +3,8 @@ import { Box } from "@chakra-ui/react";
 
 const DevModeRibbon: React.FunctionComponent = (): React.ReactElement | null => {
   if (process.env.NODE_ENV !== "development") return null;
+  if (typeof window !== "undefined" && (window as { Cypress?: unknown }).Cypress)
+    return null;
   return (
     <Box
       position="fixed"
