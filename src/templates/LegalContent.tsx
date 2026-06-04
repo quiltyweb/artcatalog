@@ -1,6 +1,6 @@
 import React from "react";
-import type { RichTextNode } from "@novatize-mattheri/shopify-richtext-renderer";
-import { RichTextRenderer } from "@novatize-mattheri/shopify-richtext-renderer";
+import DOMPurify from "dompurify";
+import { convertSchemaToHtml } from "@thebeyondgroup/shopify-rich-text-renderer";
 import {
   Box,
   Breadcrumb,
@@ -22,12 +22,27 @@ const Content = styled(Box)`
   -webkit-hyphens: auto;
   hyphens: auto;
   /* end css fix */
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin: 1.6rem 0 0.8rem;
+    line-height: 1.3;
+  }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  p { margin-bottom: 1rem; line-height: 1.6; }
+  ul, ol { margin: 0 0 1rem 1.5rem; }
+  li { margin-bottom: 0.4rem; }
+  a { color: var(--chakra-colors-teal-600); text-decoration: underline; }
+  a:hover { color: var(--chakra-colors-teal-700); }
+  strong { font-weight: 600; }
 `;
 
 type LegalContentProps = {
   pageContext: {
     title: string;
-    content: string | RichTextNode;
+    content: string;
   };
 };
 
@@ -47,9 +62,15 @@ const LegalContent: React.FunctionComponent<LegalContentProps> = ({
       <Heading as="h2" color="teal.600" mb="2.4rem">
         {title}
       </Heading>
-      <Content maxWidth={["100%", "100%", "60%"]}>
-        <RichTextRenderer data={content} />
-      </Content>
+      <Content
+        maxWidth={["100%", "100%", "60%"]}
+        dangerouslySetInnerHTML={{
+          __html:
+            typeof window !== "undefined"
+              ? DOMPurify.sanitize(convertSchemaToHtml(content || ""))
+              : convertSchemaToHtml(content || ""),
+        }}
+      />
     </Container>
   );
 };

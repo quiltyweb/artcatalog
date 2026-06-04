@@ -18,7 +18,10 @@ module.exports = {
     `<rootDir>.*/public`,
     `<rootDir>/cypress/`,
   ],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)/)`, `.cache`],
+  transformIgnorePatterns: [
+    `node_modules/(?!(gatsby|@thebeyondgroup/shopify-rich-text-renderer)/)`,
+    `.cache`,
+  ],
   globals: {
     __PATH_PREFIX__: ``,
   },

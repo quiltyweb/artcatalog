@@ -761,7 +761,7 @@ type AdminShopify = {
    * You can filter gift cards by attributes such as status, last characters of the code, balance status, and other values using the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/giftCards#arguments-query) parameter. You can also apply [`SavedSearch`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SavedSearch) objects to filter results.
    */
   readonly giftCards: AdminShopify_GiftCardConnection;
-  /** The total number of gift cards issued for the shop. Limited to a maximum of 10000 by default. */
+  /** Returns the total count of gift cards that have been issued by the shop. Use this for dashboard summaries or to understand the scale of a merchant's gift card program. The count includes all gift cards regardless of status (active, disabled, or fully redeemed). Limited to a maximum of 10000 by default. */
   readonly giftCardsCount: Maybe<AdminShopify_Count>;
   /**
    * Returns an
@@ -3535,12 +3535,12 @@ type AdminShopify_AbandonedCheckout = AdminShopify_Navigable & AdminShopify_Node
   readonly abandonedCheckoutUrl: Scalars['AdminShopify_URL'];
   /**
    * The billing address provided by the buyer.
-   * Null if the user did not provide a billing address.
+   * Null if the user didn't provide a billing address.
    */
   readonly billingAddress: Maybe<AdminShopify_MailingAddress>;
   /**
    * The date and time when the buyer completed the checkout.
-   * Null if the checkout has not been completed.
+   * Null if the checkout hasn't been completed.
    */
   readonly completedAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** The date and time when the checkout was created. */
@@ -3571,7 +3571,7 @@ type AdminShopify_AbandonedCheckout = AdminShopify_Navigable & AdminShopify_Node
   readonly note: Scalars['String'];
   /**
    * The shipping address to where the line items will be shipped.
-   * Null if the user did not provide a shipping address.
+   * Null if the user didn't provide a shipping address.
    */
   readonly shippingAddress: Maybe<AdminShopify_MailingAddress>;
   /** The sum of all items in the checkout, including discounts but excluding shipping, taxes and tips. */
@@ -4106,7 +4106,7 @@ type AdminShopify_App = AdminShopify_Node & {
   readonly installUrl: Maybe<Scalars['AdminShopify_URL']>;
   /**
    * Corresponding AppInstallation for this shop and App.
-   * Returns null if the App is not installed.
+   * Returns null if the App isn't installed.
    */
   readonly installation: Maybe<AdminShopify_AppInstallation>;
   /** Whether the app is the [post purchase](https://shopify.dev/apps/checkout/post-purchase) app in use. */
@@ -8196,7 +8196,7 @@ type AdminShopify_ChannelConnection = {
 /**
  * A specific selling surface within a [sales channel](https://shopify.dev/docs/apps/build/sales-channels) platform. A channel definition identifies where products can be sold. Definitions can represent entire platforms (like Facebook or TikTok) or specific sales channels within those platforms, such as Instagram Shops, Instagram Shopping, or TikTok Live.
  *
- * Each definition includes the parent [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) name and subchannel name to indicate the selling surface hierarchy. The marketplace flag identifies whether this surface represents a marketplace channel such as shops on Facebook, Instagram, or Buy on Google.
+ * Each definition includes the parent [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) name and subchannel name to indicate the selling surface hierarchy.
  */
 type AdminShopify_ChannelDefinition = AdminShopify_Node & {
   /** Name of the channel that this sub channel belongs to. */
@@ -9908,10 +9908,11 @@ type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafiel
   /** The number of products in the collection. */
   readonly productsCount: Maybe<AdminShopify_Count>;
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    * @deprecated Use `resourcePublicationsCount` instead.
    */
   readonly publicationCount: Scalars['Int'];
@@ -9950,10 +9951,11 @@ type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafiel
    */
   readonly resourcePublications: AdminShopify_ResourcePublicationConnection;
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    */
   readonly resourcePublicationsCount: Maybe<AdminShopify_Count>;
   /**
@@ -12140,10 +12142,7 @@ type AdminShopify_CompanyContactRevokeRolesPayload = {
 type AdminShopify_CompanyContactRole = AdminShopify_Node & {
   /** A globally-unique ID. */
   readonly id: Scalars['ID'];
-  /**
-   * The name of a role.
-   * For example, `admin` or `buyer`.
-   */
+  /** The name of a role. For example, `admin` or `buyer`. */
   readonly name: Scalars['String'];
   /** A note for the role. */
   readonly note: Maybe<Scalars['String']>;
@@ -21577,7 +21576,10 @@ type AdminShopify_DraftOrderDiscountNotAppliedWarning = AdminShopify_DraftOrderW
   readonly field: Scalars['String'];
   /** The warning message. */
   readonly message: Scalars['String'];
-  /** The price rule that can't be applied. */
+  /**
+   * The price rule that can't be applied.
+   * @deprecated This field is deprecated.
+   */
   readonly priceRule: Maybe<AdminShopify_PriceRule>;
 };
 
@@ -29223,7 +29225,11 @@ type AdminShopify_InventoryTransferMarkAsReadyToShipUserErrorCode =
 type AdminShopify_InventoryTransferRemoveItemsInput = {
   /** The ID of the inventory transfer where the items will be removed. */
   readonly id: Scalars['ID'];
-  /** The IDs of the transfer line items to be removed from the transfer. */
+  /**
+   * The IDs of the [`InventoryTransferLineItem`s](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem)
+   * to be removed from the transfer. Passing an empty array is a no-op and returns
+   * the transfer unchanged.
+   */
   readonly transferLineItemIds: InputMaybe<ReadonlyArray<Scalars['ID']>>;
 };
 
@@ -29249,15 +29255,15 @@ type AdminShopify_InventoryTransferRemoveItemsUserError = AdminShopify_Displayab
 
 /** Possible error codes that can be returned by `InventoryTransferRemoveItemsUserError`. */
 type AdminShopify_InventoryTransferRemoveItemsUserErrorCode =
-  /** The item cannot have its shippable quantity removed if all of its quantity is fully allocated in one or more shipments. */
+  /** The item cannot be removed because all of its quantity is fully allocated to one or more shipments (including draft shipments where the item has been picked). The error name refers to the underlying allocation check; it triggers regardless of whether the shipments have actually shipped. */
   | 'ALL_QUANTITY_SHIPPED'
-  /** A ready to ship transfer must have at least one item. */
+  /** A `READY_TO_SHIP` transfer must have at least one line item; you cannot remove every line item from one. To empty a `READY_TO_SHIP` transfer, cancel it instead. */
   | 'CANT_REMOVE_ALL_ITEMS_FROM_READY_TO_SHIP_TRANSFER'
   /** Current transfer status does not support this operation. */
   | 'INVALID_TRANSFER_STATUS'
   /** The item was not found. */
   | 'ITEM_NOT_FOUND'
-  /** The item cannot be removed because it exists in a draft shipment with zero quantity. */
+  /** The line item cannot be removed because it appears on a draft shipment with quantity `0`. */
   | 'ITEM_PRESENT_ON_DRAFT_SHIPMENT_WITH_ZERO_QUANTITY'
   /** The location selected can't be found. */
   | 'LOCATION_NOT_FOUND'
@@ -29268,7 +29274,7 @@ type AdminShopify_InventoryTransferRemoveItemsUserErrorCode =
 type AdminShopify_InventoryTransferSetItemsInput = {
   /** The ID of the inventory transfer where the items will be set. */
   readonly id: Scalars['ID'];
-  /** The line items to be set on the Transfer. */
+  /** The line items to set on the Transfer. Only the items included in this list are affected; items already on the transfer that aren't referenced here will stay unchanged. Each inventory item may appear at most once in this list; duplicate `inventoryItemId` entries are rejected. */
   readonly lineItems: ReadonlyArray<AdminShopify_InventoryTransferLineItemInput>;
 };
 
@@ -31128,12 +31134,14 @@ type AdminShopify_ManualDiscountApplication = AdminShopify_DiscountApplication &
 };
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market = AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_Node & {
   /** Whether the market has a customization with the given ID. */
@@ -31221,12 +31229,14 @@ type AdminShopify_Market = AdminShopify_HasMetafieldDefinitions & AdminShopify_H
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_assignedCustomizationArgs = {
   customizationId: Scalars['ID'];
@@ -31234,12 +31244,14 @@ type AdminShopify_Market_assignedCustomizationArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_catalogsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -31251,12 +31263,14 @@ type AdminShopify_Market_catalogsArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_metafieldArgs = {
   key: Scalars['String'];
@@ -31265,12 +31279,14 @@ type AdminShopify_Market_metafieldArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_metafieldDefinitionsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -31286,12 +31302,14 @@ type AdminShopify_Market_metafieldDefinitionsArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_metafieldsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -31305,12 +31323,14 @@ type AdminShopify_Market_metafieldsArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_regionsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -31322,12 +31342,14 @@ type AdminShopify_Market_regionsArgs = {
 
 
 /**
- * A market is a group of one or more regions that you want to target for international sales.
- * By creating a market, you can configure a distinct, localized shopping experience for
- * customers from a specific area of the world. For example, you can
- * [change currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
- * [configure international pricing](https://shopify.dev/apps/internationalization/product-price-lists),
- * or [add market-specific domains or subfolders](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence).
+ * A merchant-defined group of buyers identified by conditions such as their
+ * region, retail location, or company location. Each market allows configuration
+ * of a distinct, localized buyer experience. Customizations include, but are
+ * not limited to,
+ * [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
+ * [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
+ * [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
+ * and content translations.
  */
 type AdminShopify_Market_webPresencesArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -32699,7 +32721,10 @@ type AdminShopify_MarketingEngagement = {
   readonly firstTimeCustomers: Maybe<Scalars['AdminShopify_Decimal']>;
   /** The total number of times marketing content was displayed to users, whether or not an interaction occurred. For message-based platforms such as email or SMS, this represents the number of marketing emails or messages that were delivered. */
   readonly impressionsCount: Maybe<Scalars['Int']>;
-  /** Specifies how the provided metrics have been aggregated. Cumulative metrics are aggregated from the first day of reporting up to and including `occuredOn`. Non-cumulative metrics are aggregated over the single day indicated in `occuredOn`. Cumulative metrics will monotonically increase in time as each record includes the previous day's values, and so on. Non-cumulative is strongly preferred, and support for cumulative metrics may be deprecated in the future. */
+  /**
+   * Specifies how the provided metrics have been aggregated. Cumulative metrics are aggregated from the first day of reporting up to and including `occuredOn`. Non-cumulative metrics are aggregated over the single day indicated in `occuredOn`. Cumulative metrics will monotonically increase in time as each record includes the previous day's values, and so on. Non-cumulative metrics are required going forward; cumulative metrics are deprecated.
+   * @deprecated Cumulative metrics are being phased out. Send non-cumulative engagement metrics instead (values aggregated over the single day indicated in `occurredOn`, with `isCumulative: false`). Existing activities that have been sending cumulative metrics can migrate to non-cumulative at any time.
+   */
   readonly isCumulative: Scalars['Boolean'];
   /** The marketing activity object related to this engagement. This corresponds to the marketingActivityId passed in on creation of the engagement. */
   readonly marketingActivity: Maybe<AdminShopify_MarketingActivity>;
@@ -32759,7 +32784,7 @@ type AdminShopify_MarketingEngagementInput = {
   readonly firstTimeCustomers: InputMaybe<Scalars['AdminShopify_Decimal']>;
   /** The total number of times marketing content was displayed to users, whether or not an interaction occurred. For message-based platforms such as email or SMS, this represents the number of marketing emails or messages that were delivered. */
   readonly impressionsCount: InputMaybe<Scalars['Int']>;
-  /** Specifies how the provided metrics have been aggregated. Cumulative metrics are aggregated from the first day of reporting up to and including `occuredOn`. Non-cumulative metrics are aggregated over the single day indicated in `occuredOn`. Cumulative metrics will monotonically increase in time as each record includes the previous day's values, and so on. Non-cumulative is strongly preferred, and support for cumulative metrics may be deprecated in the future. */
+  /** Specifies how the provided metrics have been aggregated. Cumulative metrics are aggregated from the first day of reporting up to and including `occuredOn`. Non-cumulative metrics are aggregated over the single day indicated in `occuredOn`. Cumulative metrics will monotonically increase in time as each record includes the previous day's values, and so on. Non-cumulative metrics are required going forward; cumulative metrics are deprecated. */
   readonly isCumulative: Scalars['Boolean'];
   /** The calendar date (in the time zone offset specified by the utcOffset field) for which the metrics are being reported. For example, a shop in UTC-5 would set utcOffset="-05:00" and aggregate all engagements from 05:00:00Z up to 29:00:00Z (5am UTC next day) for each call. */
   readonly occurredOn: Scalars['AdminShopify_Date'];
@@ -34473,7 +34498,7 @@ type AdminShopify_MetafieldDefinitionUpdateInput = {
   readonly name: InputMaybe<Scalars['String']>;
   /**
    * The container for a group of metafields that the metafield definition is associated with. Used to help identify
-   * the metafield definition, but cannot be updated itself. If omitted, the app-reserved namespace will be used.
+   * the metafield definition, but can't be updated itself. If omitted, the app-reserved namespace will be used.
    */
   readonly namespace: InputMaybe<Scalars['String']>;
   /**
@@ -34662,7 +34687,7 @@ type AdminShopify_MetafieldInput = {
    */
   readonly namespace: InputMaybe<Scalars['String']>;
   /**
-   * The type of data that is stored in the metafield.
+   * The type of data that's stored in the metafield.
    * Refer to the list of [supported types](https://shopify.dev/apps/metafields/types).
    *
    * Required when creating or updating a metafield without a definition.
@@ -34854,10 +34879,10 @@ type AdminShopify_MetafieldsSetInput = {
   /** The unique ID of the resource that the metafield is attached to. */
   readonly ownerId: Scalars['ID'];
   /**
-   * The type of data that is stored in the metafield.
+   * The type of data that's stored in the metafield.
    * The type must be one of the [supported types](https://shopify.dev/apps/metafields/types).
    *
-   * Required when there is no corresponding definition for the given `namespace`, `key`, and
+   * Required when there's no corresponding definition for the given `namespace`, `key`, and
    * owner resource type (derived from `ownerId`).
    */
   readonly type: InputMaybe<Scalars['String']>;
@@ -42122,10 +42147,11 @@ type AdminShopify_Product = AdminShopify_HasEvents & AdminShopify_HasMetafieldDe
    */
   readonly productType: Scalars['String'];
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    * @deprecated Use `resourcePublicationsCount` instead.
    */
   readonly publicationCount: Scalars['Int'];
@@ -42181,10 +42207,11 @@ type AdminShopify_Product = AdminShopify_HasEvents & AdminShopify_HasMetafieldDe
    */
   readonly resourcePublications: AdminShopify_ResourcePublicationConnection;
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    */
   readonly resourcePublicationsCount: Maybe<AdminShopify_Count>;
   /**
@@ -46297,10 +46324,11 @@ type AdminShopify_Publishable = {
    */
   readonly availablePublicationsCount: Maybe<AdminShopify_Count>;
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    * @deprecated Use `resourcePublicationsCount` instead.
    */
   readonly publicationCount: Scalars['Int'];
@@ -46334,10 +46362,11 @@ type AdminShopify_Publishable = {
    */
   readonly resourcePublications: AdminShopify_ResourcePublicationConnection;
   /**
-   * The number of
+   * The total number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
-   * that a resource is published to, without
+   * that a resource is published to, including publications with
    * [feedback errors](https://shopify.dev/docs/api/admin-graphql/latest/objects/ResourceFeedback).
+   * To get a count that excludes publications with feedback errors, use `availablePublicationsCount`.
    */
   readonly resourcePublicationsCount: Maybe<AdminShopify_Count>;
   /**
@@ -56608,6 +56637,10 @@ type AdminShopify_SubscriptionDraftErrorCode =
   | 'STALE_CONTRACT'
   /** The input value is too long. */
   | 'TOO_LONG'
+  /** The contract draft has too many discounts. */
+  | 'TOO_MANY_DISCOUNTS'
+  /** The contract draft has too many lines. */
+  | 'TOO_MANY_LINES'
   /** The input value is too short. */
   | 'TOO_SHORT'
   /** Billing cycle selector cannot select upcoming billing cycle past limit. */
@@ -61749,6 +61782,7 @@ type Query_shopifyVideoArgs = {
 
 
 type Query_siteArgs = {
+  adapter: InputMaybe<SiteAdapterFilterInput>;
   buildTime: InputMaybe<DateQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   graphqlTypegen: InputMaybe<SiteGraphqlTypegenFilterInput>;
@@ -64687,6 +64721,7 @@ type ShopifyWeightUnit =
   | 'POUNDS';
 
 type Site = Node & {
+  readonly adapter: Maybe<SiteAdapter>;
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly children: ReadonlyArray<Node>;
   readonly graphqlTypegen: Maybe<SiteGraphqlTypegen>;
@@ -64708,6 +64743,22 @@ type Site_buildTimeArgs = {
   formatString: InputMaybe<Scalars['String']>;
   fromNow: InputMaybe<Scalars['Boolean']>;
   locale: InputMaybe<Scalars['String']>;
+};
+
+type SiteAdapter = {
+  readonly name: Maybe<Scalars['String']>;
+};
+
+type SiteAdapterFieldSelector = {
+  readonly name: InputMaybe<FieldSelectorEnum>;
+};
+
+type SiteAdapterFilterInput = {
+  readonly name: InputMaybe<StringQueryOperatorInput>;
+};
+
+type SiteAdapterSortInput = {
+  readonly name: InputMaybe<SortOrderEnum>;
 };
 
 type SiteBuildMetadata = Node & {
@@ -64882,6 +64933,7 @@ type SiteEdge = {
 };
 
 type SiteFieldSelector = {
+  readonly adapter: InputMaybe<SiteAdapterFieldSelector>;
   readonly buildTime: InputMaybe<FieldSelectorEnum>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly graphqlTypegen: InputMaybe<SiteGraphqlTypegenFieldSelector>;
@@ -64898,6 +64950,7 @@ type SiteFieldSelector = {
 };
 
 type SiteFilterInput = {
+  readonly adapter: InputMaybe<SiteAdapterFilterInput>;
   readonly buildTime: InputMaybe<DateQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly graphqlTypegen: InputMaybe<SiteGraphqlTypegenFilterInput>;
@@ -65441,6 +65494,7 @@ type SiteSiteMetadataSortInput = {
 };
 
 type SiteSortInput = {
+  readonly adapter: InputMaybe<SiteAdapterSortInput>;
   readonly buildTime: InputMaybe<SortOrderEnum>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly graphqlTypegen: InputMaybe<SiteGraphqlTypegenSortInput>;
@@ -73900,7 +73954,10 @@ type StoreFrontShopify_ShopPayInstallmentsProductVariantPricing = StoreFrontShop
 
 /** Represents a Shop Pay payment request. */
 type StoreFrontShopify_ShopPayPaymentRequest = {
-  /** The delivery methods for the payment request. */
+  /**
+   * The delivery methods for the payment request.
+   * @deprecated This field is deprecated and will be removed in a future version.
+   */
   readonly deliveryMethods: ReadonlyArray<StoreFrontShopify_ShopPayPaymentRequestDeliveryMethod>;
   /** The discount codes for the payment request. */
   readonly discountCodes: ReadonlyArray<Scalars['String']>;
@@ -74031,12 +74088,6 @@ type StoreFrontShopify_ShopPayPaymentRequestImageInput = {
 
 /** The input fields represent a Shop Pay payment request. */
 type StoreFrontShopify_ShopPayPaymentRequestInput = {
-  /**
-   * The delivery methods for the payment request.
-   *
-   * The input must not contain more than `250` values.
-   */
-  readonly deliveryMethods: InputMaybe<ReadonlyArray<StoreFrontShopify_ShopPayPaymentRequestDeliveryMethodInput>>;
   /**
    * The discount codes for the payment request.
    *
@@ -74903,7 +74954,7 @@ type LayoutGlobalDataQuery = { readonly storefrontshopify: { readonly metaobject
 type CollectionsAndProductsIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type CollectionsAndProductsIntoPagesQuery = { readonly allShopifyProduct: { readonly nodes: ReadonlyArray<{ readonly shopifyId: string, readonly title: string, readonly handle: string }> }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly altText: string | null, readonly originalSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly shopifyId: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly productType: string, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly grid: Record<string, unknown> | null, readonly detail: Record<string, unknown> | null, readonly zoom: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }>, readonly metafields: ReadonlyArray<{ readonly id: string, readonly key: string, readonly value: string }>, readonly printVersion: { readonly key: string, readonly value: string } | null }> }> } };
+type CollectionsAndProductsIntoPagesQuery = { readonly allShopifyProduct: { readonly nodes: ReadonlyArray<{ readonly shopifyId: string, readonly title: string, readonly handle: string }> }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly altText: string | null, readonly originalSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly shopifyId: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly productType: string, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly grid: Record<string, unknown> | null, readonly detail: Record<string, unknown> | null, readonly zoom: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }>, readonly metafields: ReadonlyArray<{ readonly id: string, readonly key: string, readonly value: string }>, readonly printVersion: { readonly key: string, readonly value: string } | null }> }> } };
 
 type AdminContentIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
