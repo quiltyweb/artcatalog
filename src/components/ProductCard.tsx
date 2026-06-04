@@ -30,6 +30,12 @@ import {
   Alert,
   AlertIcon,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   Formik,
@@ -54,6 +60,150 @@ import { Link } from "gatsby";
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
   printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
+};
+
+type ProductMediaItem = NonNullable<
+  ProductCardProps["product"]["media"]
+>[number];
+
+const VideoMediaThumbnail: React.FunctionComponent<{
+  mediaItem: ProductMediaItem;
+  productTitle: string;
+}> = ({ mediaItem, productTitle }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const sources = ("sources" in mediaItem && mediaItem.sources) || [];
+  const previewImage = mediaItem.preview?.image;
+  const thumbnail = previewImage && getImage(previewImage);
+  const label =
+    mediaItem.alt || previewImage?.altText || `Video for ${productTitle}`;
+
+  if (sources.length === 0 || !thumbnail) {
+    return null;
+  }
+
+  return (
+    <>
+      <Box
+        as="button"
+        type="button"
+        onClick={onOpen}
+        aria-label={`Play video: ${label}`}
+        display="inline-flex"
+        flexDirection="column"
+        alignItems="center"
+        m={2}
+        w="8rem"
+        cursor="pointer"
+        bg="transparent"
+        border="none"
+        p={0}
+        _focusVisible={{
+          outline: "3px solid",
+          outlineColor: "teal.500",
+          outlineOffset: "2px",
+          borderRadius: "md",
+        }}
+      >
+        <Box
+          position="relative"
+          w="5rem"
+          h="5rem"
+          borderRadius="md"
+          overflow="hidden"
+        >
+          <GatsbyImage
+            image={thumbnail}
+            alt={label}
+            loading="lazy"
+            className="rounded object-cover w-full h-full"
+            style={{ width: "100%", height: "100%" }}
+          />
+          <Box
+            position="absolute"
+            inset={0}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bg="blackAlpha.400"
+            aria-hidden="true"
+          >
+            <Box
+              as="span"
+              fontSize="3xl"
+              lineHeight="1"
+              color="white"
+              textShadow="0 1px 4px rgba(0,0,0,0.6)"
+            >
+              ▶
+            </Box>
+          </Box>
+        </Box>
+        <Text
+          mt={1}
+          fontSize="xs"
+          fontWeight="medium"
+          color="teal.700"
+          textAlign="center"
+          lineHeight="short"
+        >
+          Watch the hand embellishment process here
+        </Text>
+      </Box>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "full", md: "xl" }}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody
+            p={4}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={3}
+          >
+            {isOpen && (
+              <>
+                <video
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  aria-label={label}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "80vh",
+                    height: "auto",
+                    borderRadius: "6px",
+                  }}
+                >
+                  {sources.map((source) => (
+                    <source
+                      key={source.url}
+                      src={source.url}
+                      type={source.mimeType}
+                    />
+                  ))}
+                </video>
+                <Text
+                  aria-hidden="true"
+                  fontSize="sm"
+                  color="gray.700"
+                  textAlign="center"
+                  maxW="60ch"
+                >
+                  {label}
+                </Text>
+              </>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
 };
 
 interface ProductCardFormValues {
@@ -621,6 +771,16 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 </Heading>
                 <Flex flexDirection={["column", "row"]} flexWrap="wrap">
                   {product.media.map((mediaItem, index) => {
+                    if (mediaItem.mediaContentType === "VIDEO") {
+                      return (
+                        <VideoMediaThumbnail
+                          key={`media-${index}`}
+                          mediaItem={mediaItem}
+                          productTitle={product.title}
+                        />
+                      );
+                    }
+
                     if (mediaItem.mediaContentType !== "IMAGE") {
                       return;
                     }
