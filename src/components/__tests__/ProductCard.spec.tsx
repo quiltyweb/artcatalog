@@ -315,6 +315,136 @@ describe("ProductCard", () => {
     screen.getByRole("option", { name: /red/i });
   });
 
+  it("renders a video element in the details gallery for VIDEO media", async () => {
+    const mockedVideoURL =
+      "https://cdn.fake-image-for-brushella.art/hand-embellishment.mp4";
+    const mockedShopifyProductData = {
+      product: {
+        id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+        title: "Test canvas print",
+        handle: "test-canvas-print",
+        description: "Canvas print description goes here",
+        descriptionHtml: "<p>Canvas print description html goes here<p>",
+        priceRangeV2: {
+          minVariantPrice: { amount: 10.0, currencyCode: "AUD" },
+          maxVariantPrice: { amount: 20.0, currencyCode: "AUD" },
+        },
+        featuredImage: {
+          altText: "Featured image alt",
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                  type: "image/webp",
+                },
+              ],
+              fallback: {
+                src: mockedImageURL,
+                srcSet: mockedImageURL,
+                sizes: "(min-width: 500px) 500px, 100vw",
+              },
+            },
+            layout: "constrained",
+            placeholder: { fallback: "data:image/png;base64,/9j/4QC8" },
+            width: 500,
+            height: 265,
+          },
+        },
+        hasOnlyDefaultVariant: true,
+        totalVariants: 1,
+        variants: [
+          {
+            shopifyId: "gid://shopify/ProductVariant/4460DSDSSDSDDS",
+            displayName: "test canvas print",
+            title: "Default Title",
+            price: 0,
+            inventoryQuantity: 10,
+            selectedOptions: [
+              { name: "Title", value: "Default Title" },
+            ],
+            image: null,
+          },
+        ],
+        mediaCount: 1,
+        media: [
+          {
+            id: "video-media-id",
+            alt: "Hand embellishment process video",
+            mediaContentType: "VIDEO",
+            preview: {
+              status: "READY",
+              image: {
+                src: mockedImageURL,
+                altText: "video poster alt",
+                height: 1280,
+                width: 720,
+                gatsbyImageData: {
+                  images: {
+                    sources: [
+                      {
+                        srcSet: mockedImageURL,
+                        sizes: "(min-width: 200px) 200px, 100vw",
+                        type: "image/webp",
+                      },
+                    ],
+                    fallback: {
+                      src: mockedImageURL,
+                      srcSet: mockedImageURL,
+                      sizes: "(min-width: 200px) 200px, 100vw",
+                    },
+                  },
+                  layout: "constrained",
+                  placeholder: {
+                    fallback: "data:image/png;base64,/9j/4QC8",
+                  },
+                  width: 200,
+                  height: 356,
+                },
+                originalSrc: mockedImageURL,
+                transformedSrc: mockedImageURL,
+              },
+            },
+            sources: [
+              {
+                url: mockedVideoURL,
+                mimeType: "video/mp4",
+                format: "mp4",
+                height: 1280,
+                width: 720,
+              },
+            ],
+          },
+        ],
+        options: [],
+        metafields: [],
+      },
+      collectionHandle: "prints",
+    };
+    render(<ProductCard product={mockedShopifyProductData.product} />);
+    screen.getByRole("heading", { name: "Details gallery:" });
+
+    const thumbnailButton = screen.getByRole("button", {
+      name: /Play video: Hand embellishment process video/i,
+    });
+    expect(thumbnailButton).toBeInTheDocument();
+    expect(thumbnailButton.tagName).toBe("BUTTON");
+
+    // Video is not in the document until the modal is opened.
+    expect(document.querySelector("video")).toBeNull();
+
+    await fireEvent.setup().click(thumbnailButton);
+
+    const video = await screen.findByLabelText(
+      "Hand embellishment process video"
+    );
+    expect(video.tagName).toBe("VIDEO");
+    const source = video.querySelector("source");
+    expect(source).toHaveAttribute("src", mockedVideoURL);
+    expect(source).toHaveAttribute("type", "video/mp4");
+  });
+
   it("renders without variant select and variant images gallery when product has Only Default Variant", async () => {
     const mockedShopifyProductData = {
       product: {

@@ -143,6 +143,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
                   mimeType
                 }
               }
+              ... on ShopifyVideo {
+                sources {
+                  url
+                  format
+                  mimeType
+                  height
+                  width
+                }
+              }
             }
             options {
               shopifyId
