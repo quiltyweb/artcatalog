@@ -4,7 +4,7 @@
     "result": {
         "pageContext": {
             "title": "Return and Refund Policy",
-            "content": "test content"
+            "content": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"test content\"}]}]}"
         },
         "serverData": null
     },
