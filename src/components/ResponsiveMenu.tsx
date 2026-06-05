@@ -130,6 +130,17 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
             {item.title}
           </Link>
         ))}
+      <Link
+        fontSize={["md"]}
+        textTransform="uppercase"
+        fontWeight="bold"
+        as={GatsbyLink}
+        key="item-all-categories"
+        to="/collections"
+        onClick={handleClickOnClose}
+      >
+        All Categories
+      </Link>
     </Stack>
   );
 };
