@@ -159,6 +159,15 @@ const Footer: React.FunctionComponent<FooterProps> = ({
             Go to top
           </Link>
         </HStack>
+        <Text
+          display="flex"
+          justifyContent="center"
+          color="gray.600"
+          fontSize="sm"
+          pb="4"
+        >
+          Design and Development by quiltyweb.com.au
+        </Text>
       </Box>
     </Box>
   );
