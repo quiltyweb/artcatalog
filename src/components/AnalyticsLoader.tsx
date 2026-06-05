@@ -23,11 +23,13 @@ const AnalyticsLoader: React.FunctionComponent = (): null => {
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = (...args: unknown[]) => {
-      window.dataLayer.push(args);
-    };
-    window.gtag("js", new Date());
-    window.gtag("config", measurementId, { send_page_view: true });
+    function gtag(..._args: unknown[]): void {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer.push(arguments);
+    }
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", measurementId, { send_page_view: true });
   }, [consent]);
 
   return null;

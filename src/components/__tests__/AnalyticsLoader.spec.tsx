@@ -64,14 +64,11 @@ describe("AnalyticsLoader", () => {
     render(<AnalyticsLoader />);
     const taggedWindow = window as unknown as {
       gtag: unknown;
-      dataLayer: unknown[][];
+      dataLayer: IArguments[];
     };
     expect(typeof taggedWindow.gtag).toBe("function");
     const hasConfigCall = taggedWindow.dataLayer.some(
-      (entry) =>
-        Array.isArray(entry) &&
-        entry[0] === "config" &&
-        entry[1] === "G-TEST123",
+      (entry) => entry[0] === "config" && entry[1] === "G-TEST123",
     );
     expect(hasConfigCall).toBe(true);
   });
