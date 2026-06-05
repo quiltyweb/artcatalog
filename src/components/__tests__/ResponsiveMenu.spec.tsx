@@ -27,11 +27,12 @@ describe("ResponsiveMenu", () => {
       />
     );
 
-    expect(screen.queryAllByRole("link")).toHaveLength(7);
+    expect(screen.queryAllByRole("link")).toHaveLength(8);
     // from static query:
     screen.getByRole("link", { name: "Test Collection Title" });
 
     // hardcoded:
+    screen.getByRole("link", { name: "All Categories" });
     screen.getByRole("link", { name: "About Me" });
     screen.getByRole("link", { name: "contact" });
     screen.getByLabelText("facebook");
