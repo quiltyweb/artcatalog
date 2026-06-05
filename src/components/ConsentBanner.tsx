@@ -7,17 +7,17 @@ const HERO_ANIMATION_EVENT = "brushella:hero-animation-complete";
 
 const ConsentBanner: React.FunctionComponent = (): React.ReactElement | null => {
   const { consent, accept, decline } = useConsent();
-  const [ready, setReady] = React.useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.location.pathname !== "/";
-  });
+  const [ready, setReady] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    if (ready) return;
+    if (window.location.pathname !== "/") {
+      setReady(true);
+      return;
+    }
     const handler = () => setReady(true);
     window.addEventListener(HERO_ANIMATION_EVENT, handler);
     return () => window.removeEventListener(HERO_ANIMATION_EVENT, handler);
-  }, [ready]);
+  }, []);
 
   if (consent !== null) return null;
   if (!ready) return null;
