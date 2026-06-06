@@ -31978,6 +31978,8 @@ type AdminShopify_MarketUserErrorCode =
   | 'MARKET_NOT_FOUND'
   /** Can't add another web presence to the market. */
   | 'MARKET_REACHED_WEB_PRESENCE_LIMIT'
+  /** Another modification to this market is in progress. */
+  | 'MARKET_UPDATE_CONCURRENT_MODIFICATION'
   /** The country code is missing. */
   | 'MISSING_COUNTRY_CODE'
   /** The province code is missing. */
@@ -59672,6 +59674,8 @@ type AdminShopify_WebhookSubscriptionTopic =
   | 'LOCATIONS_DELETE'
   /** The webhook topic for `locations/update` events. Occurs whenever a location is updated. Requires the `read_locations` scope. */
   | 'LOCATIONS_UPDATE'
+  /** The webhook topic for `machine_translation_batch/completed` events. Occurs when a whole-shop machine translation batch completes. */
+  | 'MACHINE_TRANSLATION_BATCH_COMPLETED'
   /** The webhook topic for `markets_backup_region/update` events. Occurs when a backup region is updated. Requires the `read_markets` scope. */
   | 'MARKETS_BACKUP_REGION_UPDATE'
   /** The webhook topic for `markets/create` events. Occurs when a new market is created. Requires the `read_markets` scope. */

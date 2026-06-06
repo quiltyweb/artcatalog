@@ -41,7 +41,9 @@
                                 },
                                 "unitPrice": null,
                                 "product":{
-                                    "title": "test print (not for sale)"
+                                    "title": "test print (not for sale)",
+                                    "handle": "test-print-not-for-sale",
+                                    "collections": { "nodes": [{ "handle": "prints" }] }
                                 }
                             }
                         }                    

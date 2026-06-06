@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Breadcrumb,
@@ -8,6 +8,11 @@ import {
   Container,
   Heading,
   Img,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   SimpleGrid,
   Skeleton,
   Table,
@@ -28,6 +33,7 @@ import {
   useCartTotals,
   useCheckoutUrl,
   useIsCartLoading,
+  useCartLinesUpdate,
 } from "../context/StoreContext";
 import { StaticImage } from "gatsby-plugin-image";
 import SEO from "../components/SEO";
@@ -61,9 +67,8 @@ const TableLoadingSkeleton = () => {
             display={["flex", "table-row"]}
             justifyContent={["space-between"]}
           >
-            <Th display={["none", "table-cell"]}>thumbnail</Th>
+            <Th display={["none", "table-cell"]}>product image</Th>
             <Th>product</Th>
-            <Th>unit price</Th>
             <Th display={["none", "table-cell"]}>quantity</Th>
             <Th display={["none", "table-cell"]}>actions</Th>
             <Th display={["none", "table-cell"]}>total</Th>
@@ -71,9 +76,6 @@ const TableLoadingSkeleton = () => {
         </Thead>
         <Tbody key="table-body-shopping-cart-loading">
           <Tr>
-            <Td>
-              <Skeleton flex="1" height="10" variant="pulse" />
-            </Td>
             <Td>
               <Skeleton flex="1" height="10" variant="pulse" />
             </Td>
@@ -150,6 +152,57 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   );
 };
 
+type QuantityInputProps = {
+  lineId: string;
+  quantity: number;
+  productTitle: string;
+};
+
+const QuantityInput: React.FunctionComponent<QuantityInputProps> = ({
+  lineId,
+  quantity,
+  productTitle,
+}) => {
+  const { updateItemsToCart, updateItemsToCartLoading } = useCartLinesUpdate();
+  const [value, setValue] = useState<string>(String(quantity));
+
+  useEffect(() => {
+    setValue(String(quantity));
+  }, [quantity]);
+
+  const commit = (next: number) => {
+    if (!Number.isFinite(next) || next < 1 || next === quantity) {
+      setValue(String(quantity));
+      return;
+    }
+    updateItemsToCart({ lines: [{ id: lineId, quantity: next }] });
+  };
+
+  return (
+    <NumberInput
+      size="sm"
+      min={1}
+      value={value}
+      isDisabled={updateItemsToCartLoading}
+      onChange={(valueAsString) => setValue(valueAsString)}
+      onBlur={() => commit(parseInt(value, 10))}
+      maxW="6rem"
+    >
+      <NumberInputField aria-label={`quantity for ${productTitle}`} />
+      <NumberInputStepper>
+        <NumberIncrementStepper
+          aria-label={`increase quantity for ${productTitle}`}
+          onClick={() => commit(quantity + 1)}
+        />
+        <NumberDecrementStepper
+          aria-label={`decrease quantity for ${productTitle}`}
+          onClick={() => commit(quantity - 1)}
+        />
+      </NumberInputStepper>
+    </NumberInput>
+  );
+};
+
 const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
   const cartCount = useLineItemsCount();
   const checkoutLineItems = useCheckoutLineItems();
@@ -213,9 +266,8 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
           {isDektop && (
             <Thead>
               <Tr>
-                <Th scope="col">thumbnail</Th>
+                <Th scope="col">product image</Th>
                 <Th scope="col">product</Th>
-                <Th scope="col">price</Th>
                 <Th scope="col">quantity</Th>
                 <Th scope="col">remove</Th>
                 <Th scope="col">total</Th>
@@ -225,11 +277,6 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
           <Tbody key="table-body-shopping-cart">
             {checkoutLineItems.map((item, index) => {
-              const variantPriceWithFormat = formatPrice({
-                currency: item.merchandise.price.currencyCode,
-                value: Number(item.merchandise.price.amount),
-              });
-
               const lineItemTotalWithFormat = formatPrice({
                 currency: item.merchandise.price.currencyCode,
                 value: Number(item.merchandise.price.amount) * item.quantity,
@@ -237,22 +284,29 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
 
               const productTitle = `${item.merchandise.product.title} - ${item.merchandise.title}`;
 
+              const productCollectionHandle =
+                item.merchandise.product.collections?.nodes?.[0]?.handle;
+              const productHandle = item.merchandise.product.handle;
+              const productPath =
+                productCollectionHandle && productHandle
+                  ? `/collections/${productCollectionHandle}/${productHandle}/`
+                  : undefined;
+
               if (isDektop) {
                 return (
                   <Tr key={`${item.id}-item-${index}`} marginBottom={["2rem"]}>
                     <Td gridArea={"image"}>
-                      {item.merchandise.image?.altText ? (
+                      {item.merchandise.image?.url ? (
                         <Img
                           src={item.merchandise.image.url}
-                          alt={item.merchandise.image.altText}
+                          alt={item.merchandise.image.altText ?? ""}
                           key={`${item.id}-${item.merchandise.title}`}
                           loading="lazy"
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
                             minWidth: "20px",
-                            width: "60px",
-                            height: "60px",
+                            width: "80px",
                           }}
                         />
                       ) : (
@@ -264,8 +318,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                             borderRadius: "md",
                             minWidth: "40px",
                           }}
-                          width={60}
-                          height={60}
+                          width={80}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                           loading="lazy"
@@ -280,30 +333,24 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        {productTitle}
+                        {productPath ? (
+                          <Link
+                            to={productPath}
+                            style={{ textDecoration: "underline" }}
+                          >
+                            {productTitle}
+                          </Link>
+                        ) : (
+                          productTitle
+                        )}
                       </Text>
                     </Td>
                     <Td>
-                      <Text
-                        sx={{
-                          textWrap: "wrap",
-                          wordWrap: "normal",
-                          minWidth: "min-content",
-                        }}
-                      >
-                        {variantPriceWithFormat}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Text
-                        sx={{
-                          textWrap: "wrap",
-                          wordWrap: "normal",
-                          minWidth: "min-content",
-                        }}
-                      >
-                        {item.quantity}
-                      </Text>
+                      <QuantityInput
+                        lineId={item.id}
+                        quantity={item.quantity}
+                        productTitle={productTitle}
+                      />
                     </Td>
                     <Td>
                       <Button
@@ -333,20 +380,19 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
               return (
                 <React.Fragment key={`${item.id}-mobile-${index}`}>
                   <Tr backgroundColor="gray.200">
-                    <Th scope="row">thumbnail</Th>
+                    <Th scope="row">product image</Th>
                     <Td gridArea={"image"}>
-                      {item.merchandise.image?.altText ? (
+                      {item.merchandise.image?.url ? (
                         <Img
                           key={`${item.id}-${item.merchandise.title}`}
                           src={item.merchandise.image.url}
-                          alt={item.merchandise.image.altText}
+                          alt={item.merchandise.image.altText ?? ""}
                           loading="lazy"
                           style={{
                             borderRadius: "md",
                             boxShadow: "rgba(0, 0, 0, 0.4) 0px 1px 5px",
                             minWidth: "20px",
-                            width: "60px",
-                            height: "60px",
+                            width: "80px",
                           }}
                         />
                       ) : (
@@ -358,8 +404,7 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                             borderRadius: "md",
                             minWidth: "40px",
                           }}
-                          width={60}
-                          height={60}
+                          width={80}
                           alt="No image available"
                           src="../images/web-asset-noimg.jpg"
                           loading="lazy"
@@ -377,36 +422,27 @@ const MyBasketPage: React.FunctionComponent = (): React.ReactElement => {
                           minWidth: "min-content",
                         }}
                       >
-                        {productTitle}
-                      </Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Th scope="row">unit price</Th>
-                    <Td>
-                      <Text
-                        sx={{
-                          textWrap: "wrap",
-                          wordWrap: "normal",
-                          minWidth: "min-content",
-                        }}
-                      >
-                        {variantPriceWithFormat}
+                        {productPath ? (
+                          <Link
+                            to={productPath}
+                            style={{ textDecoration: "underline" }}
+                          >
+                            {productTitle}
+                          </Link>
+                        ) : (
+                          productTitle
+                        )}
                       </Text>
                     </Td>
                   </Tr>
                   <Tr>
                     <Th scope="row">quantity</Th>
                     <Td>
-                      <Text
-                        sx={{
-                          textWrap: "wrap",
-                          wordWrap: "normal",
-                          minWidth: "min-content",
-                        }}
-                      >
-                        {item.quantity}
-                      </Text>
+                      <QuantityInput
+                        lineId={item.id}
+                        quantity={item.quantity}
+                        productTitle={productTitle}
+                      />
                     </Td>
                   </Tr>
                   <Tr>

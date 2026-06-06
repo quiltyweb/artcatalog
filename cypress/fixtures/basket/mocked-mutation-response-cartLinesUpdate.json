@@ -29,7 +29,9 @@
                                 "id": "gid://shopify/ProductVariant/44600453005520",
                                 "title": "Wood",
                                 "product": {
-                                    "title": "test print (not for sale)"
+                                    "title": "test print (not for sale)",
+                                    "handle": "test-print-not-for-sale",
+                                    "collections": { "nodes": [{ "handle": "prints" }] }
                                 },
                                 "image": {
                                     "id": "gid://shopify/ProductImage/41952637255888",
@@ -53,7 +55,9 @@
                                 "id": "gid://shopify/ProductVariant/44600452972752",
                                 "title": "Plastic",
                                 "product": {
-                                    "title": "test print (not for sale)"
+                                    "title": "test print (not for sale)",
+                                    "handle": "test-print-not-for-sale",
+                                    "collections": { "nodes": [{ "handle": "prints" }] }
                                 },
                                 "image": {
                                     "id": "gid://shopify/ProductImage/41952637255888",

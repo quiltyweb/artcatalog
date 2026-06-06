@@ -87,6 +87,8 @@ describe("BasketPage", () => {
           title: "Variant Title",
           product: {
             title: "Product Title",
+            handle: "product-title",
+            collections: { nodes: [{ handle: "prints" }] },
           },
           image: {
             id: "gid://shopify/ProductImage/41952637255888",
@@ -105,18 +107,22 @@ describe("BasketPage", () => {
     ]);
 
     render(<BasketPage />);
-    screen.getByRole("columnheader", { name: /thumbnail/i });
+    screen.getByRole("columnheader", { name: "product image" });
     screen.getByAltText("alt text for variant image");
-    screen.getByRole("columnheader", { name: /product/i });
-    screen.getByText("Product Title - Variant Title");
+    screen.getByRole("columnheader", { name: "product" });
+    expect(
+      screen.getByRole("link", { name: "Product Title - Variant Title" })
+    ).toHaveAttribute("href", "/collections/prints/product-title/");
     screen.getByRole("columnheader", { name: /quantity/i });
-    screen.getByRole("cell", { name: "3" });
+    expect(
+      screen.getByRole("spinbutton", {
+        name: "quantity for Product Title - Variant Title",
+      })
+    ).toHaveValue("3");
     screen.getByRole("columnheader", { name: /remove/i });
     screen.getByRole("button", {
       name: "remove Product Title - Variant Title",
     });
-    screen.getByRole("columnheader", { name: /price/i });
-    screen.getByRole("cell", { name: "$5.00" });
     screen.getByRole("columnheader", { name: /total/i });
     screen.getByRole("cell", { name: "$15.00" });
   });
@@ -192,7 +198,7 @@ describe("BasketPage", () => {
     );
   });
 
-  it("renders placeholder fallback image when variant alt text is not provided", () => {
+  it("renders the variant image with empty alt when altText is not provided", () => {
     useLineItemsCount.mockImplementation(() => 1);
     useCheckoutLineItems.mockImplementation((): any => [
       {
@@ -220,10 +226,12 @@ describe("BasketPage", () => {
         },
       },
     ]);
-    render(<BasketPage />);
-    expect(screen.queryByTestId("no-image")).toHaveAttribute(
+    const { container } = render(<BasketPage />);
+    expect(screen.queryByTestId("no-image")).not.toBeInTheDocument();
+    const img = container.querySelector('img[alt=""]');
+    expect(img).toHaveAttribute(
       "src",
-      "../images/web-asset-noimg.jpg"
+      "https://cdn.shopsdsdsdsdify.com/s/files/1/0586/9892/4240/files/test.jpg?v=1dsdsdsdsdds749380160"
     );
   });
 
