@@ -84,18 +84,24 @@ describe("desktop view basket page", () => {
     cy.findByRole("table", {
       name: /1 item in your cart. Subtotal is \$0.00 AUD./,
     });
-    cy.findByRole("columnheader", { name: "thumbnail" });
+    cy.findByRole("columnheader", { name: "product image" });
     cy.findByRole("columnheader", { name: "product" });
     cy.findByRole("cell", { name: /test print \(not for sale\) - Wood/i });
+    cy.findByRole("link", {
+      name: /test print \(not for sale\) - Wood/i,
+    }).should(
+      "have.attr",
+      "href",
+      "/collections/prints/test-print-not-for-sale/"
+    );
     cy.findByRole("columnheader", { name: "quantity" });
     cy.findByRole("cell", { name: "1" });
     cy.findByRole("columnheader", { name: "remove" });
     cy.findByRole("button", {
       name: /remove test print \(not for sale\) - Wood/i,
     });
-    cy.findByRole("columnheader", { name: "price" });
     cy.findByRole("columnheader", { name: "total" });
-    cy.findAllByRole("cell", { name: "$0.00" }).should("have.length", 2);
+    cy.findByRole("cell", { name: "$0.00" });
     cy.findByRole("main").within(() => {
       cy.findByRole("heading", { name: /summary/i });
       cy.findByText("Subtotal:");
@@ -172,6 +178,31 @@ describe("mobile view basket page", () => {
     cy.wait("@checkoutLineItemsRemove");
     cy.findByRole("table", {
       name: /1 item in your cart. Subtotal is \$0.00 AUD./,
+    });
+  });
+
+  it("updates the cart when the quantity stepper is clicked", () => {
+    cy.findByRole("heading", { name: "Your cart is empty." });
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-query-cart-with-two-items.json",
+    }).as("queryCart");
+    cy.reload();
+    cy.wait("@queryCart");
+    cy.findByRole("table", {
+      name: /2 items in your cart. Subtotal is \$0.00 AUD./,
+    });
+    cy.intercept("POST", REGEX_INTERCEPT_POST_REQUEST, {
+      fixture: "basket/mocked-mutation-response-cartLinesUpdate.json",
+    }).as("cartLinesUpdate");
+    cy.findByRole("spinbutton", {
+      name: /quantity for test print \(not for sale\) - Plastic/i,
+    }).as("plasticQuantity");
+    cy.get("@plasticQuantity").clear();
+    cy.get("@plasticQuantity").type("2");
+    cy.get("@plasticQuantity").blur();
+    cy.wait("@cartLinesUpdate");
+    cy.findByRole("table", {
+      name: /3 items in your cart. Subtotal is \$0.00 AUD./,
     });
   });
 

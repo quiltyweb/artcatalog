@@ -91,6 +91,12 @@ const cartFieldsFragment = `
             product {
               availableForSale
               title
+              handle
+              collections(first: 1) {
+                nodes {
+                  handle
+                }
+              }
             }
             image {
               id
