@@ -33,6 +33,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ["netlify/functions/**/*.ts"],
+      rules: {
+        "no-console": "off",
+      },
+    },
+    {
       files: ["*.ts", "*.tsx"],
       processor: "@graphql-eslint/graphql",
       parser: "@typescript-eslint/parser",
