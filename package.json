@@ -142,6 +142,9 @@
   "overrides": {
     "formik": {
       "deepmerge": "^4.2.2"
+    },
+    "gatsby": {
+      "axios": "^1.16.0"
     }
   }
 }
