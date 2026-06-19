@@ -40,6 +40,8 @@ const withWidth = (url: string, width: number) => {
 // so the epic reveal only plays once per page-load lifetime.
 let hasPlayedEntrance = false;
 
+const ENTRANCE_PLAYED_KEY = "brushella_entrance_played";
+
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
@@ -51,7 +53,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   // on return.
   const [shouldAnimate] = useState(() => {
     if (hasPlayedEntrance || reduceMotion) return false;
+    if (typeof window !== "undefined" && localStorage.getItem(ENTRANCE_PLAYED_KEY)) return false;
     hasPlayedEntrance = true;
+    if (typeof window !== "undefined") localStorage.setItem(ENTRANCE_PLAYED_KEY, "1");
     return true;
   });
   const [loading, setLoading] = useState(initialLoading);
@@ -124,10 +128,10 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   }, [epicMode]);
 
   // Mirror the keyframe duration used for the logo motion below
-  // (fade in 0.5s + hold 1.5s + fade out 0.5s = 2.5s).
+  // (fade in 0.3s + hold 0.9s + fade out 0.3s = 1.5s).
   useEffect(() => {
     if (!shouldAnimate) return;
-    const t = setTimeout(() => setLogoIntroDone(true), 2500);
+    const t = setTimeout(() => setLogoIntroDone(true), 1500);
     return () => clearTimeout(t);
   }, [shouldAnimate]);
 
@@ -137,16 +141,16 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     controls.set({ opacity: 0, filter: "grayscale(1)" });
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
 
-    // Color reveal: holds greyscale for 1.5s then transitions to full colour over 3s.
+    // Color reveal: holds greyscale for 0.5s then transitions to full colour over 1.5s.
     const colourPromise = controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 3, delay: 1.5, ease: "easeOut" },
+      transition: { duration: 1.2, delay: 0.5, ease: "easeOut" },
     });
 
     const opacityPromise = controls.start((custom: number) => ({
       opacity: 1,
       transition: {
-        duration: 0.8,
+        duration: 0.5,
         delay: custom * 0.1,
         ease: "easeOut",
       },
@@ -163,7 +167,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         return sectionControls.start({
           height: "calc(100vh - 84px)",
           marginTop: 0,
-          transition: { duration: 0.2, ease: "easeInOut" },
+          transition: { duration: 0.1, ease: "easeInOut" },
         });
       })
       .then(() => {
@@ -219,7 +223,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1, 1, 0] }}
               transition={{
-                duration: 2.5,
+                duration: 1.5,
                 times: [0, 0.2, 0.8, 1],
                 ease: "easeInOut",
               }}
