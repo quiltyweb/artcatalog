@@ -165,6 +165,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
               value
             }
             productType
+            isGiftCard
             printVersion: metafield(namespace: "custom", key: "print_version") {
               key
               value

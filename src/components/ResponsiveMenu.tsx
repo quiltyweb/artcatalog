@@ -19,6 +19,7 @@ import { FaFacebookF, FaInstagram, FaWhatsapp, FaBars } from "react-icons/fa";
 
 type CategoriesListMenuProps = {
   allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
+  giftCardUrl?: string | null;
   handleClickOnClose: UseDisclosureProps["onClose"];
 };
 
@@ -29,6 +30,7 @@ type StaticLinksMenuProps = {
 type ResponsiveMenuProps = {
   isOpen: boolean;
   allShopifyCollectionNodes?: Queries.LayoutGlobalDataQuery["allShopifyCollection"]["nodes"];
+  giftCardUrl?: string | null;
   handleClickOnOpen: () => void;
   handleClickOnClose: () => void;
 };
@@ -94,6 +96,7 @@ const StaticLinksMenu: React.FunctionComponent<StaticLinksMenuProps> = ({
 
 const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   allShopifyCollectionNodes,
+  giftCardUrl,
   handleClickOnClose,
 }): React.ReactElement => {
   return (
@@ -141,6 +144,19 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       >
         All Categories
       </Link>
+      {giftCardUrl && (
+        <Link
+          fontSize={["md"]}
+          textTransform="uppercase"
+          fontWeight="bold"
+          as={GatsbyLink}
+          key="item-gift-card"
+          to={giftCardUrl}
+          onClick={handleClickOnClose}
+        >
+          Gift Card
+        </Link>
+      )}
     </Stack>
   );
 };
@@ -149,6 +165,7 @@ const SPECIAL_COLLECTION_HANDLES = ["bloom", "human-nature"];
 
 const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
   allShopifyCollectionNodes,
+  giftCardUrl,
   isOpen,
   handleClickOnOpen,
   handleClickOnClose,
@@ -164,6 +181,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
       >
         <CategoriesListMenu
           allShopifyCollectionNodes={desktopCollectionNodes}
+          giftCardUrl={giftCardUrl}
           handleClickOnClose={handleClickOnClose}
         />
       </Box>
@@ -190,6 +208,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
             <DrawerBody id="mobile-drawer-body">
               <CategoriesListMenu
                 allShopifyCollectionNodes={allShopifyCollectionNodes}
+                giftCardUrl={giftCardUrl}
                 handleClickOnClose={handleClickOnClose}
               />
               <StaticLinksMenu handleClickOnClose={handleClickOnClose} />

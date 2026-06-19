@@ -16,6 +16,15 @@ const Nav: React.FunctionComponent<NavProps> = ({
   allShopifyCollection,
 }): React.ReactElement => {
   const lineItemsCount = useLineItemsCount();
+
+  const giftCardUrl = (() => {
+    for (const node of allShopifyCollection?.nodes ?? []) {
+      const giftCard = node.products?.find((p) => p.isGiftCard);
+      if (giftCard) return `/collections/${node.handle}/${giftCard.handle}`;
+    }
+    return null;
+  })();
+
   const counterLabel =
     lineItemsCount === 0
       ? `no items in shopping cart`
@@ -51,6 +60,7 @@ const Nav: React.FunctionComponent<NavProps> = ({
       <Flex flexDirection={"row"} alignItems="center">
         <ResponsiveMenu
           allShopifyCollectionNodes={allShopifyCollection?.nodes}
+          giftCardUrl={giftCardUrl}
           isOpen={isOpen}
           handleClickOnOpen={handleClickOnOpen}
           handleClickOnClose={handleClickOnClose}

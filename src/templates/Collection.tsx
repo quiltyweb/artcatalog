@@ -71,8 +71,10 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               ? img.grid.width > img.grid.height
               : false;
           };
-          const portraitProducts = products.filter((p) => !isLandscape(p));
-          const landscapeProducts = products.filter((p) => isLandscape(p));
+          const giftCardProducts = products.filter((p) => p.isGiftCard);
+          const regularProducts = products.filter((p) => !p.isGiftCard);
+          const portraitProducts = regularProducts.filter((p) => !isLandscape(p));
+          const landscapeProducts = regularProducts.filter((p) => isLandscape(p));
 
           const renderProductCard = (product: (typeof products)[0]) => {
             const {
@@ -81,6 +83,8 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               title,
               handle,
               hasOnlyDefaultVariant,
+              isGiftCard,
+              description,
               priceRangeV2: {
                 minVariantPrice: { amount, currencyCode },
               },
@@ -136,6 +140,11 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                       >
                         {title}
                       </Heading>
+                      {isGiftCard && description && (
+                        <Text fontSize="sm" color="gray.600" lineHeight="tall">
+                          {description}
+                        </Text>
+                      )}
                     </Stack>
                   </CardBody>
                   <CardFooter
@@ -186,13 +195,14 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
 
           return (
             <>
-              {portraitProducts.length > 0 && (
+              {(giftCardProducts.length > 0 || portraitProducts.length > 0) && (
                 <SimpleGrid
                   columns={[1, 2, 3, 4]}
                   spacing="3"
                   justifyItems="center"
                   mb="0.4rem"
                 >
+                  {giftCardProducts.map(renderProductCard)}
                   {portraitProducts.map(renderProductCard)}
                 </SimpleGrid>
               )}
