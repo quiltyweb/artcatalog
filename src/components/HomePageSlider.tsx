@@ -40,6 +40,8 @@ const withWidth = (url: string, width: number) => {
 // so the epic reveal only plays once per page-load lifetime.
 let hasPlayedEntrance = false;
 
+const ENTRANCE_PLAYED_KEY = "brushella_entrance_played";
+
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
@@ -51,7 +53,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   // on return.
   const [shouldAnimate] = useState(() => {
     if (hasPlayedEntrance || reduceMotion) return false;
+    if (typeof window !== "undefined" && localStorage.getItem(ENTRANCE_PLAYED_KEY)) return false;
     hasPlayedEntrance = true;
+    if (typeof window !== "undefined") localStorage.setItem(ENTRANCE_PLAYED_KEY, "1");
     return true;
   });
   const [loading, setLoading] = useState(initialLoading);
