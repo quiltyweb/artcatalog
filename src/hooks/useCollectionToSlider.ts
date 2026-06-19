@@ -13,15 +13,17 @@ export function useCollectionToSlider() {
     id: collection.id,
     title: collection.title,
     handle: collection.handle,
-    images: collection.products.filter((product) => !product.isGiftCard).map((product) => ({
-      productTitle: product.title,
-      src:
-        product.featuredImage?.gridCategorySlider ||
-        product.featuredImage?.originalSrc ||
-        "",
-      alt: product.featuredImage?.altText || product.title || "",
-      href: `/collections/${collection.handle}/${product.handle}`,
-    })),
+    images: [...collection.products]
+      .sort((a, b) => (a.isGiftCard ? 1 : 0) - (b.isGiftCard ? 1 : 0))
+      .map((product) => ({
+        productTitle: product.title,
+        src:
+          product.featuredImage?.gridCategorySlider ||
+          product.featuredImage?.originalSrc ||
+          "",
+        alt: product.featuredImage?.altText || product.title || "",
+        href: `/collections/${collection.handle}/${product.handle}`,
+      })),
   }));
   return collectionsTiles;
 }
