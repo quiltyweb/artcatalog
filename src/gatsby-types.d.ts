@@ -475,7 +475,7 @@ type AdminShopify = {
   readonly collectionByHandle: Maybe<AdminShopify_Collection>;
   /** Return a collection by an identifier. */
   readonly collectionByIdentifier: Maybe<AdminShopify_Collection>;
-  /** Lists all rules that can be used to create smart collections. */
+  /** Lists all rules that can be used to create collections. */
   readonly collectionRulesConditions: ReadonlyArray<AdminShopify_CollectionRuleConditions>;
   /** Returns a list of the shop's collection saved searches. */
   readonly collectionSavedSearches: AdminShopify_SavedSearchConnection;
@@ -491,8 +491,6 @@ type AdminShopify = {
    * - Build a browsing interface for a store's product groupings.
    * - Create collection searching, sorting, and filtering experiences (for example, by title, type, or published status).
    * - Sync collection data with external systems.
-   * - Manage both custom ([manual](https://help.shopify.com/manual/products/collections/manual-shopify-collection))
-   * and smart ([automated](https://help.shopify.com/manual/products/collections/automated-collections)) collections.
    *
    * The `collections` query supports [pagination](https://shopify.dev/docs/api/usage/pagination-graphql)
    * for large catalogs and [saved searches](https://shopify.dev/docs/api/admin-graphql/latest/queries/collections#arguments-savedSearchId)
@@ -503,11 +501,11 @@ type AdminShopify = {
    * - Basic collection information (title, description, handle, and type)
    * - Collection image and SEO metadata
    * - Product count and product relationships
-   * - Collection rules (for smart collections)
+   * - Collection rules or conditions
    * - Publishing status and publication details
    * - Metafields and custom attributes
    *
-   * Learn more about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+   * Learn more about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
    */
   readonly collections: AdminShopify_CollectionConnection;
   /** Count of collections. Limited to a maximum of 10000 by default. */
@@ -551,7 +549,7 @@ type AdminShopify = {
    */
   readonly currentAppInstallation: AdminShopify_AppInstallation;
   /**
-   * Returns the current app's most recent [`BulkOperation`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BulkOperation). Apps can run one bulk query and one bulk mutation operation at a time per shop.
+   * Returns the current app's most recent [`BulkOperation`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BulkOperation). Bulk query and bulk mutation operations can run at the same time per shop. The number of concurrent operations that an app can run depends on the API version. For the applicable concurrency limits, refer to the [bulk operations guide](https://shopify.dev/docs/api/usage/bulk-operations/queries).
    *
    * The operation type parameter determines whether to retrieve the most recent query or mutation bulk operation. Use this query to check the operation's status, track its progress, and retrieve the result URL when it completes.
    * @deprecated Use `bulkOperations` with status filter instead.
@@ -7550,6 +7548,8 @@ type AdminShopify_CartTransformCreateUserError = AdminShopify_DisplayableError &
 
 /** Possible error codes that can be returned by `CartTransformCreateUserError`. */
 type AdminShopify_CartTransformCreateUserErrorCode =
+  /** Shop must be on a Shopify Plus plan to activate functions from a custom app. */
+  | 'CUSTOM_APP_FUNCTION_NOT_ELIGIBLE'
   /** A cart transform function already exists for the provided function_id. */
   | 'FUNCTION_ALREADY_REGISTERED'
   /** Function does not implement the required interface for this cart_transform function. */
@@ -9828,11 +9828,6 @@ type AdminShopify_CodeDiscountSortKeys =
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -9851,7 +9846,7 @@ type AdminShopify_CodeDiscountSortKeys =
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafieldDefinitions & AdminShopify_HasMetafields & AdminShopify_HasPublishedTranslations & AdminShopify_Node & AdminShopify_Publishable & {
   /** Collection duplicate operations involving this collection, either as a source (copying products from this collection to another) or a target (copying products to this collection from another). */
@@ -9967,7 +9962,7 @@ type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafiel
    * `Collection` only supports publications to `APP` catalog types.
    */
   readonly resourcePublicationsV2: AdminShopify_ResourcePublicationV2Connection;
-  /** For a smart (automated) collection, specifies the rules that determine whether a product is included. */
+  /** Specifies the rules that determine whether a product is included. */
   readonly ruleSet: Maybe<AdminShopify_CollectionRuleSet>;
   /** If the default SEO fields for page title and description have been modified, contains the modified information. */
   readonly seo: AdminShopify_SEO;
@@ -10008,11 +10003,6 @@ type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafiel
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10031,7 +10021,7 @@ type AdminShopify_Collection = AdminShopify_HasEvents & AdminShopify_HasMetafiel
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_descriptionArgs = {
   truncateAt: InputMaybe<Scalars['Int']>;
@@ -10045,11 +10035,6 @@ type AdminShopify_Collection_descriptionArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10068,7 +10053,7 @@ type AdminShopify_Collection_descriptionArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_eventsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10088,11 +10073,6 @@ type AdminShopify_Collection_eventsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10111,7 +10091,7 @@ type AdminShopify_Collection_eventsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_hasProductArgs = {
   id: Scalars['ID'];
@@ -10125,11 +10105,6 @@ type AdminShopify_Collection_hasProductArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10148,7 +10123,7 @@ type AdminShopify_Collection_hasProductArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_metafieldArgs = {
   key: Scalars['String'];
@@ -10163,11 +10138,6 @@ type AdminShopify_Collection_metafieldArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10186,7 +10156,7 @@ type AdminShopify_Collection_metafieldArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_metafieldDefinitionsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10208,11 +10178,6 @@ type AdminShopify_Collection_metafieldDefinitionsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10231,7 +10196,7 @@ type AdminShopify_Collection_metafieldDefinitionsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_metafieldsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10251,11 +10216,6 @@ type AdminShopify_Collection_metafieldsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10274,7 +10234,7 @@ type AdminShopify_Collection_metafieldsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_productsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10293,11 +10253,6 @@ type AdminShopify_Collection_productsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10316,7 +10271,7 @@ type AdminShopify_Collection_productsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_publicationCountArgs = {
   onlyPublished?: InputMaybe<Scalars['Boolean']>;
@@ -10330,11 +10285,6 @@ type AdminShopify_Collection_publicationCountArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10353,7 +10303,7 @@ type AdminShopify_Collection_publicationCountArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_publicationsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10372,11 +10322,6 @@ type AdminShopify_Collection_publicationsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10395,7 +10340,7 @@ type AdminShopify_Collection_publicationsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_publishedOnChannelArgs = {
   channelId: Scalars['ID'];
@@ -10409,11 +10354,6 @@ type AdminShopify_Collection_publishedOnChannelArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10432,7 +10372,7 @@ type AdminShopify_Collection_publishedOnChannelArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_publishedOnPublicationArgs = {
   publicationId: Scalars['ID'];
@@ -10446,11 +10386,6 @@ type AdminShopify_Collection_publishedOnPublicationArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10469,7 +10404,7 @@ type AdminShopify_Collection_publishedOnPublicationArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_resourcePublicationsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10488,11 +10423,6 @@ type AdminShopify_Collection_resourcePublicationsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10511,7 +10441,7 @@ type AdminShopify_Collection_resourcePublicationsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_resourcePublicationsCountArgs = {
   onlyPublished?: InputMaybe<Scalars['Boolean']>;
@@ -10525,11 +10455,6 @@ type AdminShopify_Collection_resourcePublicationsCountArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10548,7 +10473,7 @@ type AdminShopify_Collection_resourcePublicationsCountArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_resourcePublicationsV2Args = {
   after: InputMaybe<Scalars['String']>;
@@ -10568,11 +10493,6 @@ type AdminShopify_Collection_resourcePublicationsV2Args = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10591,7 +10511,7 @@ type AdminShopify_Collection_resourcePublicationsV2Args = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_translationsArgs = {
   locale: Scalars['String'];
@@ -10606,11 +10526,6 @@ type AdminShopify_Collection_translationsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10629,7 +10544,7 @@ type AdminShopify_Collection_translationsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_unpublishedChannelsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10647,11 +10562,6 @@ type AdminShopify_Collection_unpublishedChannelsArgs = {
  * [online stores](https://shopify.dev/docs/apps/build/online-store),
  * [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
  *
- * There are two types of collections:
- *
- * - **[Custom (manual) collections](https://help.shopify.com/manual/products/collections/manual-shopify-collection)**: You specify the products to include in a collection.
- * - **[Smart (automated) collections](https://help.shopify.com/manual/products/collections/automated-collections)**: You define rules, and products matching those rules are automatically included in the collection.
- *
  * The `Collection` object provides information to:
  *
  * - Organize products by category, season, or promotion.
@@ -10670,7 +10580,7 @@ type AdminShopify_Collection_unpublishedChannelsArgs = {
  * for unique layouts. They also support advanced features like translated content, resource feedback,
  * and contextual publication for location-based catalogs.
  *
- * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
+ * Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 type AdminShopify_Collection_unpublishedPublicationsArgs = {
   after: InputMaybe<Scalars['String']>;
@@ -10831,14 +10741,17 @@ type AdminShopify_CollectionInput = {
   readonly image: InputMaybe<AdminShopify_ImageInput>;
   /** The metafields to associate with the collection. */
   readonly metafields: InputMaybe<ReadonlyArray<AdminShopify_MetafieldInput>>;
-  /** Initial list of collection products. Only valid with `collectionCreate` and without rules. */
+  /** Initial list of collection products. Only valid with `collectionCreate`. */
   readonly products: InputMaybe<ReadonlyArray<Scalars['ID']>>;
   /**
    * Indicates whether a redirect is required after a new handle has been provided.
    * If true, then the old handle is redirected to the new one automatically.
    */
   readonly redirectNewHandle: InputMaybe<Scalars['Boolean']>;
-  /** The rules used to assign products to the collection. */
+  /**
+   * The rules used to assign products to the collection. This is the legacy smart-collection model;
+   * use `sources` with `conditions` instead. Each `ruleSet` rule has an equivalent `condition`.
+   */
   readonly ruleSet: InputMaybe<AdminShopify_CollectionRuleSetInput>;
   /** SEO information for the collection. */
   readonly seo: InputMaybe<AdminShopify_SEOInput>;
@@ -10991,7 +10904,7 @@ type AdminShopify_CollectionRuleCategoryCondition = {
   readonly value: AdminShopify_TaxonomyCategory;
 };
 
-/** Specifies the attribute of a product being used to populate the smart collection. */
+/** Specifies the attribute of a product being used to populate the collection. */
 type AdminShopify_CollectionRuleColumn =
   /**
    * An attribute evaluated based on the `compare_at_price` attribute of the product's variants.
@@ -11000,12 +10913,12 @@ type AdminShopify_CollectionRuleColumn =
    */
   | 'IS_PRICE_REDUCED'
   /**
-   * This rule type is designed to dynamically include products in a smart collection based on their category id.
+   * This rule type is designed to dynamically include products in a collection based on their category id.
    * When a specific product category is set as a condition, this rule will match products that are directly assigned to the specified category.
    */
   | 'PRODUCT_CATEGORY_ID'
   /**
-   * This rule type is designed to dynamically include products in a smart collection based on their category id.
+   * This rule type is designed to dynamically include products in a collection based on their category id.
    * When a specific product category is set as a condition, this rule will not only match products that are
    * directly assigned to the specified category but also include any products categorized under any descendant of that category.
    */
@@ -11039,19 +10952,19 @@ type AdminShopify_CollectionRuleColumn =
 type AdminShopify_CollectionRuleConditionObject = AdminShopify_CollectionRuleCategoryCondition | AdminShopify_CollectionRuleMetafieldCondition | AdminShopify_CollectionRuleProductCategoryCondition | AdminShopify_CollectionRuleTextCondition;
 
 /**
- * Defines the available columns and relationships that can be used when creating rules for smart collections. This provides the schema for building automated collection logic based on product attributes.
+ * Defines the available columns and relationships that can be used when creating rules for collections. This provides the schema for building automated collection logic based on product attributes.
  *
  * For example, merchants can create rules like "product type equals 'Shirts'" or "vendor contains 'Nike'" using the conditions defined in this object to automatically populate collections.
  *
  * Use `CollectionRuleConditions` to:
- * - Discovering valid field options for smart collection rule interfaces
+ * - Discovering valid field options for collection rule interfaces
  * - Understanding which conditions are available for automated collections
  * - Exploring available product attributes for collection automation
  * - Learning about proper field relationships for rule implementation
  *
- * The conditions define which product fields can be used in smart collection rules and what types of comparisons are allowed for each field.
+ * The conditions define which product fields can be used in collection rules and what types of comparisons are allowed for each field.
  *
- * Learn more about [smart collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection).
+ * Learn more about [collections with conditions](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection).
  */
 type AdminShopify_CollectionRuleConditions = {
   /** Allowed relations of the rule. */
@@ -11082,7 +10995,7 @@ type AdminShopify_CollectionRuleInput = {
   readonly relation: AdminShopify_CollectionRuleRelation;
 };
 
-/** Identifies a metafield definition used as a rule for the smart collection. */
+/** Identifies a metafield definition used as a rule for the collection. */
 type AdminShopify_CollectionRuleMetafieldCondition = {
   /** The metafield definition associated with the condition. */
   readonly metafieldDefinition: AdminShopify_MetafieldDefinition;
@@ -25871,6 +25784,7 @@ type AdminShopify_FulfillmentTrackingInfo = {
    *   * Sendle
    *   * SF Express
    *   * SFC Fulfillment
+   *   * ShipBob
    *   * SHREE NANDAN COURIER
    *   * Singapore Post
    *   * Southwest Air Cargo
@@ -31022,7 +30936,7 @@ type AdminShopify_MailingAddress = AdminShopify_Node & {
   /** The time zone of the address. */
   readonly timeZone: Maybe<Scalars['String']>;
   /**
-   * The validation status that is leveraged by the address validation feature in the Shopify Admin.
+   * The validation status that's leveraged by the address validation feature in the Shopify Admin.
    * See ["Validating addresses in your Shopify admin"](https://help.shopify.com/manual/fulfillment/managing-orders/validating-order-address) for more details.
    */
   readonly validationResultSummary: Maybe<AdminShopify_MailingAddressValidationResult>;
@@ -36506,6 +36420,7 @@ type AdminShopify_Order = AdminShopify_CommentEventSubject & AdminShopify_HasEve
   /**
    * Details about the sales channel that created the order, such as the [channel app type](https://shopify.dev/docs/api/admin-graphql/latest/objects/channel#field-Channel.fields.channelType)
    * and [channel name](https://shopify.dev/docs/api/admin-graphql/latest/objects/ChannelDefinition#field-ChannelDefinition.fields.channelName), which helps to track order sources.
+   * @deprecated Use `attribution` instead.
    */
   readonly channelInformation: Maybe<AdminShopify_ChannelInformation>;
   /** The IP address of the customer who placed the order. Useful for fraud detection and geographic analysis. */
@@ -57308,6 +57223,8 @@ type AdminShopify_TaxExemption =
   | 'CA_MB_FARMER_EXEMPTION'
   /** This customer is exempt from specific taxes for holding a valid RESELLER_EXEMPTION in Manitoba. */
   | 'CA_MB_RESELLER_EXEMPTION'
+  /** This customer is exempt from VPT (Vapour Products Tax) for holding a valid VPT_RESELLER_EXEMPTION in Newfoundland and Labrador. */
+  | 'CA_NL_VPT_RESELLER_EXEMPTION'
   /** This customer is exempt from specific taxes for holding a valid COMMERCIAL_FISHERY_EXEMPTION in Nova Scotia. */
   | 'CA_NS_COMMERCIAL_FISHERY_EXEMPTION'
   /** This customer is exempt from specific taxes for holding a valid FARMER_EXEMPTION in Nova Scotia. */
@@ -57328,6 +57245,8 @@ type AdminShopify_TaxExemption =
   | 'CA_SK_RESELLER_EXEMPTION'
   /** This customer is exempt from specific taxes for holding a valid SUB_CONTRACTOR_EXEMPTION in Saskatchewan. */
   | 'CA_SK_SUB_CONTRACTOR_EXEMPTION'
+  /** This customer is exempt from VPT (Vapour Products Tax) for holding a valid VPT_RESELLER_EXEMPTION in Saskatchewan. */
+  | 'CA_SK_VPT_RESELLER_EXEMPTION'
   /** This customer is exempt from specific taxes for holding a valid STATUS_CARD_EXEMPTION in Canada. */
   | 'CA_STATUS_CARD_EXEMPTION'
   /** This customer is exempt from VAT for purchases within the EU that is shipping from outside of customer's country, as well as purchases from the EU to the UK. */
@@ -74427,7 +74346,7 @@ type StoreFrontShopify_SocialLoginProvider = {
 };
 
 /**
- * Inventory information for a product variant at a physical store location that offers local pickup. Includes stock availability, quantity on hand, and estimated pickup readiness time.
+ * Inventory information for a product variant at a physical store location that offers local pickup. Includes stock availability, quantity on hand, and estimated pickup readiness time. Availability also includes inventory that can be moved to the location through a store transfer route, so a variant can be available for pickup with no on-hand stock at the location.
  *
  * Local pickup must be [enabled in the store's shipping settings](https://help.shopify.com/manual/shipping/setting-up-and-managing-your-shipping/local-methods/local-pickup) for this data to be returned. Results can be sorted by proximity to a customer's location using the `near` argument on the [`ProductVariant.storeAvailability`](https://shopify.dev/docs/api/storefront/current/objects/ProductVariant#field-ProductVariant.fields.storeAvailability) connection.
  *
@@ -74435,13 +74354,13 @@ type StoreFrontShopify_SocialLoginProvider = {
  *
  */
 type StoreFrontShopify_StoreAvailability = {
-  /** Whether the product variant is in-stock at this location. */
+  /** Whether the product variant can be picked up at this location. This is `true` when the variant is in stock here, can be supplied through a store transfer from another location, or is sold with untracked or oversellable inventory (its inventory isn't tracked, or its inventory policy allows continuing to sell when out of stock). As a result, `available` can be `true` even when `quantityAvailable` is `0`. */
   readonly available: Scalars['Boolean'];
   /** The location where this product variant is stocked at. */
   readonly location: StoreFrontShopify_Location;
-  /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). */
+  /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). When the variant is out of stock at this location and supplied through a store transfer, this reflects the estimated transfer transit time when available, otherwise it falls back to the location's standard pickup processing time. */
   readonly pickUpTime: Scalars['String'];
-  /** The quantity of the product variant in-stock at this location. */
+  /** The quantity of the product variant physically in stock at this location. This counts on-hand inventory only and excludes inventory available through a store transfer, so it can be `0` while `available` is `true`. */
   readonly quantityAvailable: Scalars['Int'];
 };
 
@@ -74965,12 +74884,12 @@ type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: 
 type LayoutGlobalDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type LayoutGlobalDataQuery = { readonly storefrontshopify: { readonly metaobjects: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly value: string | null, readonly reference: { readonly handle: string, readonly title: string } | { readonly image: { readonly url: any } | null } | {} | null }> }> } }, readonly site: { readonly siteMetadata: { readonly title: string | null, readonly description: string | null, readonly siteUrl: string | null, readonly image: string | null } | null } | null, readonly adminshopify: { readonly legalContent: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly definition: { readonly name: string } }> }> } }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly src: string, readonly originalSrc: string, readonly transformedSrc: string, readonly altText: string | null, readonly width: number | null, readonly height: number | null, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly gridCategorySlider: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }> }> }> } };
+type LayoutGlobalDataQuery = { readonly storefrontshopify: { readonly metaobjects: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly value: string | null, readonly reference: { readonly handle: string, readonly title: string } | { readonly image: { readonly url: any } | null } | {} | null }> }> } }, readonly site: { readonly siteMetadata: { readonly title: string | null, readonly description: string | null, readonly siteUrl: string | null, readonly image: string | null } | null } | null, readonly adminshopify: { readonly legalContent: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly definition: { readonly name: string } }> }> } }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly src: string, readonly originalSrc: string, readonly transformedSrc: string, readonly altText: string | null, readonly width: number | null, readonly height: number | null, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly isGiftCard: boolean, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly gridCategorySlider: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }> }> }> } };
 
 type CollectionsAndProductsIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type CollectionsAndProductsIntoPagesQuery = { readonly allShopifyProduct: { readonly nodes: ReadonlyArray<{ readonly shopifyId: string, readonly title: string, readonly handle: string }> }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly altText: string | null, readonly originalSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly shopifyId: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly productType: string, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly grid: Record<string, unknown> | null, readonly detail: Record<string, unknown> | null, readonly zoom: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string, readonly height: number, readonly width: number }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }>, readonly metafields: ReadonlyArray<{ readonly id: string, readonly key: string, readonly value: string }>, readonly printVersion: { readonly key: string, readonly value: string } | null }> }> } };
+type CollectionsAndProductsIntoPagesQuery = { readonly allShopifyProduct: { readonly nodes: ReadonlyArray<{ readonly shopifyId: string, readonly title: string, readonly handle: string }> }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly altText: string | null, readonly originalSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly shopifyId: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly productType: string, readonly isGiftCard: boolean, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly grid: Record<string, unknown> | null, readonly detail: Record<string, unknown> | null, readonly zoom: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string, readonly height: number, readonly width: number }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }>, readonly metafields: ReadonlyArray<{ readonly id: string, readonly key: string, readonly value: string }>, readonly printVersion: { readonly key: string, readonly value: string } | null }> }> } };
 
 type AdminContentIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 

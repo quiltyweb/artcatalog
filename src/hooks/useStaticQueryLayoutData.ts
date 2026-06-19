@@ -144,6 +144,7 @@ export function useStaticQueryLayoutData() {
               values
             }
             publishedAt
+            isGiftCard
           }
         }
       }

@@ -6,7 +6,7 @@ export function useCollectionToSlider() {
     id: collection.id,
     title: collection.title,
     handle: collection.handle,
-    images: collection.products.map((product) => ({
+    images: collection.products.filter((product) => !product.isGiftCard).map((product) => ({
       productTitle: product.title,
       src:
         product.featuredImage?.gridCategorySlider ||

@@ -363,7 +363,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
           value: variantFound?.price ?? 0,
         });
 
+        const isGiftCard = product.isGiftCard;
         const isSoldOut =
+          !isGiftCard &&
           variantFound &&
           (!variantFound.availableForSale ||
             variantFound.inventoryQuantity === 0);
