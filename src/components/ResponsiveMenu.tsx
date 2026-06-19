@@ -170,7 +170,14 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
   handleClickOnOpen,
   handleClickOnClose,
 }): React.ReactElement => {
-  const desktopCollectionNodes = allShopifyCollectionNodes?.filter(
+  const sortedCollectionNodes = allShopifyCollectionNodes
+    ? [...allShopifyCollectionNodes].sort((a, b) => {
+        if (a.handle === "digital") return 1;
+        if (b.handle === "digital") return -1;
+        return 0;
+      })
+    : allShopifyCollectionNodes;
+  const desktopCollectionNodes = sortedCollectionNodes?.filter(
     (node) => !SPECIAL_COLLECTION_HANDLES.includes(node.handle),
   );
   return (
@@ -207,7 +214,7 @@ const ResponsiveMenu: React.FunctionComponent<ResponsiveMenuProps> = ({
             <DrawerHeader width={40}></DrawerHeader>
             <DrawerBody id="mobile-drawer-body">
               <CategoriesListMenu
-                allShopifyCollectionNodes={allShopifyCollectionNodes}
+                allShopifyCollectionNodes={sortedCollectionNodes}
                 giftCardUrl={giftCardUrl}
                 handleClickOnClose={handleClickOnClose}
               />
