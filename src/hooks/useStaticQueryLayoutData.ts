@@ -46,7 +46,7 @@ export function useStaticQueryLayoutData() {
       }
       allShopifyCollection(
         filter: {
-          handle: { in: ["prints", "original-paintings", "bloom", "human-nature"] }
+          handle: { in: ["prints", "original-paintings", "bloom", "human-nature", "digital"] }
           products: { elemMatch: { status: { eq: ACTIVE } } }
         }
       ) {

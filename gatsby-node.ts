@@ -29,7 +29,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
       allShopifyCollection(
         filter: {
           handle: {
-            in: ["prints", "original-paintings", "human-nature", "bloom"]
+            in: ["prints", "original-paintings", "human-nature", "bloom", "digital"]
           }
           products: { elemMatch: { status: { eq: ACTIVE } } }
         }
