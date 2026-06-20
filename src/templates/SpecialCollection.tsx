@@ -37,6 +37,7 @@ type SpecialCollectionProps = {
       originalSrc?: string | null;
     } | null;
     products: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"];
+    printVersionHandles?: Record<string, string>;
   };
 };
 
@@ -46,7 +47,7 @@ const FALLBACK_DESCRIPTIONS: Record<string, string> = {
 };
 
 const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
-  pageContext: { title, description, products, collectionHandle, image },
+  pageContext: { title, description, products, collectionHandle, image, printVersionHandles },
 }): React.ReactElement => {
   const heroDescription =
     description || FALLBACK_DESCRIPTIONS[collectionHandle];
@@ -79,12 +80,25 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                 ? img.grid.width > img.grid.height
                 : false;
             };
-            const portraitProducts = products.filter((p) => !isLandscape(p));
-            const landscapeProducts = products.filter((p) => isLandscape(p));
+
+            const isSold = (product: (typeof products)[0]) =>
+              product.variants.length > 0 &&
+              product.variants.every((v) => v.availableForSale === false);
+
+            const sortBySoldLast = (arr: typeof products) =>
+              [...arr].sort((a, b) => Number(isSold(a)) - Number(isSold(b)));
+
+            const portraitProducts = sortBySoldLast(
+              products.filter((p) => !isLandscape(p)),
+            );
+            const landscapeProducts = sortBySoldLast(
+              products.filter((p) => isLandscape(p)),
+            );
 
             const renderProductCard = (product: (typeof products)[0]) => {
               const {
                 id,
+                shopifyId,
                 featuredImage,
                 title: productTitle,
                 handle,
@@ -111,6 +125,9 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                 product.metafields?.find((f) => f?.key === "ios_3d_url")
                   ?.value ?? "";
 
+              const soldOut = isSold(product);
+              const printVersionHandle = printVersionHandles?.[shopifyId];
+
               return (
                 <Card
                   key={`${id}-product-item`}
@@ -118,6 +135,8 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                   boxShadow="md"
                   height="100%"
                   as={LinkBox}
+                  display="flex"
+                  flexDirection="column"
                 >
                   <Box
                     position="absolute"
@@ -134,87 +153,128 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                       />
                     )}
                   </Box>
-                  <LinkOverlay
-                    key={handle}
-                    as={GatsbyLink}
-                    to={`/collections/${collectionHandle}/${handle}`}
-                    aria-label={productTitle}
-                    display="flex"
-                    flexDirection="column"
-                    height="100%"
-                  >
-                    <CardBody flex="1">
-                      <Box overflow="hidden">
-                        {featuredImageForGatsbyImage ? (
-                          <GatsbyImage
-                            image={featuredImageForGatsbyImage}
-                            alt={featuredImage?.altText ?? productTitle}
-                            objectFit="cover"
-                            className="collection-card-image"
-                            loading="lazy"
-                            style={{
-                              aspectRatio: isLandscape(product) ? "3/2" : "2/3",
-                              transition:
-                                "transform 2s cubic-bezier(.215,.61,.355,1)",
-                            }}
-                          />
-                        ) : (
-                          <StaticImage
-                            style={{ filter: "grayscale(1)" }}
-                            alt="No image available"
-                            src="../images/web-asset-noimg.jpg"
-                            loading="lazy"
-                          />
-                        )}
-                      </Box>
-                      <Stack mt="6" spacing="3">
-                        <Divider color="gray.300" />
-                        <Heading
-                          as="h3"
-                          size="md"
-                          textTransform="capitalize"
-                          fontWeight={600}
-                          color={"pink.800"}
-                          minH="normal"
-                          padding={"0.5rem 0"}
-                          className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                  <CardBody flex="1">
+                    <Box
+                      as={GatsbyLink}
+                      to={`/collections/${collectionHandle}/${handle}`}
+                      tabIndex={-1}
+                      aria-hidden={true}
+                      display="block"
+                      overflow="hidden"
+                      position="relative"
+                      zIndex={1}
+                    >
+                      {featuredImageForGatsbyImage ? (
+                        <GatsbyImage
+                          image={featuredImageForGatsbyImage}
+                          alt={featuredImage?.altText ?? productTitle}
+                          objectFit="cover"
+                          className="collection-card-image"
+                          loading="lazy"
+                          style={{
+                            aspectRatio: isLandscape(product) ? "3/2" : "2/3",
+                            transition:
+                              "transform 2s cubic-bezier(.215,.61,.355,1)",
+                          }}
+                        />
+                      ) : (
+                        <StaticImage
+                          style={{ filter: "grayscale(1)" }}
+                          alt="No image available"
+                          src="../images/web-asset-noimg.jpg"
+                          loading="lazy"
+                        />
+                      )}
+                    </Box>
+                    <Stack mt="6" spacing="3">
+                      <Divider color="gray.300" />
+                      <Heading
+                        as="h3"
+                        id={`${handle}-title`}
+                        size="md"
+                        textTransform="capitalize"
+                        fontWeight={600}
+                        color={"pink.800"}
+                        minH="normal"
+                        padding={"0.5rem 0"}
+                        className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                      >
+                        <LinkOverlay
+                          key={handle}
+                          as={GatsbyLink}
+                          to={`/collections/${collectionHandle}/${handle}`}
+                          aria-label={productTitle}
                         >
                           {productTitle}
-                        </Heading>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter
-                      alignItems="flex-end"
-                      display="flex"
-                      justifyContent="space-between"
-                      minH={20}
-                    >
-                      {amount !== 0 && (
-                        <Box>
-                          {!hasOnlyDefaultVariant && (
-                            <Text fontSize="xs" color="gray.500">
-                              From
-                            </Text>
-                          )}
-                          <Text
-                            data-testid="item-price"
-                            fontSize="xl"
-                            fontWeight="bold"
-                            color="pink.800"
-                            lineHeight="normal"
-                          >
-                            <Highlight
-                              query="AUD"
-                              styles={{ pr: "1", color: "#7e718a" }}
-                            >
-                              {currencyCode}
-                            </Highlight>
-                            {`$${amount}`}
-                          </Text>
-                        </Box>
-                      )}
+                        </LinkOverlay>
+                      </Heading>
+                    </Stack>
+                  </CardBody>
+                  <CardFooter
+                    alignItems="flex-end"
+                    display="flex"
+                    justifyContent="space-between"
+                    minH={20}
+                  >
+                    {amount !== 0 && (
                       <Box>
+                        {!hasOnlyDefaultVariant && (
+                          <Text fontSize="xs" color="gray.500">
+                            From
+                          </Text>
+                        )}
                         <Text
+                          data-testid="item-price"
+                          fontSize="sm"
+                          fontWeight="bold"
+                          color="pink.800"
+                          lineHeight="normal"
+                          textDecoration={soldOut ? "line-through" : undefined}
+                        >
+                          <Highlight
+                            query="AUD"
+                            styles={{ pr: "1", color: "#7e718a" }}
+                          >
+                            {currencyCode}
+                          </Highlight>
+                          {`$${amount}`}
+                        </Text>
+                      </Box>
+                    )}
+                    <Box>
+                      {soldOut ? (
+                        printVersionHandle && (
+                          <GatsbyLink
+                            to={`/collections/prints/${printVersionHandle}`}
+                            aria-describedby={`${handle}-title`}
+                            className="translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                            style={{
+                              border: "1.5px solid #8b7340",
+                              color: "#8b7340",
+                              padding: "0.75rem 1.5rem",
+                              letterSpacing: "0.15em",
+                              fontSize: "1rem",
+                              fontWeight: 400,
+                              transition:
+                                "transform 0.5s cubic-bezier(.215,.61,.355,0.5)",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "0.75rem",
+                              textDecoration: "none",
+                              whiteSpace: "nowrap",
+                              position: "relative",
+                              zIndex: 1,
+                            }}
+                          >
+                            buy print{" "}
+                            <span aria-hidden="true">&rarr;</span>
+                          </GatsbyLink>
+                        )
+                      ) : (
+                        <Text
+                          as={GatsbyLink}
+                          to={`/collections/${collectionHandle}/${handle}`}
+                          tabIndex={-1}
                           fontSize="md"
                           textAlign="right"
                           color={"pink.800"}
@@ -224,9 +284,9 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
                         >
                           more details <Icon as={ArrowForwardIcon} />
                         </Text>
-                      </Box>
-                    </CardFooter>
-                  </LinkOverlay>
+                      )}
+                    </Box>
+                  </CardFooter>
                 </Card>
               );
             };

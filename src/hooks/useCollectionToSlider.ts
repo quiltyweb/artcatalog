@@ -14,7 +14,14 @@ export function useCollectionToSlider() {
     title: collection.title,
     handle: collection.handle,
     images: [...collection.products]
-      .sort((a, b) => (a.isGiftCard ? 1 : 0) - (b.isGiftCard ? 1 : 0))
+      .sort((a, b) => {
+        const isSold = (p: typeof a) =>
+          p.variants.length > 0 &&
+          p.variants.every((v) => v.availableForSale === false);
+        if (a.isGiftCard !== b.isGiftCard) return a.isGiftCard ? 1 : -1;
+        if (isSold(a) !== isSold(b)) return isSold(a) ? 1 : -1;
+        return 0;
+      })
       .map((product) => ({
         productTitle: product.title,
         src:

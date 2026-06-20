@@ -500,7 +500,7 @@ describe("Collection page Template", () => {
       collectionHandle: "this-is-the-collection-handle",
     };
     render(<Collection pageContext={mockedPageContext} />);
-    expect(screen.queryByRole("img")).toHaveAttribute(
+    expect(screen.queryByAltText("No image available")).toHaveAttribute(
       "src",
       "../images/web-asset-noimg.jpg"
     );
@@ -545,5 +545,209 @@ describe("Collection page Template", () => {
     };
     render(<Collection pageContext={mockedPageContext} />);
     screen.getByRole("link", { name: "About the Collection title Collection" });
+  });
+
+  it("renders sold items with strikethrough price and 'buy print' button", () => {
+    const mockedPageContext = {
+      title: "Original Paintings",
+      collectionHandle: "original-paintings",
+      description: undefined,
+      printVersionHandles: {
+        "gid://shopify/Product/sold-original-id": "after-grief-print",
+      },
+      products: [
+        {
+          id: "sold-product-id",
+          shopifyId: "gid://shopify/Product/sold-original-id",
+          title: "After Grief - Original Acrylic Painting (Sold)",
+          handle: "after-grief-original",
+          description: "",
+          priceRangeV2: {
+            minVariantPrice: { amount: 5950, currencyCode: "AUD" },
+            maxVariantPrice: { amount: 5950, currencyCode: "AUD" },
+          },
+          featuredImage: {
+            altText: null,
+            originalSrc: mockedImageURL,
+            grid: {
+              images: {
+                sources: [
+                  {
+                    srcSet: mockedImageURL,
+                    sizes: "(min-width: 500px) 500px, 100vw",
+                    type: "image/webp",
+                  },
+                ],
+                fallback: {
+                  src: mockedImageURL,
+                  srcSet: mockedImageURL,
+                  sizes: "(min-width: 500px) 500px, 100vw",
+                },
+              },
+              layout: "constrained",
+              width: 500,
+              height: 750,
+            },
+          },
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [
+            {
+              shopifyId: "gid://shopify/ProductVariant/sold-variant",
+              displayName: "After Grief - Default Title",
+              title: "Default Title",
+              price: 5950,
+              inventoryQuantity: 0,
+              availableForSale: false,
+              selectedOptions: [{ name: "Title", value: "Default Title" }],
+              image: null,
+            },
+          ],
+          mediaCount: 0,
+          media: [],
+          options: [],
+        },
+      ],
+    };
+
+    render(<Collection pageContext={mockedPageContext as any} />);
+
+    const priceEl = screen.getByTestId("item-price");
+    expect(priceEl).toHaveStyle({ textDecoration: "line-through" });
+    expect(screen.queryByText(/more details/i)).not.toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: "After Grief - Original Acrylic Painting (Sold)",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/collections/original-paintings/after-grief-original",
+    );
+    expect(
+      screen.getByRole("link", { name: /buy print/i }),
+    ).toHaveAttribute("href", "/collections/prints/after-grief-print");
+  });
+
+  it("renders sold items without a print version with no CTA button", () => {
+    const mockedPageContext = {
+      title: "Original Paintings",
+      collectionHandle: "original-paintings",
+      description: undefined,
+      printVersionHandles: {},
+      products: [
+        {
+          id: "sold-product-id",
+          shopifyId: "gid://shopify/Product/sold-no-print-id",
+          title: "Sold Painting Without Print",
+          handle: "sold-painting-without-print",
+          description: "",
+          priceRangeV2: {
+            minVariantPrice: { amount: 3000, currencyCode: "AUD" },
+            maxVariantPrice: { amount: 3000, currencyCode: "AUD" },
+          },
+          featuredImage: null,
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [
+            {
+              shopifyId: "gid://shopify/ProductVariant/sold-variant-2",
+              displayName: "Sold Painting Without Print - Default Title",
+              title: "Default Title",
+              price: 3000,
+              inventoryQuantity: 0,
+              availableForSale: false,
+              selectedOptions: [{ name: "Title", value: "Default Title" }],
+              image: null,
+            },
+          ],
+          mediaCount: 0,
+          media: [],
+          options: [],
+        },
+      ],
+    };
+
+    render(<Collection pageContext={mockedPageContext as any} />);
+
+    expect(screen.queryByText(/buy print/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/more details/i)).not.toBeInTheDocument();
+  });
+
+  it("renders sold items after available items", () => {
+    const mockedPageContext = {
+      title: "Original Paintings",
+      collectionHandle: "original-paintings",
+      description: undefined,
+      products: [
+        {
+          id: "sold-first",
+          shopifyId: "gid://shopify/Product/sold-first",
+          title: "Sold Painting",
+          handle: "sold-painting",
+          description: "",
+          priceRangeV2: {
+            minVariantPrice: { amount: 5000, currencyCode: "AUD" },
+            maxVariantPrice: { amount: 5000, currencyCode: "AUD" },
+          },
+          featuredImage: null,
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [
+            {
+              shopifyId: "gid://shopify/ProductVariant/sold",
+              displayName: "Sold Painting - Default Title",
+              title: "Default Title",
+              price: 5000,
+              inventoryQuantity: 0,
+              availableForSale: false,
+              selectedOptions: [],
+              image: null,
+            },
+          ],
+          mediaCount: 0,
+          media: [],
+          options: [],
+        },
+        {
+          id: "available-second",
+          shopifyId: "gid://shopify/Product/available-second",
+          title: "Available Painting",
+          handle: "available-painting",
+          description: "",
+          priceRangeV2: {
+            minVariantPrice: { amount: 4000, currencyCode: "AUD" },
+            maxVariantPrice: { amount: 4000, currencyCode: "AUD" },
+          },
+          featuredImage: null,
+          hasOnlyDefaultVariant: true,
+          totalVariants: 1,
+          variants: [
+            {
+              shopifyId: "gid://shopify/ProductVariant/available",
+              displayName: "Available Painting - Default Title",
+              title: "Default Title",
+              price: 4000,
+              inventoryQuantity: 1,
+              availableForSale: true,
+              selectedOptions: [],
+              image: null,
+            },
+          ],
+          mediaCount: 0,
+          media: [],
+          options: [],
+        },
+      ],
+    };
+
+    render(<Collection pageContext={mockedPageContext as any} />);
+
+    const headings = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((h) => h.textContent);
+    expect(headings.indexOf("Available Painting")).toBeLessThan(
+      headings.indexOf("Sold Painting"),
+    );
   });
 });

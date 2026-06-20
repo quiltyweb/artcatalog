@@ -12,6 +12,8 @@ import {
   Heading,
   Highlight,
   Icon,
+  LinkBox,
+  LinkOverlay,
   SimpleGrid,
   Stack,
   Text,
@@ -27,11 +29,12 @@ type CollectionProps = {
     collectionHandle: string;
     description?: string;
     products: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"];
+    printVersionHandles?: Record<string, string>;
   };
 };
 
 const Collection: React.FunctionComponent<CollectionProps> = ({
-  pageContext: { title, description, products, collectionHandle },
+  pageContext: { title, description, products, collectionHandle, printVersionHandles },
 }): React.ReactElement => {
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
@@ -71,14 +74,27 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               ? img.grid.width > img.grid.height
               : false;
           };
+
+          const isSold = (product: (typeof products)[0]) =>
+            product.variants.length > 0 &&
+            product.variants.every((v) => v.availableForSale === false);
+
+          const sortBySoldLast = (arr: typeof products) =>
+            [...arr].sort((a, b) => Number(isSold(a)) - Number(isSold(b)));
+
           const giftCardProducts = products.filter((p) => p.isGiftCard);
           const regularProducts = products.filter((p) => !p.isGiftCard);
-          const portraitProducts = regularProducts.filter((p) => !isLandscape(p));
-          const landscapeProducts = regularProducts.filter((p) => isLandscape(p));
+          const portraitProducts = sortBySoldLast(
+            regularProducts.filter((p) => !isLandscape(p)),
+          );
+          const landscapeProducts = sortBySoldLast(
+            regularProducts.filter((p) => isLandscape(p)),
+          );
 
           const renderProductCard = (product: (typeof products)[0]) => {
             const {
               id,
+              shopifyId,
               featuredImage,
               title,
               handle,
@@ -92,93 +108,139 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
             const featuredImageForGatsbyImage = getImage(
               featuredImage?.grid ?? null,
             );
-            return (
-              <Link
-                key={handle}
-                to={`/collections/${collectionHandle}/${handle}`}
-                aria-label={title}
-              >
-                <Card key={`${id}-product-item`} boxShadow="md" height="100%">
-                  <CardBody>
-                    <Box overflow="hidden">
-                      {featuredImageForGatsbyImage ? (
-                        <GatsbyImage
-                          image={featuredImageForGatsbyImage}
-                          alt={featuredImage?.altText ?? title}
-                          objectFit="cover"
-                          className="collection-card-image"
-                          loading="lazy"
-                          style={{
-                            aspectRatio: isLandscape(product) ? "3/2" : "2/3",
-                            transition:
-                              "transform 2s cubic-bezier(.215,.61,.355,1)",
-                          }}
-                        />
-                      ) : (
-                        <StaticImage
-                          style={{
-                            filter: "grayscale(1)",
-                          }}
-                          alt="No image available"
-                          src="../images/web-asset-noimg.jpg"
-                          loading="lazy"
-                        />
-                      )}
-                    </Box>
-                    <Stack mt="6" spacing="3">
-                      <Divider color="gray.300" />
+            const soldOut = isSold(product);
+            const printVersionHandle = printVersionHandles?.[shopifyId];
 
-                      <Heading
-                        as="h3"
-                        size="md"
-                        textTransform="capitalize"
-                        fontWeight={600}
-                        color={"pink.800"}
-                        minH="normal"
-                        padding={"0.5rem 0"}
-                        className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+            return (
+              <Card key={handle} as={LinkBox} boxShadow="md" height="100%">
+                <CardBody>
+                  <Box
+                    as={Link}
+                    to={`/collections/${collectionHandle}/${handle}`}
+                    tabIndex={-1}
+                    aria-hidden={true}
+                    display="block"
+                    overflow="hidden"
+                    position="relative"
+                    zIndex={1}
+                  >
+                    {featuredImageForGatsbyImage ? (
+                      <GatsbyImage
+                        image={featuredImageForGatsbyImage}
+                        alt={featuredImage?.altText ?? title}
+                        objectFit="cover"
+                        className="collection-card-image"
+                        loading="lazy"
+                        style={{
+                          aspectRatio: isLandscape(product) ? "3/2" : "2/3",
+                          transition:
+                            "transform 2s cubic-bezier(.215,.61,.355,1)",
+                        }}
+                      />
+                    ) : (
+                      <StaticImage
+                        style={{
+                          filter: "grayscale(1)",
+                        }}
+                        alt="No image available"
+                        src="../images/web-asset-noimg.jpg"
+                        loading="lazy"
+                      />
+                    )}
+                  </Box>
+                  <Stack mt="6" spacing="3">
+                    <Divider color="gray.300" />
+
+                    <Heading
+                      as="h3"
+                      id={`${handle}-title`}
+                      size="md"
+                      textTransform="capitalize"
+                      fontWeight={600}
+                      color={"pink.800"}
+                      minH="normal"
+                      padding={"0.5rem 0"}
+                      className="text-xl translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                    >
+                      <LinkOverlay
+                        as={Link}
+                        to={`/collections/${collectionHandle}/${handle}`}
                       >
                         {title}
-                      </Heading>
-                      {isGiftCard && description && (
-                        <Text fontSize="sm" color="gray.600" lineHeight="tall">
-                          {description}
+                      </LinkOverlay>
+                    </Heading>
+                    {isGiftCard && description && (
+                      <Text fontSize="sm" color="gray.600" lineHeight="tall">
+                        {description}
+                      </Text>
+                    )}
+                  </Stack>
+                </CardBody>
+                <CardFooter
+                  alignItems="flex-end"
+                  display="flex"
+                  justifyContent="space-between"
+                  minH={20}
+                >
+                  {amount !== 0 && (
+                    <Box>
+                      {!hasOnlyDefaultVariant && (
+                        <Text fontSize="xs" color="gray.500">
+                          From
                         </Text>
                       )}
-                    </Stack>
-                  </CardBody>
-                  <CardFooter
-                    alignItems="flex-end"
-                    display="flex"
-                    justifyContent="space-between"
-                    minH={20}
-                  >
-                    {amount !== 0 && (
-                      <Box>
-                        {!hasOnlyDefaultVariant && (
-                          <Text fontSize="xs" color="gray.500">
-                            From
-                          </Text>
-                        )}
-                        <Text
-                          data-testid="item-price"
-                          fontSize="xl"
-                          fontWeight="bold"
-                          color="pink.800"
-                          lineHeight="normal"
+                      <Text
+                        data-testid="item-price"
+                        fontSize="sm"
+                        fontWeight="bold"
+                        color="pink.800"
+                        lineHeight="normal"
+                        textDecoration={soldOut ? "line-through" : undefined}
+                      >
+                        <Highlight
+                          query="AUD"
+                          styles={{ pr: "1", color: "#7e718a" }}
                         >
-                          <Highlight
-                            query="AUD"
-                            styles={{ pr: "1", color: "#7e718a" }}
-                          >
-                            {currencyCode}
-                          </Highlight>
-                          {`$${amount}`}
-                        </Text>
-                      </Box>
-                    )}
+                          {currencyCode}
+                        </Highlight>
+                        {`$${amount}`}
+                      </Text>
+                    </Box>
+                  )}
 
+                  {soldOut ? (
+                    printVersionHandle && (
+                      <Link
+                        to={`/collections/prints/${printVersionHandle}`}
+                        aria-describedby={`${handle}-title`}
+                        className="translate-y-1 hover:translate-y-0 transition-transform duration-300 ease-in-out"
+                        style={{
+                          border: "1.5px solid #8b7340",
+                          color: "#8b7340",
+                          padding: "0.75rem 1.5rem",
+                          letterSpacing: "0.15em",
+                          fontSize: "1rem",
+                          fontWeight: 400,
+                          transition:
+                            "transform 0.5s cubic-bezier(.215,.61,.355,0.5)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.75rem",
+                          textDecoration: "none",
+                          whiteSpace: "nowrap",
+                          position: "relative",
+                          zIndex: 1,
+                          marginLeft: "auto",
+                        }}
+                      >
+                        buy print <span aria-hidden="true">&rarr;</span>
+                      </Link>
+                    )
+                  ) : (
                     <Text
+                      as={Link}
+                      to={`/collections/${collectionHandle}/${handle}`}
+                      tabIndex={-1}
                       fontSize="md"
                       textAlign="right"
                       color={"pink.800"}
@@ -187,9 +249,9 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                     >
                       more details <Icon as={ArrowForwardIcon} />
                     </Text>
-                  </CardFooter>
-                </Card>
-              </Link>
+                  )}
+                </CardFooter>
+              </Card>
             );
           };
 

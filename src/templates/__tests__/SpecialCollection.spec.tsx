@@ -208,4 +208,113 @@ describe("SpecialCollection page Template", () => {
       expect.stringContaining("cdn.example.com%2Fmodel.glb"),
     );
   });
+
+  it("renders sold items with strikethrough price and 'buy print' button", () => {
+    const soldProduct = {
+      ...baseProduct,
+      shopifyId: "gid://shopify/Product/sold-special",
+      title: "Lungs - Original Acrylic Painting (Sold)",
+      handle: "lungs-original",
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/sold-variant",
+          displayName: "Lungs - Default Title",
+          title: "Default Title",
+          price: 5950,
+          inventoryQuantity: 0,
+          availableForSale: false,
+          selectedOptions: [],
+          image: null,
+        },
+      ],
+    };
+
+    const mockedPageContext = {
+      title: "Human Nature",
+      description: "A collection inspired by the human condition.",
+      collectionHandle: "human-nature",
+      image: null,
+      printVersionHandles: {
+        "gid://shopify/Product/sold-special": "lungs-print",
+      },
+      products: [soldProduct],
+    };
+
+    render(<SpecialCollection pageContext={mockedPageContext as any} />);
+
+    const priceEl = screen.getByTestId("item-price");
+    expect(priceEl).toHaveStyle({ textDecoration: "line-through" });
+    expect(screen.queryByText(/more details/i)).not.toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: "Lungs - Original Acrylic Painting (Sold)",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/collections/human-nature/lungs-original",
+    );
+    expect(
+      screen.getByRole("link", { name: /buy print/i }),
+    ).toHaveAttribute("href", "/collections/prints/lungs-print");
+  });
+
+  it("renders sold items after available items in SpecialCollection", () => {
+    const soldProduct = {
+      ...baseProduct,
+      id: "sold-id",
+      shopifyId: "gid://shopify/Product/sold-special-2",
+      title: "Sold Painting",
+      handle: "sold-painting",
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/sold",
+          displayName: "Sold Painting - Default Title",
+          title: "Default Title",
+          price: 5000,
+          inventoryQuantity: 0,
+          availableForSale: false,
+          selectedOptions: [],
+          image: null,
+        },
+      ],
+    };
+
+    const availableProduct = {
+      ...baseProduct,
+      id: "available-id",
+      shopifyId: "gid://shopify/Product/available-special",
+      title: "Available Painting",
+      handle: "available-painting",
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/available",
+          displayName: "Available Painting - Default Title",
+          title: "Default Title",
+          price: 4000,
+          inventoryQuantity: 1,
+          availableForSale: true,
+          selectedOptions: [],
+          image: null,
+        },
+      ],
+    };
+
+    const mockedPageContext = {
+      title: "Human Nature",
+      description: "A collection inspired by the human condition.",
+      collectionHandle: "human-nature",
+      image: null,
+      products: [soldProduct, availableProduct],
+    };
+
+    render(<SpecialCollection pageContext={mockedPageContext as any} />);
+
+    const headings = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((h) => h.textContent);
+    expect(headings.indexOf("Available Painting")).toBeLessThan(
+      headings.indexOf("Sold Painting"),
+    );
+  });
 });
