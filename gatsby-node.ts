@@ -195,6 +195,19 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   collectionsAndProductsResult.data?.allShopifyCollection.nodes.map((node) => {
     const isSpecial = SPECIAL_COLLECTION_HANDLES.includes(node.handle);
+
+    const printVersionHandles: Record<string, string> = {};
+    node.products.forEach((product) => {
+      const printVersionGID = product.printVersion?.value;
+      const printVersionItem =
+        collectionsAndProductsResult.data?.allShopifyProduct.nodes.find(
+          (printNode) => printNode.shopifyId === printVersionGID,
+        );
+      if (printVersionItem?.handle) {
+        printVersionHandles[product.shopifyId] = printVersionItem.handle;
+      }
+    });
+
     createPage({
       path: `/collections/${node.handle}`,
       component: path.resolve(
@@ -208,6 +221,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
         description: node.description,
         collectionHandle: node.handle,
         image: node.image,
+        printVersionHandles,
       },
     });
 
