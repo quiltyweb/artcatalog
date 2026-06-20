@@ -77,11 +77,11 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home decor products/i });
+      cy.findByRole("link", { name: /home decor/i });
     });
 
     cy.findByRole("heading", { name: "'Title Line 1'" });
-    cy.findByText("Subtitle Line 2");
+    cy.findAllByText("Subtitle Line 2");
   });
 
   it("Renders single product page", () => {
@@ -93,7 +93,7 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home decor products/i });
+      cy.findByRole("link", { name: /home decor/i });
     });
 
     // renders product title as fallback

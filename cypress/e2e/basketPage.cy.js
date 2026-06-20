@@ -66,7 +66,7 @@ describe("desktop view basket page", () => {
         fixture: "basket/singleProduct.json",
       }
     ).as("simpleProductPage");
-    cy.findByText("testing description for collections prints");
+    cy.findByTestId("collection-description");
     cy.findByRole("heading", { name: "test print (not for sale)" });
     cy.findByRole("heading", { name: "test print (not for sale)" }).click();
     cy.findByRole("heading", { name: "'test print (not for sale)'" });

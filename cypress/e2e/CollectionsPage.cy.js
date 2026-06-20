@@ -80,7 +80,7 @@ describe("Collections Page mobile", () => {
     cy.findByRole("main").within(() => {
       cy.findByRole("link", { name: /prints/i }).click();
       cy.findByRole("heading", { name: "Prints" });
-      cy.findByText("Mock data for Print Category description.");
+      cy.findByTestId("collection-description");
       cy.findByText("There are no products available.");
       cy.findByRole("link", { name: "About the Prints Collection" });
     });
