@@ -61,6 +61,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           id="collection-description"
           data-testid="collection-description"
           wordBreak="normal"
+          display={["none", "block"]}
         >
           {description}
         </Text>
@@ -284,6 +285,20 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       ) : (
         <Text textAlign="center" mb="2.4rem">
           There are no products available.
+        </Text>
+      )}
+      {description && (
+        <Text
+          maxWidth="100%"
+          mt="2.4rem"
+          mb="2.4rem"
+          lineHeight={7}
+          fontWeight={"medium"}
+          aria-hidden={true}
+          wordBreak="normal"
+          display={["block", "none"]}
+        >
+          {description}
         </Text>
       )}
       <Box textAlign="center" mb="2.4rem" mt="2.4rem">
