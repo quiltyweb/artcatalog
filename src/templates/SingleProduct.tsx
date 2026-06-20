@@ -20,12 +20,10 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
   pageContext: { product, printVersion, collectionHandle },
 }): React.ReactElement => {
-  const BreadcrumbLinkTitle = `All ${collectionHandle
-    .split("-")
-    .join(" ")} products`;
+  const BreadcrumbLinkTitle = collectionHandle.split("-").join(" ");
   return (
-    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
-      <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
+      <Breadcrumb mb="2.4rem" fontSize={["xs", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
@@ -37,8 +35,17 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
             {BreadcrumbLinkTitle}
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">{product.title}</BreadcrumbLink>
+        <BreadcrumbItem isCurrentPage overflow="hidden">
+          <BreadcrumbLink
+            href="#"
+            overflow="hidden"
+            whiteSpace="nowrap"
+            textOverflow="ellipsis"
+            display="block"
+            maxW={["120px", "none"]}
+          >
+            {product.title}
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <ProductCard product={product} printVersion={printVersion} />

@@ -37,7 +37,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
   pageContext: { title, description, products, collectionHandle, printVersionHandles },
 }): React.ReactElement => {
   return (
-    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
       <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>

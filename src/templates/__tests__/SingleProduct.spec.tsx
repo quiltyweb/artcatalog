@@ -165,10 +165,10 @@ describe("Single product Template", () => {
       "/collections"
     );
     expect(
-      screen.getByRole("link", { name: /all home decor products/i })
+      screen.getByRole("link", { name: /home decor/i })
     ).toHaveAttribute("href", "/collections/home-decor");
     screen.getByRole("heading", { name: "'Test product name'" });
-    expect(screen.getAllByText(/Test product name/i)).toHaveLength(2);
+    expect(screen.getAllByText(/Test product name/i)).toHaveLength(3);
     screen.getByText("Product description html goes here");
     screen.getByText(/from/i);
     screen.getByText(/AUD/i);
