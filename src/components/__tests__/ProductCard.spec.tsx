@@ -85,7 +85,7 @@ describe("ProductCard", () => {
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
     screen.getByRole("heading", { name: "'Prana testing Title Line 1'" });
-    screen.getByText("Original Acrylic Painting (SOLD) testing Title Line 2");
+    screen.getAllByText("Original Acrylic Painting (SOLD) testing Title Line 2");
     expect(
       screen.queryByRole("heading", { name: "Test product name" })
     ).not.toBeInTheDocument();
@@ -295,7 +295,7 @@ describe("ProductCard", () => {
       collectionHandle: "decor",
     };
     render(<ProductCard product={mockedShopifyProductData.product} />);
-    screen.getByText("'Test product name'");
+    screen.getAllByText("'Test product name'");
     // TODO: CHECK HOW TO TEST ALT TEXT WITH INNERIMAGEZOOM WHEN IS MOCKED
     // screen.getByAltText(
     //   "Alternative text of featured Image of product goes here..."
@@ -903,7 +903,7 @@ describe("ProductCard", () => {
       />
     );
 
-    screen.getByText("Human Nature Collection");
+    screen.getAllByText("Human Nature Collection");
   });
 
   it("renders form controls with a disabled state and a sold out Badge when stock is zero", async () => {
@@ -968,7 +968,7 @@ describe("ProductCard", () => {
       />
     );
 
-    expect(screen.getAllByText("Sold out")).toHaveLength(1);
+    expect(screen.getAllByText("Sold out")).toHaveLength(2);
 
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
@@ -1036,7 +1036,7 @@ describe("ProductCard", () => {
         collectionHandle={mockedShopifyProductSoldOutData.collectionHandle}
       />
     );
-    expect(screen.getAllByText("Item unavailable")).toHaveLength(1);
+    expect(screen.getAllByText("Item unavailable")).toHaveLength(2);
     expect(screen.getByRole("spinbutton", { name: "Quantity" })).toBeDisabled();
     expect(
       screen.getByRole("button", { name: "Add to Cart" })
