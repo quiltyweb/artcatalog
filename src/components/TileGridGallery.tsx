@@ -44,7 +44,7 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
         id="all-categories-title"
         as="h3"
         color="pink.800"
-        my="2.4rem"
+        my={[0, "2.4rem"]}
         textAlign="left"
       >
         {title || "Browse Brushella’s World"}

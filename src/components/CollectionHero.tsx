@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Box, Container, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { useState, useRef, useEffect } from "react";
+import { Box, Button, Container, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { TbAugmentedReality } from "react-icons/tb";
 import DOMPurify from "dompurify";
@@ -21,6 +23,16 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
 }): React.ReactElement => {
   const gatsbyImage = getImage(image?.gatsbyImageData ?? null);
   const alt = image?.altText ?? `${title} collection`;
+
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [hasDescriptionOverflow, setHasDescriptionOverflow] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      setHasDescriptionOverflow(descriptionRef.current.scrollHeight > 80);
+    }
+  }, [description]);
 
   return (
     <Container
@@ -57,7 +69,8 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
             <GatsbyImage
               image={gatsbyImage}
               alt={alt}
-              objectFit="contain"
+              objectFit="cover"
+              objectPosition="center 75%"
               style={{
                 width: "100%",
                 height: "100%",
@@ -73,7 +86,8 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
                 width: "100%",
                 height: "100%",
                 maxHeight: "600px",
-                objectFit: "contain",
+                objectFit: "cover",
+                objectPosition: "center 75%",
               }}
             />
           ) : (
@@ -114,17 +128,50 @@ const CollectionHero: React.FunctionComponent<CollectionHeroProps> = ({
             {title} Collection
           </Heading>
           {description && (
-            <Box
-              fontSize={{ base: "md", md: "lg" }}
-              color="gray.700"
-              lineHeight="1.7"
-              dangerouslySetInnerHTML={{
-                __html:
-                  typeof window !== "undefined"
-                    ? DOMPurify.sanitize(description)
-                    : description,
-              }}
-            />
+            <Box position="relative" width="100%">
+              <Box
+                ref={descriptionRef}
+                id="collection-hero-description"
+                fontSize={{ base: "md", md: "lg" }}
+                color="gray.700"
+                lineHeight="1.7"
+                maxHeight={isDescriptionExpanded ? "none" : "80px"}
+                overflow="hidden"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    typeof window !== "undefined"
+                      ? DOMPurify.sanitize(description)
+                      : description,
+                }}
+              />
+              {!isDescriptionExpanded && hasDescriptionOverflow && (
+                <Box
+                  position="absolute"
+                  bottom={0}
+                  left={0}
+                  right={0}
+                  height="60px"
+                  background="linear-gradient(to bottom, transparent, white)"
+                  pointerEvents="none"
+                  aria-hidden={true}
+                />
+              )}
+              {hasDescriptionOverflow && (
+                <Button
+                  variant="link"
+                  size="sm"
+                  mt={2}
+                  color="teal.600"
+                  fontWeight="medium"
+                  onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+                  aria-expanded={isDescriptionExpanded}
+                  aria-controls="collection-hero-description"
+                  rightIcon={isDescriptionExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                >
+                  {isDescriptionExpanded ? "Read less" : "Read more"}
+                </Button>
+              )}
+            </Box>
           )}
           <Text
             display={{ base: "block", lg: "none" }}
