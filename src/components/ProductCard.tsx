@@ -578,78 +578,92 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                   )}
                 </Box>
                 <Form>
-                  {!product.hasOnlyDefaultVariant &&
-                    product.options.length > 0 &&
-                    product.options.map(({ name, values }, index) => {
-                      const variantName = `${name.toLowerCase()}`;
-                      return (
-                        <Field key={index} name="variant" type="select">
-                          {({ field, form }: FieldProps) => (
-                            <FormControl isInvalid={!!form.errors.variant}>
-                              <FormLabel
-                                htmlFor="variant"
-                                key={variantName + index}
-                              >
-                                {variantName}:
-                              </FormLabel>
-                              <Select
-                                id="variant"
-                                name="variant"
-                                placeholder={`Select a ${variantName}`}
-                                onChange={(e) => {
-                                  props.setFieldValue(
-                                    "variant",
-                                    e.target.value,
-                                  );
-                                  setAddItemToCartWarnings([]);
-                                  setUpdateItemsToCartWarnings([]);
-                                  setAddItemUserErrors([]);
-                                  setUpdateItemUserErrors([]);
+                  <Box
+                    data-testid="sticky-form-controls"
+                    position={["fixed", "fixed", "static"]}
+                    bottom={["0", "0", "auto"]}
+                    left={["0", "0", "auto"]}
+                    right={["0", "0", "auto"]}
+                    zIndex={[10, 10, "auto"]}
+                    bg={["white", "white", "transparent"]}
+                    p={[3, 3, 0]}
+                    boxShadow={["0 -2px 10px rgba(0,0,0,0.15)", "0 -2px 10px rgba(0,0,0,0.15)", "none"]}
+                    w="100%"
+                  >
+                    <Flex direction={["row", "row", "column"]} gap={2} mb={[2, 2, 0]}>
+                      {!product.hasOnlyDefaultVariant &&
+                        product.options.length > 0 &&
+                        product.options.map(({ name, values }, index) => {
+                          const variantName = `${name.toLowerCase()}`;
+                          return (
+                            <Field key={index} name="variant" type="select">
+                              {({ field, form }: FieldProps) => (
+                                <FormControl isInvalid={!!form.errors.variant} flex={["1", "1", "unset"]}>
+                                  <FormLabel
+                                    htmlFor="variant"
+                                    key={variantName + index}
+                                    textTransform="capitalize"
+                                  >
+                                    {variantName}:
+                                  </FormLabel>
+                                  <Select
+                                    id="variant"
+                                    name="variant"
+                                    placeholder={`Select a ${variantName}`}
+                                    onChange={(e) => {
+                                      props.setFieldValue(
+                                        "variant",
+                                        e.target.value,
+                                      );
+                                      setAddItemToCartWarnings([]);
+                                      setUpdateItemsToCartWarnings([]);
+                                      setAddItemUserErrors([]);
+                                      setUpdateItemUserErrors([]);
+                                    }}
+                                  >
+                                    {values.map((value, i) => (
+                                      <option key={i} value={value}>
+                                        {value}
+                                      </option>
+                                    ))}
+                                  </Select>
+                                  <FormErrorMessage>
+                                    <ErrorMessage name="variant" />
+                                  </FormErrorMessage>
+                                </FormControl>
+                              )}
+                            </Field>
+                          );
+                        })}
+                      <Field name="quantity">
+                        {({ field, form }: FieldProps) => {
+                          return (
+                            <FormControl id="quantity" flex={["1", "1", "unset"]}>
+                              <FormLabel htmlFor="quantity">Quantity</FormLabel>
+                              <NumberInput
+                                min={1}
+                                id="quantity"
+                                name="quantity"
+                                value={field.value}
+                                onChange={(val) => {
+                                  const quantity = parseInt(val);
+                                  form.setFieldValue("quantity", quantity);
                                 }}
+                                isDisabled={
+                                  isSoldOut || !isProductPlublishedToStoreApp
+                                }
                               >
-                                {values.map((value, i) => (
-                                  <option key={i} value={value}>
-                                    {value}
-                                  </option>
-                                ))}
-                              </Select>
-                              <FormErrorMessage>
-                                <ErrorMessage name="variant" />
-                              </FormErrorMessage>
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper id="quantity-increment" />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
                             </FormControl>
-                          )}
-                        </Field>
-                      );
-                    })}
-                  <Field name="quantity">
-                    {({ field, form }: FieldProps) => {
-                      return (
-                        <FormControl id="quantity">
-                          <FormLabel htmlFor="quantity">Quantity</FormLabel>
-                          <NumberInput
-                            min={1}
-                            id="quantity"
-                            name="quantity"
-                            value={field.value}
-                            onChange={(val) => {
-                              const quantity = parseInt(val);
-                              form.setFieldValue("quantity", quantity);
-                            }}
-                            isDisabled={
-                              isSoldOut || !isProductPlublishedToStoreApp
-                            }
-                          >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                              <NumberIncrementStepper id="quantity-increment" />
-                              <NumberDecrementStepper />
-                            </NumberInputStepper>
-                          </NumberInput>
-                        </FormControl>
-                      );
-                    }}
-                  </Field>
-                  <VStack>
+                          );
+                        }}
+                      </Field>
+                    </Flex>
                     <Button
                       id="add-to-cart"
                       type="submit"
@@ -659,7 +673,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       fontSize="xl"
                       width="100%"
                       padding="6"
-                      my="4"
+                      my={[0, 0, "4"]}
                       isDisabled={
                         props.isSubmitting ||
                         isSoldOut ||
@@ -669,6 +683,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     >
                       Add to Cart
                     </Button>
+                  </Box>
+                  <Box display={["block", "block", "none"]} h="160px" aria-hidden="true" />
+                  <VStack>
                     {addItemToCartLoading && (
                       <VStack role="status">
                         <Spinner color="colorPalette.600" />

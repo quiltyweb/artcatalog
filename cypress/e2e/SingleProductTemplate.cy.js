@@ -162,6 +162,74 @@ describe("Collection Template mobile view", () => {
     cy.findByAltText(/variant/i).should("not.exist");
   });
 
+  describe("sticky form controls", () => {
+    it("renders the sticky form controls container with position fixed", () => {
+      cy.visit("/collections/home-decor/beach-towel", {
+        failOnStatusCode: false,
+        onBeforeLoad(win) {
+          win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+        },
+      });
+      cy.wait("@checkoutCreate");
+      cy.findByTestId("sticky-form-controls").should(
+        "have.css",
+        "position",
+        "fixed"
+      );
+    });
+
+    it("renders the variant label and quantity label visible inside the sticky form controls container", () => {
+      cy.visit("/collections/home-decor/beach-towel", {
+        failOnStatusCode: false,
+        onBeforeLoad(win) {
+          win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+        },
+      });
+      cy.wait("@checkoutCreate");
+      cy.findByTestId("sticky-form-controls").within(() => {
+        cy.get('label[for="variant"]').should("be.visible");
+        cy.get('label[for="quantity"]').should("be.visible");
+      });
+    });
+
+    it("renders the variant select, quantity input and Add to Cart button inside the sticky form controls container", () => {
+      cy.visit("/collections/home-decor/beach-towel", {
+        failOnStatusCode: false,
+        onBeforeLoad(win) {
+          win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+        },
+      });
+      cy.wait("@checkoutCreate");
+      cy.findByTestId("sticky-form-controls").within(() => {
+        cy.findByLabelText(/color/i).should("exist");
+        cy.findByLabelText(/quantity/i).should("exist");
+        cy.findByRole("button", { name: "Add to Cart" }).should("exist");
+      });
+    });
+
+    it("renders only the quantity label and Add to Cart button inside the sticky form controls container when product has only default variant", () => {
+      cy.intercept(
+        "GET",
+        "/page-data/collections/home-decor/beach-towel/page-data.json",
+        {
+          fixture: "singleProduct/singleProduct-has-only-default-variant.json",
+        }
+      );
+      cy.visit("/collections/home-decor/beach-towel", {
+        failOnStatusCode: false,
+        onBeforeLoad(win) {
+          win.__mockLayoutGlobalData = MOCKED_LAYOUT_GLOBAL_DATA;
+        },
+      });
+      cy.wait("@checkoutCreate");
+      cy.findByTestId("sticky-form-controls").within(() => {
+        cy.findByLabelText(/quantity/i).should("exist");
+        cy.findByRole("select").should("not.exist");
+        cy.findByRole("button", { name: "Add to Cart" }).should("exist");
+      });
+    });
+  });
+
   it("Renders single product page without media image gallery when has no media ", () => {
     cy.intercept(
       "GET",
