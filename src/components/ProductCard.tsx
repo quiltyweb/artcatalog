@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import DOMPurify from "dompurify";
 import SafeZoom from "./SafeZoom";
 import InnerImageZoom from "react-inner-image-zoom";
@@ -247,6 +248,16 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   const hasResponseError = useHasResponseError();
   const featuredImageDetail = getImage(product.featuredImage?.detail ?? null);
 
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [hasDescriptionOverflow, setHasDescriptionOverflow] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      setHasDescriptionOverflow(descriptionRef.current.scrollHeight > 100);
+    }
+  }, [product.descriptionHtml]);
+
   const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
   const isProductPlublishedToStoreApp = product.status === "ACTIVE";
 
@@ -377,13 +388,44 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             overflow="hidden"
             variant="outline"
           >
-            <Container>
+            <Box
+              display={["block", "block", "none"]}
+              order={[0, 0, 99]}
+              width="100%"
+              px={4}
+              pt={4}
+            >
+              <Heading as="h2" size="md" color="pink.800" lineHeight="normal">
+                {`'${productMainTitle}'`}
+              </Heading>
+              {productSubTitle && (
+                <Text fontSize="xl" color="pink.800" lineHeight="normal">
+                  {productSubTitle}
+                </Text>
+              )}
+              {isSoldOut && (
+                <Badge variant="solid" size="md" color="#ffffff" backgroundColor="black" padding={2} my={4} mr={2}>
+                  Sold out
+                </Badge>
+              )}
+              {product.productType && (
+                <Badge variant="outline" size="md" color="#000000" backgroundColor="white" padding={2} my={4} mr={2}>
+                  {product.productType}
+                </Badge>
+              )}
+              {!isProductPlublishedToStoreApp && (
+                <Badge variant="solid" size="md" color="#ffffff" backgroundColor="black" padding={1}>
+                  Item unavailable
+                </Badge>
+              )}
+            </Box>
+            <Container order={[2, 2, 0]}>
               <CardBody>
-                <Heading as="h2" color="pink.800" lineHeight="normal">
+                <Heading as="h2" color="pink.800" lineHeight="normal" display={["none", "none", "block"]}>
                   {`'${productMainTitle}'`}
                 </Heading>
                 {productSubTitle && (
-                  <Text fontSize="xl" color="pink.800" lineHeight="normal">
+                  <Text fontSize="xl" color="pink.800" lineHeight="normal" display={["none", "none", "block"]}>
                     {productSubTitle}
                   </Text>
                 )}
@@ -399,6 +441,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     padding={2}
                     my={4}
                     mr={2}
+                    display={["none", "none", "inline-flex"]}
                   >
                     Sold out
                   </Badge>
@@ -412,6 +455,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     padding={2}
                     my={4}
                     mr={2}
+                    display={["none", "none", "inline-flex"]}
                   >
                     {product.productType}
                   </Badge>
@@ -423,19 +467,53 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                     color="#ffffff"
                     backgroundColor="black"
                     padding={1}
+                    display={["none", "none", "inline-flex"]}
                   >
                     Item unavailable
                   </Badge>
                 )}
-                <Box
-                  className="prose prose-lg max-w-none mb-6"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      typeof window !== "undefined"
-                        ? DOMPurify.sanitize(product.descriptionHtml)
-                        : product.descriptionHtml,
-                  }}
-                />
+                <Box position="relative" mb={6}>
+                  <Box
+                    ref={descriptionRef}
+                    id={`product-description-${product.id}`}
+                    className="prose prose-lg max-w-none"
+                    maxHeight={isDescriptionExpanded ? "none" : "100px"}
+                    overflow="hidden"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        typeof window !== "undefined"
+                          ? DOMPurify.sanitize(product.descriptionHtml)
+                          : product.descriptionHtml,
+                    }}
+                  />
+                  {!isDescriptionExpanded && hasDescriptionOverflow && (
+                    <Box
+                      position="absolute"
+                      bottom={0}
+                      left={0}
+                      right={0}
+                      height="80px"
+                      background="linear-gradient(to bottom, transparent, white)"
+                      pointerEvents="none"
+                      aria-hidden={true}
+                    />
+                  )}
+                  {hasDescriptionOverflow && (
+                    <Button
+                      variant="link"
+                      size="sm"
+                      mt={2}
+                      color="teal.600"
+                      fontWeight="medium"
+                      onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+                      aria-expanded={isDescriptionExpanded}
+                      aria-controls={`product-description-${product.id}`}
+                      rightIcon={isDescriptionExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    >
+                      {isDescriptionExpanded ? "Read less" : "Read more"}
+                    </Button>
+                  )}
+                </Box>
                 {printVersion && (
                   <Link
                     to={`/collections/prints/${printVersion.handle}`}
@@ -661,7 +739,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 </Form>
               </CardBody>
             </Container>
-            <Container p="4">
+            <Container p="4" order={[1, 1, 0]}>
               <Flex
                 direction={{ base: "column", md: "row" }}
                 gap={4}
@@ -714,7 +792,8 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
 
                 {!product.hasOnlyDefaultVariant && (
                   <Flex
-                    direction="column"
+                    direction={["row", "row", "column"]}
+                    flexWrap="wrap"
                     gap={2}
                     w={{ base: "100%", md: "5rem" }}
                   >
@@ -771,8 +850,15 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                 >
                   Details gallery:
                 </Heading>
-                <Flex flexDirection={["column", "row"]} flexWrap="wrap">
-                  {product.media.map((mediaItem, index) => {
+                <Flex flexDirection="row" flexWrap="wrap">
+                  {[...product.media].sort((a, b) => {
+                    const isLandscape = (item: typeof product.media[0]) => {
+                      const h = item.preview?.image?.height ?? 0;
+                      const w = item.preview?.image?.width ?? 0;
+                      return w >= h ? 1 : 0;
+                    };
+                    return isLandscape(a) - isLandscape(b);
+                  }).map((mediaItem, index) => {
                     if (mediaItem.mediaContentType === "VIDEO") {
                       return (
                         <VideoMediaThumbnail

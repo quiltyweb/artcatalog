@@ -77,11 +77,11 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home decor products/i });
+      cy.findByRole("link", { name: /home decor/i });
     });
 
     cy.findByRole("heading", { name: "'Title Line 1'" });
-    cy.findByText("Subtitle Line 2");
+    cy.findAllByText("Subtitle Line 2");
   });
 
   it("Renders single product page", () => {
@@ -93,12 +93,12 @@ describe("Collection Template mobile view", () => {
     });
     cy.wait("@checkoutCreate");
     cy.findByRole("navigation", { name: "breadcrumb" }).within(() => {
-      cy.findByRole("link", { name: /all home decor products/i });
+      cy.findByRole("link", { name: /home decor/i });
     });
 
     // renders product title as fallback
     cy.findByRole("heading", { name: /Cotton Beach towel/ });
-    cy.findByText(/productType goes here/i);
+    cy.findAllByText(/productType goes here/i);
     cy.findByText("description text for Cotton Beach towel in html field");
     // TODO: CHECK HOW TO TEST ALT TEXT WITH INNERIMAGEZOOM WHEN IS MOCKED
     //  cy.findByAltText("alt text of featured image for Cotton Beach towel");
@@ -199,7 +199,7 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("heading", {
       name: /test title Original Acrylic Painting/i,
     });
-    cy.findByText(/Sold out/);
+    cy.findAllByText(/Sold out/);
     cy.findByRole("spinbutton", {
       name: /Quantity/i,
     }).should("have.attr", "disabled");
@@ -226,7 +226,7 @@ describe("Collection Template mobile view", () => {
     cy.findByRole("heading", {
       name: /test title Original Acrylic Painting/i,
     });
-    cy.findByText(/item unavailable/i);
+    cy.findAllByText(/item unavailable/i);
     cy.findByRole("button", {
       name: /Add to Cart/i,
     }).should("have.attr", "disabled");

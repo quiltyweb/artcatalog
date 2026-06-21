@@ -37,7 +37,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
   pageContext: { title, description, products, collectionHandle, printVersionHandles },
 }): React.ReactElement => {
   return (
-    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
       <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -61,6 +61,7 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           id="collection-description"
           data-testid="collection-description"
           wordBreak="normal"
+          display={["none", "block"]}
         >
           {description}
         </Text>
@@ -284,6 +285,20 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
       ) : (
         <Text textAlign="center" mb="2.4rem">
           There are no products available.
+        </Text>
+      )}
+      {description && (
+        <Text
+          maxWidth="100%"
+          mt="2.4rem"
+          mb="2.4rem"
+          lineHeight={7}
+          fontWeight={"medium"}
+          aria-hidden={true}
+          wordBreak="normal"
+          display={["block", "none"]}
+        >
+          {description}
         </Text>
       )}
       <Box textAlign="center" mb="2.4rem" mt="2.4rem">

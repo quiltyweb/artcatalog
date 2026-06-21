@@ -52,7 +52,7 @@ const SpecialCollection: React.FunctionComponent<SpecialCollectionProps> = ({
   const heroDescription =
     description || FALLBACK_DESCRIPTIONS[collectionHandle];
   return (
-    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"}>
+    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
       <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
