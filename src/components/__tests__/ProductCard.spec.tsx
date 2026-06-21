@@ -2,6 +2,13 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ProductCard from "../ProductCard";
 jest.mock("@shopify/storefront-api-client");
+const mockConfettiInstance = jest.fn().mockResolvedValue(undefined);
+jest.mock("canvas-confetti", () => {
+  const mock = jest.fn();
+  mock.create = jest.fn(() => mockConfettiInstance);
+  return { __esModule: true, default: mock };
+});
+import confetti from "canvas-confetti";
 import fetchMock from "jest-fetch-mock";
 import * as StoreContext from "../../context/StoreContext";
 import fireEvent from "@testing-library/user-event";
@@ -1865,6 +1872,104 @@ describe("ProductCard", () => {
       expect(container.querySelector("label[for='quantity']")).toHaveTextContent("Quantity");
       expect(container.querySelector("input#quantity")).toBeInTheDocument();
       expect(container.querySelector("select#variant")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("confetti animation on Add to Cart", () => {
+    beforeEach(() => {
+      mockConfettiInstance.mockClear();
+      (confetti.create as jest.Mock).mockClear();
+    });
+
+    const productWithDefaultVariantOnly = {
+      id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+      title: "Test product",
+      handle: "test-product",
+      description: "Description",
+      status: "ACTIVE",
+      hasOutOfStockVariants: false,
+      priceRangeV2: {
+        minVariantPrice: { amount: 10.0, currencyCode: "AUD" },
+        maxVariantPrice: { amount: 10.0, currencyCode: "AUD" },
+      },
+      featuredImage: null,
+      hasOnlyDefaultVariant: true,
+      totalVariants: 1,
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/123",
+          displayName: "Test product - Default Title",
+          title: "Default Title",
+          price: 10,
+          inventoryQuantity: 5,
+          availableForSale: true,
+          selectedOptions: [{ name: "Title", value: "Default Title" }],
+          image: null,
+        },
+      ],
+      mediaCount: 0,
+      media: [],
+      options: [
+        {
+          shopifyId: "gid://shopify/ProductOption/1",
+          name: "Title",
+          values: ["Default Title"],
+        },
+      ],
+      metafields: [],
+    };
+
+    it("fires confetti when item is successfully added to cart", async () => {
+      jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+        addItemToCartCallback: jest
+          .fn()
+          .mockResolvedValue({ userErrors: [] }),
+        addItemToCartLoading: false,
+        addItemToCartWarnings: [],
+        setAddItemToCartWarnings: jest.fn(),
+        addItemUserErrors: [],
+        setAddItemUserErrors: jest.fn(),
+      });
+
+      render(<ProductCard product={productWithDefaultVariantOnly} />);
+
+      await fireEvent.setup().click(screen.getByRole("button", { name: "Add to Cart" }));
+
+      const [canvasArg] = (confetti.create as jest.Mock).mock.calls[0];
+      expect(canvasArg).toBeInstanceOf(HTMLCanvasElement);
+      expect(canvasArg.getAttribute("aria-hidden")).toBe("true");
+      expect(mockConfettiInstance).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not fire confetti when prefers-reduced-motion is enabled", async () => {
+      jest.spyOn(window, "matchMedia").mockImplementation((query) => ({
+        matches: query === "(prefers-reduced-motion: reduce)",
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      }));
+
+      jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
+        addItemToCartCallback: jest
+          .fn()
+          .mockResolvedValue({ userErrors: [] }),
+        addItemToCartLoading: false,
+        addItemToCartWarnings: [],
+        setAddItemToCartWarnings: jest.fn(),
+        addItemUserErrors: [],
+        setAddItemUserErrors: jest.fn(),
+      });
+
+      render(<ProductCard product={productWithDefaultVariantOnly} />);
+
+      await fireEvent.setup().click(screen.getByRole("button", { name: "Add to Cart" }));
+
+      expect(confetti.create).not.toHaveBeenCalled();
+      expect(mockConfettiInstance).not.toHaveBeenCalled();
     });
   });
 

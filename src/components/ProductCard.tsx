@@ -57,6 +57,7 @@ import * as Yup from "yup";
 import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
 import { Link } from "gatsby";
+import confetti from "canvas-confetti";
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
@@ -270,7 +271,36 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
       : "",
   };
 
+  const addToCartButtonRef = useRef<HTMLButtonElement>(null);
+
+  const firePartyPopper = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const button = addToCartButtonRef.current;
+    if (!button) return;
+    const rect = button.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.style.cssText =
+      "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;";
+    document.body.appendChild(canvas);
+    const shoot = confetti.create(canvas, { resize: true });
+    shoot({
+      particleCount: 80,
+      spread: 70,
+      origin: { x, y },
+      colors: ["#86548A", "#f9c6ff", "#ffffff", "#ffd700", "#ff69b4"],
+      startVelocity: 35,
+      scalar: 0.9,
+      ticks: 60,
+      gravity: 2,
+    })?.then(() => canvas.remove());
+  };
+
   const toast = useToast();
+  const getToastPosition = () =>
+    window.innerWidth >= 768 ? "top-right" : "top";
 
   const SubmitSchema = Yup.object().shape({
     variant: Yup.string().required("Option Required"),
@@ -308,13 +338,17 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             lines: [{ id: foundCartLineItem.id, quantity: updatedQuantity }],
           })
             .then(() => {
-              toast({
-                title: "Cart updated.",
-                description: `Updated ${productMainTitle} - ${selectedVariant.title}`,
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-              });
+              firePartyPopper();
+              setTimeout(() => {
+                toast({
+                  title: "Cart updated.",
+                  description: `Updated ${productMainTitle} - ${selectedVariant.title}`,
+                  status: "success",
+                  duration: 2000,
+                  isClosable: true,
+                  position: getToastPosition(),
+                });
+              }, 600);
             })
             .finally(() => {
               setSubmitting(false);
@@ -330,13 +364,17 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
             if (result?.userErrors?.length) {
               return;
             }
-            toast({
-              title: "Item added to cart.",
-              description: `Added ${productMainTitle} - ${selectedVariant.title}`,
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
+            firePartyPopper();
+            setTimeout(() => {
+              toast({
+                title: "Item added to cart.",
+                description: `Added ${productMainTitle} - ${selectedVariant.title}`,
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+                position: getToastPosition(),
+              });
+            }, 600);
             setFieldValue("quantity", 1);
           })
           .catch((err) => {
@@ -344,8 +382,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
               title: "Unable to add item to cart.",
               description: "Something went wrong. Please try again.",
               status: "error",
-              duration: 4000,
+              duration: 2000,
               isClosable: true,
+              position: getToastPosition(),
             });
           })
           .finally(() => {
@@ -665,6 +704,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       </Field>
                     </Flex>
                     <Button
+                      ref={addToCartButtonRef}
                       id="add-to-cart"
                       type="submit"
                       backgroundColor="#86548A"
