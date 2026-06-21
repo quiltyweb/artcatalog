@@ -1,5 +1,8 @@
 import * as React from "react";
+import { useState, useRef, useEffect } from "react";
 import {
+  Box,
+  Button,
   Card,
   CardBody,
   Container,
@@ -9,6 +12,7 @@ import {
   CardHeader,
   useMediaQuery,
 } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import CallToActionButton from "./CallToActionButton";
 import { motion, useReducedMotion } from "motion/react";
 
@@ -36,7 +40,7 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
       </Text>
       <CallToActionButton
         title="Explore the Collection"
-        link="#all-categories-title"
+        link="/collections/"
       />
     </CardHeader>
   );
@@ -45,8 +49,18 @@ const HeaderCallToAction: React.FunctionComponent = (): React.ReactElement => {
 const HeroSection: React.FunctionComponent = (): React.ReactElement => {
   const [isDektop] = useMediaQuery("(min-width: 992px)");
   const reduceMotion = useReducedMotion();
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
+  const [hasTextOverflow, setHasTextOverflow] = useState(false);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (textRef.current) {
+      setHasTextOverflow(textRef.current.scrollHeight > 100);
+    }
+  }, []);
+
   return (
-    <Container as="section" maxW="1200px" padding={"4rem 0"}>
+    <Container as="section" maxW="1200px" padding={"2rem 0"}>
       <Card
         align="left"
         variant="outline"
@@ -78,33 +92,69 @@ const HeroSection: React.FunctionComponent = (): React.ReactElement => {
         >
           {isDektop && <HeaderCallToAction />}
           <CardBody p="0">
-            <Text
-              fontSize="1.13rem"
-              lineHeight="1.7rem"
-              className="mx-auto max-w-full max-w-[500px] min-[992px]:max-w-[100%] text-center"
-            >
-              Immerse yourself into a world of materialised creations flowing
-              from the one human mind, and brought to life with the one pair of
-              human hands. The collection you will find in this space has been
-              meaningfully created, drawing upon Gabriella's deepest raw
-              feelings, expansive visions, and life experiences, transformed
-              into something beautiful and full of life. Discover everything
-              from unique treasures and household items designed to bring the
-              magical into your home, to a range of original artworks and
-              prints. Hand-knitted goodies and resin little trinkets, all
-              infused with a touch of love and awareness, from Gabriella's heart
-              to yours.
-            </Text>
-            <Text
-              fontSize="1.13rem"
-              color="gray.800"
-              marginY="3rem"
-              textAlign="center"
-              fontWeight="bold"
-            >
-              Embrace the beauty of handmade artistry with Brushella, <br />
-              where every piece tells a story!
-            </Text>
+            <Box position="relative" mb={6}>
+              <Box
+                ref={textRef}
+                id="hero-description"
+                maxHeight={isTextExpanded ? "none" : "108px"}
+                overflow="hidden"
+              >
+                <Text
+                  fontSize="1.13rem"
+                  lineHeight="1.7rem"
+                  className="mx-auto max-w-full max-w-[500px] min-[992px]:max-w-[100%] text-center"
+                >
+                  Immerse yourself into a world of materialised creations flowing
+                  from the one human mind, and brought to life with the one pair of
+                  human hands. The collection you will find in this space has been
+                  meaningfully created, drawing upon Gabriella's deepest raw
+                  feelings, expansive visions, and life experiences, transformed
+                  into something beautiful and full of life. Discover everything
+                  from unique treasures and household items designed to bring the
+                  magical into your home, to a range of original artworks and
+                  prints. Hand-knitted goodies and resin little trinkets, all
+                  infused with a touch of love and awareness, from Gabriella's heart
+                  to yours.
+                </Text>
+                <Text
+                  fontSize="1.13rem"
+                  color="gray.800"
+                  marginY="3rem"
+                  textAlign="center"
+                  fontWeight="bold"
+                >
+                  Embrace the beauty of handmade artistry with Brushella, <br />
+                  where every piece tells a story!
+                </Text>
+              </Box>
+              {!isTextExpanded && hasTextOverflow && (
+                <Box
+                  position="absolute"
+                  bottom={0}
+                  left={0}
+                  right={0}
+                  height="80px"
+                  background="linear-gradient(to bottom, transparent, white)"
+                  pointerEvents="none"
+                  aria-hidden={true}
+                />
+              )}
+              {hasTextOverflow && (
+                <Button
+                  variant="link"
+                  size="sm"
+                  mt={2}
+                  color="teal.600"
+                  fontWeight="medium"
+                  onClick={() => setIsTextExpanded((prev) => !prev)}
+                  aria-expanded={isTextExpanded}
+                  aria-controls="hero-description"
+                  rightIcon={isTextExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                >
+                  {isTextExpanded ? "Read less" : "Read more"}
+                </Button>
+              )}
+            </Box>
           </CardBody>
         </Stack>
       </Card>

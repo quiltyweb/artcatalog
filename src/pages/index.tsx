@@ -13,8 +13,14 @@ const IndexPage: React.FunctionComponent = (): React.ReactElement => {
   return (
     <>
       {heroSliderImages && <HomePageSlider images={heroSliderImages} />}
-      <HeroSection />
-      <TileGridGallery tiles={collectionsTiles} />
+      <div className="flex flex-col">
+        <div className="order-2 min-[769px]:order-1">
+          <HeroSection />
+        </div>
+        <div className="order-1 min-[769px]:order-2">
+          <TileGridGallery tiles={collectionsTiles} />
+        </div>
+      </div>
     </>
   );
 };
