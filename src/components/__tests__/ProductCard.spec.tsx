@@ -1749,6 +1749,125 @@ describe("ProductCard", () => {
     });
   });
 
+  describe("sticky form controls", () => {
+    const productWithVariants = {
+      id: "f1ac9d71-4ace-5da4-b914-f2278aee6443",
+      title: "Test painting",
+      handle: "test-painting",
+      description: "A test painting",
+      priceRangeV2: {
+        minVariantPrice: { amount: 100.0, currencyCode: "AUD" },
+        maxVariantPrice: { amount: 200.0, currencyCode: "AUD" },
+      },
+      featuredImage: null,
+      hasOnlyDefaultVariant: false,
+      totalVariants: 2,
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/111",
+          displayName: "Test painting - Small",
+          title: "Small",
+          price: 100.0,
+          inventoryQuantity: 5,
+          availableForSale: true,
+          selectedOptions: [{ name: "Size", value: "Small" }],
+          image: null,
+        },
+        {
+          shopifyId: "gid://shopify/ProductVariant/222",
+          displayName: "Test painting - Large",
+          title: "Large",
+          price: 200.0,
+          inventoryQuantity: 3,
+          availableForSale: true,
+          selectedOptions: [{ name: "Size", value: "Large" }],
+          image: null,
+        },
+      ],
+      mediaCount: 0,
+      media: [],
+      options: [
+        {
+          shopifyId: "gid://shopify/ProductOption/999",
+          name: "Size",
+          values: ["Small", "Large"],
+        },
+      ],
+      metafields: [],
+      status: "ACTIVE",
+    };
+
+    const productWithDefaultVariantOnly = {
+      id: "abc123",
+      title: "Test print",
+      handle: "test-print",
+      description: "A test print",
+      priceRangeV2: {
+        minVariantPrice: { amount: 50.0, currencyCode: "AUD" },
+        maxVariantPrice: { amount: 50.0, currencyCode: "AUD" },
+      },
+      featuredImage: null,
+      hasOnlyDefaultVariant: true,
+      totalVariants: 1,
+      variants: [
+        {
+          shopifyId: "gid://shopify/ProductVariant/333",
+          displayName: "Test print - Default Title",
+          title: "Default Title",
+          price: 50.0,
+          inventoryQuantity: 10,
+          availableForSale: true,
+          selectedOptions: [{ name: "Title", value: "Default Title" }],
+          image: null,
+        },
+      ],
+      mediaCount: 0,
+      media: [],
+      options: [
+        {
+          shopifyId: "gid://shopify/ProductOption/888",
+          name: "Title",
+          values: ["Default Title"],
+        },
+      ],
+      metafields: [],
+      status: "ACTIVE",
+    };
+
+    it("renders the sticky form controls container in the document", () => {
+      render(<ProductCard product={productWithVariants} />);
+      expect(screen.getByTestId("sticky-form-controls")).toBeInTheDocument();
+    });
+
+    it("renders the variant label and quantity label as accessible labels linked to their inputs", () => {
+      render(<ProductCard product={productWithVariants} />);
+      const container = screen.getByTestId("sticky-form-controls");
+      expect(container.querySelector("label[for='variant']")).toHaveTextContent("size:");
+      expect(container.querySelector("label[for='quantity']")).toHaveTextContent("Quantity");
+    });
+
+    it("renders the variant select and quantity input inside the sticky form controls container", () => {
+      render(<ProductCard product={productWithVariants} />);
+      const container = screen.getByTestId("sticky-form-controls");
+      expect(container.querySelector("select#variant")).toBeInTheDocument();
+      expect(container.querySelector("input#quantity")).toBeInTheDocument();
+    });
+
+    it("renders the Add to Cart button inside the sticky form controls container", () => {
+      render(<ProductCard product={productWithVariants} />);
+      const container = screen.getByTestId("sticky-form-controls");
+      expect(container.querySelector("button[id='add-to-cart']")).toBeInTheDocument();
+    });
+
+    it("renders only the quantity label and input inside the sticky form controls container when product has only one default variant", () => {
+      render(<ProductCard product={productWithDefaultVariantOnly} />);
+      const container = screen.getByTestId("sticky-form-controls");
+      expect(container.querySelector("label[for='quantity']")).toHaveTextContent("Quantity");
+      expect(container.querySelector("input#quantity")).toBeInTheDocument();
+      expect(container.querySelector("select#variant")).not.toBeInTheDocument();
+    });
+  });
+
   it("renders user error message when response has user errors", async () => {
     jest.spyOn(StoreContext, "useAddItemToCart").mockReturnValue({
       addItemToCartCallback: jest.fn(),
