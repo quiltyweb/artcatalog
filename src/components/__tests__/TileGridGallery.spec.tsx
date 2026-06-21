@@ -75,6 +75,34 @@ describe("TileGridGallery", () => {
     screen.getByRole("region", { name: "testing title prop" });
   });
 
+  it("renders prints first, then original paintings, then the rest regardless of input order", async () => {
+    const tilesOutOfOrder = [
+      {
+        id: "tile-other",
+        title: "Other category",
+        handle: "other-category",
+        images: [],
+      },
+      {
+        id: "tile-paintings",
+        title: "Original Paintings test title",
+        handle: "original-paintings",
+        images: [],
+      },
+      {
+        id: "tile-prints",
+        title: "Prints test title",
+        handle: "prints",
+        images: [],
+      },
+    ];
+    render(<TileGridGallery tiles={tilesOutOfOrder} />);
+    const articles = screen.getAllByRole("article");
+    expect(articles[0]).toHaveAccessibleName("Prints test title slider");
+    expect(articles[1]).toHaveAccessibleName("Original Paintings test title slider");
+    expect(articles[2]).toHaveAccessibleName("Other category slider");
+  });
+
   it("renders message when tiles prop is empty array", async () => {
     render(<TileGridGallery tiles={[]} />);
     screen.getByText("No categories available at the moment.");

@@ -123,7 +123,7 @@ describe("Home page mobile", () => {
       );
       cy.findByRole("heading", { name: /Welcome to Brushella's Art Store/i });
       cy.findByText("Where craftsmanship meets creativity!");
-      cy.findByRole("link", { name: "Explore the Collection" });
+      cy.findByRole("link", { name: "Explore the Collection" }).should("have.attr", "href", "/collections/");
       cy.findByText(
         /Embrace the beauty of handmade artistry with Brushella, where every piece tells a story!/i
       );

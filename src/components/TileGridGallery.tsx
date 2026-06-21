@@ -19,6 +19,11 @@ interface TileGridGalleryProps {
   tiles?: Array<Tile>;
 }
 
+const CATEGORY_ORDER: Record<string, number> = {
+  prints: 0,
+  "original-paintings": 1,
+};
+
 export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
   title,
   tiles,
@@ -27,13 +32,19 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
     return <div aria-live="off">No categories available at the moment.</div>;
   }
 
+  const sortedTiles = [...tiles].sort((a, b) => {
+    const aOrder = CATEGORY_ORDER[a.handle] ?? Infinity;
+    const bOrder = CATEGORY_ORDER[b.handle] ?? Infinity;
+    return aOrder - bOrder;
+  });
+
   return (
     <div className="p-4 max-w-[1200px] mx-auto">
       <Heading
         id="all-categories-title"
         as="h3"
         color="pink.800"
-        mb="2.4rem"
+        my="2.4rem"
         textAlign="left"
       >
         {title || "Browse Brushella’s World"}
@@ -42,10 +53,9 @@ export const TileGridGallery: React.FC<TileGridGalleryProps> = ({
       <section
         aria-live="off"
         aria-labelledby="all-categories-title"
-        className="grid grid-cols-[repeat(auto-fit,_minmax(250px,_350px))] justify-center gap-2"
+        className="grid grid-cols-[repeat(auto-fit,_minmax(250px,_350px))] min-[600px]:grid-cols-2 min-[800px]:grid-cols-3 justify-center gap-2"
       >
-        {tiles &&
-          tiles.map((tile) => (
+        {sortedTiles.map((tile) => (
             <article
               key={tile.id}
               aria-label={tile.title + " slider"}
