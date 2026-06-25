@@ -9,7 +9,6 @@ import {
   Box,
   Heading,
   Text,
-  Highlight,
   Card,
   CardBody,
   Button,
@@ -58,10 +57,19 @@ import { formatPrice } from "../utils/formatPrice";
 import notFoundImage from "../images/web-asset-noimg.jpg";
 import { Link } from "gatsby";
 import confetti from "canvas-confetti";
+import { useMarket } from "../context/MarketContext";
+
+export type MarketPrice = {
+  amount: number;
+  maxAmount: number;
+  currencyCode: string;
+  variants: Record<string, number>;
+};
 
 type ProductCardProps = {
   product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
   printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
+  marketPrice?: MarketPrice | null;
 };
 
 type ProductMediaItem = NonNullable<
@@ -218,7 +226,10 @@ interface ProductCardFormValues {
 const ProductCard: React.FunctionComponent<ProductCardProps> = ({
   product,
   printVersion,
+  marketPrice,
 }): React.ReactElement => {
+  const { countryCode } = useMarket();
+  const hasMarketPrice = countryCode !== "AU" && !!marketPrice;
   // TODO: refactor title_line_1 and title_line_2 to be constants
   // TODO: If the product has a metafield for title_line_1, use it as the product name
   const productMainTitle =
@@ -259,7 +270,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     }
   }, [product.descriptionHtml]);
 
-  const currencyCode = product.priceRangeV2.maxVariantPrice.currencyCode;
+  const currencyCode = hasMarketPrice
+    ? marketPrice!.currencyCode
+    : product.priceRangeV2.maxVariantPrice.currencyCode;
   const isProductPlublishedToStoreApp = product.status === "ACTIVE";
 
   const initialValues: ProductCardFormValues = {
@@ -394,8 +407,12 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
     >
       {(props: FormikProps<ProductCardFormValues>) => {
         const minPrice = formatPrice({
-          currency: product.priceRangeV2.minVariantPrice.currencyCode,
-          value: product.priceRangeV2.minVariantPrice.amount,
+          currency: hasMarketPrice
+            ? marketPrice!.currencyCode
+            : product.priceRangeV2.minVariantPrice.currencyCode,
+          value: hasMarketPrice
+            ? marketPrice!.amount
+            : product.priceRangeV2.minVariantPrice.amount,
         });
 
         const variantFound = props.values.product.variants.find((variant) => {
@@ -407,10 +424,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
         const variantFoundImage =
           variantFound?.image && getImage(variantFound.image);
 
+        const variantAmount = hasMarketPrice && variantFound?.shopifyId
+          ? (marketPrice!.variants[variantFound.shopifyId] ?? marketPrice!.amount)
+          : (variantFound?.price ?? 0);
+
         const variantPriceWithFormat = formatPrice({
-          currency:
-            props.values.product.priceRangeV2.maxVariantPrice.currencyCode,
-          value: variantFound?.price ?? 0,
+          currency: currencyCode,
+          value: variantAmount,
         });
 
         const isGiftCard = product.isGiftCard;
@@ -595,24 +615,14 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                       >
                         From
                       </Text>
-                      <Highlight
-                        query="AUD"
-                        styles={{ pr: "1", color: "#7e718a" }}
-                      >
-                        {currencyCode}
-                      </Highlight>
-                      {minPrice}
+                      {minPrice}{" "}
+                      <Text as="span" fontSize="sm" color="gray.500">{currencyCode}</Text>
                     </>
                   )}
                   {props.values.variant !== "" && (
                     <>
-                      <Highlight
-                        query="AUD"
-                        styles={{ pr: "1", color: "#7e718a" }}
-                      >
-                        {currencyCode}
-                      </Highlight>
-                      {variantPriceWithFormat}
+                      {variantPriceWithFormat}{" "}
+                      <Text as="span" fontSize="sm" color="gray.500">{currencyCode}</Text>
                     </>
                   )}
                 </Box>

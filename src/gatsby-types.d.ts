@@ -299,7 +299,10 @@ type AdminShopify = {
    * @deprecated Use `automaticDiscountNode` instead.
    */
   readonly automaticDiscount: Maybe<AdminShopify_DiscountAutomatic>;
-  /** Returns a `DiscountAutomaticNode` resource by ID. */
+  /**
+   * Returns a `DiscountAutomaticNode` resource by ID.
+   * @deprecated Use `discountNode` instead.
+   */
   readonly automaticDiscountNode: Maybe<AdminShopify_DiscountAutomaticNode>;
   /**
    * Returns a list of [automatic discounts](https://help.shopify.com/manual/discounts/discount-types#automatic-discounts).
@@ -422,7 +425,10 @@ type AdminShopify = {
    * @deprecated Use `checkoutAndAccountsConfigurations` instead.
    */
   readonly checkoutProfiles: AdminShopify_CheckoutProfileConnection;
-  /** Returns a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) resource by ID. */
+  /**
+   * Returns a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) resource by ID.
+   * @deprecated Use `discountNode` instead.
+   */
   readonly codeDiscountNode: Maybe<AdminShopify_DiscountCodeNode>;
   /**
    * Retrieves a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) by its discount code. The search is case-insensitive, enabling you to find discounts regardless of how customers enter the code.
@@ -567,7 +573,19 @@ type AdminShopify = {
   readonly customerByIdentifier: Maybe<AdminShopify_Customer>;
   /** Returns the status of a customer merge request job. */
   readonly customerMergeJobStatus: Maybe<AdminShopify_CustomerMergeRequest>;
-  /** Returns a preview of a customer merge request. */
+  /**
+   * Returns a preview of a customer merge request.
+   *
+   * The `customerOneId` and `customerTwoId` arguments don't guarantee which customer is kept. Shopify
+   * selects the resulting customer in this order:
+   * 1. If `overrideFields.customerIdOfEmailToKeep` is provided and valid, then the selected customer is kept.
+   * 2. If exactly one customer has an email address, then that customer is kept.
+   * 3. If both customers have email addresses, then account state and email marketing consent determine
+   *    the customer that's kept: an `enabled` account wins over other account states; otherwise, an
+   *    `invited` account can win when consent doesn't already prefer `subscribed` or `pending`; otherwise
+   *    the consent result is used. If those rules don't prefer either customer, then `customerTwoId` is kept.
+   * 4. If neither customer has an email address, then `customerTwoId` is kept.
+   */
   readonly customerMergePreview: AdminShopify_CustomerMergePreview;
   /** Returns a vaulted customer payment method by its ID, including the instrument type (credit card, PayPal, etc.), billing address, and current status. Optionally includes revoked payment methods. Use this to look up a specific saved payment method for a customer — for example, to check whether a subscription's payment method is still valid or to display stored payment details. */
   readonly customerPaymentMethod: Maybe<AdminShopify_CustomerPaymentMethod>;
@@ -7560,6 +7578,8 @@ type AdminShopify_CartTransformCreateUserErrorCode =
   | 'INPUT_INVALID'
   /** Could not create or update metafields. */
   | 'INVALID_METAFIELDS'
+  /** The maximum number of cart transforms per shop has been reached. */
+  | 'MAXIMUM_CART_TRANSFORMS'
   /** Either function_id or function_handle must be provided. */
   | 'MISSING_FUNCTION_IDENTIFIER'
   /** Only one of function_id or function_handle can be provided, not both. */
@@ -14900,11 +14920,17 @@ type AdminShopify_CustomerMergeErrorFieldType =
   /** The customer has a subscription history. */
   | 'SUBSCRIPTIONS';
 
-/** The input fields to override default customer merge rules. */
+/**
+ * The input fields to override default customer merge rules. These overrides are field-specific; they don't
+ * provide a general way to force a particular customer ID to survive the merge.
+ */
 type AdminShopify_CustomerMergeOverrideFields = {
   /** The ID of the customer whose default address will be kept. */
   readonly customerIdOfDefaultAddressToKeep: InputMaybe<Scalars['ID']>;
-  /** The ID of the customer whose email will be kept. */
+  /**
+   * The ID of the customer whose email will be kept. The selected customer must have an email address. When
+   * this field is provided and valid, the selected customer is also the resulting customer after the merge.
+   */
   readonly customerIdOfEmailToKeep: InputMaybe<Scalars['ID']>;
   /** The ID of the customer whose first name will be kept. */
   readonly customerIdOfFirstNameToKeep: InputMaybe<Scalars['ID']>;
@@ -14922,13 +14948,16 @@ type AdminShopify_CustomerMergeOverrideFields = {
 type AdminShopify_CustomerMergePayload = {
   /** The asynchronous job for merging the customers. */
   readonly job: Maybe<AdminShopify_Job>;
-  /** The ID of the customer resulting from the merge. */
+  /** The ID of the customer that's kept after the merge. Treat this ID as authoritative. */
   readonly resultingCustomerId: Maybe<Scalars['ID']>;
   /** The list of errors that occurred from executing the mutation. */
   readonly userErrors: ReadonlyArray<AdminShopify_CustomerMergeUserError>;
 };
 
-/** A preview of the results of a customer merge request. */
+/**
+ * A preview of the results of a customer merge request. Use `resultingCustomerId` to check which customer
+ * would be kept before running `customerMerge`.
+ */
 type AdminShopify_CustomerMergePreview = {
   /** The fields that can be used to override the default fields. */
   readonly alternateFields: Maybe<AdminShopify_CustomerMergePreviewAlternateFields>;
@@ -14938,7 +14967,7 @@ type AdminShopify_CustomerMergePreview = {
   readonly customerMergeErrors: Maybe<ReadonlyArray<AdminShopify_CustomerMergeError>>;
   /** The fields that will be kept if the two customers are merged. */
   readonly defaultFields: Maybe<AdminShopify_CustomerMergePreviewDefaultFields>;
-  /** The resulting customer ID if the two customers are merged. */
+  /** The ID of the customer that would be kept if the two customers were merged. */
   readonly resultingCustomerId: Maybe<Scalars['ID']>;
 };
 
@@ -15064,7 +15093,7 @@ type AdminShopify_CustomerMergeRequest = {
   readonly customerMergeErrors: ReadonlyArray<AdminShopify_CustomerMergeError>;
   /** The UUID of the merge job. */
   readonly jobId: Maybe<Scalars['ID']>;
-  /** The ID of the customer resulting from the merge. */
+  /** The ID of the customer that was kept after the merge. Treat this ID as authoritative. */
   readonly resultingCustomerId: Scalars['ID'];
   /** The status of the customer merge request. */
   readonly status: AdminShopify_CustomerMergeRequestStatus;
@@ -15484,24 +15513,35 @@ type AdminShopify_CustomerPaypalBillingAgreement = {
 
 /** A phone number. */
 type AdminShopify_CustomerPhoneNumber = {
-  /** The source from which the SMS marketing information for the customer was collected. */
+  /**
+   * The source from which the SMS marketing information for the customer was collected.
+   * @deprecated Use `smsMarketingConsent.collectedFrom` instead.
+   */
   readonly marketingCollectedFrom: Maybe<AdminShopify_CustomerConsentCollectedFrom>;
   /**
    * The marketing subscription opt-in level, as described by the M3AAWG best practices guidelines,
    * received when the marketing consent was updated.
+   * @deprecated Use `smsMarketingConsent.optInLevel` instead.
    */
   readonly marketingOptInLevel: Maybe<AdminShopify_CustomerMarketingOptInLevel>;
-  /** Whether the customer has subscribed to SMS marketing material. */
+  /**
+   * Whether the customer has subscribed to SMS marketing material.
+   * @deprecated Use `smsMarketingConsent.state` instead.
+   */
   readonly marketingState: AdminShopify_CustomerSmsMarketingState;
   /**
    * The date and time at which the marketing consent was updated.
    *
    * No date is provided if the email address never updated its marketing consent.
+   * @deprecated Use `smsMarketingConsent.updatedAt` instead.
    */
   readonly marketingUpdatedAt: Maybe<Scalars['AdminShopify_DateTime']>;
   /** A customer's phone number. */
   readonly phoneNumber: Scalars['String'];
-  /** The location where the customer consented to receive marketing material by SMS. */
+  /**
+   * The location where the customer consented to receive marketing material by SMS.
+   * @deprecated Use `smsMarketingConsent.sourceLocation` instead.
+   */
   readonly sourceLocation: Maybe<AdminShopify_Location>;
 };
 
@@ -17801,7 +17841,7 @@ type AdminShopify_DeliveryZone = AdminShopify_Node & {
 /** Configuration of the deposit. */
 type AdminShopify_DepositConfiguration = AdminShopify_DepositPercentage;
 
-/** The input fields configuring the deposit for a B2B buyer. */
+/** The input fields configuring the deposit requirement. */
 type AdminShopify_DepositInput = {
   /** The percentage of the order total that should be paid as a deposit. Must be between 1 and 99, inclusive. */
   readonly percentage: Scalars['Float'];
@@ -28841,6 +28881,8 @@ type AdminShopify_InventoryTransferCreateAsReadyToShipUserErrorCode =
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
+  /** One or more tags are not valid. */
+  | 'INVALID_TAG'
   /** Current transfer status does not support this operation. */
   | 'INVALID_TRANSFER_STATUS'
   /** The item is not stocked at the intended location. */
@@ -28912,6 +28954,8 @@ type AdminShopify_InventoryTransferCreateUserErrorCode =
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
+  /** One or more tags are not valid. */
+  | 'INVALID_TAG'
   /** The item is not stocked at the intended location. */
   | 'INVENTORY_STATE_NOT_ACTIVE'
   /** The item was not found. */
@@ -29033,6 +29077,8 @@ type AdminShopify_InventoryTransferEditUserError = AdminShopify_DisplayableError
 type AdminShopify_InventoryTransferEditUserErrorCode =
   /** Unexpected internal error happened. */
   | 'INTERNAL_ERROR'
+  /** One or more tags are not valid. */
+  | 'INVALID_TAG'
   /** The item is not stocked at the intended location. */
   | 'INVENTORY_STATE_NOT_ACTIVE'
   /** The location selected is not active. */
@@ -39955,6 +40001,8 @@ type AdminShopify_PaymentCustomizationErrorCode =
   | 'INVALID_METAFIELDS'
   /** Maximum payment customizations are already enabled. */
   | 'MAXIMUM_ACTIVE_PAYMENT_CUSTOMIZATIONS'
+  /** The maximum number of payment customizations per shop has been reached. */
+  | 'MAXIMUM_PAYMENT_CUSTOMIZATIONS'
   /** Either function_id or function_handle must be provided. */
   | 'MISSING_FUNCTION_IDENTIFIER'
   /** Only one of function_id or function_handle can be provided, not both. */
@@ -74884,12 +74932,17 @@ type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: 
 type LayoutGlobalDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type LayoutGlobalDataQuery = { readonly storefrontshopify: { readonly metaobjects: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly value: string | null, readonly reference: { readonly handle: string, readonly title: string } | { readonly image: { readonly url: any } | null } | {} | null }> }> } }, readonly site: { readonly siteMetadata: { readonly title: string | null, readonly description: string | null, readonly siteUrl: string | null, readonly image: string | null } | null } | null, readonly adminshopify: { readonly legalContent: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly definition: { readonly name: string } }> }> } }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly src: string, readonly originalSrc: string, readonly transformedSrc: string, readonly altText: string | null, readonly width: number | null, readonly height: number | null, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly isGiftCard: boolean, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly gridCategorySlider: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }> }> }> } };
+type LayoutGlobalDataQuery = { readonly storefrontshopify: { readonly metaobjects: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly value: string | null, readonly reference: { readonly handle: string, readonly title: string } | { readonly image: { readonly url: any } | null } | {} | null }> }> } }, readonly site: { readonly siteMetadata: { readonly title: string | null, readonly description: string | null, readonly siteUrl: string | null, readonly image: string | null } | null } | null, readonly adminshopify: { readonly legalContent: { readonly nodes: ReadonlyArray<{ readonly fields: ReadonlyArray<{ readonly key: string, readonly definition: { readonly name: string } }> }> }, readonly markets: { readonly nodes: ReadonlyArray<{ readonly name: string, readonly status: AdminShopify_MarketStatus, readonly type: AdminShopify_MarketType, readonly conditions: { readonly regionsCondition: { readonly regions: { readonly nodes: ReadonlyArray<{ readonly code: AdminShopify_CountryCode, readonly currency: { readonly currencyCode: AdminShopify_CurrencyCode } }> } } | null } | null }> } }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly src: string, readonly originalSrc: string, readonly transformedSrc: string, readonly altText: string | null, readonly width: number | null, readonly height: number | null, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly isGiftCard: boolean, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly gridCategorySlider: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly originalSrc: string, readonly transformedSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }> }> }> } };
 
 type CollectionsAndProductsIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type CollectionsAndProductsIntoPagesQuery = { readonly allShopifyProduct: { readonly nodes: ReadonlyArray<{ readonly shopifyId: string, readonly title: string, readonly handle: string }> }, readonly allShopifyCollection: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly image: { readonly altText: string | null, readonly originalSrc: string, readonly gatsbyImageData: Record<string, unknown> | null } | null, readonly products: ReadonlyArray<{ readonly id: string, readonly shopifyId: string, readonly title: string, readonly handle: string, readonly description: string, readonly descriptionHtml: string, readonly status: ShopifyProductStatus, readonly hasOutOfStockVariants: boolean, readonly hasOnlyDefaultVariant: boolean, readonly totalVariants: number, readonly mediaCount: number, readonly publishedAt: string | null, readonly productType: string, readonly isGiftCard: boolean, readonly priceRangeV2: { readonly minVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode }, readonly maxVariantPrice: { readonly amount: number, readonly currencyCode: ShopifyCurrencyCode } }, readonly featuredImage: { readonly altText: string | null, readonly originalSrc: string, readonly grid: Record<string, unknown> | null, readonly detail: Record<string, unknown> | null, readonly zoom: Record<string, unknown> | null } | null, readonly variants: ReadonlyArray<{ readonly shopifyId: string, readonly displayName: string, readonly title: string, readonly price: number, readonly inventoryQuantity: number | null, readonly availableForSale: boolean, readonly selectedOptions: ReadonlyArray<{ readonly name: string, readonly value: string }>, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null }>, readonly media: ReadonlyArray<{ readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null } | { readonly id: string, readonly alt: string | null, readonly mediaContentType: ShopifyMediaContentType, readonly sources: ReadonlyArray<{ readonly url: string, readonly format: string, readonly mimeType: string, readonly height: number, readonly width: number }>, readonly preview: { readonly status: ShopifyMediaPreviewImageStatus, readonly image: { readonly src: string, readonly altText: string | null, readonly height: number | null, readonly width: number | null, readonly gatsbyImageData: Record<string, unknown> | null, readonly originalSrc: string, readonly transformedSrc: string } | null } | null }>, readonly options: ReadonlyArray<{ readonly shopifyId: string, readonly name: string, readonly values: ReadonlyArray<string> }>, readonly metafields: ReadonlyArray<{ readonly id: string, readonly key: string, readonly value: string }>, readonly printVersion: { readonly key: string, readonly value: string } | null }> }> } };
+
+type MarketsForPricingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type MarketsForPricingQuery = { readonly adminshopify: { readonly markets: { readonly nodes: ReadonlyArray<{ readonly status: AdminShopify_MarketStatus, readonly type: AdminShopify_MarketType, readonly conditions: { readonly regionsCondition: { readonly regions: { readonly nodes: ReadonlyArray<{ readonly code: AdminShopify_CountryCode, readonly currency: { readonly currencyCode: AdminShopify_CurrencyCode } }> } } | null } | null }> } } };
 
 type AdminContentIntoPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
