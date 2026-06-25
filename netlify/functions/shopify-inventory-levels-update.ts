@@ -23,6 +23,23 @@ export default async (req: Request) => {
   }
   console.log("webhook topic:", result.topic);
   console.log("rawBody: ", rawBody);
+
+  const buildHookUrl = process.env.NETLIFY_BUILD_HOOK_URL;
+  if (buildHookUrl) {
+    try {
+      const res = await fetch(buildHookUrl, { method: "POST" });
+      if (!res.ok) {
+        console.log("build hook failed:", res.status);
+      } else {
+        console.log("build triggered");
+      }
+    } catch (err) {
+      console.log("build hook error:", err);
+    }
+  } else {
+    console.log("NETLIFY_BUILD_HOOK_URL not set; skipping build trigger");
+  }
+
   return new Response("ok", { status: 200 });
 };
 
