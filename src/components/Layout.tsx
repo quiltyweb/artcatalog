@@ -58,6 +58,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         <Nav
           site={layoutData?.site}
           allShopifyCollection={layoutData?.allShopifyCollection}
+          markets={layoutData?.adminshopify?.markets?.nodes}
         />
       </GridItem>
 

@@ -43,6 +43,27 @@ export function useStaticQueryLayoutData() {
             }
           }
         }
+        markets(first: 10) {
+          nodes {
+            name
+            status
+            type
+            conditions {
+              regionsCondition {
+                regions(first: 50) {
+                  nodes {
+                    ... on AdminShopify_MarketRegionCountry {
+                      code
+                      currency {
+                        currencyCode
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
       allShopifyCollection(
         filter: {
