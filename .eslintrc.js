@@ -33,7 +33,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["netlify/functions/**/*.ts"],
+      files: ["netlify/**/*.ts"],
       rules: {
         "no-console": "off",
       },
