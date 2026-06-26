@@ -21,9 +21,6 @@ export default async (req: Request) => {
   if (!result.valid) {
     return new Response("unauthorized", { status: 401 });
   }
-  console.log("webhook topic:", result.topic);
-  console.log("rawBody: ", rawBody);
-
   const buildHookUrl = process.env.NETLIFY_BUILD_HOOK_URL;
   if (buildHookUrl) {
     try {
