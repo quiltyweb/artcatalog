@@ -12,6 +12,10 @@ const shopify = shopifyApi({
   isEmbeddedApp: false,
 });
 
+/**
+ * Netlify serverless function that receives Shopify inventory_levels/update webhooks
+ * and triggers a site rebuild so static stock data stays fresh
+ * */
 export default async (req: Request) => {
   const rawBody = await req.text();
   const result = await shopify.webhooks.validate({
