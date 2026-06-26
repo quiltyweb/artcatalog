@@ -1,5 +1,5 @@
 import "@shopify/shopify-api/adapters/web-api";
-import { shopifyApi, ApiVersion } from "@shopify/shopify-api";
+import { shopifyApi, ApiVersion, LogSeverity } from "@shopify/shopify-api";
 import type { Config } from "@netlify/functions";
 
 // https://shopify.dev/docs/apps/build/webhooks/verify-deliveries#manual-verification
@@ -10,6 +10,7 @@ const shopify = shopifyApi({
   hostName: "localhost",
   apiVersion: ApiVersion.January26,
   isEmbeddedApp: false,
+  logger: { level: LogSeverity.Warning },
 });
 
 /**
