@@ -60,4 +60,52 @@ describe("shopify-inventory-levels-update", () => {
     });
     expect(logSpy).toHaveBeenCalledWith("build triggered");
   });
+
+  it("returns 200 and logs a failure when the build hook responds with an error status", async () => {
+    mockValidate.mockResolvedValueOnce({ valid: true });
+    process.env.NETLIFY_BUILD_HOOK_URL = "https://hook.example/build";
+    fetchSpy.mockResolvedValueOnce(new Response("", { status: 500 }));
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(200);
+    expect(logSpy).toHaveBeenCalledWith("build hook failed:", 500);
+  });
+
+  it("returns 200 and logs an error when the build hook fetch throws", async () => {
+    mockValidate.mockResolvedValueOnce({ valid: true });
+    process.env.NETLIFY_BUILD_HOOK_URL = "https://hook.example/build";
+    const error = new Error("boom");
+    fetchSpy.mockRejectedValueOnce(error);
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(200);
+    expect(logSpy).toHaveBeenCalledWith("build hook error:", error);
+  });
+
+  it("returns 200 and skips the build trigger when NETLIFY_BUILD_HOOK_URL is not set", async () => {
+    mockValidate.mockResolvedValueOnce({ valid: true });
+    delete process.env.NETLIFY_BUILD_HOOK_URL;
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(200);
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(logSpy).toHaveBeenCalledWith(
+      "NETLIFY_BUILD_HOOK_URL not set; skipping build trigger"
+    );
+  });
+
+  it("validates the webhook using the raw body and request", async () => {
+    mockValidate.mockResolvedValueOnce({ valid: true });
+    const req = makeRequest("raw-body");
+
+    await handler(req);
+
+    expect(mockValidate).toHaveBeenCalledWith({
+      rawBody: "raw-body",
+      rawRequest: req,
+    });
+  });
 });
