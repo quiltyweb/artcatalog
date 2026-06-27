@@ -404,6 +404,18 @@ function useAddItemToCart() {
             cart: data?.cartLinesAdd?.cart,
           }));
           setAddItemToCartLoading(false);
+
+          const addedLine = data?.cartLinesAdd?.cart?.lines?.nodes?.find(
+            (line) => line.merchandise.id === variantId,
+          );
+          if (typeof window !== "undefined" && window.fbq && addedLine) {
+            window.fbq("track", "AddToCart", {
+              value: parseFloat(addedLine.merchandise.price.amount) * quantity,
+              currency: addedLine.merchandise.price.currencyCode,
+              content_ids: [variantId],
+            });
+          }
+
           return { cart: data?.cartLinesAdd?.cart }; // ✅ Return cart on success
         })
         .catch((error) => {
@@ -533,6 +545,12 @@ const useCheckoutUrl = () => {
     return;
   }
   const openCheckoutUrl = () => {
+    if (typeof window !== "undefined" && window.fbq && cart.cost?.totalAmount) {
+      window.fbq("track", "Purchase", {
+        value: parseFloat(cart.cost.totalAmount.amount),
+        currency: cart.cost.totalAmount.currencyCode,
+      });
+    }
     const url = new URL(cart.checkoutUrl);
     url.searchParams.set("return_to", "https://www.brushella.art");
     url.searchParams.set("logged_in", "false");
