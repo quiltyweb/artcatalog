@@ -19,15 +19,20 @@ const makeRequest = (body = "raw-body") =>
   });
 
 let fetchSpy: jest.SpyInstance;
+let logSpy: jest.SpyInstance;
+const ORIGINAL_ENV = process.env;
 
 beforeEach(() => {
   jest.clearAllMocks();
+  process.env = { ...ORIGINAL_ENV };
   fetchSpy = jest
     .spyOn(global, "fetch")
     .mockResolvedValue(new Response("ok", { status: 200 }));
+  logSpy = jest.spyOn(console, "log").mockImplementation();
 });
 
 afterEach(() => {
+  process.env = ORIGINAL_ENV;
   jest.restoreAllMocks();
 });
 
@@ -40,5 +45,19 @@ describe("shopify-inventory-levels-update", () => {
     expect(res.status).toBe(401);
     await expect(res.text()).resolves.toBe("unauthorized");
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("triggers the build hook and returns 200 when the webhook is valid", async () => {
+    mockValidate.mockResolvedValueOnce({ valid: true });
+    process.env.NETLIFY_BUILD_HOOK_URL = "https://hook.example/build";
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(200);
+    await expect(res.text()).resolves.toBe("ok");
+    expect(fetchSpy).toHaveBeenCalledWith("https://hook.example/build", {
+      method: "POST",
+    });
+    expect(logSpy).toHaveBeenCalledWith("build triggered");
   });
 });
