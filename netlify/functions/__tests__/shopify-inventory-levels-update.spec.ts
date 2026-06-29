@@ -20,15 +20,19 @@ const makeRequest = (body = "raw-body") =>
 
 let fetchSpy: jest.SpyInstance;
 let logSpy: jest.SpyInstance;
+let warnSpy: jest.SpyInstance;
+let errorSpy: jest.SpyInstance;
 const ORIGINAL_ENV = process.env;
 
 beforeEach(() => {
   jest.clearAllMocks();
-  process.env = { ...ORIGINAL_ENV };
+  process.env = { ...ORIGINAL_ENV, SHOPIFY_WEBHOOK_SECRET: "test-secret" };
   fetchSpy = jest
     .spyOn(global, "fetch")
     .mockResolvedValue(new Response("ok", { status: 200 }));
   logSpy = jest.spyOn(console, "log").mockImplementation();
+  warnSpy = jest.spyOn(console, "warn").mockImplementation();
+  errorSpy = jest.spyOn(console, "error").mockImplementation();
 });
 
 afterEach(() => {
@@ -37,7 +41,7 @@ afterEach(() => {
 });
 
 describe("shopify-inventory-levels-update", () => {
-  it("returns 401 and does not trigger a build when the webhook signature is invalid", async () => {
+  it("returns 401, logs the rejection, and does not trigger a build when the webhook signature is invalid", async () => {
     mockValidate.mockResolvedValueOnce({ valid: false });
 
     const res = await handler(makeRequest());
@@ -45,6 +49,34 @@ describe("shopify-inventory-levels-update", () => {
     expect(res.status).toBe(401);
     await expect(res.text()).resolves.toBe("unauthorized");
     expect(fetchSpy).not.toHaveBeenCalled();
+    expect(warnSpy).toHaveBeenCalledWith(
+      "rejected webhook: invalid signature",
+      expect.any(String)
+    );
+  });
+
+  it("returns 500 and does not validate or build when SHOPIFY_WEBHOOK_SECRET is not set", async () => {
+    delete process.env.SHOPIFY_WEBHOOK_SECRET;
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(500);
+    await expect(res.text()).resolves.toBe("server misconfigured");
+    expect(mockValidate).not.toHaveBeenCalled();
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalled();
+  });
+
+  it("returns 400 and does not trigger a build when validation throws", async () => {
+    const error = new Error("boom");
+    mockValidate.mockRejectedValueOnce(error);
+
+    const res = await handler(makeRequest());
+
+    expect(res.status).toBe(400);
+    await expect(res.text()).resolves.toBe("bad request");
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalledWith("webhook validation error:", error);
   });
 
   it("triggers the build hook and returns 200 when the webhook is valid", async () => {

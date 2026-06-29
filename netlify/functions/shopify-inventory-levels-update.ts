@@ -18,12 +18,31 @@ const shopify = shopifyApi({
  * and triggers a site rebuild so static stock data stays fresh
  * */
 export default async (req: Request) => {
-  const rawBody = await req.text();
-  const result = await shopify.webhooks.validate({
-    rawBody,
-    rawRequest: req,
-  });
+  // A02: fail fast on a missing secret rather than validating with an empty key
+  if (!process.env.SHOPIFY_WEBHOOK_SECRET) {
+    console.error("SHOPIFY_WEBHOOK_SECRET is not set; rejecting webhook");
+    return new Response("server misconfigured", { status: 500 });
+  }
+
+  // A10: a malformed request or SDK error must not surface as an opaque 500
+  let result: Awaited<ReturnType<typeof shopify.webhooks.validate>>;
+  try {
+    const rawBody = await req.text();
+    result = await shopify.webhooks.validate({
+      rawBody,
+      rawRequest: req,
+    });
+  } catch (err) {
+    console.error("webhook validation error:", err);
+    return new Response("bad request", { status: 400 });
+  }
+
   if (!result.valid) {
+    // A09: surface rejected deliveries for monitoring (header is spoofable, informational only)
+    console.warn(
+      "rejected webhook: invalid signature",
+      req.headers.get("x-shopify-shop-domain") ?? "unknown shop"
+    );
     return new Response("unauthorized", { status: 401 });
   }
   const buildHookUrl = process.env.NETLIFY_BUILD_HOOK_URL;
