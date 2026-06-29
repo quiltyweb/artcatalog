@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-// Fresh module registry — hasPlayedEntrance starts false so epicMode=true on first render.
 jest.mock("motion/react", () => {
   const actual = jest.requireActual("motion/react");
   return {
@@ -43,7 +42,17 @@ const IMAGES = [
 
 describe("HomePageSlider — epic-mode-active body class", () => {
   it("adds epic-mode-active to body during animation and removes it on skip", () => {
-    render(<HomePageSlider images={IMAGES} initialLoading={true} />);
+    render(<HomePageSlider images={IMAGES} initialLoading={false} />);
+
+    // Animation does not play by default — epic-mode-active is not set.
+    expect(document.body.classList.contains("epic-mode-active")).toBe(false);
+
+    // Start the animation via the play button.
+    act(() => {
+      fireEvent.click(
+        screen.getByRole("button", { name: /play intro animation/i }),
+      );
+    });
 
     expect(document.body.classList.contains("epic-mode-active")).toBe(true);
 
