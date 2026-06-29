@@ -36,38 +36,17 @@ const withWidth = (url: string, width: number) => {
   return `${url}${sep}width=${width}`;
 };
 
-// Module-level flag — survives unmount/remount across SPA navigation
-// so the epic reveal only plays once per page-load lifetime.
-let hasPlayedEntrance = false;
-
-const ENTRANCE_PLAYED_KEY = "brushella_entrance_played";
-
 export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   images,
   initialLoading = true,
 }) => {
   const reduceMotion = useReducedMotion();
-  // Claim the entrance slot at mount, not when the animation effect fires.
-  // Otherwise, navigating away during the 2.5s logo intro (before the effect
-  // sets the flag) leaves hasPlayedEntrance=false and the animation replays
-  // on return.
-  const [shouldAnimate] = useState(() => {
-    if (hasPlayedEntrance || reduceMotion) return false;
-    if (typeof window !== "undefined" && localStorage.getItem(ENTRANCE_PLAYED_KEY)) return false;
-    hasPlayedEntrance = true;
-    if (typeof window !== "undefined") localStorage.setItem(ENTRANCE_PLAYED_KEY, "1");
-    return true;
-  });
+  const [animationActive, setAnimationActive] = useState(false);
   const [loading, setLoading] = useState(initialLoading);
-  const [epicMode, setEpicMode] = useState(shouldAnimate);
+  const [epicMode, setEpicMode] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  // Guarantees the loader is visible for at least N ms — prevents
-  // it from flashing past in a single frame when images are cached.
-  const [minLoaderHeld, setMinLoaderHeld] = useState(true);
-  // Brand-logo intro: fades in, holds 1.5s, fades out — runs only on
-  // the first home visit (same condition as shouldAnimate).
-  const [logoIntroDone, setLogoIntroDone] = useState(() => !shouldAnimate);
-  const [hoverReady, setHoverReady] = useState(() => !shouldAnimate);
+  const [logoIntroDone, setLogoIntroDone] = useState(true);
+  const [hoverReady, setHoverReady] = useState(true);
   const [skipped, setSkipped] = useState(false);
   const loadedIdxRef = React.useRef<Set<number>>(new Set());
   const hasInteractedRef = React.useRef(false);
@@ -82,14 +61,21 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     }
   };
 
-  const showLoader =
-    loading || !imagesLoaded || minLoaderHeld || !logoIntroDone;
+  const showLoader = !logoIntroDone;
 
-  const showSkipButton = shouldAnimate && !hoverReady;
+  const showSkipButton = animationActive && !hoverReady;
+  const showPlayButton = !reduceMotion && (!animationActive || hoverReady);
+
+  const startAnimation = () => {
+    setSkipped(false);
+    setEpicMode(true);
+    setLogoIntroDone(false);
+    setHoverReady(false);
+    setAnimationActive(true);
+  };
 
   const skipAnimation = () => {
     setSkipped(true);
-    setMinLoaderHeld(false);
     setLogoIntroDone(true);
     setLoading(false);
     setImagesLoaded(true);
@@ -101,10 +87,14 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     sectionControls.set({ height: "calc(100vh - 84px)", marginTop: 0 });
   };
 
+  // Snap slides and section to their starting state once the controls are
+  // connected (animate prop is live after this render). The logo overlay
+  // covers everything during this window, so the reset is invisible.
   useEffect(() => {
-    const t = setTimeout(() => setMinLoaderHeld(false), 700);
-    return () => clearTimeout(t);
-  }, []);
+    if (!animationActive) return;
+    controls.set({ opacity: 0, filter: "grayscale(1)" });
+    sectionControls.set({ height: "100vh", marginTop: "-84px" });
+  }, [animationActive, controls, sectionControls]);
 
   // Signal to the consent banner that the homepage entrance animation is over,
   // so it can appear without competing with the reveal.
@@ -130,31 +120,28 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
   // Mirror the keyframe duration used for the logo motion below
   // (fade in 0.3s + hold 0.9s + fade out 0.3s = 1.5s).
   useEffect(() => {
-    if (!shouldAnimate) return;
+    if (!animationActive || logoIntroDone) return;
     const t = setTimeout(() => setLogoIntroDone(true), 1500);
     return () => clearTimeout(t);
-  }, [shouldAnimate]);
+  }, [animationActive, logoIntroDone]);
 
   useEffect(() => {
     if (skipped) return;
-    if (!shouldAnimate || loading || !imagesLoaded || !logoIntroDone) return;
-    controls.set({ opacity: 0, filter: "grayscale(1)" });
-    sectionControls.set({ height: "100vh", marginTop: "-84px" });
+    if (!animationActive || loading || !imagesLoaded || !logoIntroDone) return;
 
     // Color reveal: holds greyscale for 0.5s then transitions to full colour over 1.5s.
     const colourPromise = controls.start({
       filter: "grayscale(0)",
-      transition: { duration: 1.2, delay: 0.5, ease: "easeOut" },
+      transition: { duration: 2.0, delay: 0.5, ease: "easeOut" },
     });
 
-    const opacityPromise = controls.start((custom: number) => ({
+    const opacityPromise = controls.start({
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: custom * 0.1,
         ease: "easeOut",
       },
-    }));
+    });
 
     let hoverReadyTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -172,6 +159,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
       })
       .then(() => {
         setEpicMode(false);
+        setAnimationActive(false);
         // Captions and nav buttons now fade in over 200ms — wait that
         // long before enabling hover scale.
         hoverReadyTimeout = setTimeout(() => setHoverReady(true), 200);
@@ -182,7 +170,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     };
   }, [
     skipped,
-    shouldAnimate,
+    animationActive,
     loading,
     imagesLoaded,
     logoIntroDone,
@@ -198,8 +186,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         epicMode ? "z-50 pointer-events-none epic-mode-active" : ""
       }`}
       style={{ height: "calc(100vh - 84px)" }}
-      initial={shouldAnimate ? { height: "100vh", marginTop: "-84px" } : false}
-      animate={shouldAnimate ? sectionControls : false}
+      animate={animationActive ? sectionControls : false}
     >
       {showSkipButton && (
         <button
@@ -316,11 +303,7 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
           >
             <motion.div
               className="flex flex-col items-center h-full w-full"
-              custom={idx}
-              initial={
-                shouldAnimate ? { opacity: 0, filter: "grayscale(1)" } : false
-              }
-              animate={shouldAnimate ? controls : false}
+              animate={animationActive ? controls : false}
             >
               <div className="relative flex-1 min-h-0 w-full overflow-hidden rounded">
                 <picture className="h-full w-full">
@@ -366,9 +349,9 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
 
               {!epicMode && (
                 <motion.div
-                  initial={shouldAnimate ? { opacity: 0, height: 0 } : false}
+                  initial={false}
                   animate={
-                    shouldAnimate ? { opacity: 1, height: "auto" } : false
+                    animationActive ? { opacity: 1, height: "auto" } : false
                   }
                   transition={{ duration: skipped ? 0 : 0.1, ease: "easeOut" }}
                   style={{ overflow: "hidden" }}
@@ -403,15 +386,10 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
 
         <button
           className={`swiper-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
                    bg-transparent flex items-center justify-center
-                   rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white
+                   rounded-full focus:outline-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black
                    [&::after]:hidden
-                   transition-opacity duration-200 ${
-                     epicMode
-                       ? "opacity-0 pointer-events-none"
-                       : "opacity-50 hover:opacity-100 active:opacity-100"
-                   }`}
+                   ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
           aria-label="Previous image"
         >
           <svg
@@ -443,15 +421,10 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
         </button>
         <button
           className={`swiper-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10
-                   group-focus-within:opacity-100
                    bg-transparent flex items-center justify-center
-                   rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white
+                   rounded-full focus:outline-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black
                    [&::after]:hidden
-                   transition-opacity duration-200 ${
-                     epicMode
-                       ? "opacity-0 pointer-events-none"
-                       : "opacity-50 hover:opacity-100 active:opacity-100"
-                   }`}
+                   ${epicMode ? "opacity-0 pointer-events-none" : ""}`}
           aria-label="Next image"
         >
           <svg
@@ -481,6 +454,40 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
             />
           </svg>
         </button>
+
+        {showPlayButton && (
+          <button
+            type="button"
+            onClick={startAnimation}
+            className="absolute bottom-8 right-2 z-10 m-4
+                       bg-transparent flex items-center justify-center
+                       rounded-full focus:outline-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            aria-label="Play intro animation"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 40 40"
+              aria-hidden="true"
+              className="w-10 h-10 drop-shadow"
+            >
+              <mask id="hp-play-icon">
+                <rect width="40" height="40" fill="white" />
+                <polygon
+                  points="15,11 31,20 15,29"
+                  fill="black"
+                />
+              </mask>
+              <circle
+                cx="20"
+                cy="20"
+                r="20"
+                fill="white"
+                fillOpacity="0.7"
+                mask="url(#hp-play-icon)"
+              />
+            </svg>
+          </button>
+        )}
       </Swiper>
     </motion.section>
   );
