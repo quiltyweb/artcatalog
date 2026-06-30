@@ -3,25 +3,15 @@ import { Box, Button, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import { useConsent } from "../hooks/useConsent";
 
-const HERO_ANIMATION_EVENT = "brushella:hero-animation-complete";
-
 const ConsentBanner: React.FunctionComponent =
   (): React.ReactElement | null => {
     const { consent, accept, decline } = useConsent();
-    const [ready, setReady] = React.useState<boolean>(false);
+    const [mounted, setMounted] = React.useState<boolean>(false);
 
-    React.useEffect(() => {
-      if (window.location.pathname !== "/") {
-        setReady(true);
-        return;
-      }
-      const handler = () => setReady(true);
-      window.addEventListener(HERO_ANIMATION_EVENT, handler);
-      return () => window.removeEventListener(HERO_ANIMATION_EVENT, handler);
-    }, []);
+    React.useEffect(() => setMounted(true), []);
 
+    if (!mounted) return null;
     if (consent !== null) return null;
-    if (!ready) return null;
 
     return (
       <Box
