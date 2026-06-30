@@ -96,14 +96,6 @@ export const HomePageSlider: React.FC<HomePageSliderProps> = ({
     sectionControls.set({ height: "100vh", marginTop: "-84px" });
   }, [animationActive, controls, sectionControls]);
 
-  // Signal to the consent banner that the homepage entrance animation is over,
-  // so it can appear without competing with the reveal.
-  useEffect(() => {
-    if (hoverReady) {
-      window.dispatchEvent(new Event("brushella:hero-animation-complete"));
-    }
-  }, [hoverReady]);
-
   useEffect(() => {
     if (epicMode) {
       document.body.classList.add("epic-mode-active");
