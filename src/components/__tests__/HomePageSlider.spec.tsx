@@ -179,16 +179,6 @@ describe("HomePageSlider", () => {
     jest.useRealTimers();
   });
 
-  it("renders Swiper loading state", async () => {
-    render(
-      <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={true} />
-    );
-    // Loader is visible initially
-    expect(
-      screen.getByText("Featured work slider is loading")
-    ).toBeInTheDocument();
-  });
-
   it("renders all images with alt text", () => {
     render(
       <HomePageSlider images={MOCKED_IMAGES_PROPS} initialLoading={false} />

@@ -21535,7 +21535,7 @@ type AdminShopify_DraftOrderDiscountNotAppliedWarning = AdminShopify_DraftOrderW
   readonly message: Scalars['String'];
   /**
    * The price rule that can't be applied.
-   * @deprecated This field is deprecated.
+   * @deprecated Use discountCode and discountTitle instead. This field will be removed in 2026-10.
    */
   readonly priceRule: Maybe<AdminShopify_PriceRule>;
 };
