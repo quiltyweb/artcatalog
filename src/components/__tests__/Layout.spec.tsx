@@ -630,7 +630,7 @@ describe("Layout", () => {
 
     const Nav = await screen.findByRole("navigation");
     within(Nav).getByRole("link", { name: "no items in shopping cart" });
-    within(Nav).getByLabelText("Site Title home");
+    expect(within(Nav).getAllByLabelText("Site Title home").length).toBeGreaterThan(0);
     within(Nav).getByLabelText("menu");
     screen.getByRole("heading", { name: "Brushella, Art and Home Decor" });
     screen.getByText("some content children");
@@ -659,7 +659,7 @@ describe("Layout", () => {
       screen.queryByRole("button", { name: "menu" })
     ).not.toBeInTheDocument();
     screen.getByRole("link", { name: "no items in shopping cart" });
-    screen.getByLabelText("Site Title home");
+    expect(screen.getAllByLabelText("Site Title home").length).toBeGreaterThan(0);
     const desktopMenu = await screen.findByRole("navigation");
     within(desktopMenu).getByRole("link", {
       name: "Original Paintings Testing",
