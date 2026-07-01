@@ -616,13 +616,13 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = ({
                         From
                       </Text>
                       {minPrice}{" "}
-                      <Text as="span" fontSize="sm" color="gray.500">{currencyCode}</Text>
+                      <Text as="span" fontSize="sm" color="gray.600">{currencyCode}</Text>
                     </>
                   )}
                   {props.values.variant !== "" && (
                     <>
                       {variantPriceWithFormat}{" "}
-                      <Text as="span" fontSize="sm" color="gray.500">{currencyCode}</Text>
+                      <Text as="span" fontSize="sm" color="gray.600">{currencyCode}</Text>
                     </>
                   )}
                 </Box>
