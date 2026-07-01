@@ -43,6 +43,7 @@
     "@novatize-mattheri/shopify-richtext-renderer": "^0.0.14",
     "@sentry/gatsby": "^10.53.1",
     "@shopify/hydrogen-react": "^2025.1.2",
+    "@shopify/shopify-api": "^13.0.0",
     "@shopify/storefront-api-client": "^1.0.10",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
@@ -90,6 +91,7 @@
   },
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.20.1",
+    "@netlify/functions": "^5.3.0",
     "@testing-library/cypress": "^8.0.0",
     "@types/jest": "^29.5.0",
     "@types/lodash": "^4.17.7",
