@@ -585,7 +585,7 @@ describe("Nav", () => {
         allShopifyCollection={MOCKED_PROPS.allShopifyCollection}
       />
     );
-    expect(screen.getAllByLabelText(/Brushella title home/).length).toBeGreaterThan(0);
+    screen.getByLabelText(/Brushella title home/);
   });
 
   it("renders menu items", async () => {
@@ -602,7 +602,7 @@ describe("Nav", () => {
 
   it("renders desktop navigation with no categories", async () => {
     render(<Nav />);
-    expect(screen.getAllByLabelText("Brushella home").length).toBeGreaterThan(0);
+    screen.getByLabelText("Brushella home");
     screen.getByRole("link", { name: "no items in shopping cart" });
     expect(
       screen.queryByRole("link", { name: "Original Paintings Testing" })

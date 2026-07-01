@@ -112,13 +112,11 @@ const Nav: React.FunctionComponent<NavProps> = ({
         order={[2, 2, 2, 1, 1]}
         mx={[4, 4, 4, 0, 0]}
         display={["block", "block", "block", "none", "none"]}
+        aria-hidden="true"
+        tabIndex={-1}
       >
         <LogoSVG
-          aria-label={
-            site?.siteMetadata?.title
-              ? `${site.siteMetadata.title} home`
-              : "Brushella home"
-          }
+          aria-hidden="true"
           style={{
             maxWidth: "clamp(40px, 8vw, 60px)",
             maxHeight: "clamp(40px, 8vw, 60px)",
