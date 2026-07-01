@@ -1,11 +1,14 @@
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
+import * as MarketContext from "../../context/MarketContext";
+import { render, screen, within, fireEvent } from "@testing-library/react";
 import Footer from "../Footer";
+const useMarket = jest.spyOn(MarketContext, "useMarket");
 
 let MOCKED_PROPS: Queries.LayoutGlobalDataQuery["adminshopify"]["legalContent"];
 
 beforeEach(() => {
   jest.clearAllMocks();
+  useMarket.mockImplementation(() => ({ countryCode: "AU", setCountryCode: jest.fn() }));
   MOCKED_PROPS = {
     nodes: [
       {
@@ -68,6 +71,56 @@ describe("Footer", () => {
     screen.getByText(/Brushella Art & Home décor. All rights reserved/);
     screen.getByText(/© 202/);
     screen.getByRole("link", { name: /go to top/i });
+  });
+
+  describe("currency selector", () => {
+    const twoMarkets = [
+      {
+        name: "Australia",
+        status: "ACTIVE",
+        type: "REGION",
+        conditions: {
+          regionsCondition: {
+            regions: { nodes: [{ code: "AU", currency: { currencyCode: "AUD" } }] },
+          },
+        },
+      },
+      {
+        name: "New Zealand",
+        status: "ACTIVE",
+        type: "REGION",
+        conditions: {
+          regionsCondition: {
+            regions: { nodes: [{ code: "NZ", currency: { currencyCode: "NZD" } }] },
+          },
+        },
+      },
+    ];
+
+    it("does not render when markets prop is omitted", () => {
+      render(<Footer legalContent={MOCKED_PROPS} />);
+      expect(screen.queryByLabelText("Select currency")).not.toBeInTheDocument();
+    });
+
+    it("does not render when only one market is active", () => {
+      render(<Footer legalContent={MOCKED_PROPS} markets={[twoMarkets[0]]} />);
+      expect(screen.queryByLabelText("Select currency")).not.toBeInTheDocument();
+    });
+
+    it("renders with an option per market when multiple markets are provided", () => {
+      render(<Footer legalContent={MOCKED_PROPS} markets={twoMarkets} />);
+      const selector = screen.getByLabelText("Select currency");
+      expect(within(selector).getByRole("option", { name: /AUD/ })).toBeInTheDocument();
+      expect(within(selector).getByRole("option", { name: /NZD/ })).toBeInTheDocument();
+    });
+
+    it("calls setCountryCode with the selected country code when the selection changes", () => {
+      const mockSetCountryCode = jest.fn();
+      useMarket.mockImplementation(() => ({ countryCode: "AU", setCountryCode: mockSetCountryCode }));
+      render(<Footer legalContent={MOCKED_PROPS} markets={twoMarkets} />);
+      fireEvent.change(screen.getByLabelText("Select currency"), { target: { value: "NZ" } });
+      expect(mockSetCountryCode).toHaveBeenCalledWith("NZ");
+    });
   });
 
   it("renders no links correctly", async () => {
