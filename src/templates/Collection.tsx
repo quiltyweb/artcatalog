@@ -229,7 +229,9 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                         textDecoration={soldOut ? "line-through" : undefined}
                       >
                         {formatPrice({ currency: currencyCode, value: amount })}{" "}
-                        {currencyCode}
+                        <Text as="span" fontSize="xs" fontWeight="normal" color="gray.500">
+                          {currencyCode}
+                        </Text>
                       </Text>
                     </Box>
                   )}

@@ -4,6 +4,7 @@ import {
   HStack,
   Icon,
   ListItem,
+  Select,
   Text,
   UnorderedList,
   Link,
@@ -13,9 +14,28 @@ import { Link as GatsbyLink } from "gatsby";
 import styled from "styled-components";
 import { kebabCase } from "lodash";
 import { useConsent } from "../hooks/useConsent";
+import { useMarket } from "../context/MarketContext";
+import { getCurrencySymbol } from "../utils/formatPrice";
+
+type MarketRegionCountry = {
+  code: string;
+  currency: { currencyCode: string };
+};
+
+type ShopifyMarket = {
+  name: string;
+  status: string;
+  type: string;
+  conditions: {
+    regionsCondition: {
+      regions: { nodes: ReadonlyArray<MarketRegionCountry | Record<string, never>> };
+    } | null;
+  } | null;
+};
 
 type FooterProps = {
   legalContent?: Queries.LayoutGlobalDataQuery["adminshopify"]["legalContent"];
+  markets?: ReadonlyArray<ShopifyMarket> | null;
 };
 
 const FooterLink = styled(GatsbyLink)`
@@ -36,9 +56,22 @@ const FooterIconLink = styled.a`
 
 const Footer: React.FunctionComponent<FooterProps> = ({
   legalContent,
+  markets,
 }): React.ReactElement => {
   const year = new Date().getFullYear();
   const { reset: resetConsent } = useConsent();
+  const { countryCode, setCountryCode } = useMarket();
+
+  const marketOptions = (markets ?? [])
+    .filter((m) => m.status === "ACTIVE" && m.type === "REGION")
+    .flatMap((m) =>
+      (m.conditions?.regionsCondition?.regions?.nodes ?? [])
+        .filter((r): r is MarketRegionCountry => "code" in r)
+        .slice(0, 1)
+        .map((r) => ({ countryCode: r.code, currencyCode: r.currency.currencyCode })),
+    )
+    .filter((opt, index, arr) => arr.findIndex((o) => o.countryCode === opt.countryCode) === index);
+
   return (
     <Box data-testid="footer">
       <Box as="section" p="4" aria-labelledby="quicklinks">
@@ -109,7 +142,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
           p="8"
           fontSize="md"
         >
-          <HStack spacing="1rem">
+          <HStack spacing="1rem" alignItems="center">
             <FooterIconLink
               data-testid="facebook"
               href="https://www.facebook.com/Brushella"
@@ -152,13 +185,37 @@ const Footer: React.FunctionComponent<FooterProps> = ({
               />
             </FooterIconLink>
           </HStack>
-          <Text display="flex" justifyContent="center" color="gray.600">
-            © {year}, Brushella Art & Home décor. All rights reserved.
-          </Text>
+          {marketOptions.length > 1 && (
+            <HStack spacing="2" alignItems="center">
+              <Text as="label" htmlFor="footer-currency-select" fontSize="sm" color="gray.600" fontWeight="medium">
+                Select currency
+              </Text>
+              <Select
+                id="footer-currency-select"
+                size="sm"
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                variant="outline"
+                w="auto"
+                borderColor="gray.300"
+                color="gray.700"
+                cursor="pointer"
+              >
+                {marketOptions.map((opt) => (
+                  <option key={opt.countryCode} value={opt.countryCode}>
+                    {opt.currencyCode} {getCurrencySymbol(opt.currencyCode)}
+                  </option>
+                ))}
+              </Select>
+            </HStack>
+          )}
           <Link href="#top-logo" textDecoration="underline" color="gray.600">
             Go to top
           </Link>
         </HStack>
+        <Text display="flex" justifyContent="center" color="gray.600" fontSize="md" pb="2">
+          © {year}, Brushella Art & Home décor. All rights reserved.
+        </Text>
         <Text
           display="flex"
           justifyContent="center"

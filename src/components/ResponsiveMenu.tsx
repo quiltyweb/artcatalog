@@ -102,16 +102,18 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
   return (
     <Stack
       direction={["column", "column", "column", "row"]}
-      spacing={["7"]}
+      spacing={["7", "7", "7", "4", "4"]}
       align="left"
       px={0}
       mx={0}
       textAlign={["left"]}
+      flexWrap="nowrap"
     >
       <Link
-        fontSize={["md"]}
+        fontSize="md"
         textTransform="uppercase"
         fontWeight="bold"
+        whiteSpace="nowrap"
         as={GatsbyLink}
         key={"item-home"}
         to="/"
@@ -122,9 +124,10 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       {allShopifyCollectionNodes &&
         allShopifyCollectionNodes.map((item) => (
           <Link
-            fontSize={["md"]}
+            fontSize="md"
             textTransform="uppercase"
             fontWeight="bold"
+            whiteSpace="nowrap"
             as={GatsbyLink}
             key={item.id}
             to={`/collections/${item.handle}`}
@@ -134,9 +137,10 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
           </Link>
         ))}
       <Link
-        fontSize={["md"]}
+        fontSize="md"
         textTransform="uppercase"
         fontWeight="bold"
+        whiteSpace="nowrap"
         as={GatsbyLink}
         key="item-all-categories"
         to="/collections"
@@ -146,9 +150,10 @@ const CategoriesListMenu: React.FunctionComponent<CategoriesListMenuProps> = ({
       </Link>
       {giftCardUrl && (
         <Link
-          fontSize={["md"]}
+          fontSize="md"
           textTransform="uppercase"
           fontWeight="bold"
+          whiteSpace="nowrap"
           as={GatsbyLink}
           key="item-gift-card"
           to={giftCardUrl}

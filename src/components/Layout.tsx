@@ -82,7 +82,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         maxWidth="1200px"
         marginTop="6"
       >
-        <Footer legalContent={layoutData?.adminshopify.legalContent} />
+        <Footer
+          legalContent={layoutData?.adminshopify.legalContent}
+          markets={layoutData?.adminshopify?.markets?.nodes}
+        />
       </GridItem>
     </Grid>
   );

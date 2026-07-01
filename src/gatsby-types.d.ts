@@ -589,7 +589,10 @@ type AdminShopify = {
   readonly customerMergePreview: AdminShopify_CustomerMergePreview;
   /** Returns a vaulted customer payment method by its ID, including the instrument type (credit card, PayPal, etc.), billing address, and current status. Optionally includes revoked payment methods. Use this to look up a specific saved payment method for a customer — for example, to check whether a subscription's payment method is still valid or to display stored payment details. */
   readonly customerPaymentMethod: Maybe<AdminShopify_CustomerPaymentMethod>;
-  /** List of the shop's customer saved searches. */
+  /**
+   * List of the shop's customer saved searches.
+   * @deprecated Use `segments` instead.
+   */
   readonly customerSavedSearches: AdminShopify_SavedSearchConnection;
   /**
    * A paginated list of customers that belong to an individual [`Segment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Segment). Segments group customers based on criteria defined through [ShopifyQL queries](https://shopify.dev/docs/api/shopifyql/segment-query-language-reference). Access segment members with their profile information and purchase summary data. The connection includes statistics for analyzing segment attributes (such as average and sum calculations) and a total count of all members.
@@ -1298,7 +1301,10 @@ type AdminShopify = {
   readonly segmentFilterSuggestions: AdminShopify_SegmentFilterConnection;
   /** A list of filters. */
   readonly segmentFilters: AdminShopify_SegmentFilterConnection;
-  /** A list of a shop's segment migrations. */
+  /**
+   * A list of a shop's segment migrations.
+   * @deprecated Use the migrated segment ID and query `segment` directly.
+   */
   readonly segmentMigrations: AdminShopify_SegmentMigrationConnection;
   /** The list of suggested values corresponding to a particular filter for a segment. A segment is a group of members, such as customers, that meet specific criteria. */
   readonly segmentValueSuggestions: AdminShopify_SegmentValueConnection;
@@ -21615,14 +21621,8 @@ type AdminShopify_DraftOrderInput = {
   /** The shipping line object, which details the shipping method used. */
   readonly shippingLine: InputMaybe<AdminShopify_ShippingLineInput>;
   /**
-   * The source of the checkout.
-   * To use this field for sales attribution, you must register the channels that your app is managing.
-   * You can register the channels that your app is managing by completing
-   * [this Google Form](https://docs.google.com/forms/d/e/1FAIpQLScmVTZRQNjOJ7RD738mL1lGeFjqKVe_FM2tO9xsm21QEo5Ozg/viewform?usp=sf_link).
-   * After you've submitted your request, you need to wait for your request to be processed by Shopify.
-   * You can find a list of your channels in the Partner Dashboard, in your app's Marketplace extension.
-   * You need to specify the handle as the `source_name` value in your request.
-   * The handle is the channel that the order was placed from.
+   * The source channel that the order is attributed to. Set this to the handle of an order attribution definition configured for your sales channel app, such as `youtube` or `channel:amazon-us`.
+   * To set up order attribution for your app, follow the [order attribution guide](https://shopify.dev/docs/apps/build/sales-channels/order-attribution).
    */
   readonly sourceName: InputMaybe<Scalars['String']>;
   /** A comma separated list of tags that have been added to the draft order. */
@@ -31930,6 +31930,8 @@ type AdminShopify_MarketUserErrorCode =
   | 'MANAGED_MARKET'
   /** Catalogs created by Managed Markets cannot be added to a market. */
   | 'MANAGED_MARKETS_CATALOG_NOT_ALLOWED'
+  /** Resources created by Managed Markets cannot be added to a market. */
+  | 'MANAGED_MARKETS_RESOURCE_NOT_ALLOWED'
   /** A direct connection catalog can't be attached to a market. */
   | 'MARKET_CANT_HAVE_DIRECT_CONNECTION_CATALOG'
   /** Market and condition types are not compatible with each other. */
@@ -38269,7 +38271,7 @@ type AdminShopify_OrderCreateOrderInput = {
   readonly shippingLines: InputMaybe<ReadonlyArray<AdminShopify_OrderCreateShippingLineInput>>;
   /** The ID of the order placed on the originating platform. This value doesn't correspond to the Shopify ID that's generated from a completed draft. */
   readonly sourceIdentifier: InputMaybe<Scalars['String']>;
-  /** The source of the checkout. To use this field for sales attribution, you must register the channels that your app is managing. You can register the channels that your app is managing by completing [this Google Form](https://docs.google.com/forms/d/e/1FAIpQLScmVTZRQNjOJ7RD738mL1lGeFjqKVe_FM2tO9xsm21QEo5Ozg/viewform?usp=sf_link). After you've submited your request, you need to wait for your request to be processed by Shopify. You can find a list of your channels in the Partner Dashboard, in your app's Marketplace extension. You can specify a handle as the source_name value in your request. */
+  /** The source channel that the order is attributed to. Set this to the handle of an order attribution definition configured for your sales channel app, such as `youtube` or `channel:amazon-us`. To set up order attribution for your app, follow the [order attribution guide](https://shopify.dev/docs/apps/build/sales-channels/order-attribution). */
   readonly sourceName: InputMaybe<Scalars['String']>;
   /** A valid URL to the original order on the originating surface. This URL is displayed to merchants on the Order Details page. If the URL is invalid, then it won't be displayed. */
   readonly sourceUrl: InputMaybe<Scalars['AdminShopify_URL']>;
@@ -48033,6 +48035,8 @@ type AdminShopify_ReturnErrorCode =
   | 'GREATER_THAN_OR_EQUAL_TO'
   /** The input value isn't included in the list. */
   | 'INCLUSION'
+  /** The requested configuration cannot be applied to this standard return policy which is managed for you in compliance with relevant regulations. */
+  | 'INCOMPATIBLE_WITH_STANDARD_POLICY'
   /** Unexpected internal error happened. */
   | 'INTERNAL_ERROR'
   /** The input value is invalid. */
