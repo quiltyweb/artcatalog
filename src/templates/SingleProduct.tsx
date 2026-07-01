@@ -1,9 +1,10 @@
 import React from "react";
 import { Container } from "@chakra-ui/react";
-import ProductCard from "../components/ProductCard";
+import ProductCard, { type MarketPrice } from "../components/ProductCard";
 import SEO from "../components/SEO";
 import { PageProps } from "gatsby";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import { useMarket } from "../context/MarketContext";
 
 type SingleProductProps = {
   location: PageProps["location"];
@@ -13,13 +14,16 @@ type SingleProductProps = {
     collectionHandle: string;
     product: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"][0];
     printVersion: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyProduct"]["nodes"][0];
+    marketPricesByCountry?: Record<string, MarketPrice>;
   };
 };
 
 const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
   location,
-  pageContext: { product, printVersion, collectionHandle },
+  pageContext: { product, printVersion, collectionHandle, marketPricesByCountry },
 }): React.ReactElement => {
+  const { countryCode } = useMarket();
+  const marketPrice = marketPricesByCountry?.[countryCode] ?? null;
   const BreadcrumbLinkTitle = collectionHandle.split("-").join(" ");
   return (
     <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
@@ -48,7 +52,7 @@ const SingleProduct: React.FunctionComponent<SingleProductProps> = ({
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <ProductCard product={product} printVersion={printVersion} />
+      <ProductCard product={product} printVersion={printVersion} marketPrice={marketPrice} />
     </Container>
   );
 };

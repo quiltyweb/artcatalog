@@ -10,7 +10,6 @@ import {
   Container,
   Divider,
   Heading,
-  Highlight,
   Icon,
   LinkBox,
   LinkOverlay,
@@ -22,6 +21,10 @@ import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image";
 import { Link } from "gatsby";
 import SEO from "../components/SEO";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { formatPrice } from "../utils/formatPrice";
+import { useMarket } from "../context/MarketContext";
+
+type MarketPrice = { amount: number; currencyCode: string };
 
 type CollectionProps = {
   pageContext: {
@@ -30,14 +33,30 @@ type CollectionProps = {
     description?: string;
     products: Queries.CollectionsAndProductsIntoPagesQuery["allShopifyCollection"]["nodes"][0]["products"];
     printVersionHandles?: Record<string, string>;
+    marketPricesByCountry?: Record<string, Record<string, MarketPrice>>;
   };
 };
 
 const Collection: React.FunctionComponent<CollectionProps> = ({
-  pageContext: { title, description, products, collectionHandle, printVersionHandles },
+  pageContext: {
+    title,
+    description,
+    products,
+    collectionHandle,
+    printVersionHandles,
+    marketPricesByCountry,
+  },
 }): React.ReactElement => {
+  const { countryCode } = useMarket();
+  const currentMarketPrices = marketPricesByCountry?.[countryCode];
+
   return (
-    <Container as="section" maxW={"1200px"} padding={"4rem 0.5rem"} paddingTop={["2rem", "4rem"]}>
+    <Container
+      as="section"
+      maxW={"1200px"}
+      padding={"4rem 0.5rem"}
+      paddingTop={["2rem", "4rem"]}
+    >
       <Breadcrumb mb="2.4rem" fontSize={["sm", "md"]}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -83,8 +102,12 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
           const sortBySoldLast = (arr: typeof products) =>
             [...arr].sort((a, b) => Number(isSold(a)) - Number(isSold(b)));
 
-          const giftCardProducts = products.filter((p) => p.isGiftCard);
-          const regularProducts = products.filter((p) => !p.isGiftCard);
+          const visibleProducts = currentMarketPrices
+            ? products.filter((p) => p.shopifyId && p.shopifyId in currentMarketPrices)
+            : products;
+
+          const giftCardProducts = visibleProducts.filter((p) => p.isGiftCard);
+          const regularProducts = visibleProducts.filter((p) => !p.isGiftCard);
           const portraitProducts = sortBySoldLast(
             regularProducts.filter((p) => !isLandscape(p)),
           );
@@ -103,9 +126,16 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               isGiftCard,
               description,
               priceRangeV2: {
-                minVariantPrice: { amount, currencyCode },
+                minVariantPrice: {
+                  amount: buildTimeAmount,
+                  currencyCode: buildTimeCurrency,
+                },
               },
             } = product;
+            const marketPrice = shopifyId ? currentMarketPrices?.[shopifyId] : undefined;
+            const amount = marketPrice?.amount ?? buildTimeAmount;
+            const currencyCode = marketPrice?.currencyCode ?? buildTimeCurrency;
+
             const featuredImageForGatsbyImage = getImage(
               featuredImage?.grid ?? null,
             );
@@ -198,13 +228,10 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
                         lineHeight="normal"
                         textDecoration={soldOut ? "line-through" : undefined}
                       >
-                        <Highlight
-                          query="AUD"
-                          styles={{ pr: "1", color: "#7e718a" }}
-                        >
+                        {formatPrice({ currency: currencyCode, value: amount })}{" "}
+                        <Text as="span" fontSize="xs" fontWeight="normal" color="gray.500">
                           {currencyCode}
-                        </Highlight>
-                        {`$${amount}`}
+                        </Text>
                       </Text>
                     </Box>
                   )}
@@ -255,6 +282,14 @@ const Collection: React.FunctionComponent<CollectionProps> = ({
               </Card>
             );
           };
+
+          if (visibleProducts.length === 0) {
+            return (
+              <Text textAlign="center" mb="2.4rem">
+                No products are available in the selected currency.
+              </Text>
+            );
+          }
 
           return (
             <>
@@ -343,9 +378,7 @@ export const Head = (props: any) => {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: title,
-    description:
-      description ||
-      `Browse the ${title} collection by Brushella.`,
+    description: description || `Browse the ${title} collection by Brushella.`,
     url: canonical,
     mainEntity: {
       "@type": "ItemList",

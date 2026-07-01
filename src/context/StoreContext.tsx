@@ -5,6 +5,7 @@ import React, {
   SetStateAction,
   useEffect,
   useCallback,
+  useRef,
 } from "react";
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import type {
@@ -17,6 +18,7 @@ import type {
   QueryRoot,
 } from "@shopify/hydrogen-react/storefront-api-types";
 import { formatPrice } from "../utils/formatPrice";
+import { useMarket } from "./MarketContext";
 const SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY = "shopify_checkout_id";
 const SHOPIFY_CHECKOUT_TIMESTAMP_KEY = "shopify_checkout_timestamp";
 const CART_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
@@ -122,7 +124,7 @@ const cartFieldsFragment = `
 
 const cartQuery = `
   ${cartFieldsFragment}
-  query Cart($id: ID!) {
+  query Cart($id: ID!, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
     cart(id: $id) {
       ...CartFields
     }
@@ -131,7 +133,7 @@ const cartQuery = `
 
 const createCartMutation = `
   ${cartFieldsFragment}
-  mutation CreateCart($cartInput: CartInput) {
+  mutation CreateCart($cartInput: CartInput, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
     cartCreate(input: $cartInput) {
       cart {
         ...CartFields
@@ -152,7 +154,7 @@ const createCartMutation = `
 
 const cartLinesAddMutation = `
   ${cartFieldsFragment}
-  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         ...CartFields
@@ -173,7 +175,7 @@ const cartLinesAddMutation = `
 
 const cartLinesUpdateMutation = `
   ${cartFieldsFragment}
-  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart {
         ...CartFields
@@ -194,8 +196,28 @@ const cartLinesUpdateMutation = `
 
 const cartLinesRemoveMutation = `
   ${cartFieldsFragment}
-  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        message
+        code
+        field
+      }
+      warnings {
+        code
+        target
+        message
+      }
+    }
+  }
+`;
+const cartBuyerIdentityUpdateMutation = `
+  ${cartFieldsFragment}
+  mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!, $country: CountryCode = AU, $language: LanguageCode = EN) @inContext(country: $country, language: $language) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
       cart {
         ...CartFields
       }
@@ -226,6 +248,7 @@ const StoreContext = React.createContext<StoreContextType>({
 });
 
 const StoreApp = ({ children }: { children: React.ReactNode }) => {
+  const { countryCode } = useMarket();
   const [store, setStore] = useState<StoreStateType>(storeInitialValues);
 
   const existingCheckoutId = (() => {
@@ -241,14 +264,16 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
     return id;
   })();
 
-  const createNewCart = useCallback(() => {
+  const createNewCart = useCallback((code: string) => {
     setStore((prevState) => {
       return { ...prevState, isLoading: true };
     });
     clientV2
       .request<Mutation>(createCartMutation, {
         variables: {
-          input: {},
+          cartInput: { buyerIdentity: { countryCode: code } },
+          country: code,
+          language: "EN",
         },
       })
       .then(({ data, errors }) => {
@@ -295,6 +320,8 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
         .request<QueryRoot>(cartQuery, {
           variables: {
             id: existingCheckoutId,
+            country: countryCode,
+            language: "EN",
           },
         })
         .then(({ data, errors }) => {
@@ -308,7 +335,7 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
           if (!data?.cart) {
             localStorage.removeItem(SHOPIFY_CHECKOUT_LOCAL_STORAGE_KEY);
             localStorage.removeItem(SHOPIFY_CHECKOUT_TIMESTAMP_KEY);
-            createNewCart();
+            createNewCart(countryCode);
             return;
           }
 
@@ -336,9 +363,34 @@ const StoreApp = ({ children }: { children: React.ReactNode }) => {
           }));
         });
     } else {
-      createNewCart();
+      createNewCart(countryCode);
     }
   }, []);
+
+  const prevCountryCodeRef = useRef(countryCode);
+  useEffect(() => {
+    const prevCode = prevCountryCodeRef.current;
+    prevCountryCodeRef.current = countryCode;
+    if (prevCode === countryCode) return;
+    if (!store.cart?.id) return;
+    clientV2
+      .request<Mutation>(cartBuyerIdentityUpdateMutation, {
+        variables: {
+          cartId: store.cart.id,
+          buyerIdentity: { countryCode },
+          country: countryCode,
+          language: "EN",
+        },
+      })
+      .then(({ data }) => {
+        if (data?.cartBuyerIdentityUpdate?.cart) {
+          setStore((prevState) => ({
+            ...prevState,
+            cart: data.cartBuyerIdentityUpdate?.cart,
+          }));
+        }
+      });
+  }, [countryCode, store.cart?.id]);
 
   return (
     <StoreContext.Provider value={{ store, setStore }}>
@@ -357,6 +409,7 @@ function useAddItemToCart() {
     store: { client, cart },
     setStore,
   } = useContext(StoreContext);
+  const { countryCode } = useMarket();
   const [addItemToCartLoading, setAddItemToCartLoading] = useState(false);
   const [addItemToCartWarnings, setAddItemToCartWarnings] = useState<
     Array<CartWarning>
@@ -387,6 +440,8 @@ function useAddItemToCart() {
                 quantity: quantity,
               },
             ],
+            country: countryCode,
+            language: "EN",
           },
         })
         .then(({ data }) => {
@@ -429,6 +484,7 @@ function useCartLinesUpdate() {
     store: { client, cart },
     setStore,
   } = useContext(StoreContext);
+  const { countryCode } = useMarket();
   const [updateItemsToCartLoading, setUpdateItemsToCartLoading] =
     useState(false);
   const [updateItemsToCartWarnings, setUpdateItemsToCartWarnings] = useState<
@@ -451,6 +507,8 @@ function useCartLinesUpdate() {
         variables: {
           cartId: cart?.id,
           lines: lines,
+          country: countryCode,
+          language: "EN",
         },
       })
       .then(({ data, errors }) => {
@@ -546,6 +604,7 @@ const useRemoveItemFromCart = () => {
     store: { client, cart },
     setStore,
   } = useContext(StoreContext);
+  const { countryCode } = useMarket();
 
   const removeItemFromCart = (itemId: string) => {
     setStore((prevState) => {
@@ -557,6 +616,8 @@ const useRemoveItemFromCart = () => {
         variables: {
           cartId: cart?.id,
           lineIds: [itemId],
+          country: countryCode,
+          language: "EN",
         },
       })
       .then(({ data }) => {

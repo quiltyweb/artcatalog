@@ -171,7 +171,11 @@ describe("Home page mobile", () => {
 
   it("Navigates from mobile menu to static page contact", () => {
     cy.findByRole("button", { name: "menu" }).click();
+    cy.intercept("GET", /page-data\/contact/, {
+      fixture: "contact/contact.json",
+    }).as("contactPage");
     cy.findByRole("link", { name: /contact/i }).click();
+    cy.wait("@contactPage");
     cy.findByRole("heading", { name: /contact me/i });
   });
   // TODO: UPDATE this test to check on all categories.

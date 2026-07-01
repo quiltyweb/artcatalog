@@ -3,6 +3,121 @@ import type { GatsbyNode } from "gatsby";
 import { camelCase, kebabCase, upperFirst } from "lodash";
 import { gql } from "graphql-tag";
 import { print } from "graphql";
+import { createStorefrontApiClient } from "@shopify/storefront-api-client";
+
+type MarketPrice = {
+  amount: number;
+  maxAmount: number;
+  currencyCode: string;
+  variants: Record<string, number>;
+};
+
+type ProductPricesResponse = {
+  nodes: Array<{
+    id: string;
+    priceRange: {
+      minVariantPrice: { amount: string; currencyCode: string };
+      maxVariantPrice: { amount: string; currencyCode: string };
+    };
+    variants: {
+      nodes: Array<{ id: string; price: { amount: string; currencyCode: string } }>;
+    };
+  } | null>;
+};
+
+const MARKET_PRICES_QUERY = `
+  query MarketProductPrices($ids: [ID!]!, $country: CountryCode!) @inContext(country: $country, language: EN) {
+    nodes(ids: $ids) {
+      ... on Product {
+        id
+        priceRange {
+          minVariantPrice { amount currencyCode }
+          maxVariantPrice { amount currencyCode }
+        }
+        variants(first: 100) {
+          nodes {
+            id
+            price { amount currencyCode }
+          }
+        }
+      }
+    }
+  }
+`;
+
+async function fetchMarketPrices(
+  shopifyIds: string[],
+  countryCode: string,
+  reporter: { warn: (msg: string) => void },
+): Promise<Record<string, MarketPrice>> {
+  if (shopifyIds.length === 0) return {};
+
+  const client = createStorefrontApiClient({
+    storeDomain: process.env.GATSBY_SHOPIFY_STORE_DOMAIN!,
+    publicAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_PASSWORD,
+    apiVersion: "2026-01",
+  });
+
+  try {
+    const { data, errors } = await client.request<ProductPricesResponse>(
+      MARKET_PRICES_QUERY,
+      { variables: { ids: shopifyIds, country: countryCode } },
+    );
+
+    if (errors || !data?.nodes) {
+      reporter.warn(`Could not fetch market prices for ${countryCode}: ${JSON.stringify(errors)}`);
+      return {};
+    }
+
+    const result: Record<string, MarketPrice> = {};
+    for (const node of data.nodes) {
+      if (node?.id && node.priceRange?.minVariantPrice) {
+        const variantPrices: Record<string, number> = {};
+        for (const v of node.variants?.nodes ?? []) {
+          if (v?.id && v.price?.amount) {
+            variantPrices[v.id] = parseFloat(v.price.amount);
+          }
+        }
+        result[node.id] = {
+          amount: parseFloat(node.priceRange.minVariantPrice.amount),
+          maxAmount: parseFloat(node.priceRange.maxVariantPrice.amount),
+          currencyCode: node.priceRange.minVariantPrice.currencyCode,
+          variants: variantPrices,
+        };
+      }
+    }
+    return result;
+  } catch (error) {
+    reporter.warn(`Market price fetch failed for ${countryCode}: ${error}`);
+    return {};
+  }
+}
+
+type MarketRegion = { code: string; currency: { currencyCode: string } };
+type MarketNode = {
+  status: string;
+  type: string;
+  conditions: { regionsCondition: { regions: { nodes: Array<MarketRegion | Record<string, never>> } } } | null;
+};
+
+async function fetchAllMarketPrices(
+  shopifyIds: string[],
+  markets: MarketNode[],
+  reporter: { warn: (msg: string) => void },
+): Promise<Record<string, Record<string, MarketPrice>>> {
+  const nonPrimaryMarkets = markets
+    .filter((m) => m.status === "ACTIVE" && m.type === "REGION")
+    .map((m) => m.conditions?.regionsCondition?.regions?.nodes?.find((r): r is MarketRegion => "code" in r))
+    .filter((r): r is MarketRegion => !!r);
+
+  const result: Record<string, Record<string, MarketPrice>> = {};
+  await Promise.all(
+    nonPrimaryMarkets.map(async (region) => {
+      result[region.code] = await fetchMarketPrices(shopifyIds, region.code, reporter);
+    }),
+  );
+  return result;
+}
 
 export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
@@ -193,6 +308,47 @@ export const createPages: GatsbyNode["createPages"] = async ({
   }
   const SPECIAL_COLLECTION_HANDLES = ["human-nature", "bloom"];
 
+  const allShopifyIds = collectionsAndProductsResult.data.allShopifyCollection.nodes
+    .flatMap((node) => node.products.map((p) => p.shopifyId))
+    .filter((id): id is string => !!id);
+  const uniqueShopifyIds = [...new Set(allShopifyIds)];
+
+  const marketsResult = await graphql<{
+    adminshopify: { markets: { nodes: MarketNode[] } };
+  }>(`
+    query MarketsForPricing {
+      adminshopify {
+        markets(first: 10) {
+          nodes {
+            status
+            type
+            conditions {
+              regionsCondition {
+                regions(first: 1) {
+                  nodes {
+                    ... on AdminShopify_MarketRegionCountry {
+                      code
+                      currency { currencyCode }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  if (marketsResult.errors) {
+    reporter.warn(
+      `Could not load markets for pricing — pages will use default AUD prices. Errors: ${JSON.stringify(marketsResult.errors)}`,
+    );
+  }
+
+  const markets = marketsResult.data?.adminshopify?.markets?.nodes ?? [];
+  const marketPricesByCountry = await fetchAllMarketPrices(uniqueShopifyIds, markets, reporter);
+
   collectionsAndProductsResult.data?.allShopifyCollection.nodes.map((node) => {
     const isSpecial = SPECIAL_COLLECTION_HANDLES.includes(node.handle);
 
@@ -222,6 +378,16 @@ export const createPages: GatsbyNode["createPages"] = async ({
         collectionHandle: node.handle,
         image: node.image,
         printVersionHandles,
+        marketPricesByCountry: Object.fromEntries(
+          Object.entries(marketPricesByCountry).map(([countryCode, priceMap]) => [
+            countryCode,
+            Object.fromEntries(
+              node.products
+                .filter((p) => p.shopifyId && p.shopifyId in priceMap)
+                .map((p) => [p.shopifyId, priceMap[p.shopifyId!]]),
+            ),
+          ]),
+        ),
       },
     });
 
@@ -238,6 +404,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
           product: product,
           collectionHandle: node.handle,
           printVersion: printVersionItem,
+          marketPricesByCountry: product.shopifyId
+            ? Object.fromEntries(
+                Object.entries(marketPricesByCountry)
+                  .filter(([, priceMap]) => product.shopifyId! in priceMap)
+                  .map(([countryCode, priceMap]) => [countryCode, priceMap[product.shopifyId!]]),
+              )
+            : {},
         },
       });
     });

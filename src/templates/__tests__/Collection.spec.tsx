@@ -153,8 +153,7 @@ describe("Collection page Template", () => {
     render(<Collection pageContext={mockedPageContext} />);
     screen.getByRole("heading", { name: "This is the collection title" });
     screen.getByTestId("collection-description");
-    screen.getByText(/AUD/i);
-    screen.getByText(/\$10/i);
+    screen.getByText(/\$10\.00/i);
     screen.getByText(/more details/i);
     screen.getByRole("heading", { name: "Test product name" });
     expect(screen.queryByText("From")).not.toBeInTheDocument();
